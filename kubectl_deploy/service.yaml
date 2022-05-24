@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dotnet-service
+  labels:
+    app: dotnet-service
+spec:
+  ports:
+  - port: 5010
+    name: http
+    targetPort: 5010
+  selector:
+    app: chapsdotnet

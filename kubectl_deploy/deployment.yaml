@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chapsdotnet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chapsdotnet
+  template:
+    metadata:
+      labels:
+        app: chapsdotnet
+    spec:
+      containers:
+      - name: dotnet
+        image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/dotnet/chapsdotnet-dev-ecr:1.3
+        ports:
+        - containerPort: 5010
