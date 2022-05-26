@@ -11,6 +11,7 @@ spec:
   tls:
   - hosts:
     - dev.chaps.apps.live.cloud-platform.service.justice.gov.uk
+    secretName: chaps-dev-cert-secret
   rules:
   - host: dev.chaps.apps.live.cloud-platform.service.justice.gov.uk
     http:
