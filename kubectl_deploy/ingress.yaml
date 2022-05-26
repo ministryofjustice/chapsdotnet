@@ -1,18 +1,18 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: chapsdotnet-dev-ingress
-  namespace: chapsdotnet-dev
+  name: chaps-dev-ingress
+  namespace: chaps-dev
   annotations:
     kubernetes.io/ingress.class: nginx
-    external-dns.alpha.kubernetes.io/set-identifier: chapsdotnet-dev-ingress-chapsdotnet-dev-green
+    external-dns.alpha.kubernetes.io/set-identifier: chaps-dev-ingress-chaps-dev-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
 spec:
   tls:
   - hosts:
-    - chapsdotnet.apps.live.cloud-platform.service.justice.gov.uk
+    - development.chaps.apps.live.cloud-platform.service.justice.gov.uk
   rules:
-  - host: chapsdotnet.apps.live.cloud-platform.service.justice.gov.uk
+  - host: development.chaps.apps.live.cloud-platform.service.justice.gov.uk
     http:
       paths:
       - path: /

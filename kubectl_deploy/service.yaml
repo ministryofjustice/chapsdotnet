@@ -10,4 +10,4 @@ spec:
     name: http
     targetPort: 5010
   selector:
-    app: chapsdotnet
+    app: chaps-dev
