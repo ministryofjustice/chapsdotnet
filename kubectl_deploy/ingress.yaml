@@ -10,9 +10,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - development.chaps.apps.live.cloud-platform.service.justice.gov.uk
+    - dev.chaps.apps.live.cloud-platform.service.justice.gov.uk
   rules:
-  - host: development.chaps.apps.live.cloud-platform.service.justice.gov.uk
+  - host: dev.chaps.apps.live.cloud-platform.service.justice.gov.uk
     http:
       paths:
       - path: /
