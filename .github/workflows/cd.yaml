@@ -7,7 +7,7 @@ on:
       - 'main'
 
 env:
-  KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE_DEV }}
+  KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
 
 jobs:
   main:
