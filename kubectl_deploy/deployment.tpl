@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: dotnet
-        image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/dotnet/chaps-dev-ecr:1.6
+        image: ${ECR_URL}:${IMAGE_TAG}
         ports:
         - containerPort: 5010
