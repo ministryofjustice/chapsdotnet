@@ -1,7 +1,20 @@
+using System.Data.SqlClient;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var dbName = builder.Configuration["DB_NAME"];
+var rdsHostName = builder.Configuration["RDS_HOSTNAME"];
+var rdsPassword = builder.Configuration["RDS_PASSWORD"];
+var rdsPort = builder.Configuration["RDS_PORT"];
+var rdsUserName = builder.Configuration["RDS_USERNAME"];
+
+var connectionString = new SqlConnectionStringBuilder();
+connectionString.InitialCatalog = dbName;
+connectionString.DataSource = $"{rdsHostName}, {rdsPort}";
+connectionString.Password = rdsPassword;
+connectionString.UserID = rdsUserName;
 
 var app = builder.Build();
 
