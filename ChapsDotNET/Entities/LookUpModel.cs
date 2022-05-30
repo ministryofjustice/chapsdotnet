@@ -8,5 +8,5 @@ public abstract class LookUpModel
     public bool active { get; set; }
     public DateTime? deactivated { get; set; }
     [MaxLength(50)]
-    public string deactivatedBy { get; set; }
+    public string deactivatedBy { get; set; } = string.Empty;
 }

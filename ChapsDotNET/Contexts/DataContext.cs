@@ -6,15 +6,14 @@ namespace ChapsDotNET.Contexts
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
-        {
-                
-        }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<Team> Teams { get; set; }
-        public DbSet<CorrespondenceTypesByTeam> CorrespondenceTypesByTeams { get; set; }
-        public DbSet<CorrespondenceType> CorrespondenceTypes { get; set; }
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        { }
+
+        public DbSet<User> Users => Set<User>();
+        public DbSet<Role> Roles => Set<Role>();
+        public DbSet<Team> Teams => Set<Team>(); 
+        public DbSet<CorrespondenceTypesByTeam> CorrespondenceTypesByTeams => Set<CorrespondenceTypesByTeam>();
+        public DbSet<CorrespondenceType> CorrespondenceTypes => Set<CorrespondenceType>();
     }
 }
