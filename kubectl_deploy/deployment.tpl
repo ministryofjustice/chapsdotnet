@@ -17,3 +17,29 @@ spec:
         image: ${ECR_URL}:${IMAGE_TAG}
         ports:
         - containerPort: 5010
+        env:
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: dbname
+          - name: RDS_PORT
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: rdsport
+          - name: RDS_HOSTNAME
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: rdshost
+          - name: RDS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: rdspassword
+          - name: RDS_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: rdsusername
