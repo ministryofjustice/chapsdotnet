@@ -1,8 +1,11 @@
-﻿@{
+﻿@using ChapsDotNET.Contexts
+@inject DataContext _context
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Chaps DOTNET goes here test</h1>
     <p>@(DateTime.Now)</p>
+    <p>@(_context.Users.Count())</p>
 </div>

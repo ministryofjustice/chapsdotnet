@@ -1,4 +1,6 @@
 using System.Data.SqlClient;
+using ChapsDotNET.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,11 +12,13 @@ var rdsPassword = builder.Configuration["RDS_PASSWORD"];
 var rdsPort = builder.Configuration["RDS_PORT"];
 var rdsUserName = builder.Configuration["RDS_USERNAME"];
 
-var connectionString = new SqlConnectionStringBuilder();
-connectionString.InitialCatalog = dbName;
-connectionString.DataSource = $"{rdsHostName}, {rdsPort}";
-connectionString.Password = rdsPassword;
-connectionString.UserID = rdsUserName;
+var myConnectionString = new SqlConnectionStringBuilder();
+myConnectionString.InitialCatalog = dbName;
+myConnectionString.DataSource = $"{rdsHostName}, {rdsPort}";
+myConnectionString.Password = rdsPassword;
+myConnectionString.UserID = rdsUserName;
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(myConnectionString.ConnectionString));
 
 var app = builder.Build();
 

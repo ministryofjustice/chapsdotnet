@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Models;
+﻿using ChapsDotNET.Contexts;
+using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,10 +8,12 @@ namespace ChapsDotNET.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly DataContext context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, DataContext context)
         {
             _logger = logger;
+            this.context = context;
         }
 
         public IActionResult Index()
