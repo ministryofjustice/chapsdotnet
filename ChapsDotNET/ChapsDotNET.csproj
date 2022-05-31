@@ -20,5 +20,9 @@
     <None Remove="Microsoft.Data.SqlClient" />
     <None Remove="System.Data.SqlClient" />
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Configurations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configurations\" />
   </ItemGroup>
 </Project>
