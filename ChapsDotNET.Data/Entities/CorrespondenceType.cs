@@ -1,8 +1,8 @@
-﻿namespace ChapsDotNET.Entities;
+﻿namespace ChapsDotNET.Data.Entities;
 
 public class CorrespondenceType : LookUpModel
 {
-    
+
     public int CorrespondenceTypeID { get; set; }
     public string Acronym { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;

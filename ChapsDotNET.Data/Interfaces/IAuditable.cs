@@ -1,4 +1,4 @@
-﻿namespace ChapsDotNET.Interfaces;
+﻿namespace ChapsDotNET.Data.Interfaces;
 
 public interface IAuditable
 {

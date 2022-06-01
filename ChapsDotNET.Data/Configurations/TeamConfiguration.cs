@@ -1,12 +1,11 @@
-﻿using System;
-using ChapsDotNET.DAL;
+﻿using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChapsDotNET.Configurations
+namespace ChapsDotNET.Data.Configurations
 {
-	public class TeamConfiguration : IEntityTypeConfiguration<Team>
-	{
+    public class TeamConfiguration : IEntityTypeConfiguration<Team>
+    {
 
         public void Configure(EntityTypeBuilder<Team> builder)
         {
