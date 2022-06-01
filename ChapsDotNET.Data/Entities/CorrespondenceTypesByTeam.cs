@@ -1,10 +1,8 @@
-﻿using ChapsDotNET.DAL;
-
-namespace ChapsDotNET.Entities;
+﻿namespace ChapsDotNET.Data.Entities;
 
 public class CorrespondenceTypesByTeam
 {
-    
+
     public int TeamID { get; set; }
     public int CorrespondenceTypeID { get; set; }
     public virtual Team? Team { get; set; }

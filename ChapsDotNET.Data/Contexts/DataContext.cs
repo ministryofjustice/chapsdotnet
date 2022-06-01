@@ -1,8 +1,7 @@
-﻿using ChapsDotNET.DAL;
-using ChapsDotNET.Entities;
+﻿using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChapsDotNET.Contexts
+namespace ChapsDotNET.Data.Contexts
 {
     public class DataContext : DbContext
     {
@@ -12,7 +11,7 @@ namespace ChapsDotNET.Contexts
 
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
-        public DbSet<Team> Teams => Set<Team>(); 
+        public DbSet<Team> Teams => Set<Team>();
         public DbSet<CorrespondenceTypesByTeam> CorrespondenceTypesByTeams => Set<CorrespondenceTypesByTeam>();
         public DbSet<CorrespondenceType> CorrespondenceTypes => Set<CorrespondenceType>();
 

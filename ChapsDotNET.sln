@@ -5,6 +5,10 @@ VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChapsDotNET", "ChapsDotNET\ChapsDotNET.csproj", "{7EDDA108-F68B-4410-BBF2-3854C984352A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChapsDotNET.Data", "ChapsDotNET.Data\ChapsDotNET.Data.csproj", "{42FD787F-445A-4E2F-AE59-4AFDFDE5BF25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChapsDotNET.Business", "ChapsDotNET.Business\ChapsDotNET.Business.csproj", "{539904B2-549D-498C-AD71-65930265A904}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{7EDDA108-F68B-4410-BBF2-3854C984352A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EDDA108-F68B-4410-BBF2-3854C984352A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EDDA108-F68B-4410-BBF2-3854C984352A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42FD787F-445A-4E2F-AE59-4AFDFDE5BF25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42FD787F-445A-4E2F-AE59-4AFDFDE5BF25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42FD787F-445A-4E2F-AE59-4AFDFDE5BF25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42FD787F-445A-4E2F-AE59-4AFDFDE5BF25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{539904B2-549D-498C-AD71-65930265A904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{539904B2-549D-498C-AD71-65930265A904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{539904B2-549D-498C-AD71-65930265A904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{539904B2-549D-498C-AD71-65930265A904}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

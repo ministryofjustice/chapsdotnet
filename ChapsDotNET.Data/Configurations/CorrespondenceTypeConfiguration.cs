@@ -1,13 +1,12 @@
-﻿using System;
-using ChapsDotNET.Entities;
+﻿using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ChapsDotNET.Configurations
+namespace ChapsDotNET.Data.Configurations
 {
-	public class CorrespondenceTypeConfiguration : IEntityTypeConfiguration<CorrespondenceType>
-	{
-		
+    public class CorrespondenceTypeConfiguration : IEntityTypeConfiguration<CorrespondenceType>
+    {
+
         public void Configure(EntityTypeBuilder<CorrespondenceType> builder)
         {
             builder.HasKey(e => e.CorrespondenceTypeID);

@@ -1,7 +1,7 @@
-﻿using ChapsDotNET.Contexts;
+﻿using System.Diagnostics;
+using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace ChapsDotNET.Controllers
 {

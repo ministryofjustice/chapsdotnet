@@ -1,5 +1,7 @@
 using System.Data.SqlClient;
-using ChapsDotNET.Contexts;
+using ChapsDotNET.Business.Components;
+using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,8 @@ myConnectionString.Password = rdsPassword;
 myConnectionString.UserID = rdsUserName;
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(myConnectionString.ConnectionString));
+
+builder.Services.AddScoped<IUserComponent, UserComponent>();
 
 var app = builder.Build();
 
