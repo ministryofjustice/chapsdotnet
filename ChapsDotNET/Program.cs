@@ -2,6 +2,7 @@ using System.Data.SqlClient;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Data.Contexts;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,14 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(myConnectionString.ConnectionString));
 
 builder.Services.AddScoped<IUserComponent, UserComponent>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+                                 options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<DataContext>();
+builder.Services.AddAuthentication()
+    .AddMicrosoftAccount(microsoftOptions => {
+        microsoftOptions.ClientId = builder.Configuration["Authentication:Microsoft:ClientId"];
+        microsoftOptions.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"];
+    });
 
 var app = builder.Build();
 
@@ -39,6 +48,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
