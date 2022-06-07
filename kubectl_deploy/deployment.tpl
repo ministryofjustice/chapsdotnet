@@ -43,27 +43,27 @@ spec:
               secretKeyRef:
                 name: chapsdotnetsecret
                 key: rdsusername
-          - name: AzureAd:Instance
+          - name: Instance
             valueFrom:
               secretKeyRef:
                 name: chapsdotnetsecret
                 key: instance
-          - name: AzureAd:Domain
+          - name: Domain
             valueFrom:
               secretKeyRef:
                 name: chapsdotnetsecret
                 key: domain
-          - name: AzureAd:TenantId
+          - name: TenantId
             valueFrom:
               secretKeyRef:
                 name: chapsdotnetsecret
                 key: tenantid
-          - name: AzureAd:ClientId
+          - name: ClientId
             valueFrom:
               secretKeyRef:
                 name: chapsdotnetsecret
                 key: clientid
-          - name: AzureAd:CallbackPath
+          - name: CallbackPath
             valueFrom:
               secretKeyRef:
                 name: chapsdotnetsecret
