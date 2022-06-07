@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChapsDotNET.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -2,7 +2,11 @@ using System.Data.SqlClient;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Data.Contexts;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,16 +17,31 @@ var rdsHostName = builder.Configuration["RDS_HOSTNAME"];
 var rdsPassword = builder.Configuration["RDS_PASSWORD"];
 var rdsPort = builder.Configuration["RDS_PORT"];
 var rdsUserName = builder.Configuration["RDS_USERNAME"];
-
 var myConnectionString = new SqlConnectionStringBuilder();
 myConnectionString.InitialCatalog = dbName;
 myConnectionString.DataSource = $"{rdsHostName}, {rdsPort}";
 myConnectionString.Password = rdsPassword;
 myConnectionString.UserID = rdsUserName;
+// Add services to the container.
+builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(options => {
+        options.ClientId = builder.Configuration["AzureAd:ClientId"];
+        options.TenantId = builder.Configuration["AzureAd:TenantId"];
+        options.Instance = builder.Configuration["AzureAd:Instance"];
+        options.Domain = builder.Configuration["AzureAd:Domain"];
+        options.CallbackPath = builder.Configuration["AzureAd:CallbackPath"];
+        
+    });
+builder.Services.AddAuthorization(options =>
+{
+    // By default, all incoming requests will be authorized according to the default policy.
+    options.FallbackPolicy = options.DefaultPolicy;
+});
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(myConnectionString.ConnectionString));
 
 builder.Services.AddScoped<IUserComponent, UserComponent>();
+
 
 var app = builder.Build();
 
@@ -39,6 +58,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
