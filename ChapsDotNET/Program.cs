@@ -25,11 +25,11 @@ myConnectionString.UserID = rdsUserName;
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options => {
-        options.ClientId = builder.Configuration["AzureAd:ClientId"];
-        options.TenantId = builder.Configuration["AzureAd:TenantId"];
-        options.Instance = builder.Configuration["AzureAd:Instance"];
-        options.Domain = builder.Configuration["AzureAd:Domain"];
-        options.CallbackPath = builder.Configuration["AzureAd:CallbackPath"];
+        options.ClientId = builder.Configuration["ClientId"];
+        options.TenantId = builder.Configuration["TenantId"];
+        options.Instance = builder.Configuration["Instance"];
+        options.Domain = builder.Configuration["Domain"];
+        options.CallbackPath = builder.Configuration["CallbackPath"];
         
     });
 builder.Services.AddAuthorization(options =>
