@@ -43,3 +43,30 @@ spec:
               secretKeyRef:
                 name: chapsdotnetsecret
                 key: rdsusername
+          - name: Instance
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: instance
+          - name: Domain
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: domain
+          - name: TenantId
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: tenantid
+          - name: ClientId
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: clientid
+          - name: CallbackPath
+            valueFrom:
+              secretKeyRef:
+                name: chapsdotnetsecret
+                key: callbackpath
+          
+            

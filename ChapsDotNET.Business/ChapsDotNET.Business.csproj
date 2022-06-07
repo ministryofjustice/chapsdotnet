@@ -9,6 +9,8 @@
   <ItemGroup>
     <None Remove="Interfaces\" />
     <None Remove="Components\" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
@@ -16,5 +18,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.5" />
   </ItemGroup>
 </Project>
