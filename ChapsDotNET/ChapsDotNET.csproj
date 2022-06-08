@@ -16,6 +16,19 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.5" />
     <PackageReference Include="Microsoft.Identity.Web" Version="1.25.0" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.0" />
+    <PackageReference Include="jQuery" Version="3.6.0" />
+    <PackageReference Include="jQuery.Validation" Version="1.19.4" />
+    <PackageReference Include="jQuery.UI.Combined" Version="1.13.1" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
+    <PackageReference Include="jHtmlArea" Version="0.8.0" />
+    <PackageReference Include="Modernizr" Version="2.8.3" />
+    <PackageReference Include="flot" Version="0.8.3" />
+    <PackageReference Include="RaphaelJS" Version="2.1.2" />
+    <PackageReference Include="gRaphael" Version="0.5.0" />
+    <PackageReference Include="jQuery-Timepicker-Addon" Version="1.6.3" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.12" />
+    <PackageReference Include="MicrosoftAjax" Version="4.0.20526" />
+    <PackageReference Include="MicrosoftMvcAjax.Mvc5" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +44,19 @@
     <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
     <None Remove="Microsoft.Identity.Web" />
     <None Remove="Microsoft.Identity.Web.UI" />
+    <None Remove="jQuery" />
+    <None Remove="jQuery.Validation" />
+    <None Remove="jQuery.UI.Combined" />
+    <None Remove="Microsoft.jQuery.Unobtrusive.Ajax" />
+    <None Remove="jHtmlArea" />
+    <None Remove="Modernizr" />
+    <None Remove="flot" />
+    <None Remove="RaphaelJS" />
+    <None Remove="gRaphael" />
+    <None Remove="jQuery-Timepicker-Addon" />
+    <None Remove="Microsoft.jQuery.Unobtrusive.Validation" />
+    <None Remove="MicrosoftAjax" />
+    <None Remove="MicrosoftMvcAjax.Mvc5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
