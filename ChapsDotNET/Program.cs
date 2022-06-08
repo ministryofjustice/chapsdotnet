@@ -54,14 +54,17 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-var fordwardedHeaderOptions = new ForwardedHeadersOptions
+
+// This code below, ending at line 'app.UseForwardedHeaders(forwardedHeaderOptions);' is required to redirect to https.
+
+var forwardedHeaderOptions = new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 };
-fordwardedHeaderOptions.KnownNetworks.Clear();
-fordwardedHeaderOptions.KnownProxies.Clear();
+forwardedHeaderOptions.KnownNetworks.Clear();
+forwardedHeaderOptions.KnownProxies.Clear();
 
-app.UseForwardedHeaders(fordwardedHeaderOptions);
+app.UseForwardedHeaders(forwardedHeaderOptions);
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
