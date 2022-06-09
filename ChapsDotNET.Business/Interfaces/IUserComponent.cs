@@ -1,10 +1,9 @@
-﻿using System;
-namespace ChapsDotNET.Business.Interfaces
+﻿namespace ChapsDotNET.Business.Interfaces
 {
-	public interface IUserComponent
+    public interface IUserComponent
 	{
 		public int GetUsersCount();
-        public bool IsUserAuthorised(string? userEmailAddress);
+        public Task<bool> IsUserAuthorised(string? userEmailAddress);
 	}
 
 

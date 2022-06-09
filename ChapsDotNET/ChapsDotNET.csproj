@@ -44,6 +44,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Account\" />
     <Folder Include="Policies\" />
     <Folder Include="Policies\Requirements\" />
     <Folder Include="Policies\Handlers\" />

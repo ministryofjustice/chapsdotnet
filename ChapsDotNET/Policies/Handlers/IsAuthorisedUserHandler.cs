@@ -14,19 +14,18 @@ namespace ChapsDotNET.Policies.Handlers
             _userComponent = userComponent;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsAuthorisedUserRequirement requirement)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsAuthorisedUserRequirement requirement)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             if (requirement == null)
                 throw new ArgumentNullException(nameof(requirement));
             
-            var isChapsUser = _userComponent.IsUserAuthorised(context.User.Identity?.Name);
+            var isChapsUser = await _userComponent.IsUserAuthorised(context.User.Identity?.Name);
             if (isChapsUser)
             {
                 context.Succeed(requirement);
             }
-            return Task.CompletedTask;
         }
     }
 }
