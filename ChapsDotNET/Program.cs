@@ -2,7 +2,10 @@ using System.Data.SqlClient;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Data.Contexts;
+using ChapsDotNET.Policies.Handlers;
+using ChapsDotNET.Policies.Requirements;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -33,19 +36,20 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         options.CallbackPath = builder.Configuration["CallbackPath"];
         
     });
+
+
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(myConnectionString.ConnectionString));
+builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
+builder.Services.AddScoped<IUserComponent, UserComponent>();
+
 builder.Services.AddAuthorization(options =>
 {
     // By default, all incoming requests will be authorized according to the default policy.
-    options.FallbackPolicy = options.DefaultPolicy;
-});
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(myConnectionString.ConnectionString));
-
-builder.Services.AddScoped<IUserComponent, UserComponent>();
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AuthorisedUser", policy =>
-        policy.Requirements.Add(new AuthorisedUser(AuthorisedUser)));
+    options.AddPolicy("IsAuthorisedUser", isAuthorizedUserPolicy =>
+    {
+        isAuthorizedUserPolicy.Requirements.Add(new IsAuthorisedUserRequirement());
+    });
 });
 
 var app = builder.Build();
@@ -76,6 +80,10 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers().RequireAuthorization("IsAuthorisedUser");
+});
 
 app.MapControllerRoute(
     name: "default",

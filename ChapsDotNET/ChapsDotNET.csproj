@@ -31,6 +31,9 @@
     <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
     <None Remove="Microsoft.Identity.Web" />
     <None Remove="Microsoft.Identity.Web.UI" />
+    <None Remove="Policies\" />
+    <None Remove="Policies\Requirements\" />
+    <None Remove="Policies\Handlers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
@@ -39,5 +42,10 @@
     <ProjectReference Include="..\ChapsDotNET.Business\ChapsDotNET.Business.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Policies\" />
+    <Folder Include="Policies\Requirements\" />
+    <Folder Include="Policies\Handlers\" />
   </ItemGroup>
 </Project>

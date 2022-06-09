@@ -17,6 +17,11 @@ namespace ChapsDotNET.Business.Components
         {
             return context.Users.Count();
         }
+
+        public bool IsUserAuthorised(string? userEmailAddress)
+        {
+            return false;
+        }
     }
 }
 
