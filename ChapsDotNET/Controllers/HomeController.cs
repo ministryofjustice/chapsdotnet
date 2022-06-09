@@ -6,16 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChapsDotNET.Controllers
 {
-    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly DataContext context;
 
         public HomeController(ILogger<HomeController> logger, DataContext context)
         {
             _logger = logger;
-            this.context = context;
         }
 
         public IActionResult Index()

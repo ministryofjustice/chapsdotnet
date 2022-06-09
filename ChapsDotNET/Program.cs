@@ -26,6 +26,7 @@ myConnectionString.InitialCatalog = dbName;
 myConnectionString.DataSource = $"{rdsHostName}, {rdsPort}";
 myConnectionString.Password = rdsPassword;
 myConnectionString.UserID = rdsUserName;
+
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options => {
@@ -37,20 +38,20 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         
     });
 
-
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(myConnectionString.ConnectionString));
-builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
-builder.Services.AddScoped<IUserComponent, UserComponent>();
-
 builder.Services.AddAuthorization(options =>
 {
     // By default, all incoming requests will be authorized according to the default policy.
+    options.FallbackPolicy = options.DefaultPolicy;
     options.AddPolicy("IsAuthorisedUser", isAuthorizedUserPolicy =>
     {
         isAuthorizedUserPolicy.Requirements.Add(new IsAuthorisedUserRequirement());
     });
 });
+
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(myConnectionString.ConnectionString));
+builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
+builder.Services.AddScoped<IUserComponent, UserComponent>();
 
 var app = builder.Build();
 
