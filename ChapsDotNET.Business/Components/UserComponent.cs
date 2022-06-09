@@ -22,9 +22,7 @@ namespace ChapsDotNET.Business.Components
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.email == userEmailAddress);
 
-            if (user != null) return true;
-
-            return false;
+            return user != null;
         }
     }
 }
