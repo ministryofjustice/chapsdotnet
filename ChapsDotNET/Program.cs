@@ -42,7 +42,11 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(myConnectionString.ConnectionString));
 
 builder.Services.AddScoped<IUserComponent, UserComponent>();
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AuthorisedUser", policy =>
+        policy.Requirements.Add(new AuthorisedUser(AuthorisedUser)));
+});
 
 var app = builder.Build();
 
