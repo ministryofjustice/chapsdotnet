@@ -20,9 +20,10 @@ namespace ChapsDotNET.Business.Components
 
         public async Task<bool> IsUserAuthorised(string? userEmailAddress)
         {
+            //If User was never authenticated then we expect to get null
             if (userEmailAddress == null) return false;
 
-            var user = await _context.Users.FirstAsync(x => x.email == userEmailAddress);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.email == userEmailAddress);
 
             return user != null;
         }
