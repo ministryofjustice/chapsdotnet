@@ -3,7 +3,7 @@
     public interface IUserComponent
 	{
 		public int GetUsersCount();
-        public Task<bool> IsUserAuthorised(string? userEmailAddress);
+        public bool IsUserAuthorised(string? userEmailAddress);
 	}
 
 
