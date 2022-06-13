@@ -6,10 +6,10 @@
 
         <title>@ViewBag.Title</title>
 
-        <link href="@Url.Content("~/stylesheets/menuBar.css")" rel="stylesheet" type="text/css" media="screen" />
-        <link href="@Url.Content("~/stylesheets/menuBarPrint.css")" rel="stylesheet" type="text/css" media="print" />
-        <link href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" rel="stylesheet" type="text/css" />
-        <link href="@Url.Content("~/stylesheets/site.css")" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="~/stylesheets/menuBar.css" />
+        <link rel="stylesheet" type="text/css" media="print" href="~/stylesheets/menuBarPrint.css" />
+        <link rel="stylesheet" type="text/css" href="~/stylesheets/themes/base/jquery-ui-custom.min.css" />
+        <link rel="stylesheet" type="text/css" href="~/stylesheets/site.css" />
 
         @RenderSection("head", false)
 
@@ -41,10 +41,10 @@
             }
             <div id="header" class="@logo">
                 <div class="logo">
-                    <img src="@Url.Content("~/images/moj.gif")" alt="Ministry of Justice Logo" />
-                    <img src="@Url.Content("~/images/app.png")" id="chaps-logo" alt="Application Logo" />
+                    <img src="~/images/moj.gif" alt="Ministry of Justice Logo" />
+                    <img src="~/images/app.png" id="chaps-logo" alt="Application Logo" />
                 </div>
-                @Html.Partial("_MenuBar")
+                <partial name="_MenuBar" />
             </div>
             <div id="main">
                 @RenderBody()
@@ -61,11 +61,11 @@
             <script language="javascript" type="text/javascript" src="@Url.Content("~/lib/flot/excanvas.min.js")"></script>
         <![endif]-->
 
-        <script type="text/javascript" src="@Url.Content("~/lib/jquery-3.6.0.min.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/lib/jquery-ui-1.13.1.min.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/lib/jquery.validate.min.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/lib/jquery.validate.unobtrusive.min.js")"></script>
-        <script type="text/javascript" src="@Url.Content("~/javascripts/chaps.js")" async></script>
+        <script type="text/javascript" src="~/lib/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" src="~/lib/jquery-ui-1.13.1.min.js"></script>
+        <script type="text/javascript" src="~/lib/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="~/lib/jquery.validate.unobtrusive.min.js"></script>
+        <script type="text/javascript" src="~/javascripts/chaps.js" async></script>
 
         <script type="text/javascript">
                 $(document).ready(function () {
@@ -73,20 +73,20 @@
 
                     var ServerName = "";
                     if (ServerName != "PRODUCTION") {
-                        $('#MenuContainer').css('background-color', 'red').css('background-image','url("@Url.Content("~/images/red_right_corner_bottom.gif")")');
+                        $('#MenuContainer').css('background-color', 'red').css('background-image','url("images/red_right_corner_bottom.gif")');
                         $('#menuBar li').css('background-color', 'red');
                         $('#menuBar li.leftText').css('background-color', 'red');
                         $('.helpButton').css('background-color', 'red');
-                        $('#first').css('background-image','url("@Url.Content("~/images/red_left_corner_bottom.gif")")');
+                        $('#first').css('background-image','url("images/red_left_corner_bottom.gif")');
                     }
 
-                    @*var TOKENHEADERVALUE = '@TokenHeaderValue()';*@
+                    @*var TOKENHEADERVALUE = '@TokenHeaderValue()';
 
                     $.ajaxSetup({
                         headers: {
                             'AntiForgeryToken': TOKENHEADERVALUE
                         },
-                    });
+                    });*@
                 });
 
                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
