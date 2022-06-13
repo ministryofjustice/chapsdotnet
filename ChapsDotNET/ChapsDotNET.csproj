@@ -48,5 +48,13 @@
     <Folder Include="Policies\" />
     <Folder Include="Policies\Requirements\" />
     <Folder Include="Policies\Handlers\" />
+    <Folder Include="wwwroot\javascripts\" />
+    <Folder Include="wwwroot\stylesheets\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\javascripts\" />
+    <Content Remove="wwwroot\stylesheets\" />
+    <Content Remove="wwwroot\images\" />
   </ItemGroup>
 </Project>
