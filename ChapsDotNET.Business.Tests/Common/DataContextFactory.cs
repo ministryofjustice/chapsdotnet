@@ -17,5 +17,11 @@ namespace ChapsDotNET.Business.Tests.Common
 
             return context;
         }
+
+        public static void Destroy(DataContext context)
+        {
+            context.Database.EnsureDeleted();
+            context.Dispose();
+        }
     }
 }

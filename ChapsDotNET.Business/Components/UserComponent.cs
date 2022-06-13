@@ -18,13 +18,13 @@ namespace ChapsDotNET.Business.Components
             return _context.Users.Count();
         }
 
-        public async Task<bool> IsUserAuthorised(string? userEmailAddress)
+        public bool IsUserAuthorised(string? userEmailAddress)
         {
             //If User was never authenticated then we expect to get null
             if (userEmailAddress == null) return false;
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(x => x.Name == userEmailAddress && x.RoleStrength > 0);
+            var user =  _context.Users
+                .FirstOrDefault(x => x.Name == userEmailAddress && x.RoleStrength > 0);
 
             return user != null;
         }
