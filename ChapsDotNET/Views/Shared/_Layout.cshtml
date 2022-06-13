@@ -1,52 +1,111 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ChapsDotNET</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ChapsDotNET.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ChapsDotNET</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    @User.Identity?.Name
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - ChapsDotNET - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <title>@ViewBag.Title</title>
+
+        <link href="@Url.Content("~/stylesheets/menuBar.css")" rel="stylesheet" type="text/css" media="screen" />
+        <link href="@Url.Content("~/stylesheets/menuBarPrint.css")" rel="stylesheet" type="text/css" media="print" />
+        <link href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" rel="stylesheet" type="text/css" />
+        <link href="@Url.Content("~/stylesheets/site.css")" rel="stylesheet" type="text/css" />
+
+        @RenderSection("head", false)
+
+        @*@functions{
+                public string TokenHeaderValue()
+                {
+                    string cookieToken, formToken;
+                    AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                    return cookieToken + ":" + formToken;
+                }
+            }*@
+    </head>
+    <body>
+        @*@{Html.RenderAction("DisplayAlerts", "Home", new { area = "" });}*@
+        <div>
+            @{
+                string logo = "";
+                string svrName = "";
+                switch (svrName)
+                @*switch (System.Configuration.ConfigurationManager.AppSettings["CurServer"])*@
+                {
+                    case "PRODUCTION":
+                        logo = "";
+                        break;
+                    default:
+                        logo = "train";
+                        break;
+                }
+            }
+            <div id="header" class="@logo">
+                <div class="logo">
+                    <img src="@Url.Content("~/images/moj.gif")" alt="Ministry of Justice Logo" />
+                    <img src="@Url.Content("~/images/app.png")" id="chaps-logo" alt="Application Logo" />
+                </div>
+                @Html.Partial("_MenuBar")
+            </div>
+            <div id="main">
+                @RenderBody()
+            </div>
+            <div id="footer">
+                <p>
+                    @*This site is supported by @System.Configuration.ConfigurationManager.AppSettings["supportTeam"]. Contact us at <b><a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["supportEmail"]?subject=Support%20request&body=Please%20describe%20the%20problem%20%0D%0A%0D%0A%0D%0A%0D%0A%0D%0ASystem%20Data:%0D%0AUser:@User.Identity.Name%0D%0AURL:@Request.Url.AbsoluteUri" target="_top">CHAPS-Support@digital.justice.gov.uk</a></b> if you experience a problem with it.*@
+                    This site is supported by the Central Digital Product Team.  Contact us at <a class="bold-text" href="mailto:CHAPS-Support@digital.justice.gov.uk">CHAPS-Support@digital.justice.gov.uk</a> if you experience a problem with it.
+                </p>
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+
+        <!--[if lt IE 9]>
+            <script language="javascript" type="text/javascript" src="@Url.Content("~/lib/flot/excanvas.min.js")"></script>
+        <![endif]-->
+
+        <script type="text/javascript" src="@Url.Content("~/lib/jquery-3.6.0.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/lib/jquery-ui-1.13.1.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/lib/jquery.validate.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/lib/jquery.validate.unobtrusive.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/javascripts/chaps.js")" async></script>
+
+        <script type="text/javascript">
+                $(document).ready(function () {
+                    @*var ServerName = "@(System.Configuration.ConfigurationManager.AppSettings["CurServer"])";*@
+
+                    var ServerName = "";
+                    if (ServerName != "PRODUCTION") {
+                        $('#MenuContainer').css('background-color', 'red').css('background-image','url("@Url.Content("~/images/red_right_corner_bottom.gif")")');
+                        $('#menuBar li').css('background-color', 'red');
+                        $('#menuBar li.leftText').css('background-color', 'red');
+                        $('.helpButton').css('background-color', 'red');
+                        $('#first').css('background-image','url("@Url.Content("~/images/red_left_corner_bottom.gif")")');
+                    }
+
+                    @*var TOKENHEADERVALUE = '@TokenHeaderValue()';*@
+
+                    $.ajaxSetup({
+                        headers: {
+                            'AntiForgeryToken': TOKENHEADERVALUE
+                        },
+                    });
+                });
+
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-37377084-17', {'siteSpeedSampleRate': 100});
+                ga('send', 'pageview');
+
+                var appInsights = window.appInsights || function (config) {
+                    function r(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } }
+                    var t = { config: config }, u = document, e = window, o = 'script', s = u.createElement(o), i, f; for (s.src = config.url || '//az416426.vo.msecnd.net/scripts/a/ai.0.js', u.getElementsByTagName(o)[0].parentNode.appendChild(s), t.cookie = u.cookie, t.queue = [], i = ['Event', 'Exception', 'Metric', 'PageView', 'Trace', 'Ajax']; i.length;)r('track' + i.pop()); return r('setAuthenticatedUserContext'), r('clearAuthenticatedUserContext'), config.disableExceptionTracking || (i = 'onerror', r('_' + i), f = e[i], e[i] = function (config, r, u, e, o) { var s = f && f(config, r, u, e, o); return s !== !0 && t['_' + i](config, r, u, e, o), s }), t
+                }({
+                    instrumentationKey: '8a7bb058-1d2f-4c61-9e69-e47febb13abf'
+                });
+
+                window.appInsights = appInsights;
+                appInsights.trackPageView();
+        </script>
+    </body>
 </html>
