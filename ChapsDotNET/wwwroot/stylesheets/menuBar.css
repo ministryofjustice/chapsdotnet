@@ -1,0 +1,211 @@
+#MenuContainer
+{
+	min-width:800px;
+	height:40px;
+	/*margin:0 auto; to center container */
+	padding:0;
+	background:url(./Images/nav_right_corner_bottom.gif) #000 no-repeat right bottom;
+	font-size:0.9em;
+	font:Tahoma,Verdana,Arial;
+	margin-top:0.5em;
+	padding-right:5px;
+}
+#menuBar{
+	list-style: none;
+	padding:0;
+	margin:0;
+	float: left; /* to contain floated children without the hack */
+	width: 100%;
+} 
+#menuBar #first{
+	background:url(./Images/nav_left_corner_bottom.gif) no-repeat left bottom;
+	padding-left:7px;
+}
+#menuBar li{
+	float:left;
+	BACKGROUND: url(./Images/white-pixel.gif) #000 repeat-y right top; 
+	position:relative;
+} 
+
+#menuBar li.button {
+	float: left;
+	height: 40px; /* IE needs dimension so make it the same as container height */
+	vertical-align:middle;
+	position:relative;
+}
+
+/*--- START DROPDOWN ---*/
+#menuBar ul{
+	background:#fff; /* Adding a background makes the dropdown work properly in IE7+. Make this as close to your page's background as possible (i.e. white page == white background). */
+	background:rgba(255,255,255,0); /* But! Let's make the background fully transparent where we can, we don't actually want to see it if we can help it... */
+	list-style:none;
+	position:absolute;
+	left:-9999px; /* Hide off-screen when not needed (this is more accessible than display:none;) */
+	z-index:9999;
+}
+#menuBar ul li{
+	padding-top:0px; /* Introducing a padding between the li and the a give the illusion spaced items */
+	float:none;
+	z-index:99999;
+}
+#menuBar ul a{
+	white-space:nowrap; /* Stop text wrapping and creating multi-line dropdown items */
+	width:100px;
+	background: url(./Images/white-pixel.gif) #000 repeat-x top;
+	border-radius: 0 0 6px 0;
+    -webkit-border-radius:0 0 6px 0;
+    -moz-border-radius: 0 0 6px 0;
+
+}
+#menuBar li:hover ul{ /* Display the dropdown on hover */
+    top:40px;
+	left:-40px; /* Bring back on-screen when needed */
+}
+#menuBar li:hover a{ /* These create persistent hover states, meaning the top-most link stays 'hovered' even when your cursor has moved down the list. */
+	color: #000; 
+	background-color: #ccc;
+	text-decoration:none;
+}
+#menuBar li:hover ul a{ /* The persistent hover state does however create a global style for links even before they're hovered. Here we undo these effects. */
+	color: #000; 
+	background-color: #000;
+	text-decoration:none;
+	padding-left:10px;
+	padding-right: 10px;
+	display:inline;
+	color: #fff; 
+}
+#menuBar li:hover ul li a:hover{ /* Here we define the most explicit hover states--what happens when you hover each individual link. */
+	background-color: #ccc;
+	color: #000; 
+}
+/*---- End DROPDOWN ----*/
+
+#menuBar li.button a{
+	display:block;
+	height: 40px; /* less 10px for top/bottom margin ~ IE requires a dimension */
+	padding-left:10px;
+	padding-right: 10px;
+	line-height: 40px; /*to center text vertically without padding */
+	float:left;
+	display: inline; /* to avoid double-margin bug */
+	text-decoration:none;
+	color:#fff;
+	vertical-align:middle;
+} 
+#menuBar li.button a:hover {
+	CURSOR: pointer; 
+	COLOR: #000; 
+	TEXT-DECORATION: none;
+	background-color:#ccc;
+	vertical-align:middle;
+}
+#menuBar li.button a img
+{
+    *padding-top:12px; /* only for ie7 */
+	line-height: 40px; /*to center text vertically without padding */
+	display: inline; /* to avoid double-margin bug */
+	vertical-align:middle;
+}
+#menuBar li.text 
+{
+	height: 40px;  /*less 10px for top/bottom margin ~ IE requires a dimension*/
+	padding-left:10px;
+	padding-right: 1.25em;
+	line-height: 40px; /*to center text vertically without padding */
+	float:right;
+	display: block; /* to avoid double-margin bug */
+	text-decoration:none;
+	color:#fff;
+	vertical-align:middle;
+}
+/*
+#menuBar li.text:hover
+{
+	background-color:#000 !important;
+}
+*/
+#menuBar li.text a
+{
+	color:#fff;
+	text-decoration:none;
+	height:40px;
+	vertical-align:middle;
+}
+#menuBar li.text a:hover {
+	cursor: pointer; 
+	text-decoration: underline; 
+	color:#fff;
+	background-color:#000 !important;
+}
+#menuBar li.text a img
+{
+	color:#fff;
+	text-decoration:none;
+	height:40px;
+	vertical-align:middle;
+}
+
+#menuBar li.leftText 
+{
+	height: 40px;  /*less 10px for top/bottom margin ~ IE requires a dimension*/
+	padding-left:10px;
+	padding-right: 1.25em;
+	line-height: 40px; /*to center text vertically without padding */
+	display: block; /* to avoid double-margin bug */
+	text-decoration:none;
+	color:#fff;
+	vertical-align:middle;
+	background:none !important;
+}	
+
+/*#menuBar li.text a:visited
+{
+	color:#fff;
+	text-decoration:none;
+}*/
+#menuBar li.helpButton
+{
+	height: 40px; /* less 10px for top/bottom margin ~ IE requires a dimension */
+	padding-left:10px;
+	padding-right: 10px;
+	line-height: 45px; /*to center text vertically without padding */
+	float:right;
+	display: inline; /* to avoid double-margin bug */
+	text-decoration:none;
+	color:#fff;
+	vertical-align:middle;	
+}
+#menuBar li.helpButton img
+{
+	border:0;
+	/*background-color:#000;*/
+}
+
+/* right float log off test */
+
+#menuBar li.textA {
+	float: right;
+	height: 40px; /* IE needs dimension so make it the same as container height */
+	vertical-align:middle;
+}
+
+#menuBar li.textA a{
+	display:block;
+	height: 40px; /* less 10px for top/bottom margin ~ IE requires a dimension */
+	padding-left:10px;
+	padding-right: 10px;
+	line-height: 40px; /*to center text vertically without padding */
+	float:left;
+	display: inline; /* to avoid double-margin bug */
+	text-decoration:none;
+	color:#fff;
+	vertical-align:middle;
+} 
+#menuBar li.textA a:hover {
+	CURSOR: pointer; 
+	COLOR: #000; 
+	TEXT-DECORATION: none;
+	background-color:#ccc;
+	vertical-align:middle;
+}

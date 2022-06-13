@@ -1,0 +1,111 @@
+﻿input.pageButton, button.pageButton
+{
+	float:left;
+    display: inline;
+    border:none !important;
+    margin:0px !important;
+    background-color:transparent;
+    cursor:pointer;
+	color:#3399ff ! important;
+	text-decoration:none;
+    vertical-align:middle;
+    font-size:1em !important;
+    background-image:none;
+
+    /*border: 1px solid #ccccff !important;*/
+    border-radius: 2px 2px 2px 2px;
+    color: #666666;
+    padding: 3px 7px !important;
+    text-align: center !important;
+    height:35px !important;
+    width:35px !important;
+    background-color:#ffffff;
+
+    width:40px;  /* IE table-cell margin fix */
+	overflow:visible !important;
+}
+INPUT[disabled][type='submit']
+{   
+    color: #FFFFFF !important;
+    background-color:#3399ff;
+	cursor:default;
+}
+input.pageButton.text, button.pageButton.text
+{
+	color:#000000 !important;
+    background-color:#ffffff !important;
+}
+input.pageButton.text.number[disabled][type='submit'],
+button.pageButton.text.number[disabled][type='submit']
+{
+    border: 1px solid #ccccff !important;
+}
+input.pageButton:hover,button.pageButton:hover
+{
+	color:#ffffff ! important;
+    background-color:#3399ff;
+}
+input.pageButton.text:hover,button.pageButton.text:hover
+{
+	color:#000000 ! important;
+    background-color:#3399ff;
+}
+
+input.pageButton.img ,button.pageButton.img 
+{
+    border:none !important;
+	text-indent: -9000px; text-transform: capitalize;
+    background-color:#3399ff;
+}
+input.pageButton.img:hover,button.pageButton.img:hover
+{
+    background-color:#3399ff;
+}
+input.pageButton.undo:hover,button.pageButton.undo:hover
+{
+    color:Green !important;
+}
+input.pageButton.undo,button.pageButton.undo
+{
+    margin-left:100px !important;
+    padding-left:20px;
+    text-align:right;
+    width:100px !important;
+	background: url('./Images/filter.png') no-repeat left;
+}
+input.pageButton.img.first.enabled,button.pageButton.img.first.enabled 
+{
+	background: url('./Images/page_first_enabled.png') no-repeat center;
+}
+input.pageButton.img.prev.enabled, button.pageButton.img.prev.enabled 
+{
+	background: url('./Images/page_prev_enabled.png') no-repeat center;
+}
+input.pageButton.img.next.enabled , button.pageButton.img.next.enabled
+{
+	background: url('./Images/page_next_enabled.png') no-repeat center;
+}
+input.pageButton.img.last.enabled, button.pageButton.img.last.enabled
+{
+	background: url('./Images/page_last_enabled.png') no-repeat center;
+}
+input.pageButton.img.first.disabled, button.pageButton.img.first.disabled
+{
+	background: url('./Images/page_first_disabled.png') no-repeat center;
+}
+input.pageButton.img.prev.disabled, button.pageButton.img.prev.disabled 
+{
+	background: url('./Images/page_prev_disabled.png') no-repeat center;
+}
+input.pageButton.img.next.disabled, button.pageButton.img.next.disabled
+{
+	background: url('./Images/page_next_disabled.png') no-repeat center;
+}
+input.pageButton.img.last.disabled, button.pageButton.img.last.disabled
+{
+	background: url('./Images/page_last_disabled.png') no-repeat center;
+}
+input[pageButton], button[pageButton]
+{
+    width: auto;
+}
