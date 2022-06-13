@@ -23,7 +23,8 @@ namespace ChapsDotNET.Business.Components
             //If User was never authenticated then we expect to get null
             if (userEmailAddress == null) return false;
 
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.email == userEmailAddress);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(x => x.Name == userEmailAddress && x.RoleStrength != 0);
 
             return user != null;
         }
