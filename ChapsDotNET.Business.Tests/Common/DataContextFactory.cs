@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ChapsDotNET.Data.Contexts;
+﻿using ChapsDotNET.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ChapsDotNET.Business.Tests.Common
 {
@@ -16,6 +12,10 @@ namespace ChapsDotNET.Business.Tests.Common
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
+            var context = new DataContext(options);
+            context.Database.EnsureCreated();
+
+            return context;
         }
     }
 }
