@@ -53,5 +53,28 @@ namespace ChapsDotNET.Business.Tests
             //Assert
             result.Should().BeFalse();
         }
+
+        [Fact(DisplayName = "If a User exists in the database and his name is null then he should not be authorised")]
+        public void UserIsNotAuthorisedWhenAUserExistsInDatabaseAndNameIsNull()
+        {
+            //Arrange
+            var context = DataContextFactory.Create();
+            context.Users.Add(new User
+            {
+                Name = "",
+                DisplayName = "Abc",
+                RoleStrength = 100,
+                email = "abc@justice.gov.uk",
+                Changeable = true,
+            });
+            context.SaveChanges();
+            var userComponent = new UserComponent(context);
+
+            //Act
+            var result = userComponent.IsUserAuthorised("abc@justice.gov.uk");
+
+            //Assert
+            result.Should().BeFalse();
+        }
     }
 }
