@@ -24,7 +24,7 @@ namespace ChapsDotNET.Business.Components
             if (userEmailAddress == null) return false;
 
             var user = await _context.Users
-                .FirstOrDefaultAsync(x => x.Name == userEmailAddress && x.RoleStrength != 0);
+                .FirstOrDefaultAsync(x => x.Name == userEmailAddress && x.RoleStrength > 0);
 
             return user != null;
         }
