@@ -13,11 +13,6 @@ namespace ChapsDotNET.Business.Components
             this._context = context;
         }
 
-        public int GetUsersCount()
-        {
-            return _context.Users.Count();
-        }
-
         public bool IsUserAuthorised(string? userEmailAddress)
         {
             //If User was never authenticated then we expect to get null
