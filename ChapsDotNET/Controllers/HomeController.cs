@@ -15,7 +15,7 @@ namespace ChapsDotNET.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("Index");
         }
 
         public IActionResult Privacy()

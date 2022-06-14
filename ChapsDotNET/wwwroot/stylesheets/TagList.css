@@ -1,0 +1,46 @@
+﻿#tagList
+{
+    display:inline;
+    list-style:none;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:0px!important;
+    white-space:nowrap;
+}
+#tagList li 
+{
+    display: inline;
+    margin:2px;
+    border: 1px solid #3399ff;
+    background-color: #CCD9E6;
+    padding:2px 5px;
+    color:#3399ff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    zoom:1;
+}
+#tagList li a 
+{
+    display:inline-block;
+    padding-left:20px;
+    background: url('Images/delete.png') left center no-repeat;
+    text-decoration:none;
+}
+#tagList li a:hover
+{
+    cursor:pointer;
+}
+#tagList li.Tag 
+{
+    margin-left:2px;
+    border: 1px solid #3399ff;
+    color:#3399ff;
+    background: #CCD9E6;
+    padding:2px 5px 2px 5px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+}
+ 
+ 

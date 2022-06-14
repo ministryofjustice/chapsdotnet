@@ -1,0 +1,54 @@
+﻿.pieDataGraphHolder {
+	width: 350px;
+	height: 250px;
+	margin:1em;
+	float:left;
+	overflow:visible;
+}
+.ssg_bar_graph
+{
+	width: 600px;
+	height: 300px;
+	margin:1em;
+	float:left;
+	overflow:visible;
+}	
+#description {
+	margin: 15px 10px 20px 10px;
+}
+
+#code {
+	display: block;
+	width: 870px;
+	padding: 15px;
+	margin: 10px auto;
+	border: 1px dashed #999;
+	background-color: #f8f8f8;
+	font-size: 16px;
+	line-height: 20px;
+	color: #666;
+}
+#flot-tooltip {
+    font-size: 12px;
+    font-family: Verdana, Arial, sans-serif;
+    position: absolute;
+    display: none;
+    border: 2px solid;
+    padding: 2px;
+    background-color: #FFF;
+    opacity: 0.8;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border-radius: 5px;
+}
+.goButton 
+{
+	background:url('./images/arrow_refresh_small.png') no-repeat;
+    cursor:pointer;
+    width: 20px;
+    height: 20px;
+    border: none;
+    vertical-align:middle;
+    text-indent: 20px;
+}
