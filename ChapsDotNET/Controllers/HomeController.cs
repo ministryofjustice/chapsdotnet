@@ -17,7 +17,6 @@ namespace ChapsDotNET.Controllers
         //[Authorize(Roles = "100,200,50")]
         public IActionResult Index()
         {
-            var user = User.Identity.Name;
             return View("Index");
         }
 
