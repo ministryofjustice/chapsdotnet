@@ -48,5 +48,29 @@
     <Folder Include="Policies\" />
     <Folder Include="Policies\Requirements\" />
     <Folder Include="Policies\Handlers\" />
+    <Folder Include="wwwroot\javascripts\" />
+    <Folder Include="wwwroot\stylesheets\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\stylesheets\jHtmlArea\" />
+    <Folder Include="wwwroot\stylesheets\themes\" />
+    <Folder Include="wwwroot\stylesheets\themes\base\" />
+    <Folder Include="wwwroot\stylesheets\themes\base\images\" />
+    <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\javascripts\search\" />
+    <Folder Include="wwwroot\lib\i18n\" />
+    <Folder Include="wwwroot\lib\flot\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\javascripts\" />
+    <Content Remove="wwwroot\stylesheets\" />
+    <Content Remove="wwwroot\images\" />
+    <Content Remove="wwwroot\stylesheets\jHtmlArea\" />
+    <Content Remove="wwwroot\stylesheets\themes\" />
+    <Content Remove="wwwroot\stylesheets\themes\base\" />
+    <Content Remove="wwwroot\stylesheets\themes\base\images\" />
+    <Content Remove="wwwroot\lib\" />
+    <Content Remove="wwwroot\javascripts\search\" />
+    <Content Remove="wwwroot\lib\i18n\" />
+    <Content Remove="wwwroot\lib\flot\" />
   </ItemGroup>
 </Project>

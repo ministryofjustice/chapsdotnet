@@ -1,0 +1,7 @@
+﻿<div id="MenuContainer" style="clear:both;">
+    <ul id="menuBar">
+        <li class="button" id="first"></li>
+        <li class="button">@Html.ActionLink("Home", "Index", "Home", new { Area = "" }, null)</li>
+        <li class="text">Connected as <strong>@User.Identity?.Name</strong> ()</li>
+    </ul>
+</div>
