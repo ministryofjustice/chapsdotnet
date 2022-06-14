@@ -1,12 +1,8 @@
-using System;
-using ChapsDotNET.Controllers;
-using ChapsDotNET.Policies.Requirements;
+﻿using ChapsDotNET.Controllers;
 using FluentAssertions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using NSubstitute;
 using Microsoft.Extensions.Logging;
+using NSubstitute;
 using Xunit;
 
 namespace ChapsDotNET.Tests
@@ -14,22 +10,8 @@ namespace ChapsDotNET.Tests
     public class HomeControllerTests
     {
         [Fact]
-        public void Test1()
+        public void WhenHomePageIsCalledWeShouldBeReturnedWithIndexView()
         {
-            // Arrange
-            var authorizationService = BuildAuthorisationService(services =>
-            {
-                services.AddAuthorization(options =>
-                {
-                    // By default, all incoming requests will be authorized according to the default policy.
-                    options.FallbackPolicy = options.DefaultPolicy;
-                    options.AddPolicy("IsAuthorisedUser", isAuthorizedUserPolicy =>
-                    {
-                        isAuthorizedUserPolicy.Requirements.Add(new IsAuthorisedUserRequirement());
-                    });
-                });
-            });
-
             var mockLogger = Substitute.For<ILogger<HomeController>>();
             var controller = new HomeController(mockLogger);
 
@@ -40,17 +22,6 @@ namespace ChapsDotNET.Tests
             result.Should().NotBe(null);
             result.Should().BeOfType<ViewResult>();
             result?.ViewName.Should().Be("Index");
-        }
-
-        private IAuthorizationService BuildAuthorisationService(
-            Action<IServiceCollection> setupServices = null)
-        {
-            var services = new ServiceCollection();
-            services.AddAuthorization();
-            services.AddLogging();
-            services.AddOptions();
-            setupServices?.Invoke(services);
-            return services.BuildServiceProvider().GetRequiredService<IAuthorizationService>();
         }
     }
 }

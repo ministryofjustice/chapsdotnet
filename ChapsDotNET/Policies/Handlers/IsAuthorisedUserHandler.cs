@@ -21,7 +21,6 @@ namespace ChapsDotNET.Policies.Handlers
                 throw new ArgumentNullException(nameof(requirement));
             
             var isChapsUser = _userComponent.IsUserAuthorised(context.User.Identity?.Name);
-            isChapsUser = true;
             if (isChapsUser)
             {
                 context.Succeed(requirement);
