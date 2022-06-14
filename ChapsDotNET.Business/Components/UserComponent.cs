@@ -1,4 +1,5 @@
 ﻿using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Models;
 using ChapsDotNET.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,10 +19,31 @@ namespace ChapsDotNET.Business.Components
             //If User was never authenticated then we expect to get null
             if (userEmailAddress == null) return false;
 
-            var user =  await _context.Users
+            var user = await _context.Users
                 .FirstOrDefaultAsync(x => x.Name == userEmailAddress && x.RoleStrength > 0);
 
             return user != null;
+        }
+
+        public async Task<UserModel> GetUserByNameAsync(string? userEmailAddress)
+        {
+            if (userEmailAddress == null)
+                throw new ArgumentNullException("UserEmailAddress cannot be null");
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(x => x.Name == userEmailAddress);
+
+            if (user == null)
+                throw new ArgumentException();
+
+            return new UserModel
+            {
+                Name = user.Name,
+                DisplayName = user.DisplayName,
+                RoleStrength = user.RoleStrength,
+                Email = (user.email ?? string.Empty),
+                UserId = user.UserID
+            };
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ChapsDotNET.Controllers
 {
@@ -13,8 +14,10 @@ namespace ChapsDotNET.Controllers
             _logger = logger;
         }
 
+        //[Authorize(Roles = "100,200,50")]
         public IActionResult Index()
         {
+            var user = User.Identity.Name;
             return View("Index");
         }
 

@@ -1,9 +1,11 @@
 using System.Data.SqlClient;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Policies.Handlers;
 using ChapsDotNET.Policies.Requirements;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -52,6 +54,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(myConnectionString.ConnectionString));
 builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
 builder.Services.AddScoped<IUserComponent, UserComponent>();
+builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
 
 var app = builder.Build();
 
