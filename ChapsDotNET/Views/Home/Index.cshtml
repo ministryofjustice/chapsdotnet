@@ -1,12 +1,9 @@
-﻿@using ChapsDotNET.Business.Interfaces
-@inject IUserComponent _userComponent
-@{
+﻿
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Chaps DOTNET goes here test</h1>
     <p>@(DateTime.Now)</p>
-    <p>@(_userComponent.GetUsersCount())</p>
-    bla bla bla
+    Congratulations! You are logged in.
 </div>
