@@ -1,17 +1,13 @@
-using System;
-using System.Configuration;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using ChapsDotNET.Business.Interfaces;
-using ChapsDotNET.Controllers;
 using ChapsDotNET.Policies.Handlers;
 using ChapsDotNET.Policies.Requirements;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NSubstitute;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ChapsDotNET.Tests
@@ -23,7 +19,7 @@ namespace ChapsDotNET.Tests
         {
             // Arrange
             var mockUserComponent = Substitute.For<IUserComponent>();
-            mockUserComponent.IsUserAuthorised(Arg.Any<string>()).Returns(false);
+            mockUserComponent.IsUserAuthorisedAsync(Arg.Any<string>()).Returns(false);
 
             var requirements = new[] { new IsAuthorisedUserRequirement() };
             var user = new ClaimsPrincipal(new ClaimsIdentity(
@@ -43,7 +39,7 @@ namespace ChapsDotNET.Tests
         {
             // Arrange
             var mockUserComponent = Substitute.For<IUserComponent>();
-            mockUserComponent.IsUserAuthorised(Arg.Any<string>()).Returns(true);
+            mockUserComponent.IsUserAuthorisedAsync(Arg.Any<string>()).Returns(true);
 
             var requirements = new[] { new IsAuthorisedUserRequirement() };
             var user = new ClaimsPrincipal(new ClaimsIdentity(

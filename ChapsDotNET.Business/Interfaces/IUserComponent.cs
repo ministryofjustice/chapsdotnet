@@ -2,7 +2,7 @@
 {
     public interface IUserComponent
 	{
-        public bool IsUserAuthorised(string? userEmailAddress);
+        public Task<bool> IsUserAuthorisedAsync(string? userEmailAddress);
 	}
 
 
