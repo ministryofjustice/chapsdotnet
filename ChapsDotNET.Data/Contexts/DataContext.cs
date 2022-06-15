@@ -14,7 +14,7 @@ namespace ChapsDotNET.Data.Contexts
         public DbSet<Team> Teams => Set<Team>();
         public DbSet<CorrespondenceTypesByTeam> CorrespondenceTypesByTeams => Set<CorrespondenceTypesByTeam>();
         public DbSet<CorrespondenceType> CorrespondenceTypes => Set<CorrespondenceType>();
-
+        public DbSet<Salutation> Salutations => Set<Salutation>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);

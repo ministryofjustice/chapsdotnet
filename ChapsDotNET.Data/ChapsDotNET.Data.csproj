@@ -19,7 +19,6 @@
     <Folder Include="Entities\" />
     <Folder Include="Contexts\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Configurations\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
