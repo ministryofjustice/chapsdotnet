@@ -17,10 +17,10 @@ namespace ChapsDotNET.Common
         {
             // Clone current identity
             var clone = principal.Clone();
-            var newIdentity = (ClaimsIdentity)clone.Identity;
+            var newIdentity = clone.Identity as ClaimsIdentity;
 
             // Support AD and local accounts
-            var name = principal.Identity.Name;
+            var name = principal.Identity?.Name;
             if (name == null)
             {
                 return principal;
@@ -31,7 +31,7 @@ namespace ChapsDotNET.Common
 
             // Add role claims to cloned identity
             var claim = new Claim("RoleStrength", user.RoleStrength.ToString());
-            newIdentity.AddClaim(claim);
+            newIdentity?.AddClaim(claim);
 
             return clone;
         }

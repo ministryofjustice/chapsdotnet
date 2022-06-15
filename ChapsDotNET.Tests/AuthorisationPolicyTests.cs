@@ -55,7 +55,7 @@ namespace ChapsDotNET.Tests
         }
 
         private IAuthorizationService BuildAuthorisationService(
-            Action<IServiceCollection> setupServices = null)
+            Action<IServiceCollection>? setupServices = null)
         {
             var services = new ServiceCollection();
             services.AddAuthorization();
