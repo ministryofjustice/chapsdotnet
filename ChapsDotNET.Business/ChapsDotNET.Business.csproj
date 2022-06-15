@@ -13,10 +13,6 @@
     <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Components\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj" />
   </ItemGroup>
   <ItemGroup>

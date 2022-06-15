@@ -54,6 +54,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
 builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
+builder.Services.AddScoped<ISalutationComponent, SalutationComponent>();
 
 var app = builder.Build();
 
