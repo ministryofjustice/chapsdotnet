@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Exceptions;
+using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -27,14 +28,14 @@ namespace ChapsDotNET.Business.Components
 
         public async Task<UserModel> GetUserByNameAsync(string? userEmailAddress)
         {
-            if (userEmailAddress == null)
+            if (string.IsNullOrEmpty(userEmailAddress?.Trim()))
                 throw new ArgumentNullException("UserEmailAddress cannot be null");
 
             var user = await _context.Users
                 .FirstOrDefaultAsync(x => x.Name == userEmailAddress);
 
             if (user == null)
-                throw new ArgumentException();
+                throw new NotFoundException("User", userEmailAddress);
 
             return new UserModel
             {
