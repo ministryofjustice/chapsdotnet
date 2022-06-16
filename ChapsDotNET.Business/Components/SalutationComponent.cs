@@ -14,13 +14,27 @@ namespace ChapsDotNET.Business.Components
             _context = context;
         }
 
-        public async Task<List<SalutationModel>> GetAllSalutationsAsync()
+        /// <summary>
+        /// This method by default returns a list of only active Salutations
+        /// </summary>
+        /// <param name="showActiveAndInactive">If this parameter is true, then you get a list of active and inactive salutations</param>
+        /// <returns>A list of SalutationModel</returns>
+        public async Task<List<SalutationModel>> GetSalutationsAsync(bool showActiveAndInactive = false)
         {
-            var salutationsList = await _context.Salutations.Select(x => new SalutationModel
+            var query = _context.Salutations.AsQueryable();
+            
+            if (!showActiveAndInactive)
             {
-                SalutationId = x.salutationID,
-                Detail = x.Detail
-            }).ToListAsync();
+                query = query.Where(x => x.active == true);
+            }
+
+            var salutationsList = await query
+                .Select(x => new SalutationModel
+                {
+                    SalutationId = x.salutationID,
+                    Detail = x.Detail,
+                    Active = x.active
+                }).ToListAsync();
 
             return salutationsList;
         }
