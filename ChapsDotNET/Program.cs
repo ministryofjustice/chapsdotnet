@@ -89,6 +89,11 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers().RequireAuthorization("IsAuthorisedUser");
 });
 
+app.MapAreaControllerRoute(
+    name: "ChapsServices",
+    areaName: "Admin",
+    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
