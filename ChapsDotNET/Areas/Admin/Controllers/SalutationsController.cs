@@ -16,7 +16,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var salutations = await _salutationComponent.GetSalutationsAsync();
-            return View();
+            return View(salutations);
         }
     }
 }
