@@ -38,6 +38,24 @@ namespace ChapsDotNET.Business.Components
 
             return salutationsList;
         }
+
+        public async Task<SalutationModel> GetSalutationAsync(int id)
+        {
+            var query = _context.Salutations.AsQueryable();
+            query = query.Where(x => x.salutationID == id);
+
+            var salutation = await query
+                .Select(x => new SalutationModel
+                {
+                    SalutationId = x.salutationID,
+                    Detail = x.Detail,
+                    Active = x.active
+                }).SingleAsync();
+
+            return salutation;
+
+
+        }
     }
 }
 
