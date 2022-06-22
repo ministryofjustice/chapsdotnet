@@ -30,11 +30,11 @@ namespace ChapsDotNET.Business.Tests
             var result = await salutationComponent.GetSalutationsAsync(new SalutationRequestModel());
 
             // Assert
-            result.Should().NotBeNull();
-            result.Should().HaveCount(1);
-            result.First().Detail.Should().Be("Mr");
-            result.First().SalutationId.Should().Be(1);
-            result.First().Active.Should().BeTrue();
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(1);
+            result.Results.First().Detail.Should().Be("Mr");
+            result.Results.First().SalutationId.Should().Be(1);
+            result.Results.First().Active.Should().BeTrue();
         }
 
         [Fact(DisplayName = "Get a list of only active salutations when GetSalutationsAsync is called without true in the parameter")]
@@ -75,9 +75,9 @@ namespace ChapsDotNET.Business.Tests
             var result = await salutationComponent.GetSalutationsAsync(new SalutationRequestModel());
 
             // Assert
-            result.Should().NotBeNull();
-            result.Should().HaveCount(3);
-            result.All(x => x.Active).Should().BeTrue();
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(3);
+            result.Results.All(x => x.Active).Should().BeTrue();
         }
 
         [Fact(DisplayName = "Get a list of only all salutations when GetSalutationsAsync is called with true ShowActiveInactive in the parameter")]
@@ -121,8 +121,8 @@ namespace ChapsDotNET.Business.Tests
             });
 
             // Assert
-            result.Should().NotBeNull();
-            result.Should().HaveCount(4);
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(4);
         }
 
         [Fact(DisplayName = "Get a specific salutation")]
