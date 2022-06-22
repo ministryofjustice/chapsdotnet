@@ -1,4 +1,5 @@
 ﻿using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
@@ -15,8 +16,15 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var salutations = await _salutationComponent.GetSalutationsAsync();
-            return View(salutations);
+            var pagedResult = await _salutationComponent
+                .GetSalutationsAsync(new SalutationRequestModel
+            {
+                PageNumber = 2,
+                PageSize = 10,
+                ShowActiveAndInactive = true
+            });
+
+            return View(pagedResult.Results);
         }
     }
 }

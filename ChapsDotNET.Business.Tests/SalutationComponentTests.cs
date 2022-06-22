@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using ChapsDotNET.Business.Components;
+using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Business.Tests.Common;
 using ChapsDotNET.Data.Entities;
 using FluentAssertions;
@@ -26,7 +27,7 @@ namespace ChapsDotNET.Business.Tests
             var salutationComponent = new SalutationComponent(context);
 
             // Act
-            var result = await salutationComponent.GetSalutationsAsync();
+            var result = await salutationComponent.GetSalutationsAsync(new SalutationRequestModel());
 
             // Assert
             result.Should().NotBeNull();
@@ -71,12 +72,57 @@ namespace ChapsDotNET.Business.Tests
             var salutationComponent = new SalutationComponent(context);
 
             // Act
-            var result = await salutationComponent.GetSalutationsAsync();
+            var result = await salutationComponent.GetSalutationsAsync(new SalutationRequestModel());
 
             // Assert
             result.Should().NotBeNull();
             result.Should().HaveCount(3);
             result.All(x => x.Active).Should().BeTrue();
+        }
+
+        [Fact(DisplayName = "Get a list of only all salutations when GetSalutationsAsync is called with true ShowActiveInactive in the parameter")]
+        public async Task GetAListOfActiveAndInactiveSalutationsWhenGetSalutationsAsyncIsCalled()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+            await context.Salutations.AddAsync(new Salutation
+            {
+                salutationID = 1,
+                Detail = "Mr",
+                active = true
+            });
+            await context.Salutations.AddAsync(new Salutation
+            {
+                salutationID = 2,
+                Detail = "Mrs",
+                active = true
+            });
+            await context.Salutations.AddAsync(new Salutation
+            {
+                salutationID = 3,
+                Detail = "Dr",
+                active = false
+            });
+            await context.Salutations.AddAsync(new Salutation
+            {
+                salutationID = 4,
+                Detail = "Miss",
+                active = true
+            });
+
+            await context.SaveChangesAsync();
+
+            var salutationComponent = new SalutationComponent(context);
+
+            // Act
+            var result = await salutationComponent.GetSalutationsAsync(new SalutationRequestModel
+            {
+                ShowActiveAndInactive = true
+            });
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().HaveCount(4);
         }
 
         [Fact(DisplayName = "Get a specific salutation")]

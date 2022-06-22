@@ -1,9 +1,10 @@
 ﻿using ChapsDotNET.Business.Models;
+using ChapsDotNET.Business.Models.Common;
 
 namespace ChapsDotNET.Business.Interfaces
 {
     public interface ISalutationComponent
     {
-        Task<List<SalutationModel>> GetSalutationsAsync(bool showActiveAndInactive = false);
+        Task<PagedResult<List<SalutationModel>>> GetSalutationsAsync(SalutationRequestModel request);
     }
 }
