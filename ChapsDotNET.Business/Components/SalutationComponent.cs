@@ -52,7 +52,7 @@ namespace ChapsDotNET.Business.Components
                 Results = salutationsList,
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
-                PageCount = salutationsList.Count / request.PageSize,
+                PageCount = count / request.PageSize,
                 RowCount = count
             };
         }
