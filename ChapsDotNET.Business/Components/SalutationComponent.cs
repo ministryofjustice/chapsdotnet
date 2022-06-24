@@ -69,11 +69,9 @@ namespace ChapsDotNET.Business.Components
                     SalutationId = x.salutationID,
                     Detail = x.Detail,
                     Active = x.active
-                }).SingleAsync();
+                }).SingleOrDefaultAsync();
 
-            return salutation;
-
-
+            return salutation;     
         }
 
         public async Task<string> AddSalutation(SalutationModel model)
