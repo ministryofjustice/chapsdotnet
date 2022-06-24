@@ -6,4 +6,6 @@
         public string? Detail { get; set; }
         public bool Active { get; set; }
     }
+
+
 }

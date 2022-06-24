@@ -4,6 +4,7 @@ using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
+using ChapsDotNET.Data.Entities;
 
 namespace ChapsDotNET.Business.Components
 {
@@ -73,6 +74,47 @@ namespace ChapsDotNET.Business.Components
             return salutation;
 
 
+        }
+
+        public async Task<string> AddSalutation(SalutationModel model)
+        {
+            var context = _context;
+            Salutation sal = new Salutation()
+            {
+                active = model.Active,
+                Detail = model.Detail
+            };
+            context.Salutations.Add(sal);
+            var success = await context.SaveChangesAsync();
+            return success > 0 ? "Success" : "Fail";
+        }
+
+
+
+        public void UpdateSalutationActiveStatus(int id, bool state)
+        {
+            var context = _context;
+
+            var query = _context.Salutations.AsQueryable();
+            query = query.Where(x => x.salutationID == id);
+
+            foreach(var q in query)
+            {
+                q.active = false;
+            };
+
+
+
+
+            //var salutation = query
+            //.Select(x => new SalutationModel
+            //{
+            //    SalutationId = x.salutationID,
+            //    Detail = x.Detail,
+            //    Active = state
+            //}).SingleAsync();
+
+            context.SaveChanges();
         }
     }
 }

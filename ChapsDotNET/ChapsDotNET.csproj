@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Views\Salutations\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Policies\" />

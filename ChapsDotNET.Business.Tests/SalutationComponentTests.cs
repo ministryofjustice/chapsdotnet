@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Models.Common;
@@ -225,5 +226,64 @@ namespace ChapsDotNET.Business.Tests
 
         }
 
+        [Fact(DisplayName = "Saving a Salutation to the database when calling the AddSalutation method returns Success")]
+        public async Task AddASalutationToTheDatabase()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            var salutationComponent = new SalutationComponent(context);
+            var newrecord = new Models.SalutationModel
+            {
+                SalutationId = 1,
+                Detail = "AAA",
+                Active = true
+            };
+
+            // Act
+            var result =  await salutationComponent.AddSalutation(newrecord);
+
+
+            // Assert
+            result.Should().Be("Success");
+            context.Salutations.First().Detail.Should().Be("AAA");
+            context.Salutations.First().active.Should().Be(true);
+
+        }
+
+
+
+
+
+
+        [Fact(DisplayName = "Updating active status on a Salutation from the database when calling the UpdateSalutationActiveStatus")]
+        public async Task UpdateActiveStatusOnASalutation()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.Salutations.AddAsync(new Salutation
+            {
+                salutationID = 1,
+                Detail = "AAA",
+                active = true
+            });
+
+            await context.SaveChangesAsync();
+
+            var salutationComponent = new SalutationComponent(context);
+
+            // Act
+            salutationComponent.UpdateSalutationActiveStatus(1, false);
+
+
+            // Assert
+
+            context.Salutations.First().Should().NotBeNull();
+            context.Salutations.First().active.Should().BeFalse();
+
+
+
+        }
     }
 }

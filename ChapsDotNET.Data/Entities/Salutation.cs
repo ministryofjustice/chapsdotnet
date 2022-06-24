@@ -1,5 +1,6 @@
 ﻿using ChapsDotNET.Data.Interfaces;
 
+
 namespace ChapsDotNET.Data.Entities
 {
     public class Salutation : LookUpModel, IAuditable
@@ -12,5 +13,7 @@ namespace ChapsDotNET.Data.Entities
         {
             return true;
         }
+
+
     }
 }
