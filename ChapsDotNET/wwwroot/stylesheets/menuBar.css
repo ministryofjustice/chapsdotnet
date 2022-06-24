@@ -1,13 +1,12 @@
 #MenuContainer {
-    min-width: 800px;
-    height: 40px;
-    /*margin:0 auto; to center container */
-    padding: 0;
     background: url('../images/nav_right_corner_bottom.gif') #000 no-repeat right bottom;
-    font-size: 0.9em;
+    clear: both;
     font: Tahoma,Verdana,Arial;
+    font-size: 0.9em;
+    height: 40px;
     margin-top: 0.5em;
-    padding-right: 5px;
+    min-width: 800px;
+    padding: 0 5px 0 0;
 }
 
 #menuBar {
