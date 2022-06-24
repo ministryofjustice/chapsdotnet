@@ -69,8 +69,14 @@ namespace ChapsDotNET.Business.Components
                     SalutationId = x.salutationID,
                     Detail = x.Detail,
                     Active = x.active
-                }).SingleOrDefaultAsync();
-
+                }).SingleOrDefaultAsync(); 
+            if(salutation == null)
+            {
+                return new SalutationModel
+                {
+                    Detail = null
+                };
+            }
             return salutation;     
         }
 

@@ -217,7 +217,7 @@ namespace ChapsDotNET.Business.Tests
             var result = await salutationComponent.GetSalutationAsync(53);
 
             // Assert
-            result.Should().BeNull();
+            result.Detail.Should().BeNull();
 
             //result.Detail.Should().Be("Ms");
             //result.SalutationId.Should().Be(54);
