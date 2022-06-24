@@ -101,22 +101,11 @@ namespace ChapsDotNET.Business.Components
 
             var query = _context.Salutations.AsQueryable();
             query = query.Where(x => x.salutationID == id);
-
+            
             foreach(var q in query)
             {
-                q.active = false;
+                q.active = state;
             };
-
-
-
-
-            //var salutation = query
-            //.Select(x => new SalutationModel
-            //{
-            //    SalutationId = x.salutationID,
-            //    Detail = x.Detail,
-            //    Active = state
-            //}).SingleAsync();
 
             context.SaveChanges();
         }
