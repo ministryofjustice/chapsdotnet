@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ChapsDotNET.Business.Components;
+using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Business.Tests.Common;
 using ChapsDotNET.Data.Entities;
@@ -281,6 +283,31 @@ namespace ChapsDotNET.Business.Tests
 
             context.Salutations.First().Detail.Should().Be("BBB");
             context.Salutations.First().active.Should().BeFalse();
+        }
+
+        [Fact(DisplayName = "Updating active status on a Salutation when calling the UpdateSalutationAsync with no Id")]
+        public async Task UpdateActiveStatusOnASalutationWithNoIDShouldThrowAnException()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.Salutations.AddAsync(new Salutation
+            {
+                salutationID = 1,
+                Detail = "AAA",
+                active = true
+            });
+
+            await context.SaveChangesAsync();
+
+            var salutationComponent = new SalutationComponent(context);
+
+            // Act
+
+            Func<Task> act = async () => { await salutationComponent.UpdateSalutationAsync(new Models.SalutationModel()); };
+
+            //Assert
+            await act.Should().ThrowAsync<NotFoundException>();
         }
     }
 }
