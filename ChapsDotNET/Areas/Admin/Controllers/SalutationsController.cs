@@ -39,7 +39,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public void Create(SalutationModel model)
         {
-            _salutationComponent.AddSalutation(model);
+            _salutationComponent.AddSalutationAsync(model);
         }
 
     }
