@@ -99,17 +99,15 @@ namespace ChapsDotNET.Business.Components
 
         public async Task UpdateSalutationAsync(SalutationModel model)
         {
-            var context = _context;
-
             var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
             if (salutation == null)
             {
-                throw new NotFoundException("salutation", model.SalutationId.ToString());
+                throw new NotFoundException("Salutation", model.SalutationId.ToString());
             }
             salutation.active = model.Active;
             salutation.Detail = model.Detail;
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }
