@@ -5,6 +5,7 @@ using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using ChapsDotNET.Data.Entities;
+using ChapsDotNET.Business.Exceptions;
 
 namespace ChapsDotNET.Business.Components
 {
@@ -80,34 +81,35 @@ namespace ChapsDotNET.Business.Components
             return salutation;     
         }
 
-        public async Task<string> AddSalutation(SalutationModel model)
+        public async Task<int> AddSalutation(SalutationModel model)
         {
             var context = _context;
+
             Salutation sal = new Salutation()
             {
-                active = model.Active,
+                active = true,
                 Detail = model.Detail
             };
-            context.Salutations.Add(sal);
-            var success = await context.SaveChangesAsync();
-            return success > 0 ? "Success" : "Fail";
+            await context.Salutations.AddAsync(sal);
+            await context.SaveChangesAsync();
+            return sal.salutationID;
         }
 
 
 
-        public void UpdateSalutationActiveStatus(int id, bool state)
+        public async Task UpdateSalutationAsync(SalutationModel model)
         {
             var context = _context;
 
-            var query = _context.Salutations.AsQueryable();
-            query = query.Where(x => x.salutationID == id);
-            
-            foreach(var q in query)
+            var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
+            if (salutation == null)
             {
-                q.active = state;
-            };
+                throw new NotFoundException("salutation", model.SalutationId.ToString());
+            }
+            salutation.active = model.Active;
+            salutation.Detail = model.Detail;
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

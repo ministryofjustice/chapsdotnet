@@ -226,7 +226,7 @@ namespace ChapsDotNET.Business.Tests
 
         }
 
-        [Fact(DisplayName = "Saving a Salutation to the database when calling the AddSalutation method returns Success")]
+        [Fact(DisplayName = "Add a Salutation to the database when calling the AddSalutation method returns Success")]
         public async Task AddASalutationToTheDatabase()
         {
             // Arrange
@@ -245,7 +245,7 @@ namespace ChapsDotNET.Business.Tests
 
 
             // Assert
-            result.Should().Be("Success");
+            result.Should().NotBe(0);
             context.Salutations.First().Detail.Should().Be("AAA");
             context.Salutations.First().active.Should().Be(true);
 
@@ -274,14 +274,16 @@ namespace ChapsDotNET.Business.Tests
             var salutationComponent = new SalutationComponent(context);
 
             // Act
-            salutationComponent.UpdateSalutationActiveStatus(1, false);
-
+            await salutationComponent.UpdateSalutationAsync(new Models.SalutationModel
+            {
+                Active = false,
+                Detail = "BBB"
+            });
 
             // Assert
 
-            context.Salutations.First().Should().NotBeNull();
+            context.Salutations.First().Detail.Should().Be("BBB");
             context.Salutations.First().active.Should().BeFalse();
-
 
 
         }

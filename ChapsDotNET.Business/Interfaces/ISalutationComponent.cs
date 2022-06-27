@@ -7,7 +7,7 @@ namespace ChapsDotNET.Business.Interfaces
     public interface ISalutationComponent
     {
         Task<PagedResult<List<SalutationModel>>> GetSalutationsAsync(SalutationRequestModel request);
-        Task <string> AddSalutation(SalutationModel model);
-        void UpdateSalutationActiveStatus(int id, bool state);
+        Task <int> AddSalutation(SalutationModel model);
+        Task UpdateSalutationAsync(int id, bool state);
     }
 }
