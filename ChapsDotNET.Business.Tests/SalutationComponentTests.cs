@@ -241,7 +241,7 @@ namespace ChapsDotNET.Business.Tests
             };
 
             // Act
-            var result =  await salutationComponent.AddSalutation(newrecord);
+            var result =  await salutationComponent.AddSalutationAsync(newrecord);
 
 
             // Assert
@@ -252,15 +252,11 @@ namespace ChapsDotNET.Business.Tests
         }
 
 
-
-
-
-
         [Fact(DisplayName = "Updating active status on a Salutation from the database when calling the UpdateSalutationActiveStatus")]
         public async Task UpdateActiveStatusOnASalutation()
         {
             // Arrange
-            var context = DataContextFactory.Create();
+            var context = DataContextFactory.Create();     
 
             await context.Salutations.AddAsync(new Salutation
             {
@@ -276,6 +272,7 @@ namespace ChapsDotNET.Business.Tests
             // Act
             await salutationComponent.UpdateSalutationAsync(new Models.SalutationModel
             {
+                SalutationId = 1,
                 Active = false,
                 Detail = "BBB"
             });
@@ -284,8 +281,6 @@ namespace ChapsDotNET.Business.Tests
 
             context.Salutations.First().Detail.Should().Be("BBB");
             context.Salutations.First().active.Should().BeFalse();
-
-
         }
     }
 }

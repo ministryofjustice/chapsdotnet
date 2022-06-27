@@ -81,7 +81,7 @@ namespace ChapsDotNET.Business.Components
             return salutation;     
         }
 
-        public async Task<int> AddSalutation(SalutationModel model)
+        public async Task<int> AddSalutationAsync(SalutationModel model)
         {
             var context = _context;
 
