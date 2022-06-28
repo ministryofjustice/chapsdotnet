@@ -1,4 +1,5 @@
-﻿@model List<ChapsDotNET.Business.Models.SalutationModel>
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Business.Models.Common.PagedResult<List<ChapsDotNET.Business.Models.SalutationModel>>
 @{
     ViewData["Title"] = "Index";
 }
@@ -11,14 +12,14 @@
             Id
         </th>
         <th>
-            Detail
+            Title
         </th>
         <th>
             Active
         </th>
     </tr>
     </thead>
-    @foreach (var salutation in Model.ToList())
+    @foreach (var salutation in Model.Results.ToList())
     {
         <tr>
             <td>
@@ -33,4 +34,6 @@
         </tr>
     }
 </table>
-
+<div>
+    @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString() }))
+</div>

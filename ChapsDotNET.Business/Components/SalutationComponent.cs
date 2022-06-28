@@ -1,11 +1,10 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
-using Microsoft.EntityFrameworkCore;
 using ChapsDotNET.Data.Entities;
-using ChapsDotNET.Business.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChapsDotNET.Business.Components
 {
@@ -54,45 +53,36 @@ namespace ChapsDotNET.Business.Components
                 Results = salutationsList,
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
-                PageCount = count / request.PageSize,
                 RowCount = count
             };
         }
 
         public async Task<SalutationModel> GetSalutationAsync(int id)
         {
-            var query = _context.Salutations.AsQueryable();
-            query = query.Where(x => x.salutationID == id);
+            var salutation = await _context.Salutations
+                .FirstOrDefaultAsync(x => x.salutationID == id);
 
-            var salutation = await query
-                .Select(x => new SalutationModel
-                {
-                    SalutationId = x.salutationID,
-                    Detail = x.Detail,
-                    Active = x.active
-                }).SingleOrDefaultAsync(); 
-            if(salutation == null)
+            if (salutation == null) throw new NotFoundException("Salutation", id.ToString());
+
+            return new SalutationModel
             {
-                return new SalutationModel
-                {
-                    Detail = null
-                };
-            }
-            return salutation;     
+                SalutationId = salutation.salutationID,
+                Detail = salutation.Detail,
+                Active = salutation.active
+            };
         }
 
         public async Task<int> AddSalutationAsync(SalutationModel model)
         {
-            var context = _context;
-
-            Salutation sal = new Salutation()
+            var salutation = new Salutation()
             {
                 active = true,
                 Detail = model.Detail
             };
-            await context.Salutations.AddAsync(sal);
-            await context.SaveChangesAsync();
-            return sal.salutationID;
+            await _context.Salutations.AddAsync(salutation);
+            await _context.SaveChangesAsync();
+
+            return salutation.salutationID;
         }
 
 
