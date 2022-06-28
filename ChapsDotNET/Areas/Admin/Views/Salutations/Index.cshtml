@@ -7,6 +7,7 @@
 <table>
     <thead>
     <tr>
+        <th></th>
         <th>
             Id
         </th>
@@ -21,6 +22,9 @@
     @foreach (var salutation in Model.ToList())
     {
         <tr>
+            <td><a href='@Url.Action("Edit", "Salutation", new { id = salutation.SalutationId }, null, null, "createButton")'>
+                <img src='@Url.Content("~/images/edit.png")' alt="Edit @salutation.Detail" />
+            </td>
             <td>
                 @Html.DisplayFor(x => salutation.SalutationId)
             </td>
