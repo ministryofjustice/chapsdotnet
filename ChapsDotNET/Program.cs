@@ -1,15 +1,16 @@
-using System.Data.SqlClient;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Policies.Handlers;
 using ChapsDotNET.Policies.Requirements;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using System.Data.SqlClient;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,6 +53,8 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(myConnectionString.ConnectionString));
 builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
 builder.Services.AddScoped<IUserComponent, UserComponent>();
+builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
+builder.Services.AddScoped<ISalutationComponent, SalutationComponent>();
 
 var app = builder.Build();
 
@@ -85,6 +88,11 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers().RequireAuthorization("IsAuthorisedUser");
 });
+
+app.MapAreaControllerRoute(
+    name: "ChapsServices",
+    areaName: "Admin",
+    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

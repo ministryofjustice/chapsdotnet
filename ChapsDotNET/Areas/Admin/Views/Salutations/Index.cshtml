@@ -1,0 +1,36 @@
+﻿@model List<ChapsDotNET.Business.Models.SalutationModel>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Salutations</h1>
+<table>
+    <thead>
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Detail
+        </th>
+        <th>
+            Active
+        </th>
+    </tr>
+    </thead>
+    @foreach (var salutation in Model.ToList())
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(x => salutation.SalutationId)
+            </td>
+            <td>
+                @Html.DisplayFor(x => salutation.Detail)
+            </td>
+            <td>
+                @Html.DisplayFor(x => salutation.Active)
+            </td>
+        </tr>
+    }
+</table>
+

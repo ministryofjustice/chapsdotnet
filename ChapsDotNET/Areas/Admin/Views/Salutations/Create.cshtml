@@ -1,0 +1,30 @@
+﻿@model ChapsDotNET.Business.Models.SalutationModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1> Add a Salutation</h1>
+<br />
+@using (Html.BeginForm())
+{
+
+    <div class="form-group">
+        <label class="form-label" for="NewSalutation">Salutation Detail</label>
+        @Html.TextBoxFor(Model => Model.Detail, new { @class = "form-control" })
+        @Html.ValidationMessageFor(Model => Model.Detail)
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="NewSalutation">Active</label>
+        @Html.CheckBoxFor(Model => Model.Active, new { @class = "form-control" })
+        @Html.ValidationMessageFor(Model => Model.Active)
+    </div>
+    <br />
+    <div class="form-group">
+        <input class="button" type="submit" value="Add Salutation" />
+    </div>
+
+
+
+}
+

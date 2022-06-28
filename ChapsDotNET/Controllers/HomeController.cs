@@ -13,6 +13,7 @@ namespace ChapsDotNET.Controllers
             _logger = logger;
         }
 
+        //[Authorize(Roles = "100,200,50")]
         public IActionResult Index()
         {
             return View("Index");
