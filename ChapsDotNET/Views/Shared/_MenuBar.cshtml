@@ -1,7 +1,120 @@
-﻿<div id="MenuContainer">
+﻿@inject ChapsDotNET.Data.Contexts.DataContext context
+
+@{
+    var usercomp = new ChapsDotNET.Business.Components.UserComponent(context);
+    var user = await usercomp.GetUserByNameAsync(User.Identity?.Name);
+    var roleStrength = user.RoleStrength;
+}
+
+<div id="MenuContainer">
     <ul id="menuBar">
         <li class="button" id="first"></li>
         <li class="button">@Html.ActionLink("Home", "Index", "Home", new { Area = "" }, null)</li>
-        <li class="text">Connected as <strong>@User.Identity?.Name</strong> ()</li>
+
+        @if (roleStrength > 25)
+        {
+            <li class="leftText">Correspondence</li>
+
+            if (roleStrength > 49)
+            {
+                <li class="button" style="background:none !important;">
+                    <a href="/Correspondent/Choose">
+                        <img alt="Add Correspondence" src="images/add.png">
+                    </a>
+                </li>
+            }
+
+            <li class="button">
+                <a href="/Correspondence">
+                    <img alt="List Correspondence" src="images/page_white_stack.png">
+                </a>
+            </li>
+
+            <li class="button">
+                <a href="/Correspondent">Correspondents</a>
+            </li>
+
+            switch (roleStrength)
+            {
+                case 26:
+                    <li class="button">
+                        <a href="/Search">Search</a>
+                    </li>
+                    <li class="button">
+                        <a href="/SearchChase">Search Chase</a>
+                    </li>
+                    break;
+
+                case 50:
+                    <li class="button">
+                        <a href="/Search">Search</a>
+                    </li>
+                    <li class="button">
+                        <a href="/SearchChase">Search Chase</a>
+                    </li>
+                    <li class="button">
+                        <a href="/Reports">Reports</a>
+                    </li>
+                    break;
+
+                case 75:
+                    <li class="button">
+                        <a href="/Search">Search</a>
+                    </li>
+                    <li class="button">
+                        <a href="/SearchChase">Search Chase</a>
+                    </li>
+                    <li class="button">
+                        <a href="/Reports">Reports</a>
+                    </li>
+                    <li class="button">
+                        <a href="/Admin">Admin</a>
+                    </li>
+                    break;
+
+                case 100:
+                    <li class="button">
+                        <a href="/Search">Search</a>
+                    </li>
+                    <li class="button">
+                        <a href="/SearchChase">Search Chase</a>
+                    </li>
+                    <li class="button">
+                        <a href="/Reports">Reports</a>
+                    </li>
+                    <li class="button">
+                        <a href="/Admin">Admin</a>
+                    </li>
+                    break;
+
+                default:
+                    break;
+            }
+
+            <li class="text">
+                Connected as <strong>@User.Identity?.Name</strong> ('Team Name')
+            </li>
+            <li class="helpButton">
+                <a href="/FAQ">
+                    <img alt="Help" src="images/help.png">
+                </a>
+            </li>
+
+            <li class="text">
+                <form action="/Search/QuickSearch" autocomplete="off" method="post" title="Quick search for references (theirs and ours)" novalidate="novalidate">
+                    <input name="__RequestVerificationToken" type="hidden" value="TBOT9ffnzm38vm4kV3jSewgiXZPC9cml4l1HBGtkj5kwdEbR6zIXPwazfzlSIRCO88-acTTavgz9l2JiKuxBQk2u87jlW5YQYf8d0cMonWAYTYdQ8hlTMSENnU20pbwtOZ_myKZ_lbV_BdXjR1ZYtA2">
+                    <input accesskey="S" id="searchRecord" name="searchRecord" style="width: 75px;" type="text" value="">
+                    <input alt="Search for record" type="image" value="Search" src="images/view.png">
+                </form>
+            </li>
+        }
+        else
+        {
+            <li class="helpButton">
+                <a href="/FAQ">
+                    <img alt="Help" src="images/help.png">
+                </a>
+            </li>
+        }
     </ul>
 </div>
