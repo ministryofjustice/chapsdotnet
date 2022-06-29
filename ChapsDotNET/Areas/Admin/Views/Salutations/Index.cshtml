@@ -1,9 +1,16 @@
 ﻿@model List<ChapsDotNET.Business.Models.SalutationModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Salutations List";
 }
 
 <h1>Salutations</h1>
+<p>
+    <a href='@Url.Action("Create", "Salutations")'>
+        <img src='@Url.Content("~/images/add.png")' alt="Create new salutation" />
+        Create new Salutation
+    </a>
+</p>
+
 <table>
     <thead>
     <tr>
@@ -22,7 +29,7 @@
     @foreach (var salutation in Model.ToList())
     {
         <tr>
-            <td><a href='@Url.Action("Edit", "Salutation", new { id = salutation.SalutationId }, null, null, "createButton")'>
+            <td><a href='@Url.Action("Update", "Salutation", new { id = salutation.SalutationId }, null, null, "createButton")'>
                 <img src='@Url.Content("~/images/edit.png")' alt="Edit @salutation.Detail" />
             </td>
             <td>

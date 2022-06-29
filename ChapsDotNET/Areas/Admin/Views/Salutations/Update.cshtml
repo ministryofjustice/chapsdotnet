@@ -1,27 +1,27 @@
 ﻿@model ChapsDotNET.Business.Models.SalutationModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Update";
 }
 
-<h1> Add a Salutation</h1>
+<h1> Update a Salutation</h1>
 <br />
 @using (Html.BeginForm())
     {
 
     <div class="form-group">
-        <label class="form-label" for="NewSalutation">Title</label>
+        <label class="form-label" for="Salutation">Salutation Detail</label>
         @Html.TextBoxFor(Model => Model.Detail, new { @class = "form-control" })
         @Html.ValidationMessageFor(Model => Model.Detail)
     </div>
 
     <div class="form-group">
-        <label class="form-label" for="NewSalutation">Active?</label>
+        <label class="form-label" for="Salutation">Active</label>
         @Html.CheckBoxFor(Model => Model.Active, new { @class = "form-control", @value = Model.Active = true })
         @Html.ValidationMessageFor(Model => Model.Active)
     </div>
     <br />
     <div class="form-group">
-        <input class="button" type="submit" value="Add Salutation" />
+        <input class="button" type="submit" value="Update Salutation" />
     </div>
 
 }

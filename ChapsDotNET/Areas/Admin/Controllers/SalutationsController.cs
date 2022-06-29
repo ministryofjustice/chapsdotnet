@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Components;
+using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Entities;
@@ -37,10 +38,17 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public void Create(SalutationModel model)
+        public ActionResult Create(SalutationModel model)
         {
             _salutationComponent.AddSalutationAsync(model);
+            return RedirectToAction("Index");
         }
 
+        public ActionResult Update(int Id)
+        {
+      
+            return View("Edit");
+
+        }
     }
 }
