@@ -1,8 +1,6 @@
-﻿using ChapsDotNET.Business.Components;
-using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
-using ChapsDotNET.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
@@ -38,37 +36,23 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(SalutationModel model)
+        public async Task<ActionResult> Create(SalutationModel model)
         {
-             _salutationComponent.AddSalutationAsync(model);
+             await _salutationComponent.AddSalutationAsync(model);
             return RedirectToAction("Index");
         }
 
-        //public ActionResult Update(int Id)
-        //{
-        //    var taskResult = _salutationComponent.GetSalutationAsync(Id);
-        //    var model = taskResult.Result;
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //public ActionResult Update(SalutationModel model)
-        //{
-        //     _salutationComponent.UpdateSalutationAsync(model);
-        //    return RedirectToAction("index");
-        //}
-
-        public async Task<IActionResult> Update(int Id)
+        public async Task<ActionResult> Update(int id)
         {
-            var model = await _salutationComponent.GetSalutationAsync(Id);
-            return await Task.Run(() =>  View(model));
+            var model = await _salutationComponent.GetSalutationAsync(id);
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(SalutationModel model)
+        public async Task<ActionResult> Update(SalutationModel model)
         {
             await _salutationComponent.UpdateSalutationAsync(model);
-             return await Task.Run(() => RedirectToAction("index"));
+             return RedirectToAction("index");
         }
 
     }

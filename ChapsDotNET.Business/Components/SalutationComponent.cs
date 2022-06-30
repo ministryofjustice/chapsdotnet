@@ -71,6 +71,7 @@ namespace ChapsDotNET.Business.Components
                     Detail = x.Detail,
                     Active = x.active
                 }).SingleOrDefaultAsync(); 
+
             if(salutation == null)
             {
                 return new SalutationModel
@@ -83,16 +84,20 @@ namespace ChapsDotNET.Business.Components
 
         public async Task<int> AddSalutationAsync(SalutationModel model)
         {
-            var context = _context;
+            if (string.IsNullOrEmpty(model.Detail))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
 
-            Salutation sal = new Salutation()
+            var salutation = new Salutation
             {
                 active = true,
                 Detail = model.Detail
             };
-            await context.Salutations.AddAsync(sal);
-            await context.SaveChangesAsync();
-            return sal.salutationID;
+
+            await _context.Salutations.AddAsync(salutation);
+            await _context.SaveChangesAsync();
+            return salutation.salutationID;
         }
 
 
@@ -104,6 +109,11 @@ namespace ChapsDotNET.Business.Components
             if (salutation == null)
             {
                 throw new NotFoundException("Salutation", model.SalutationId.ToString());
+            }
+
+            if (string.IsNullOrEmpty(model.Detail))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
             }
 
             salutation.active = model.Active;
