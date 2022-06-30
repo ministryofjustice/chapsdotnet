@@ -40,15 +40,36 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Create(SalutationModel model)
         {
-            _salutationComponent.AddSalutationAsync(model);
+             _salutationComponent.AddSalutationAsync(model);
             return RedirectToAction("Index");
         }
 
-        public ActionResult Update(int Id)
-        {
-      
-            return View("Edit");
+        //public ActionResult Update(int Id)
+        //{
+        //    var taskResult = _salutationComponent.GetSalutationAsync(Id);
+        //    var model = taskResult.Result;
+        //    return View(model);
+        //}
 
+        //[HttpPost]
+        //public ActionResult Update(SalutationModel model)
+        //{
+        //     _salutationComponent.UpdateSalutationAsync(model);
+        //    return RedirectToAction("index");
+        //}
+
+        public async Task<IActionResult> Update(int Id)
+        {
+            var model = await _salutationComponent.GetSalutationAsync(Id);
+            return await Task.Run(() =>  View(model));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(SalutationModel model)
+        {
+            await _salutationComponent.UpdateSalutationAsync(model);
+             return await Task.Run(() => RedirectToAction("index"));
+        }
+
     }
 }

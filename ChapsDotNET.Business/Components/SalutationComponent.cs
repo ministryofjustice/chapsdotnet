@@ -100,10 +100,12 @@ namespace ChapsDotNET.Business.Components
         public async Task UpdateSalutationAsync(SalutationModel model)
         {
             var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
+
             if (salutation == null)
             {
                 throw new NotFoundException("Salutation", model.SalutationId.ToString());
             }
+
             salutation.active = model.Active;
             salutation.Detail = model.Detail;
 
