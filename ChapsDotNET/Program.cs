@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Mvc;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,14 +31,20 @@ myConnectionString.UserID = rdsUserName;
 
 // Add services to the container.
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(options => {
+    .AddMicrosoftIdentityWebApp(options =>
+    {
         options.ClientId = builder.Configuration["ClientId"];
         options.TenantId = builder.Configuration["TenantId"];
         options.Instance = builder.Configuration["Instance"];
         options.Domain = builder.Configuration["Domain"];
         options.CallbackPath = builder.Configuration["CallbackPath"];
-        
+
     });
+
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
 
 builder.Services.AddAuthorization(options =>
 {

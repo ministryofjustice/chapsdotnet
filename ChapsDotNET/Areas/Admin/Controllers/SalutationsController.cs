@@ -35,6 +35,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return View(model);
         }
 
+       
         [HttpPost]
         public async Task<ActionResult> Create(SalutationModel model)
         {
