@@ -43,7 +43,8 @@ namespace ChapsDotNET.Business.Components
                 DisplayName = user.DisplayName,
                 RoleStrength = user.RoleStrength,
                 Email = (user.email ?? string.Empty),
-                UserId = user.UserID
+                UserId = user.UserID,
+                TeamId = user.TeamID
             };
         }
     }

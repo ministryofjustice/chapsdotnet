@@ -4,6 +4,9 @@
     var usercomp = new ChapsDotNET.Business.Components.UserComponent(context);
     var user = await usercomp.GetUserByNameAsync(User.Identity?.Name);
     var roleStrength = user.RoleStrength;
+    var teamComponent = new ChapsDotNET.Business.Components.TeamComponent(context);
+    var userTeam = await teamComponent.GetUserTeamAsync(user.TeamId);
+    var userTeamAcronym = userTeam.Acronym;
 }
 
 <div id="MenuContainer">
@@ -59,9 +62,9 @@
                 }
             }
 
-            <li class="text">
-                Connected as <strong>@User.Identity?.Name</strong> ('Team Name')
-            </li>
+    <li class="text">
+        Connected as <strong>@User.Identity?.Name</strong> (@userTeamAcronym)
+    </li>
             <li class="helpButton">
                 <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/FAQ">
                     <img alt="Help" src="images/help.png">
