@@ -12,7 +12,7 @@ public class Team : LookUpModel, IAuditable
     public string Name { get; set; } = string.Empty;
     //Commented out because we will be using this formatting to define the email.
     //[MaxLength(80), RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-‌​]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Email is not valid")]
-    public string email { get; set; } = string.Empty;
+    public string? email { get; set; } 
 
     public bool isOGD { get; set; }
 

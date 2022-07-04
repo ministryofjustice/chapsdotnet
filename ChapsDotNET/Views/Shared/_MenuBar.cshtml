@@ -1,12 +1,7 @@
-﻿@inject ChapsDotNET.Data.Contexts.DataContext context
-
+﻿@using ChapsDotNET.Business.Interfaces
+@inject IUserComponent UserComponent
 @{
-    var usercomp = new ChapsDotNET.Business.Components.UserComponent(context);
-    var user = await usercomp.GetUserByNameAsync(User.Identity?.Name);
-    var roleStrength = user.RoleStrength;
-    var teamComponent = new ChapsDotNET.Business.Components.TeamComponent(context);
-    var userTeam = await teamComponent.GetUserTeamAsync(user.TeamId);
-    var userTeamAcronym = userTeam.Acronym;
+    var user = await UserComponent.GetUserByNameAsync(User.Identity?.Name);
 }
 
 <div id="MenuContainer">
@@ -16,11 +11,11 @@
             <a href="https://chaps.staging.net.tp.dsd.io/Chaps_deploy/">Home</a>
         </li>
 
-        @if (roleStrength > 25)
+        @if (user.RoleStrength > 25)
         {
             <li class="leftText">Correspondence</li>
 
-            if (roleStrength > 49)
+            if (user.RoleStrength > 49)
             {
                 <li class="button" style="background:none !important;">
                     <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Correspondent/Choose">
@@ -38,7 +33,7 @@
                 <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Correspondent">Correspondents</a>
             </li>
 
-            if (roleStrength > 25)
+            if (user.RoleStrength > 25)
             {
                 <li class="button">
                     <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Search">Search</a>
@@ -47,13 +42,13 @@
                     <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/SearchChase">Search Chase</a>
                 </li>
 
-                if (roleStrength > 49)
+                if (user.RoleStrength > 49)
                 {
                     <li class="button">
                         <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Reports">Reports</a>
                     </li>
 
-                    if (roleStrength > 74)
+                    if (user.RoleStrength > 74)
                     {
                         <li class="button">
                             <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Admin">Admin</a>
@@ -63,7 +58,7 @@
             }
 
     <li class="text">
-        Connected as <strong>@User.Identity?.Name</strong> (@userTeamAcronym)
+        Connected as <strong>@User.Identity?.Name</strong> (@user.TeamAcronym)
     </li>
             <li class="helpButton">
                 <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/FAQ">
