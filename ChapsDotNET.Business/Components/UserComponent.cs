@@ -32,6 +32,7 @@ namespace ChapsDotNET.Business.Components
                 throw new ArgumentNullException("UserEmailAddress cannot be null");
 
             var user = await _context.Users
+                .Include(x => x.Team)
                 .FirstOrDefaultAsync(x => x.Name == userEmailAddress);
 
             if (user == null)
@@ -43,7 +44,9 @@ namespace ChapsDotNET.Business.Components
                 DisplayName = user.DisplayName,
                 RoleStrength = user.RoleStrength,
                 Email = (user.email ?? string.Empty),
-                UserId = user.UserID
+                UserId = user.UserID,
+                TeamId = user.TeamID,
+                TeamAcronym = user.Team?.Acronym ?? string.Empty,
             };
         }
     }

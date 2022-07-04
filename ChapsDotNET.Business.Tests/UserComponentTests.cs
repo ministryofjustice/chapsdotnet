@@ -137,6 +137,12 @@ namespace ChapsDotNET.Business.Tests
                 RoleStrength = 100,
                 email = "abc@justice.gov.uk",
                 Changeable = true,
+                Team = new Team
+                {
+                    Name = "TeamCharlie",
+                    Acronym = "TC",
+                    active = true
+                }
             });
             await context.SaveChangesAsync();
             var userComponent = new UserComponent(context);
@@ -151,7 +157,8 @@ namespace ChapsDotNET.Business.Tests
             result.Name.Should().Be("abc@justice.gov.uk");
             result.DisplayName.Should().Be("Abc");
             result.RoleStrength.Should().Be(100);
-            
+            result.TeamAcronym.Should().Be("TC");
+
 
         }
 
