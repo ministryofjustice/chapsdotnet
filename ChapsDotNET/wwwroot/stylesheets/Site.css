@@ -30,14 +30,18 @@ A {
 }
 
 .logo img {
-    vertical-align: bottom;
     margin-right: 0.75em;
+    vertical-align: bottom;
 }
 
 #chaps-logo {
     float: right;
     margin-right: 0px;
     vertical-align: bottom;
+}
+
+#moj-logo {
+    float: left;
 }
 
 .train {

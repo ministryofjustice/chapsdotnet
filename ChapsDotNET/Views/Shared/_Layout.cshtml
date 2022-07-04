@@ -14,13 +14,13 @@
         @RenderSection("head", false)
 
         @*@functions{
-                public string TokenHeaderValue()
-                {
-                    string cookieToken, formToken;
-                    AntiForgery.GetTokens(null, out cookieToken, out formToken);
-                    return cookieToken + ":" + formToken;
-                }
-            }*@
+            public string TokenHeaderValue()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }*@
     </head>
     <body>
         @*@{Html.RenderAction("DisplayAlerts", "Home", new { area = "" });}*@
@@ -41,7 +41,7 @@
             }
             <div id="header" class="@logo">
                 <div class="logo">
-                    <img src="~/images/moj.gif" alt="Ministry of Justice Logo" />
+                    <img src="~/images/moj.gif" id="moj-logo" alt="Ministry of Justice Logo" />
                     <img src="~/images/app.png" id="chaps-logo" alt="Application Logo" />
                 </div>
                 <partial name="_MenuBar" />
@@ -78,9 +78,9 @@
                         $('#MenuContainer').css('background-image', 'url("images/blue_nav_right_corner_bottom.gif")');
                     }
 
-                    @*var TOKENHEADERVALUE = '@TokenHeaderValue()';
+                    @*var TOKENHEADERVALUE = '@TokenHeaderValue()';*@
 
-                    $.ajaxSetup({
+                    @*$.ajaxSetup({
                         headers: {
                             'AntiForgeryToken': TOKENHEADERVALUE
                         },
