@@ -50,7 +50,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> Update(int id)
+        public async Task<ActionResult> Edit(int id)
         {
             var model = await _salutationComponent.GetSalutationAsync(id);
 
@@ -65,7 +65,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Update(SalutationViewModel model)
+        public async Task<ActionResult> Edit(SalutationViewModel model)
         {
             await _salutationComponent.UpdateSalutationAsync(new SalutationModel
             {

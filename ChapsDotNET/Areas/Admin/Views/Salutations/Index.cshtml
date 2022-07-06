@@ -29,7 +29,7 @@
     @foreach (var salutation in Model.ToList())
     {
         <tr>
-            <td><a href='@Url.Action("Update", "Salutations", new { id = salutation.SalutationId }, null, null)'>
+            <td><a href='@Url.Action("Edit", "Salutations", new { id = salutation.SalutationId }, null, null)'>
                 <img src='@Url.Content("~/images/edit.png")' alt="Edit @salutation.Detail" />
             </td>
             <td>
