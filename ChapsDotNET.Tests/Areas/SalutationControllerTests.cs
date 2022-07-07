@@ -52,6 +52,21 @@ namespace ChapsDotNET.Tests.Areas
             resultCount?.Count.Should().Be(2);
         }
 
+        [Fact]
+        public void WhenCreateMethodIsCalledTheCreateViewIsReturned()
+        {
+            //Arrange
+            var mockSalutationsComponent = Substitute.For<ISalutationComponent>();
+            var controller = new SalutationsController(mockSalutationsComponent);
+
+            //Act
+            var result = controller.Create();
+
+            //Assert
+            result.Should().BeOfType<ViewResult>();
+        }
+
+
 
         [Fact]
         public async Task WhenCreateMethodIsCalledTheAddSalutationsAsyncMethodIsCalled()
