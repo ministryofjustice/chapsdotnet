@@ -1,7 +1,9 @@
 ﻿using ChapsDotNET.Areas.Admin.Controllers;
+using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
+using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
 using FluentAssertions;
@@ -10,11 +12,14 @@ using NSubstitute;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using ChapsDotNET.Data.Entities;
 
 namespace ChapsDotNET.Tests.Areas
 {
     public class SalutationControllerTests
     {
+        
+
         [Fact]
         public async Task WhenSalutationIndexPageIsCalledWeShouldBeReturnedWithSalutationsList()
         {
@@ -89,5 +94,30 @@ namespace ChapsDotNET.Tests.Areas
             result.Should().NotBe(null);
 
         }
+
+
+
+        [Fact]
+        public async Task WhenEditMethodIsCalledTheEditViewIsReturned()
+        {
+            //Arrange
+            var mockSalutationsComponent = Substitute.For<ISalutationComponent>();
+            SalutationsController controller = new SalutationsController(mockSalutationsComponent);
+            mockSalutationsComponent.GetSalutationAsync(1).Returns(new SalutationModel
+            {
+                Detail = "aaa",
+                Active = true,
+                SalutationId = 1
+            }); 
+            
+
+            //Act
+            var result = await controller.Edit(1);
+
+            //Assert
+            result.Should().BeOfType<ViewResult>();
+        }
+
+
     }
 }
