@@ -1,6 +1,6 @@
 ﻿using ChapsDotNET.Business.Interfaces;
-using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
+using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,14 +38,9 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
        
         [HttpPost]
-        public async Task<ActionResult> Create(SalutationViewModel model)
+        public async Task<ActionResult> Create(SalutationViewModel viewModel)
         {
-             await _salutationComponent.AddSalutationAsync(new SalutationModel
-             {
-                 Detail = model.Detail,
-                 Active = model.Active,
-                 SalutationId = model.SalutationId
-             });
+             await _salutationComponent.AddSalutationAsync(viewModel.ToModel());
 
             return RedirectToAction("Index");
         }
@@ -54,25 +49,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             var model = await _salutationComponent.GetSalutationAsync(id);
 
-            var viewModel = new SalutationViewModel
-            {
-                Detail = model.Detail,
-                Active = model.Active,
-                SalutationId = model.SalutationId
-            };
-
-            return View(viewModel);
+            return View(model.ToViewModel());
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(SalutationViewModel model)
+        public async Task<ActionResult> Edit(SalutationViewModel viewModel)
         {
-            await _salutationComponent.UpdateSalutationAsync(new SalutationModel
-            {
-                Detail = model.Detail,
-                Active = model.Active,
-                SalutationId = model.SalutationId
-            });
+            await _salutationComponent.UpdateSalutationAsync(viewModel.ToModel());
 
             return RedirectToAction("index");
         }
