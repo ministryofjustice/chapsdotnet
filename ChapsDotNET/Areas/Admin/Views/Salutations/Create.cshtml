@@ -8,7 +8,7 @@
     <fieldset>
         <legend>@ViewBag.Title</legend>
         <div class="editor-label">
-            @Html.LabelFor(model => model.Detail, true)
+            <label>Title<span alt="Mandatory field" class="required-star">*</span></label>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Detail)
