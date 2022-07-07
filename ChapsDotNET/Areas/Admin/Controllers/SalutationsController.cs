@@ -20,11 +20,11 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             var pagedResult = await _salutationComponent
                 .GetSalutationsAsync(new SalutationRequestModel
-            {
-                PageNumber = 5,
-                PageSize = 10,
-                ShowActiveAndInactive = true
-            });
+                {
+                    PageNumber = 5,
+                    PageSize = 10,
+                    ShowActiveAndInactive = true
+                });
 
             return View(pagedResult.Results);
         }
@@ -36,11 +36,11 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return View(model);
         }
 
-       
+
         [HttpPost]
         public async Task<ActionResult> Create(SalutationViewModel viewModel)
         {
-             await _salutationComponent.AddSalutationAsync(viewModel.ToModel());
+            await _salutationComponent.AddSalutationAsync(viewModel.ToModel());
 
             return RedirectToAction("Index");
         }

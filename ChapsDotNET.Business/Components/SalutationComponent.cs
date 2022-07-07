@@ -25,7 +25,7 @@ namespace ChapsDotNET.Business.Components
         public async Task<PagedResult<List<SalutationModel>>> GetSalutationsAsync(SalutationRequestModel request)
         {
             var query = _context.Salutations.AsQueryable();
-            
+
             if (!request.ShowActiveAndInactive)
             {
                 query = query.Where(x => x.active == true);
@@ -69,16 +69,16 @@ namespace ChapsDotNET.Business.Components
                     SalutationId = x.salutationID,
                     Detail = x.Detail,
                     Active = x.active
-                }).SingleOrDefaultAsync(); 
+                }).SingleOrDefaultAsync();
 
-            if(salutation == null)
+            if (salutation == null)
             {
                 return new SalutationModel
                 {
                     Detail = null
                 };
             }
-            return salutation;     
+            return salutation;
         }
 
         public async Task<int> AddSalutationAsync(SalutationModel model)

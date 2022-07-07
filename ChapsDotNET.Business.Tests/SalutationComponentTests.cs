@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ChapsDotNET.Business.Components;
+﻿using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Business.Tests.Common;
 using ChapsDotNET.Data.Entities;
 using FluentAssertions;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ChapsDotNET.Business.Tests

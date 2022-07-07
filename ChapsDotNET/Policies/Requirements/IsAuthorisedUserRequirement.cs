@@ -2,11 +2,11 @@
 
 namespace ChapsDotNET.Policies.Requirements
 {
-	public class IsAuthorisedUserRequirement : IAuthorizationRequirement
-	{
-		public IsAuthorisedUserRequirement()
-		{
-		}
-	}
+    public class IsAuthorisedUserRequirement : IAuthorizationRequirement
+    {
+        public IsAuthorisedUserRequirement()
+        {
+        }
+    }
 }
 

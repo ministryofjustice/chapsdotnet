@@ -1,6 +1,6 @@
-﻿using System.Security.Claims;
-using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Interfaces;
 using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace ChapsDotNET.Common
 {
