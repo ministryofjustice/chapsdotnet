@@ -2,6 +2,8 @@
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
+using ChapsDotNET.Common.Mappers;
+using ChapsDotNET.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
@@ -48,6 +50,29 @@ namespace ChapsDotNET.Tests.Areas
             result.Should().NotBe(null);
             result.Should().BeOfType<ViewResult>();
             resultCount?.Count.Should().Be(2);
+        }
+
+
+        [Fact]
+        public async Task WhenCreateMethodIsCalledTheAddSalutationsAsyncMethodIsCalled()
+        {
+            //Arrange
+            var mockSalutationsComponent = Substitute.For<ISalutationComponent>();
+            var controller = new SalutationsController(mockSalutationsComponent);
+            var salutationViewModel = new SalutationViewModel()
+            {
+                Detail = "aaa",
+                Active = true,
+                SalutationId = 1
+            };
+
+            //Act
+            var result = await controller.Create(salutationViewModel);
+
+            //Assert
+            await mockSalutationsComponent.Received().AddSalutationAsync(salutationViewModel.ToModel());
+            result.Should().NotBe(null);
+
         }
     }
 }
