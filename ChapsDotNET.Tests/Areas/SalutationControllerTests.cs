@@ -1,10 +1,7 @@
 ﻿using ChapsDotNET.Areas.Admin.Controllers;
-using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
-using ChapsDotNET.Data.Entities;
-using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +9,6 @@ using NSubstitute;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
-using ChapsDotNET.Data.Entities;
 
 namespace ChapsDotNET.Tests.Areas
 {
@@ -90,7 +86,7 @@ namespace ChapsDotNET.Tests.Areas
             var result = await controller.Create(salutationViewModel);
 
             //Assert
-            await mockSalutationsComponent.Received().AddSalutationAsync(salutationViewModel.ToModel());
+            await mockSalutationsComponent.Received().AddSalutationAsync(Arg.Any<SalutationModel>());
             result.Should().NotBe(null);
 
         }
@@ -118,6 +114,26 @@ namespace ChapsDotNET.Tests.Areas
             result.Should().BeOfType<ViewResult>();
         }
 
+        [Fact]
+        public async Task WhenSaveButtonIsClickedOnTheEditScreenThenUpdateSalutationAsyncIsCalled()
+        {
+            //Arrange
+            var mockSalutationsComponent = Substitute.For<ISalutationComponent>();
+            var controller = new SalutationsController(mockSalutationsComponent);
+
+
+            //Act
+            var result = await controller.Edit(new SalutationViewModel
+            {
+                Detail = "Mr",
+                Active = true,
+                SalutationId = 1
+            });
+
+            //Assert
+            await mockSalutationsComponent.Received().UpdateSalutationAsync(Arg.Any<SalutationModel>());
+            result.Should().BeOfType<RedirectToActionResult>();
+        }
 
     }
 }
