@@ -1,11 +1,10 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
-using Microsoft.EntityFrameworkCore;
 using ChapsDotNET.Data.Entities;
-using ChapsDotNET.Business.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChapsDotNET.Business.Components
 {
@@ -26,7 +25,7 @@ namespace ChapsDotNET.Business.Components
         public async Task<PagedResult<List<SalutationModel>>> GetSalutationsAsync(SalutationRequestModel request)
         {
             var query = _context.Salutations.AsQueryable();
-            
+
             if (!request.ShowActiveAndInactive)
             {
                 query = query.Where(x => x.active == true);
@@ -70,29 +69,34 @@ namespace ChapsDotNET.Business.Components
                     SalutationId = x.salutationID,
                     Detail = x.Detail,
                     Active = x.active
-                }).SingleOrDefaultAsync(); 
-            if(salutation == null)
+                }).SingleOrDefaultAsync();
+
+            if (salutation == null)
             {
                 return new SalutationModel
                 {
                     Detail = null
                 };
             }
-            return salutation;     
+            return salutation;
         }
 
         public async Task<int> AddSalutationAsync(SalutationModel model)
         {
-            var context = _context;
+            if (string.IsNullOrEmpty(model.Detail))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
 
-            Salutation sal = new Salutation()
+            var salutation = new Salutation
             {
                 active = true,
                 Detail = model.Detail
             };
-            await context.Salutations.AddAsync(sal);
-            await context.SaveChangesAsync();
-            return sal.salutationID;
+
+            await _context.Salutations.AddAsync(salutation);
+            await _context.SaveChangesAsync();
+            return salutation.salutationID;
         }
 
 
@@ -100,10 +104,17 @@ namespace ChapsDotNET.Business.Components
         public async Task UpdateSalutationAsync(SalutationModel model)
         {
             var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
+
             if (salutation == null)
             {
                 throw new NotFoundException("Salutation", model.SalutationId.ToString());
             }
+
+            if (string.IsNullOrEmpty(model.Detail))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
+
             salutation.active = model.Active;
             salutation.Detail = model.Detail;
 

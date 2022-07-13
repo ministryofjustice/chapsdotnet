@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ChapsDotNET.Business.Components;
+﻿using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Business.Tests.Common;
 using ChapsDotNET.Data.Entities;
 using FluentAssertions;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ChapsDotNET.Business.Tests
@@ -184,7 +183,7 @@ namespace ChapsDotNET.Business.Tests
 
             // Assert
             result.Should().NotBeNull();
-           
+
             result.Detail.Should().Be("Ms");
             result.SalutationId.Should().Be(53);
             result.Active.Should().BeTrue();
@@ -243,7 +242,7 @@ namespace ChapsDotNET.Business.Tests
             };
 
             // Act
-            var result =  await salutationComponent.AddSalutationAsync(newrecord);
+            var result = await salutationComponent.AddSalutationAsync(newrecord);
 
 
             // Assert
@@ -253,12 +252,33 @@ namespace ChapsDotNET.Business.Tests
 
         }
 
+        [Fact(DisplayName = "Adding a Salutation with empty detail should throw an ArgumentNullException")]
+        public async Task AddingAnEmptyTitleShouldThrowException()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            var salutationComponent = new SalutationComponent(context);
+            var newrecord = new Models.SalutationModel
+            {
+                SalutationId = 1,
+                Detail = "",
+                Active = true
+            };
+
+            //Act
+            Func<Task> act = async () => { await salutationComponent.AddSalutationAsync(newrecord); };
+
+            //Assert
+            await act.Should().ThrowAsync<ArgumentNullException>();
+        }
+
 
         [Fact(DisplayName = "Updating active status on a Salutation from the database when calling the UpdateSalutationActiveStatus")]
         public async Task UpdateActiveStatusOnASalutation()
         {
             // Arrange
-            var context = DataContextFactory.Create();     
+            var context = DataContextFactory.Create();
 
             await context.Salutations.AddAsync(new Salutation
             {
@@ -309,5 +329,39 @@ namespace ChapsDotNET.Business.Tests
             //Assert
             await act.Should().ThrowAsync<NotFoundException>();
         }
+
+        [Fact(DisplayName = "Updating Salutation with Empty Detail should throw an ArgumentNullException")]
+        public async Task UpdateSalutationWithNoDetailShouldThrowAnException()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.Salutations.AddAsync(new Salutation
+            {
+                salutationID = 1,
+                Detail = "AAA",
+                active = true
+            });
+
+            await context.SaveChangesAsync();
+
+            var salutationComponent = new SalutationComponent(context);
+
+            // Act
+
+            Func<Task> act = async () =>
+            {
+                await salutationComponent.UpdateSalutationAsync(new Models.SalutationModel
+                {
+                    Detail = string.Empty,
+                    SalutationId = 1,
+                    Active = true
+                });
+            };
+
+            //Assert
+            await act.Should().ThrowAsync<ArgumentNullException>();
+        }
+
     }
 }

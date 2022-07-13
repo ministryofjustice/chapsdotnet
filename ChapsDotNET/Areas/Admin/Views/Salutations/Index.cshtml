@@ -1,26 +1,39 @@
 ﻿@model List<ChapsDotNET.Business.Models.SalutationModel>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Salutations List";
 }
 
 <h1>Salutations</h1>
+<p>
+    <a href='@Url.Action("Create", "Salutations")'>
+        <img src='@Url.Content("~/images/add.png")' alt="Create new salutation" />
+        Create new Salutation
+    </a>
+</p>
+
 <table>
     <thead>
-    <tr>
-        <th>
-            Id
-        </th>
-        <th>
-            Detail
-        </th>
-        <th>
-            Active
-        </th>
-    </tr>
+        <tr>
+            <th></th>
+            <th>
+                Id
+            </th>
+            <th>
+                Detail
+            </th>
+            <th>
+                Active
+            </th>
+        </tr>
     </thead>
     @foreach (var salutation in Model.ToList())
     {
         <tr>
+            <td>
+                <a href='@Url.Action("Edit", "Salutations", new { id = salutation.SalutationId }, null, null)'>
+                    <img src='@Url.Content("~/images/edit.png")' alt="Edit @salutation.Detail" />
+                </a>
+            </td>
             <td>
                 @Html.DisplayFor(x => salutation.SalutationId)
             </td>
