@@ -17,8 +17,6 @@ namespace ChapsDotNET.Business.Components
             _context = context;
         }
 
-
-
         /// <summary>
         /// This method by default returns a list of only active Public Holidays
         /// </summary>
