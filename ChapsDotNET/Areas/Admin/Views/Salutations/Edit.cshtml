@@ -1,12 +1,14 @@
 ﻿@model ChapsDotNET.Models.SalutationViewModel
 @{
-    ViewData["Title"] = "Create New Salutation";
+    ViewData["Title"] = "Update";
 }
+
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true)
     <fieldset>
         <legend>@ViewBag.Title</legend>
+        @Html.HiddenFor(model => model.SalutationId)
+
         <div class="editor-label">
             <label>Title<span alt="Mandatory field" class="required-star">*</span></label>
         </div>
@@ -14,11 +16,16 @@
             @Html.EditorFor(model => model.Detail)
             @Html.ValidationMessageFor(model => model.Detail)
         </div>
-
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Active)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Active, new { @class = "form-control", @value = Model.Active = true })
+            @Html.ValidationMessageFor(model => model.Active)
+        </div>
         <p>
-            <input type="submit" value="Create" />
+            <input class="button" type="submit" value="Save" />
         </p>
     </fieldset>
-
 }
 

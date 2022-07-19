@@ -25,7 +25,7 @@ namespace ChapsDotNET.Business.Components
         public async Task<PagedResult<List<SalutationModel>>> GetSalutationsAsync(SalutationRequestModel request)
         {
             var query = _context.Salutations.AsQueryable();
-            
+
             if (!request.ShowActiveAndInactive)
             {
                 query = query.Where(x => x.active == true);
@@ -74,7 +74,12 @@ namespace ChapsDotNET.Business.Components
 
         public async Task<int> AddSalutationAsync(SalutationModel model)
         {
-            var salutation = new Salutation()
+            if (string.IsNullOrEmpty(model.Detail))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
+
+            var salutation = new Salutation
             {
                 active = true,
                 Detail = model.Detail
@@ -90,10 +95,17 @@ namespace ChapsDotNET.Business.Components
         public async Task UpdateSalutationAsync(SalutationModel model)
         {
             var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
+
             if (salutation == null)
             {
                 throw new NotFoundException("Salutation", model.SalutationId.ToString());
             }
+
+            if (string.IsNullOrEmpty(model.Detail))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
+
             salutation.active = model.Active;
             salutation.Detail = model.Detail;
 
