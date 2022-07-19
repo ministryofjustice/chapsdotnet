@@ -16,7 +16,6 @@
     <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\" />
     <Folder Include="Contexts\" />
     <Folder Include="Interfaces\" />
   </ItemGroup>
