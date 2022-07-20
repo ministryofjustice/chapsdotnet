@@ -1,25 +1,29 @@
 ﻿@model List<ChapsDotNET.Business.Models.SalutationModel>
+
 @{
-    ViewData["Title"] = "Salutations List";
+    ViewData["Title"] = "Salutations administration";
 }
 
-<h1>Salutations</h1>
 <p>
-    <a href='@Url.Action("Create", "Salutations")'>
-        <img src='@Url.Content("~/images/add.png")' alt="Create new salutation" />
-        Create new Salutation
-    </a>
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+</p>
+    
+<h1>Salutations</h1>
+
+<p>
+    @Html.ActionLink("Create new Salutation", "Create", "Salutations")
 </p>
 
 <table>
+    <caption class="caption">Existing salutations</caption>
     <thead>
         <tr>
-            <th></th>
             <th>
-                Id
-            </th>
-            <th>
-                Detail
+                Title
             </th>
             <th>
                 Active
@@ -30,20 +34,13 @@
     {
         <tr>
             <td>
-                <a href='@Url.Action("Edit", "Salutations", new { id = salutation.SalutationId }, null, null)'>
-                    <img src='@Url.Content("~/images/edit.png")' alt="Edit @salutation.Detail" />
+                <a href="/Admin/Salutations/Edit/@salutation.SalutationId">
+                    @Html.DisplayFor(x => salutation.Detail)
                 </a>
             </td>
-            <td>
-                @Html.DisplayFor(x => salutation.SalutationId)
-            </td>
-            <td>
-                @Html.DisplayFor(x => salutation.Detail)
-            </td>
-            <td>
+            <td align="center">
                 @Html.DisplayFor(x => salutation.Active)
             </td>
         </tr>
     }
 </table>
-
