@@ -72,6 +72,15 @@ table.statement td {
 
 /* Table stuff */
 
+.caption {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 15px;
+    text-align: left;
+    width: max-content;
+}
+
 th {
     text-align: left;
     background-color: #dddddd;
@@ -268,6 +277,10 @@ input[type="submit"] {
 
 /* MISC  
 ----------------------------------------------------------*/
+
+.actionLinks, .breadcrumbs {    
+    padding: 0.8em 0;
+}
 
 .clear {
     clear: both;
