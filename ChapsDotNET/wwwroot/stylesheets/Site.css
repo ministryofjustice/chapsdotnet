@@ -278,6 +278,10 @@ input[type="submit"] {
 /* MISC  
 ----------------------------------------------------------*/
 
+.actionLinks, .breadcrumbs {    
+    padding: 0.8em 0;
+}
+
 .clear {
     clear: both;
 }
