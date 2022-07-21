@@ -17,14 +17,11 @@ namespace ChapsDotNET.Business.Components
             _context = context;
         }
 
-
-
         /// <summary>
         /// This method by default returns a list of only active Public Holidays
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of PublicHoliday</returns>
-
         public async Task<PagedResult<List<PublicHolidayModel>>> GetPublicHolidaysAsync(PublicHolidayRequestModel request)
         {
             var query = _context.PublicHolidays.AsQueryable();
