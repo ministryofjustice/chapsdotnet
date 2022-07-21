@@ -17,6 +17,8 @@ namespace ChapsDotNET.Business.Components
             _context = context;
         }
 
+
+
         /// <summary>
         /// This method by default returns a list of only active Public Holidays
         /// </summary>
@@ -52,6 +54,54 @@ namespace ChapsDotNET.Business.Components
                 PageCount = count / request.PageSize,
                 RowCount = count
             };
+        }
+
+        public async Task<PublicHolidayModel> GetPublicHolidayAsync(int id)
+        {
+            var query = _context.PublicHolidays.AsQueryable();
+            query = query.Where(x => x.PublicHolidayID == id);
+
+            var publicHoliday = await query
+                .Select(x => new PublicHolidayModel
+                {
+                    PublicHolidayID = x.PublicHolidayID,
+                    Description = x.Description,
+                    Date = x.Date
+                }).SingleOrDefaultAsync();
+
+            if (publicHoliday == null)
+            {
+                return new PublicHolidayModel
+                {
+                    Description = null
+                };
+            }
+            return publicHoliday;
+        }
+
+
+        public async Task<int> AddPublicHolidayAsync(PublicHolidayModel model)
+        {
+            if (string.IsNullOrEmpty(model.Description))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
+
+            if(model.Date <= DateTime.Now)
+            {
+                throw new ArgumentOutOfRangeException("Parameter Date cannot be in the past");
+            }
+
+            var publicHoliday = new PublicHoliday
+            {
+                Date = model.Date,
+                Description = model.Description,
+                PublicHolidayID = model.PublicHolidayID
+            };
+
+            await _context.PublicHolidays.AddAsync(publicHoliday);
+            await _context.SaveChangesAsync();
+            return publicHoliday.PublicHolidayID;
         }
     }
 }
