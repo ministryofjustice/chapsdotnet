@@ -28,19 +28,19 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return View(pagedResult.Results);
         }
 
-        //public ActionResult Create()
-        //{
-        //    var model = new PublicHolidayViewModel();
-        //    return View(model);
-        //}
+        public ActionResult Create()
+        {
+            var model = new PublicHolidayViewModel();
+            return View(model);
+        }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Create(SalutationViewModel viewModel)
-        //{
-        //    await _salutationComponent.AddSalutationAsync(viewModel.ToModel());
+        [HttpPost]
+        public async Task<ActionResult> Create(PublicHolidayViewModel viewModel)
+        {
+            await _publicHolidayComponent.AddPublicHolidayAsync(viewModel.ToModel());
 
-        //    return RedirectToAction("Index");
-        //}
+            return RedirectToAction("Index");
+        }
 
         //public async Task<ActionResult> Edit(int id)
         //{
