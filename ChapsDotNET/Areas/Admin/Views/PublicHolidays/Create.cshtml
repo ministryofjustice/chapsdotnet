@@ -7,26 +7,33 @@
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
-    <fieldset>
+
+    <fieldset class="form-fieldset">
         <legend>@ViewBag.Title</legend>
 
-        <div class="editor-label">
+        <div class="form-label">
             <label>Date</label>
         </div>
-
-        <div class="editor-field">
+        <div id="holiday-date-hint" class="form-hint">
+            For example, 20/07/2030
+        </div>
+        <div class="form-field">
             @Html.EditorFor(model => model.Date, new { htmlAttributes = new { type = "date", Value = DateTime.Now.AddDays(1) } })
+        </div>
+        <div class="form-validation">
             @Html.ValidationMessageFor(model => model.Date)
         </div>
 
-        <div class="editor-label">
+        <div class="form-label">
             <label>Detail</label>
         </div>
-
-        <div class="editor-field">
+        <div class="form-field">
             @Html.EditorFor(model => model.Description)
+        </div>
+        <div class="form-validation">
             @Html.ValidationMessageFor(model => model.Description)
         </div>
-            <input type="submit" value="Create" />
+
+        <input type="submit" value="Create" />
     </fieldset>
 }
