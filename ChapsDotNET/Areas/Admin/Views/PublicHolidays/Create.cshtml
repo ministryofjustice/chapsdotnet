@@ -28,7 +28,8 @@
         </div>
 
         <div class="editor-field">
-            @Html.EditorFor(model => model.Date, "{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "text-box_date", type = "date", Value = DateTime.Now.AddDays(2) } })
+            @*@Html.EditorFor(model => model.Date, "{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "text-box_date", Value = DateTime.Now.AddDays(1) } })*@
+            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "text-box_date" } })
             @Html.ValidationMessageFor(model => model.Date)
         </div>
 
