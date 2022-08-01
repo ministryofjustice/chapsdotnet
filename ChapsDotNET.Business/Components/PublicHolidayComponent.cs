@@ -84,7 +84,7 @@ namespace ChapsDotNET.Business.Components
                 throw new ArgumentNullException("Parameter Detail cannot be empty");
             }
 
-            if(model.Date <= DateTime.Now)
+            if (model.Date <= DateTime.Now)
             {
                 throw new ArgumentOutOfRangeException("Parameter Date cannot be in the past");
             }
