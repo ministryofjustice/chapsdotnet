@@ -37,7 +37,6 @@
     <None Remove="Policies\Requirements\" />
     <None Remove="Policies\Handlers\" />
     <None Remove="Areas\Admin\Views\PublicHolidays\" />
-    <None Remove="Common\DateValidation\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
@@ -66,7 +65,6 @@
     <Folder Include="wwwroot\lib\i18n\" />
     <Folder Include="wwwroot\lib\flot\" />
     <Folder Include="Areas\Admin\Views\PublicHolidays\" />
-    <Folder Include="Common\DateValidation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\javascripts\" />

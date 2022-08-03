@@ -81,12 +81,12 @@ namespace ChapsDotNET.Business.Components
         {
             if (string.IsNullOrEmpty(model.Description))
             {
-                throw new ArgumentNullException("Parameter Detail cannot be empty");
+                throw new ArgumentNullException(nameof(model.Description),"cannot be empty");
             }
 
             if (model.Date <= DateTime.Now)
             {
-                throw new ArgumentOutOfRangeException("Parameter Date cannot be in the past");
+                throw new ArgumentOutOfRangeException(nameof(model.Date), "cannot be in the past");
             }
 
             var publicHoliday = new PublicHoliday

@@ -28,10 +28,12 @@
         </div>
 
         <div class="editor-field">
-            @*@Html.EditorFor(model => model.Date, "{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "text-box_date", Value = DateTime.Now.AddDays(1) } })*@
-            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "text-box_date", @type = "date", min = DateTime.Now.AddDays(1) } })
-            @Html.ValidationMessageFor(model => model.Date)
+        @Html.EditorFor(model => model.Date, "{0:yyyy-MM-dd}", new { htmlAttributes = new {
+                        @class = "text-box_date",
+                        @type = "date",
+                        @value = DateTime.Now.AddDays(1).ToShortDateString()} })
         </div>
+        @*Removed ValidationMessageFor - use Validate method on the viewModel instead*@
 
         <div class="editor-label">
             <label for="Description">Detail</label>

@@ -31,15 +31,19 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public ActionResult Create()
         {
             var model = new PublicHolidayViewModel();
+            model.Date = DateTime.Now.AddDays(1);
             return View(model);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(PublicHolidayViewModel viewModel)
         {
-            await _publicHolidayComponent.AddPublicHolidayAsync(viewModel.ToModel());
-
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                await _publicHolidayComponent.AddPublicHolidayAsync(viewModel.ToModel());
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
         //public async Task<ActionResult> Edit(int id)
