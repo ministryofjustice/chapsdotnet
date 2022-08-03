@@ -1,6 +1,7 @@
 ﻿using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
+using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,20 +47,18 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return View();
         }
 
-        //public async Task<ActionResult> Edit(int id)
-        //{
-        //    var model = await _salutationComponent.GetSalutationAsync(id);
+        public async Task<ActionResult> Edit(int id)
+        {
+            var model = await _publicHolidayComponent.GetPublicHolidayAsync(id);
+            return View(model.ToViewModel());
+        }
 
-        //    return View(model.ToViewModel());
-        //}
-
-        //[HttpPost]
-        //public async Task<ActionResult> Edit(SalutationViewModel viewModel)
-        //{
-        //    await _salutationComponent.UpdateSalutationAsync(viewModel.ToModel());
-
-        //    return RedirectToAction("index");
-        //}
+        [HttpPost]
+        public async Task<ActionResult> Edit(PublicHolidayViewModel viewModel)
+        {
+            await _publicHolidayComponent.UpdatePublicHolidayAsync(viewModel.ToModel());
+            return RedirectToAction("index");
+        }
 
     }
 }

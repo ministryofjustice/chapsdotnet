@@ -100,5 +100,31 @@ namespace ChapsDotNET.Business.Components
             await _context.SaveChangesAsync();
             return publicHoliday.PublicHolidayID;
         }
+
+        
+        public async Task UpdatePublicHolidayAsync(PublicHolidayModel model)
+        {
+            var publicHoliday = await _context.PublicHolidays.FirstOrDefaultAsync(x => x.PublicHolidayID == model.PublicHolidayID);
+
+            if (publicHoliday == null)
+            {
+                throw new NotFoundException("Public Holiday", model.PublicHolidayID.ToString());
+            }
+
+            if (publicHoliday.Date == DateTime.MinValue )
+            {
+                throw new ArgumentNullException(nameof(model.Description), "Parameter Date cannot be at the begining of epoc");
+            }
+
+            if (string.IsNullOrEmpty(model.Description))
+            {
+                throw new ArgumentNullException(nameof(model.Description), "Parameter Description cannot be empty");
+            }
+
+            publicHoliday.Date = model.Date;
+            publicHoliday.Description = model.Description;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

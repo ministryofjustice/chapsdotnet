@@ -10,5 +10,6 @@ namespace ChapsDotNET.Business.Interfaces
         Task<PagedResult<List<PublicHolidayModel>>> GetPublicHolidaysAsync(PublicHolidayRequestModel request);
         Task<PublicHolidayModel> GetPublicHolidayAsync(int id);
         Task<int> AddPublicHolidayAsync(PublicHolidayModel model);
+        Task UpdatePublicHolidayAsync(PublicHolidayModel model);
     }
 }

@@ -6,14 +6,15 @@ namespace ChapsDotNET.Models
     public class PublicHolidayViewModel : IValidatableObject
     {
         public int PublicHolidayID { get; set; }
-        [Required]
+
         [BindProperty, DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
+
         [Required, MaxLength(30)]
         public string? Description { get; set; }
 
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (Date <= DateTime.Now)
             {
