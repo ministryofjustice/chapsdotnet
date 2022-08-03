@@ -6,6 +6,7 @@ namespace ChapsDotNET.Models
     public class PublicHolidayViewModel : IValidatableObject
     {
         public int PublicHolidayID { get; set; }
+        [Required]
         [BindProperty, DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
