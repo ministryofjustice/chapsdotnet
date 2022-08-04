@@ -84,6 +84,11 @@ namespace ChapsDotNET.Business.Components
                 throw new ArgumentNullException(nameof(model.Description),"cannot be empty");
             }
 
+            if (model.Description.Length > 30)
+            {
+                throw new ArgumentOutOfRangeException("Description", model.Description, "Cannot be longer then 30 characters");
+            }
+
             if (model.Date <= DateTime.Now)
             {
                 throw new ArgumentOutOfRangeException(nameof(model.Date), "cannot be in the past");
@@ -113,12 +118,21 @@ namespace ChapsDotNET.Business.Components
 
             if (publicHoliday.Date == DateTime.MinValue )
             {
-                throw new ArgumentNullException(nameof(model.Description), "Parameter Date cannot be at the begining of epoc");
+                throw new ArgumentNullException(model.Description, "cannot be at the begining of epoch");
+            }
+            if (model.Date <= DateTime.Now)
+            {
+                throw new ArgumentOutOfRangeException("Date", model.Date.ToShortDateString(), "Cannot be in the past");
             }
 
             if (string.IsNullOrEmpty(model.Description))
             {
-                throw new ArgumentNullException(nameof(model.Description), "Parameter Description cannot be empty");
+                throw new ArgumentNullException(model.Description, "cannot be empty");
+            }
+
+            if (model.Description.Length > 30)
+            {
+                throw new ArgumentOutOfRangeException("Description", model.Description, "Cannot be longer then 30 characters");
             }
 
             publicHoliday.Date = model.Date;

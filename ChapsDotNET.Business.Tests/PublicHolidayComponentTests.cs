@@ -129,6 +129,7 @@ namespace ChapsDotNET.Business.Tests
             context.PublicHolidays.First().Date.Should().HaveMonth(11);
             context.PublicHolidays.First().Date.Should().HaveYear(2022);
             context.PublicHolidays.First().PublicHolidayID.Should().Be(1);
+            
         }
 
 
@@ -153,6 +154,27 @@ namespace ChapsDotNET.Business.Tests
             await act.Should().ThrowAsync<ArgumentNullException>();
         }
 
+        [Fact(DisplayName = "Adding a Public Holiday with a description longer than 30 characters should throw an ArgumentOutOfRangeException")]
+        public async Task AddingADescriptionLongerThan30CharactersShouldThrowArgumentOutOfRangeException()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            var publicHolidayComponent = new PublicHolidayComponent(context);
+            var newrecord = new Models.PublicHolidayModel
+            {
+                PublicHolidayID = 1,
+                Description = "thedaybeforethedayafterTomorrow..........",
+                Date = new DateTime(2023, 01, 01)
+            };
+
+            //Act
+            Func<Task> act = async () => { await publicHolidayComponent.AddPublicHolidayAsync(newrecord); };
+
+            //Assert
+            await act.Should().ThrowAsync<ArgumentOutOfRangeException>();
+        }
+
         [Fact(DisplayName = "Adding a Public Holiday with a date in the past should throw an ArgumentOutOfRangeException")]
         public async Task AddingAPastDateShouldThrowException()
         {
@@ -173,5 +195,154 @@ namespace ChapsDotNET.Business.Tests
             //Assert
             await act.Should().ThrowAsync<ArgumentOutOfRangeException>();
         }
+
+        [Fact(DisplayName = "Adding a public holiday adding a future date should not throw an Exception")]
+        public async Task AddingAPublicHolidayWithAFutureDateThrowsNoException()
+        {
+            //Arrange
+            var context = DataContextFactory.Create();
+            var newmodel = new Models.PublicHolidayModel
+            {
+                PublicHolidayID = 1,
+                Description = "New Year's Day",
+                Date = new DateTime(2023, 01, 01)
+            };
+
+            var publicHolidayComponent = new PublicHolidayComponent(context);
+
+            //Act
+            Func<Task> act = async () => {
+                await publicHolidayComponent.AddPublicHolidayAsync(newmodel);
+            };
+
+            //Assert
+            await act.Should().NotThrowAsync<ArgumentOutOfRangeException>();
+
+        }
+
+        [Fact(DisplayName = "Update a public holiday adding a past date should throw an ArgumenOutOfRangeException")]
+        public async Task UpdatingHolidayAddingAPastDateThrowsArgumenOutOfRangeException()
+        {
+            //Arrange
+            var context = DataContextFactory.Create();
+            
+
+            await context.PublicHolidays.AddAsync(new PublicHoliday
+            {
+                PublicHolidayID = 1,
+                Description = "New Year's Day",
+                Date = new DateTime(2023, 01, 01)
+            });
+
+            await context.SaveChangesAsync();
+            var publicHolidayComponent = new PublicHolidayComponent(context);
+
+            //Act
+            Func<Task> act = async () => {
+                await publicHolidayComponent.UpdatePublicHolidayAsync(new Models.PublicHolidayModel
+                {
+                    PublicHolidayID = 1,
+                    Description = "New Year's Day",
+                    Date = new DateTime(2021, 01, 01)
+                });
+            };
+
+            //Assert
+            await act.Should().ThrowAsync<ArgumentOutOfRangeException>();
+            
+        }
+
+        [Fact(DisplayName = "Update a public holiday adding a future date should not throw an Exception")]
+        public async Task UpdatingHolidayAddingAFutureDateThrowsNoException()
+        {
+            //Arrange
+            var context = DataContextFactory.Create();
+
+
+            await context.PublicHolidays.AddAsync(new PublicHoliday
+            {
+                PublicHolidayID = 1,
+                Description = "New Year's Day",
+                Date = new DateTime(2022, 01, 01)
+            });
+
+            await context.SaveChangesAsync();
+            var publicHolidayComponent = new PublicHolidayComponent(context);
+
+            //Act
+            Func<Task> act = async () => {
+                await publicHolidayComponent.UpdatePublicHolidayAsync(new Models.PublicHolidayModel
+                {
+                    PublicHolidayID = 1,
+                    Description = "New Year's Day",
+                    Date = new DateTime(2023, 01, 01)
+                });
+            };
+
+            //Assert
+            await act.Should().NotThrowAsync<ArgumentOutOfRangeException>();
+
+        }
+
+        [Fact(DisplayName = "Updating a Public Holiday with empty detail should throw an ArgumentNullException")]
+        public async Task UpdatingAnEmptyDescriptionShouldThrowException()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.PublicHolidays.AddAsync(new PublicHoliday
+            {
+                PublicHolidayID = 1,
+                Description = "New Year's Day",
+                Date = new DateTime(2023, 01, 01)
+            });
+
+            var publicHolidayComponent = new PublicHolidayComponent(context);
+            await context.SaveChangesAsync();
+
+            //Act
+            Func<Task> act = async () => {
+                await publicHolidayComponent.UpdatePublicHolidayAsync(new Models.PublicHolidayModel
+                {
+                    PublicHolidayID = 1,
+                    Description = "",
+                    Date = new DateTime(2023, 01, 01)
+                });
+            };
+
+            //Assert
+            await act.Should().ThrowAsync<ArgumentNullException>();
+        }
+
+        [Fact(DisplayName = "Updating a Public Holiday with a description longer than 30 characters should throw an ArgumentOutOfRangeException")]
+        public async Task UpdatingADescriptionLongetThan30CharactersShouldThrowArgumentOutOfRangeException()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.PublicHolidays.AddAsync(new PublicHoliday
+            {
+                PublicHolidayID = 1,
+                Description = "New Year's Day",
+                Date = new DateTime(2023, 01, 01)
+            });
+
+            var publicHolidayComponent = new PublicHolidayComponent(context);
+            await context.SaveChangesAsync();
+
+            //Act
+            Func<Task> act = async () => {
+                await publicHolidayComponent.UpdatePublicHolidayAsync(new Models.PublicHolidayModel
+                {
+                    PublicHolidayID = 1,
+                    Description = "thedaybeforethedayafterTomorrow..........",
+                    Date = new DateTime(2023, 01, 01)
+                });
+            };
+
+            //Assert
+            await act.Should().ThrowAsync<ArgumentOutOfRangeException>();
+        }
+
     }
 }
