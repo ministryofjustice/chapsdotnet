@@ -117,7 +117,7 @@ namespace ChapsDotNET.Business.Components
 
             if (string.IsNullOrEmpty(model.Name))
             {
-                throw new ArgumentNullException("Parameter Detail cannot be empty");
+                throw new ArgumentNullException("Parameter Name cannot be empty");
             }
 
             team.active = model.Active;
