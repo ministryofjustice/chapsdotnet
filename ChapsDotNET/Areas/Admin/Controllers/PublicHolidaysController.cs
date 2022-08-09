@@ -56,9 +56,12 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(PublicHolidayViewModel viewModel)
         {
-            await _publicHolidayComponent.UpdatePublicHolidayAsync(viewModel.ToModel());
-            return RedirectToAction("index");
+            if (ModelState.IsValid)
+            {
+                await _publicHolidayComponent.UpdatePublicHolidayAsync(viewModel.ToModel());
+                return RedirectToAction("index");
+            }
+            return View();
         }
-
     }
 }

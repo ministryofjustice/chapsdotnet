@@ -29,12 +29,14 @@
         </div>
 
         <div class="editor-field">
-            @Html.EditorFor(model => model.Date,
-                new {
-                   htmlAttributes = new
-                   {
-                       @class = "text-box_date"
-                   }
+            @Html.EditorFor(model => model.Date, "{0:yyyy-MM-dd}", new
+                {
+                    htmlAttributes = new
+                    {
+                        @class = "future-date",
+                        @type = "date",
+                        @value = ""
+                    }
                 }
             )
             @Html.ValidationMessageFor(model => model.Date)

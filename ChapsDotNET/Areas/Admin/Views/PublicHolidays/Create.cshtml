@@ -15,7 +15,7 @@
 </div>
 
 @using (Html.BeginForm())
-    {
+{
     @Html.ValidationSummary(true)
 
     <fieldset class="form-fieldset">
@@ -32,9 +32,9 @@
             {
                 htmlAttributes = new
                 {
-                            @class = "future-date",
-                            @type = "date",
-                            @value = DateTime.Now.AddDays(1).ToShortDateString()
+                    @class = "future-date",
+                    @type = "date",
+                    @value = DateTime.Now.AddDays(1).ToShortDateString()
                 }
             })
             @Html.ValidationMessageFor(model => model.Date)
