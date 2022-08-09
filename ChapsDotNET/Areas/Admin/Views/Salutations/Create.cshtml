@@ -1,24 +1,38 @@
 ﻿@model ChapsDotNET.Models.SalutationViewModel
+
 @{
-    ViewData["Title"] = "Create New Salutation";
+    ViewData["Title"] = "Add a new salutation";
 }
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+    &nbsp;>&nbsp;
+    <a href="/Admin/Salutations">Salutations</a>
+</div>
+
 @using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>@ViewBag.Title</legend>
+
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+
         <div class="editor-label">
-            <label>Title<span alt="Mandatory field" class="required-star">*</span></label>
+            @Html.LabelFor(model => model.Detail)
         </div>
+
         <div class="editor-field">
             @Html.EditorFor(model => model.Detail)
             @Html.ValidationMessageFor(model => model.Detail)
         </div>
 
-        <p>
-            <input type="submit" value="Create" />
-        </p>
+        <input type="submit" value="Create" />
     </fieldset>
 
 }
-
