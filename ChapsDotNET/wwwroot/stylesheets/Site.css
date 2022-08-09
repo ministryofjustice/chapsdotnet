@@ -241,6 +241,10 @@ textarea {
     min-height: 75px;
 }
 
+input[type="date"] {
+    width: 18ex;
+}
+
 input[type="text"],
 input[type="password"] {
     border: 1px solid #ccc;
@@ -725,8 +729,4 @@ div#accordion h3 {
     font-size: 11.264px;
     line-height: 14.65px;
     margin-bottom: 0;
-}
-
-.text-box_date {
-    width: 18ex;
 }
