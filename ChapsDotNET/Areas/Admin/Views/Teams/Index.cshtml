@@ -1,5 +1,82 @@
 ﻿@model List<ChapsDotNET.Business.Models.TeamModel>
 
 @{
-    ViewData["Title"] = "Teams administration";
+    ViewData["Title"] = "Teams Administration";
 }
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+</div>
+    
+<h1>Teams</h1>
+
+<div class="actionLinks">
+    @Html.ActionLink("Create new Team", "Create", "Teams")
+</div>
+
+<table>
+<caption class="caption">Existing teams</caption>
+    <thead>
+    <tr>
+        <th>
+            Team Acronym
+        </th>
+        <th>
+            Team
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Private Office?
+        </th>
+        <th>
+            OGD?
+        </th>
+        <th>
+            Active
+        </th>
+        <th>
+            Deactivated
+        </th>
+        <th>
+            Deactivated By
+        </th>
+    </tr>
+    </thead>
+    @foreach (var team in Model.ToList())
+    {
+        <tr>
+            <td>
+                <a href="/Admin/Teams/Edit/@team.TeamId">
+                    @Html.DisplayFor(x => team.Acronym)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(x => team.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(x => team.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(x => team.IsPod)
+            </td>
+            <td>
+                @Html.DisplayFor(x => team.IsOgd)
+            </td>
+            <td>
+                @Html.DisplayFor(x => team.Active)
+            </td>
+@*            <td>
+                @Html.DisplayFor(x => team.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(x => team.Name)
+            </td>
+*@
+        </tr>
+    }
+</table>

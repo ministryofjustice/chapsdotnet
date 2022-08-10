@@ -1,5 +1,7 @@
 ﻿using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
+using ChapsDotNET.Common.Mappers;
+using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
@@ -18,12 +20,27 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             var pagedResult = await _teamComponent
                 .GetTeamsAsync(new TeamRequestModel
                 {
-                    PageNumber = 5,
-                    PageSize = 10,
+                    NoPaging = true,
                     ShowActiveAndInactive = true
                 });
 
             return View(pagedResult.Results);
+        }
+
+        public ActionResult Create()
+        {
+            var model = new TeamViewModel();
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Create(TeamViewModel viewModel)
+        {
+            await _teamComponent.AddTeamAsync(viewModel.ToModel());
+
+            return RedirectToAction("Index");
         }
     }
 }

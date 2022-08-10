@@ -37,8 +37,11 @@ namespace ChapsDotNET.Business.Components
             var count = await query.CountAsync();
 
             //Paging query
-            query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
-                .Take(request.PageSize);
+            if (!request.NoPaging)
+            {
+                query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
+                    .Take(request.PageSize);
+            }
 
             var teamsList = await query
                 .Select(x => new TeamModel
@@ -46,7 +49,10 @@ namespace ChapsDotNET.Business.Components
                     TeamId = x.TeamID,
                     Name = x.Name,
                     Acronym = x.Acronym,
-                    Active = x.active
+                    Active = x.active,
+                    Email = x.email,
+                    IsOgd = x.isOGD,
+                    IsPod = x.isPOD
                 }).ToListAsync();
 
             return new PagedResult<List<TeamModel>>
@@ -69,7 +75,11 @@ namespace ChapsDotNET.Business.Components
                 {
                     TeamId = x.TeamID,
                     Name = x.Name,
-                    Acronym = x.Acronym
+                    Acronym = x.Acronym,
+                    Active = x.active,
+                    Email = x.email,
+                    IsOgd = x.isOGD,
+                    IsPod = x.isPOD
                 }).SingleOrDefaultAsync();
 
             if (team == null)
