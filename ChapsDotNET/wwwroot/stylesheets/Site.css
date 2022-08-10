@@ -72,6 +72,15 @@ table.statement td {
 
 /* Table stuff */
 
+.caption {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 15px;
+    text-align: left;
+    width: max-content;
+}
+
 th {
     text-align: left;
     background-color: #dddddd;
@@ -212,11 +221,6 @@ footer,
 ----------------------------------------------------------*/
 
 fieldset {
-    /*
-    border: 1px solid #ddd;
-    padding: 0 1.4em 1.4em 1.4em;
-    margin: 0 0 1.5em 0;
-    */
     border: 0;
     padding: 0;
     margin: 0;
@@ -229,11 +233,6 @@ fieldset .FieldsetCR {
 }
 
 legend {
-    /*
-    font-size: 1.2em;
-    font-weight: bold;
-    display: inline;
-    */
     margin-bottom: 15px;
 }
 
@@ -281,7 +280,7 @@ input[type="submit"] {
 /* MISC  
 ----------------------------------------------------------*/
 
-.actionLinks, .breadcrumbs {
+.actionLinks, .breadcrumbs {    
     padding: 0.8em 0;
 }
 
@@ -437,10 +436,6 @@ ul.recordMenu-tabs > li > a {
 
 .display-label,
 .editor-label {
-    /*
-    clear: both;
-    float: left;
-    */
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
@@ -448,12 +443,6 @@ ul.recordMenu-tabs > li > a {
 }
 
 .editor-field {
-    /*
-    font-size: 1em;
-    padding: 2px;
-    height: 15px;
-    line-height: normal;
-    */
     margin-bottom: 15px;
 }
 
@@ -729,4 +718,8 @@ div#accordion h3 {
     font-size: 11.264px;
     line-height: 14.65px;
     margin-bottom: 0;
+}
+
+.text-box_date {
+    width: 18ex;
 }
