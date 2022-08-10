@@ -42,5 +42,19 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+        public async Task<ActionResult> Edit(int id)
+        {
+            var model = await _teamComponent.GetTeamAsync(id);
+
+            return View(model.ToViewModel());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(TeamViewModel viewModel)
+        {
+            await _teamComponent.UpdateTeamAsync(viewModel.ToModel());
+
+            return RedirectToAction("index");
+        }
     }
 }
