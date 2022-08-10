@@ -1,26 +1,19 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <title>@ViewBag.Title</title>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="~/stylesheets/menuBar.css" />
-        <link rel="stylesheet" type="text/css" media="print" href="~/stylesheets/menuBarPrint.css" />
-        <link rel="stylesheet" type="text/css" href="~/stylesheets/themes/base/jquery-ui-custom.min.css" />
-        <link rel="stylesheet" type="text/css" href="~/stylesheets/site.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/stylesheets/menuBar.css")" />
+        <link rel="stylesheet" type="text/css" media="print" href="@Url.Content("~/stylesheets/menuBarPrint.css")" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/Site.css")" />
 
         @RenderSection("head", false)
 
-        @*@functions{
-            public string TokenHeaderValue()
-            {
-                string cookieToken, formToken;
-                AntiForgery.GetTokens(null, out cookieToken, out formToken);
-                return cookieToken + ":" + formToken;
-            }
-        }*@
+
     </head>
     <body>
         @*@{Html.RenderAction("DisplayAlerts", "Home", new { area = "" });}*@
@@ -74,8 +67,8 @@
                     var ServerName = "";
                     if (ServerName != "PRODUCTION") {
                         $('#menuBar li, #menuBar li.leftText, #MenuContainer, .helpButton').css('background-color', '#1d73e8');
-                        $('#first').css('background-image', 'url("images/blue_nav_left_corner_bottom.gif")');
-                        $('#MenuContainer').css('background-image', 'url("images/blue_nav_right_corner_bottom.gif")');
+                        $('#first').css('background-image', 'url("../images/blue_nav_left_corner_bottom.gif")');
+                        $('#MenuContainer').css('background-image', 'url("../images/blue_nav_right_corner_bottom.gif")');
                     }
 
                     @*var TOKENHEADERVALUE = '@TokenHeaderValue()';*@

@@ -1,49 +1,52 @@
 ﻿@using ChapsDotNET.Common.Helpers
 @model ChapsDotNET.Business.Models.Common.PagedResult<List<ChapsDotNET.Business.Models.SalutationModel>>
 @{
-    ViewData["Title"] = "Salutations List";
+    ViewData["Title"] = "Salutations Administration";
 }
+@section head{
+    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+}
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+</div>
 
 <h1>Salutations</h1>
-<p>
-    <a href='@Url.Action("Create", "Salutations")'>
-        <img src='@Url.Content("~/images/add.png")' alt="Create new salutation" />
-        Create new Salutation
-    </a>
-</p>
+
+<div class="actionLinks">
+    @Html.ActionLink("Create new Salutation", "Create", "Salutations")
+</div>
 
 <table>
+    <caption class="caption">Existing salutations</caption>
     <thead>
-    <tr>
-        <th>
-            Id
-        </th>
-        <th>
-            Title
-        </th>
-        <th>
-            Active
-        </th>
-    </tr>
-    </thead>
-    @foreach (var salutation in Model.Results.ToList())
-    {
         <tr>
-            <td>
-                <a href='@Url.Action("Edit", "Salutations", new { id = salutation.SalutationId }, null, null)'>
-                    <img src='@Url.Content("~/images/edit.png")' alt="Edit @salutation.Detail" />
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(x => salutation.SalutationId)
-            </td>
-            <td>
-                @Html.DisplayFor(x => salutation.Detail)
-            </td>
-            <td>
-                @Html.DisplayFor(x => salutation.Active)
-            </td>
+            <th>
+                Title
+            </th>
+            <th>
+                Active
+            </th>
         </tr>
+    </thead>
+    @if (Model.Results != null)
+    {
+        @foreach (var salutation in Model.Results.ToList())
+        {
+            <tr>
+                <td>
+                    <a href="/Admin/Salutations/Edit/@salutation.SalutationId">
+                        @Html.DisplayFor(x => salutation.Detail)
+                    </a>
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(x => salutation.Active)
+                </td>
+            </tr>
+        }
     }
 </table>
 <div>
