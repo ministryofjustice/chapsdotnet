@@ -1,4 +1,4 @@
-﻿input.pageButton, button.pageButton, a.pageButton
+﻿input.pageButton, button.pageButton
 {
 	float:left;
     display: inline;
@@ -89,9 +89,9 @@ input.pageButton.img.last.enabled, button.pageButton.img.last.enabled
 {
 	background: url('./Images/page_last_enabled.png') no-repeat center;
 }
-input.pageButton.img.first.disabled, button.pageButton.img.first.disabled 
+input.pageButton.img.first.disabled, button.pageButton.img.first.disabled
 {
-    background: url('./Images/page_first_disabled.png') no-repeat center;
+	background: url('./Images/page_first_disabled.png') no-repeat center;
 }
 input.pageButton.img.prev.disabled, button.pageButton.img.prev.disabled 
 {
@@ -108,11 +108,4 @@ input.pageButton.img.last.disabled, button.pageButton.img.last.disabled
 input[pageButton], button[pageButton]
 {
     width: auto;
-}
-
-a.pageButton.img.first.disabled {
-    background: url('./Images/page_first_disabled.png') no-repeat 6px center;
-    display: block;
-    height: 120px;
-    width: 120px;
 }
