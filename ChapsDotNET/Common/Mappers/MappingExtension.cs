@@ -31,7 +31,7 @@ namespace ChapsDotNET.Common.Mappers
             {
                 Description = model.Description,
                 Date = model.Date,
-                PublicHolidayID = model.PublicHolidayID,
+                PublicHolidayId = model.PublicHolidayId,
             };
         }
 
@@ -41,7 +41,7 @@ namespace ChapsDotNET.Common.Mappers
             {
                 Description = viewModel.Description,
                 Date = viewModel.Date,
-                PublicHolidayID = viewModel.PublicHolidayID,
+                PublicHolidayId = viewModel.PublicHolidayId,
             };
         }
     }

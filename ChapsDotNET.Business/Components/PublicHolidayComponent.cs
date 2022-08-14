@@ -32,13 +32,16 @@ namespace ChapsDotNET.Business.Components
             var count = await query.CountAsync();
 
             //Paging query
-            query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
-                .Take(request.PageSize);
+            if (!request.NoPaging)
+            {
+                query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
+                    .Take(request.PageSize);
+            }
 
             var holidaysList = await query
                 .Select(x => new PublicHolidayModel
                 {
-                    PublicHolidayID = x.PublicHolidayID,
+                    PublicHolidayId = x.PublicHolidayID,
                     Date = x.Date,
                     Description = x.Description
                 }).ToListAsync();
@@ -61,7 +64,7 @@ namespace ChapsDotNET.Business.Components
             var publicHoliday = await query
                 .Select(x => new PublicHolidayModel
                 {
-                    PublicHolidayID = x.PublicHolidayID,
+                    PublicHolidayId = x.PublicHolidayID,
                     Description = x.Description,
                     Date = x.Date
                 }).SingleOrDefaultAsync();
@@ -81,7 +84,7 @@ namespace ChapsDotNET.Business.Components
         {
             if (string.IsNullOrEmpty(model.Description))
             {
-                throw new ArgumentNullException(nameof(model.Description),"cannot be empty");
+                throw new ArgumentNullException(nameof(model.Description), "cannot be empty");
             }
 
             if (model.Description.Length > 30)
@@ -98,7 +101,7 @@ namespace ChapsDotNET.Business.Components
             {
                 Date = model.Date,
                 Description = model.Description,
-                PublicHolidayID = model.PublicHolidayID
+                PublicHolidayID = model.PublicHolidayId
             };
 
             await _context.PublicHolidays.AddAsync(publicHoliday);
@@ -106,17 +109,17 @@ namespace ChapsDotNET.Business.Components
             return publicHoliday.PublicHolidayID;
         }
 
-        
+
         public async Task UpdatePublicHolidayAsync(PublicHolidayModel model)
         {
-            var publicHoliday = await _context.PublicHolidays.FirstOrDefaultAsync(x => x.PublicHolidayID == model.PublicHolidayID);
+            var publicHoliday = await _context.PublicHolidays.FirstOrDefaultAsync(x => x.PublicHolidayID == model.PublicHolidayId);
 
             if (publicHoliday == null)
             {
-                throw new NotFoundException("Public Holiday", model.PublicHolidayID.ToString());
+                throw new NotFoundException("Public Holiday", model.PublicHolidayId.ToString());
             }
 
-            if (publicHoliday.Date == DateTime.MinValue )
+            if (publicHoliday.Date == DateTime.MinValue)
             {
                 throw new ArgumentNullException(model.Description, "cannot be at the begining of epoch");
             }

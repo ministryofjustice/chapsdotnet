@@ -34,7 +34,7 @@ namespace ChapsDotNET.Business.Tests
             result.Results.Should().NotBeNull();
             result.Results.Should().HaveCount(1);
             result.Results?.First().Description.Should().Be("May the forth be with you");
-            result.Results?.First().PublicHolidayID.Should().Be(1);
+            result.Results?.First().PublicHolidayId.Should().Be(1);
             result.Results?.First().Date.Should().HaveDay(4);
             result.Results?.First().Date.Should().HaveMonth(5);
             result.Results?.First().Date.Should().HaveYear(2022);
@@ -98,7 +98,7 @@ namespace ChapsDotNET.Business.Tests
             result.Date.Should().HaveDay(01);
             result.Date.Should().HaveMonth(05);
             result.Date.Should().HaveYear(2022);
-            result.PublicHolidayID.Should().Be(2);
+            result.PublicHolidayId.Should().Be(2);
             result.Description.Should().Be("Beltane");
         }
 
@@ -112,7 +112,7 @@ namespace ChapsDotNET.Business.Tests
             var publicHolidayComponent = new PublicHolidayComponent(context);
             var newrecord = new Models.PublicHolidayModel
             {
-                PublicHolidayID = 1,
+                PublicHolidayId = 1,
                 Description = "Samhain",
                 Date = new DateTime(2022, 11, 01)
             };
@@ -142,7 +142,7 @@ namespace ChapsDotNET.Business.Tests
             var publicHolidayComponent = new PublicHolidayComponent(context);
             var newrecord = new Models.PublicHolidayModel
             {
-                PublicHolidayID = 1,
+                PublicHolidayId = 1,
                 Description = "",
                 Date = new DateTime(2023, 01, 01)
             };
@@ -163,7 +163,7 @@ namespace ChapsDotNET.Business.Tests
             var publicHolidayComponent = new PublicHolidayComponent(context);
             var newrecord = new Models.PublicHolidayModel
             {
-                PublicHolidayID = 1,
+                PublicHolidayId = 1,
                 Description = "thedaybeforethedayafterTomorrow..........",
                 Date = new DateTime(2023, 01, 01)
             };
@@ -184,7 +184,7 @@ namespace ChapsDotNET.Business.Tests
             var publicHolidayComponent = new PublicHolidayComponent(context);
             var newrecord = new Models.PublicHolidayModel
             {
-                PublicHolidayID = 1,
+                PublicHolidayId = 1,
                 Description = "New Year's Day",
                 Date = new DateTime(2022, 01, 01)
             };
@@ -203,7 +203,7 @@ namespace ChapsDotNET.Business.Tests
             var context = DataContextFactory.Create();
             var newmodel = new Models.PublicHolidayModel
             {
-                PublicHolidayID = 1,
+                PublicHolidayId = 1,
                 Description = "New Year's Day",
                 Date = new DateTime(2023, 01, 01)
             };
@@ -241,7 +241,7 @@ namespace ChapsDotNET.Business.Tests
             Func<Task> act = async () => {
                 await publicHolidayComponent.UpdatePublicHolidayAsync(new Models.PublicHolidayModel
                 {
-                    PublicHolidayID = 1,
+                    PublicHolidayId = 1,
                     Description = "New Year's Day",
                     Date = new DateTime(2021, 01, 01)
                 });
@@ -273,7 +273,7 @@ namespace ChapsDotNET.Business.Tests
             Func<Task> act = async () => {
                 await publicHolidayComponent.UpdatePublicHolidayAsync(new Models.PublicHolidayModel
                 {
-                    PublicHolidayID = 1,
+                    PublicHolidayId = 1,
                     Description = "New Year's Day",
                     Date = new DateTime(2023, 01, 01)
                 });
@@ -304,7 +304,7 @@ namespace ChapsDotNET.Business.Tests
             Func<Task> act = async () => {
                 await publicHolidayComponent.UpdatePublicHolidayAsync(new Models.PublicHolidayModel
                 {
-                    PublicHolidayID = 1,
+                    PublicHolidayId = 1,
                     Description = "",
                     Date = new DateTime(2023, 01, 01)
                 });
@@ -334,7 +334,7 @@ namespace ChapsDotNET.Business.Tests
             Func<Task> act = async () => {
                 await publicHolidayComponent.UpdatePublicHolidayAsync(new Models.PublicHolidayModel
                 {
-                    PublicHolidayID = 1,
+                    PublicHolidayId = 1,
                     Description = "thedaybeforethedayafterTomorrow..........",
                     Date = new DateTime(2023, 01, 01)
                 });

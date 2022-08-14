@@ -2,7 +2,7 @@
 {
     public class PublicHolidayModel
     {
-        public int PublicHolidayID { get; set; }
+        public int PublicHolidayId { get; set; }
         public DateTime Date { get; set; }
         public string? Description { get; set; }
     }

@@ -22,8 +22,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             var pagedResult = await _publicHolidayComponent
                 .GetPublicHolidaysAsync(new PublicHolidayRequestModel
                 {
-                    PageNumber = 5,
-                    PageSize = 10,
+                    NoPaging = true
                 });
 
             return View(pagedResult.Results);
@@ -31,8 +30,11 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
         public ActionResult Create()
         {
-            var model = new PublicHolidayViewModel();
-            model.Date = DateTime.Now.AddDays(1);
+            var model = new PublicHolidayViewModel
+            {
+                Date = DateTime.Now.AddDays(1)
+            };
+
             return View(model);
         }
 
