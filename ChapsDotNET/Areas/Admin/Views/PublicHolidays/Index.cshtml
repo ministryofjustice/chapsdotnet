@@ -1,0 +1,46 @@
+﻿@model List<ChapsDotNET.Business.Models.PublicHolidayModel>
+
+@{
+    ViewData["Title"] = "Public holidays administration";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+</div>
+
+<h1>Public Holidays</h1>
+
+<div class="actionLinks">
+    @Html.ActionLink("Add a new public holiday", "Create", "PublicHolidays")
+</div>
+
+<table>
+    <caption class="caption">Existing public holidays</caption>
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+    </thead>
+    @foreach (var publicHoliday in Model.ToList())
+    {
+        <tr>
+            <td>
+                <a href="/Admin/PublicHolidays/Edit/@publicHoliday.PublicHolidayId">    
+                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", publicHoliday.Date))
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(x => publicHoliday.Description)
+            </td>
+        </tr>
+    }
+</table>

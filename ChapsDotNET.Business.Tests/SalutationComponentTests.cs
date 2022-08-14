@@ -219,15 +219,10 @@ namespace ChapsDotNET.Business.Tests
 
             // Assert
             result.Detail.Should().BeNull();
-
-            //result.Detail.Should().Be("Ms");
-            //result.SalutationId.Should().Be(54);
-            //result.Active.Should().BeTrue();
-
-
         }
 
-        [Fact(DisplayName = "Add a Salutation to the database when calling the AddSalutation method returns Success")]
+
+        [Fact(DisplayName = "Add a Salutation to the database when calling the AddSalutation method returns correct salutationID")]
         public async Task AddASalutationToTheDatabase()
         {
             // Arrange
