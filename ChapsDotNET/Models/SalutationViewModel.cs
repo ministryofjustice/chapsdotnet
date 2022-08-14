@@ -8,6 +8,5 @@ namespace ChapsDotNET.Models
         [Required, MaxLength(10), Display(Name = "Title")]
         public string? Detail { get; set; }
         public bool Active { get; set; }
-
     }
 }

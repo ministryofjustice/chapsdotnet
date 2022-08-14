@@ -90,8 +90,6 @@ namespace ChapsDotNET.Business.Components
             return salutation.salutationID;
         }
 
-
-
         public async Task UpdateSalutationAsync(SalutationModel model)
         {
             var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
@@ -108,9 +106,7 @@ namespace ChapsDotNET.Business.Components
 
             salutation.active = model.Active;
             salutation.Detail = model.Detail;
-
             await _context.SaveChangesAsync();
         }
     }
 }
-

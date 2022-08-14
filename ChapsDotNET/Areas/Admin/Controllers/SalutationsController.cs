@@ -32,23 +32,19 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public ActionResult Create()
         {
             var model = new SalutationViewModel();
-
             return View(model);
         }
-
 
         [HttpPost]
         public async Task<ActionResult> Create(SalutationViewModel viewModel)
         {
             await _salutationComponent.AddSalutationAsync(viewModel.ToModel());
-
             return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> Edit(int id)
         {
             var model = await _salutationComponent.GetSalutationAsync(id);
-
             return View(model.ToViewModel());
         }
 
@@ -56,9 +52,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<ActionResult> Edit(SalutationViewModel viewModel)
         {
             await _salutationComponent.UpdateSalutationAsync(viewModel.ToModel());
-
             return RedirectToAction("index");
         }
-
     }
 }

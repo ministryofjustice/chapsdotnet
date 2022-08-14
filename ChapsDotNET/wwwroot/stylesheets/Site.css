@@ -240,6 +240,10 @@ textarea {
     min-height: 75px;
 }
 
+input[type="date"] {
+    width: 18ex;
+}
+
 input[type="text"],
 input[type="password"] {
     border: 1px solid #ccc;
@@ -380,8 +384,22 @@ input[sortButton] {
 }
 
 .validation-summary-errors {
-    font-weight: bold;
-    color: #ff0000;
+    border: 5px solid #f00;
+    padding: 20px;
+}
+
+.validation-summary-errors ul {
+    padding: 0;
+}
+
+.validation-summary-errors li {
+    color: #f00;
+    font-size: 1.1875rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    line-height: 1.3157894737;
+    list-style-type: none;
 }
 
 .validation-summary-valid {
@@ -427,6 +445,7 @@ ul.recordMenu-tabs > li > a {
 .editor-field {
     margin-bottom: 15px;
 }
+
 
 .display-field {
     margin-left: 17em;
