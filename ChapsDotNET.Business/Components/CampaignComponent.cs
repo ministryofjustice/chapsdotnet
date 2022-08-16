@@ -58,64 +58,66 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
-        //public async Task<SalutationModel> GetSalutationAsync(int id)
-        //{
-        //    var query = _context.Salutations.AsQueryable();
-        //    query = query.Where(x => x.salutationID == id);
 
-        //    var salutation = await query
-        //        .Select(x => new SalutationModel
-        //        {
-        //            SalutationId = x.salutationID,
-        //            Detail = x.Detail,
-        //            Active = x.active
-        //        }).SingleOrDefaultAsync();
 
-        //    if (salutation == null)
-        //    {
-        //        return new SalutationModel
-        //        {
-        //            Detail = null
-        //        };
-        //    }
-        //    return salutation;
-        //}
+        public async Task<CampaignModel> GetCampaignAsync(int id)
+        {
+            var query = _context.Campaigns.AsQueryable();
+            query = query.Where(x => x.CampaignID == id);
 
-        //public async Task<int> AddSalutationAsync(SalutationModel model)
-        //{
-        //    if (string.IsNullOrEmpty(model.Detail))
-        //    {
-        //        throw new ArgumentNullException("Parameter Detail cannot be empty");
-        //    }
+            var campaign = await query
+                .Select(x => new CampaignModel
+                {
+                    CampaignId = x.CampaignID,
+                    Detail = x.Detail,
+                    Active = x.active
+                }).SingleOrDefaultAsync();
 
-        //    var salutation = new Salutation
-        //    {
-        //        active = true,
-        //        Detail = model.Detail
-        //    };
+            if (campaign == null)
+            {
+                return new CampaignModel
+                {
+                    Detail = string.Empty
+                };
+            }
+            return campaign;
+        }
 
-        //    await _context.Salutations.AddAsync(salutation);
-        //    await _context.SaveChangesAsync();
-        //    return salutation.salutationID;
-        //}
+        public async Task<int> AddCampaignAsync(CampaignModel model)
+        {
+            if (string.IsNullOrEmpty(model.Detail))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
 
-        //public async Task UpdateSalutationAsync(SalutationModel model)
-        //{
-        //    var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
+            var campaign = new Campaign
+            {
+                active = true,
+                Detail = model.Detail
+            };
 
-        //    if (salutation == null)
-        //    {
-        //        throw new NotFoundException("Salutation", model.SalutationId.ToString());
-        //    }
+            await _context.Campaigns.AddAsync(campaign);
+            await _context.SaveChangesAsync();
+            return campaign.CampaignID;
+        }
 
-        //    if (string.IsNullOrEmpty(model.Detail))
-        //    {
-        //        throw new ArgumentNullException("Parameter Detail cannot be empty");
-        //    }
+        public async Task UpdateCampaignAsync(CampaignModel model)
+        {
+            var campaign = await _context.Campaigns.FirstOrDefaultAsync(x => x.CampaignID == model.CampaignId);
 
-        //    salutation.active = model.Active;
-        //    salutation.Detail = model.Detail;
-        //    await _context.SaveChangesAsync();
-        //}
+            if (campaign == null)
+            {
+                throw new NotFoundException("Campaign", model.CampaignId.ToString());
+            }
+
+            if (string.IsNullOrEmpty(model.Detail))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
+
+            campaign.active = model.Active;
+            campaign.Detail = model.Detail;
+            await _context.SaveChangesAsync();
+        }
     }
 }

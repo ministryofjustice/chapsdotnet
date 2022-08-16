@@ -155,208 +155,208 @@ namespace ChapsDotNET.Business.Tests
         }
 
 
-        //[Fact(DisplayName = "Get a specific Campaign")]
-        //public async Task GetCampaignAsync()
-        //{
-        //    // Arrange
-        //    var context = DataContextFactory.Create();
-        //    await context.Campaigns.AddAsync(new Campaign
-        //    {
-        //        CampaignID = 2,
-        //        Detail = "Mrs",
-        //        active = true
-        //    });
+        [Fact(DisplayName = "Get a specific Campaign")]
+        public async Task GetCampaignAsync()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+            await context.Campaigns.AddAsync(new Campaign
+            {
+                CampaignID = 2,
+                Detail = "Summer 2022",
+                active = true
+            });
 
-        //    await context.Campaigns.AddAsync(new Campaign
-        //    {
-        //        CampaignID = 53,
-        //        Detail = "Ms",
-        //        active = true
-        //    });
+            await context.Campaigns.AddAsync(new Campaign
+            {
+                CampaignID = 53,
+                Detail = "Winter 2022",
+                active = true
+            });
 
-        //    await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-        //    var CampaignComponent = new CampaignComponent(context);
+            var CampaignComponent = new CampaignComponent(context);
 
-        //    // Act
-        //    var result = await CampaignComponent.GetCampaignsAsync(53);
+            // Act
+            var result = await CampaignComponent.GetCampaignAsync(53);
 
-        //    // Assert
-        //    result.Should().NotBeNull();
+            // Assert
+            result.Should().NotBeNull();
 
-        //    result.Detail.Should().Be("Ms");
-        //    result.CampaignId.Should().Be(53);
-        //    result.Active.Should().BeTrue();
-
-
-        //}
-
-        //[Fact(DisplayName = "What happens for the wrong Campaign id?")]
-        //public async Task GetWrongCampaignAsync()
-        //{
-        //    // Arrange
-        //    var context = DataContextFactory.Create();
-        //    await context.Campaigns.AddAsync(new Campaign
-        //    {
-        //        CampaignID = 2,
-        //        Detail = "Mrs",
-        //        active = true
-        //    });
-
-        //    await context.Campaigns.AddAsync(new Campaign
-        //    {
-        //        CampaignID = 54,
-        //        Detail = "Ms",
-        //        active = true
-        //    });
-
-        //    await context.SaveChangesAsync();
-
-        //    var CampaignComponent = new CampaignComponent(context);
-
-        //    // Act
-        //    var result = await CampaignComponent.GetCampaignAsync(53);
-
-        //    // Assert
-        //    result.Detail.Should().BeNull();
-        //}
+            result.Detail.Should().Be("Winter 2022");
+            result.CampaignId.Should().Be(53);
+            result.Active.Should().BeTrue();
 
 
-        //[Fact(DisplayName = "Add a Campaign to the database when calling the AddCampaign method returns correct CampaignID")]
-        //public async Task AddACampaignToTheDatabase()
-        //{
-        //    // Arrange
-        //    var context = DataContextFactory.Create();
+        }
 
-        //    var CampaignComponent = new CampaignComponent(context);
-        //    var newrecord = new Models.CampaignModel
-        //    {
-        //        CampaignId = 1,
-        //        Detail = "AAA",
-        //        Active = true
-        //    };
+        [Fact(DisplayName = "What happens for the wrong Campaign id?")]
+        public async Task GetWrongCampaignAsync()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+            await context.Campaigns.AddAsync(new Campaign
+            {
+                CampaignID = 2,
+                Detail = "Summer 2022",
+                active = true
+            });
 
-        //    // Act
-        //    var result = await CampaignComponent.AddCampaignAsync(newrecord);
+            await context.Campaigns.AddAsync(new Campaign
+            {
+                CampaignID = 54,
+                Detail = "Winter 2022",
+                active = true
+            });
 
+            await context.SaveChangesAsync();
 
-        //    // Assert
-        //    result.Should().NotBe(0);
-        //    context.Campaigns.First().Detail.Should().Be("AAA");
-        //    context.Campaigns.First().active.Should().Be(true);
+            var CampaignComponent = new CampaignComponent(context);
 
-        //}
+            // Act
+            var result = await CampaignComponent.GetCampaignAsync(53);
 
-        //[Fact(DisplayName = "Adding a Campaign with empty detail should throw an ArgumentNullException")]
-        //public async Task AddingAnEmptyTitleShouldThrowException()
-        //{
-        //    // Arrange
-        //    var context = DataContextFactory.Create();
-
-        //    var CampaignComponent = new CampaignComponent(context);
-        //    var newrecord = new Models.CampaignModel
-        //    {
-        //        CampaignId = 1,
-        //        Detail = "",
-        //        Active = true
-        //    };
-
-        //    //Act
-        //    Func<Task> act = async () => { await CampaignComponent.AddCampaignAsync(newrecord); };
-
-        //    //Assert
-        //    await act.Should().ThrowAsync<ArgumentNullException>();
-        //}
+            // Assert
+            result.Detail.Should().BeEmpty();
+        }
 
 
-        //[Fact(DisplayName = "Updating active status on a Campaign from the database when calling the UpdateCampaignActiveStatus")]
-        //public async Task UpdateActiveStatusOnACampaign()
-        //{
-        //    // Arrange
-        //    var context = DataContextFactory.Create();
+        [Fact(DisplayName = "Add a Campaign to the database when calling the AddCampaign method returns correct CampaignID")]
+        public async Task AddACampaignToTheDatabase()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
 
-        //    await context.Campaigns.AddAsync(new Campaign
-        //    {
-        //        CampaignID = 1,
-        //        Detail = "AAA",
-        //        active = true
-        //    });
+            var CampaignComponent = new CampaignComponent(context);
+            var newrecord = new Models.CampaignModel
+            {
+                CampaignId = 1,
+                Detail = "AAA",
+                Active = true
+            };
 
-        //    await context.SaveChangesAsync();
+            // Act
+            var result = await CampaignComponent.AddCampaignAsync(newrecord);
 
-        //    var CampaignComponent = new CampaignComponent(context);
 
-        //    // Act
-        //    await CampaignComponent.UpdateCampaignAsync(new Models.CampaignModel
-        //    {
-        //        CampaignId = 1,
-        //        Active = false,
-        //        Detail = "BBB"
-        //    });
+            // Assert
+            result.Should().NotBe(0);
+            context.Campaigns.First().Detail.Should().Be("AAA");
+            context.Campaigns.First().active.Should().Be(true);
 
-        //    // Assert
+        }
 
-        //    context.Campaigns.First().Detail.Should().Be("BBB");
-        //    context.Campaigns.First().active.Should().BeFalse();
-        //}
+        [Fact(DisplayName = "Adding a Campaign with empty detail should throw an ArgumentNullException")]
+        public async Task AddingAnEmptyTitleShouldThrowException()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
 
-        //[Fact(DisplayName = "Updating active status on a Campaign when calling the UpdateCampaignAsync with no Id")]
-        //public async Task UpdateActiveStatusOnACampaignWithNoIDShouldThrowAnException()
-        //{
-        //    // Arrange
-        //    var context = DataContextFactory.Create();
+            var CampaignComponent = new CampaignComponent(context);
+            var newrecord = new Models.CampaignModel
+            {
+                CampaignId = 1,
+                Detail = "",
+                Active = true
+            };
 
-        //    await context.Campaigns.AddAsync(new Campaign
-        //    {
-        //        CampaignID = 1,
-        //        Detail = "AAA",
-        //        active = true
-        //    });
+            //Act
+            Func<Task> act = async () => { await CampaignComponent.AddCampaignAsync(newrecord); };
 
-        //    await context.SaveChangesAsync();
+            //Assert
+            await act.Should().ThrowAsync<ArgumentNullException>();
+        }
 
-        //    var CampaignComponent = new CampaignComponent(context);
 
-        //    // Act
+        [Fact(DisplayName = "Updating active status on a Campaign from the database when calling the UpdateCampaignActiveStatus")]
+        public async Task UpdateActiveStatusOnACampaign()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
 
-        //    Func<Task> act = async () => { await CampaignComponent.UpdateCampaignAsync(new Models.CampaignModel()); };
+            await context.Campaigns.AddAsync(new Campaign
+            {
+                CampaignID = 1,
+                Detail = "AAA",
+                active = true
+            });
 
-        //    //Assert
-        //    await act.Should().ThrowAsync<NotFoundException>();
-        //}
+            await context.SaveChangesAsync();
 
-        //[Fact(DisplayName = "Updating Campaign with Empty Detail should throw an ArgumentNullException")]
-        //public async Task UpdateCampaignWithNoDetailShouldThrowAnException()
-        //{
-        //    // Arrange
-        //    var context = DataContextFactory.Create();
+            var CampaignComponent = new CampaignComponent(context);
 
-        //    await context.Campaigns.AddAsync(new Campaign
-        //    {
-        //        CampaignID = 1,
-        //        Detail = "AAA",
-        //        active = true
-        //    });
+            // Act
+            await CampaignComponent.UpdateCampaignAsync(new Models.CampaignModel
+            {
+                CampaignId = 1,
+                Active = false,
+                Detail = "BBB"
+            });
 
-        //    await context.SaveChangesAsync();
+            // Assert
 
-        //    var CampaignComponent = new CampaignComponent(context);
+            context.Campaigns.First().Detail.Should().Be("BBB");
+            context.Campaigns.First().active.Should().BeFalse();
+        }
 
-        //    // Act
+        [Fact(DisplayName = "Updating active status on a Campaign when calling the UpdateCampaignAsync with no Id")]
+        public async Task UpdateActiveStatusOnACampaignWithNoIDShouldThrowAnException()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
 
-        //    Func<Task> act = async () =>
-        //    {
-        //        await CampaignComponent.UpdateCampaignAsync(new Models.CampaignModel
-        //        {
-        //            Detail = string.Empty,
-        //            CampaignId = 1,
-        //            Active = true
-        //        });
-        //    };
+            await context.Campaigns.AddAsync(new Campaign
+            {
+                CampaignID = 1,
+                Detail = "AAA",
+                active = true
+            });
 
-        //    //Assert
-        //    await act.Should().ThrowAsync<ArgumentNullException>();
-        //}
+            await context.SaveChangesAsync();
+
+            var CampaignComponent = new CampaignComponent(context);
+
+            // Act
+
+            Func<Task> act = async () => { await CampaignComponent.UpdateCampaignAsync(new Models.CampaignModel()); };
+
+            //Assert
+            await act.Should().ThrowAsync<NotFoundException>();
+        }
+
+        [Fact(DisplayName = "Updating Campaign with Empty Detail should throw an ArgumentNullException")]
+        public async Task UpdateCampaignWithNoDetailShouldThrowAnException()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.Campaigns.AddAsync(new Campaign
+            {
+                CampaignID = 1,
+                Detail = "AAA",
+                active = true
+            });
+
+            await context.SaveChangesAsync();
+
+            var CampaignComponent = new CampaignComponent(context);
+
+            // Act
+
+            Func<Task> act = async () =>
+            {
+                await CampaignComponent.UpdateCampaignAsync(new Models.CampaignModel
+                {
+                    Detail = string.Empty,
+                    CampaignId = 1,
+                    Active = true
+                });
+            };
+
+            //Assert
+            await act.Should().ThrowAsync<ArgumentNullException>();
+        }
 
     }
 }
