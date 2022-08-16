@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Components;
+using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
@@ -28,30 +29,30 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return View(pagedResult.Results);
         }
 
-        //public ActionResult Create()
-        //{
-        //    var model = new SalutationViewModel();
-        //    return View(model);
-        //}
+        public ActionResult Create()
+        {
+            var model = new CampaignViewModel();
+            return View(model);
+        }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Create(SalutationViewModel viewModel)
-        //{
-        //    await _salutationComponent.AddSalutationAsync(viewModel.ToModel());
-        //    return RedirectToAction("Index");
-        //}
+        [HttpPost]
+        public async Task<ActionResult> Create(CampaignViewModel viewModel)
+        {
+            await _campaignComponent.AddCampaignAsync(viewModel.ToModel());
+            return RedirectToAction("Index");
+        }
 
-        //public async Task<ActionResult> Edit(int id)
-        //{
-        //    var model = await _salutationComponent.GetSalutationAsync(id);
-        //    return View(model.ToViewModel());
-        //}
+        public async Task<ActionResult> Edit(int id)
+        {
+            var model = await _campaignComponent.GetCampaignAsync(id);
+            return View(model.ToViewModel());
+        }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Edit(SalutationViewModel viewModel)
-        //{
-        //    await _salutationComponent.UpdateSalutationAsync(viewModel.ToModel());
-        //    return RedirectToAction("index");
-        //}
+        [HttpPost]
+        public async Task<ActionResult> Edit(CampaignViewModel viewModel)
+        {
+            await _campaignComponent.UpdateCampaignAsync(viewModel.ToModel());
+            return RedirectToAction("index");
+        }
     }
 }
