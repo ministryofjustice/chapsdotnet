@@ -1,0 +1,56 @@
+﻿@model List<ChapsDotNET.Business.Models.MoJMinisterModel>
+
+@{
+    ViewData["Title"] = "MoJ Minister administration";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+</div>
+
+<h1>MoJ Ministers</h1>
+
+<div class="actionLinks">
+    @Html.ActionLink("Add a new MoJ Minister", "Create", "MoJMinisters")
+</div>
+
+<table>
+    <caption class="caption">Existing MoJ Ministers</caption>
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Position
+            </th>
+            <th>
+                Active
+            </th>
+        </tr>
+    </thead>
+    @foreach (var mojminister in Model.ToList())
+    {
+        <tr>
+            <td>
+                <a href="/Admin/MoJMinisters/Edit/@mojminister.MoJMinisterId">
+                    @Html.DisplayFor(x => mojminister.Prefix)
+                    &nbsp;
+                    @Html.DisplayFor(x => mojminister.Name)
+                    &nbsp;
+                    @Html.DisplayFor(x => mojminister.Suffix)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(x => mojminister.Rank)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => mojminister.Active)
+            </td>
+        </tr>
+    }
+</table>

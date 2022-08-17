@@ -44,5 +44,29 @@ namespace ChapsDotNET.Common.Mappers
                 PublicHolidayId = viewModel.PublicHolidayId,
             };
         }
+
+        public static MoJMinisterViewModel ToViewModel(this MoJMinisterModel model)
+        {
+            return new MoJMinisterViewModel
+            {
+                Name = model.Name,
+                Prefix = model.Prefix,
+                Suffix = model.Suffix,
+                Rank = model.Rank,
+                MoJMinisterId = model.MoJMinisterId,
+            };
+        }
+
+        public static MoJMinisterModel ToModel(this MoJMinisterViewModel viewModel)
+        {
+            return new MoJMinisterModel
+            {
+                Name = viewModel.Name,
+                Prefix = viewModel.Prefix,
+                Suffix = viewModel.Suffix,
+                Rank = viewModel.Rank,
+                MoJMinisterId = viewModel.MoJMinisterId,
+            };
+        }
     }
 }
