@@ -15,6 +15,7 @@ namespace ChapsDotNET.Data.Contexts
         public DbSet<CorrespondenceTypesByTeam> CorrespondenceTypesByTeams => Set<CorrespondenceTypesByTeam>();
         public DbSet<CorrespondenceType> CorrespondenceTypes => Set<CorrespondenceType>();
         public DbSet<Salutation> Salutations => Set<Salutation>();
+        public DbSet<Campaign> Campaigns => Set<Campaign>();
         public DbSet<PublicHoliday> PublicHolidays => Set<PublicHoliday>();
         public DbSet<LeadSubject> LeadSubjects => Set<LeadSubject>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)

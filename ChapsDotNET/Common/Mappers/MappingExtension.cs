@@ -63,5 +63,25 @@ namespace ChapsDotNET.Common.Mappers
                 LeadSubjectId = viewModel.LeadSubjectId,
             };
         }
+
+        public static CampaignViewModel ToViewModel(this CampaignModel model)
+        {
+            return new CampaignViewModel
+            {
+                Detail = model.Detail,
+                Active = model.Active,
+                CampaignId = model.CampaignId
+            };
+        }
+
+        public static CampaignModel ToModel(this CampaignViewModel viewModel)
+        {
+            return new CampaignModel
+            {
+                Detail = viewModel.Detail,
+                Active = viewModel.Active,
+                CampaignId = viewModel.CampaignId
+            };
+        }
     }
 }
