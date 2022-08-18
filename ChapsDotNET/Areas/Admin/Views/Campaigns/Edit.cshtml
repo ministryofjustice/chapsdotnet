@@ -1,0 +1,47 @@
+﻿@model ChapsDotNET.Models.CampaignViewModel
+
+@{
+    ViewData["Title"] = "Edit an existing campaign";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+    &nbsp;>&nbsp;
+    <a href="/Admin/Campaigns">Campaigns</a>
+</div>
+
+@using (Html.BeginForm())
+{
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+
+        @Html.HiddenFor(model => model.CampaignId)
+
+        <div class="editor-label">
+            <label for="Detail">Name</label>
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Detail)
+            @Html.ValidationMessageFor(model => model.Detail)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Active)
+        </div>
+
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Active, new { @value = Model.Active = true })
+            @Html.ValidationMessageFor(model => model.Active)
+        </div>
+
+        <input type="submit" value="Save" />
+    </fieldset>
+}
+
