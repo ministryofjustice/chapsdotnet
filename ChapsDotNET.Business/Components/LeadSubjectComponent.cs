@@ -43,7 +43,7 @@ namespace ChapsDotNET.Business.Components
             var leadSubjectsList = await query
                 .Select(x => new LeadSubjectModel
                 {
-                    LeadSubjectId = x.LeadSubjectID,
+                    LeadSubjectId = x.LeadSubjectId,
                     Detail = x.Detail,
                     Active = x.active
                 }).ToListAsync();
@@ -61,12 +61,12 @@ namespace ChapsDotNET.Business.Components
         public async Task<LeadSubjectModel> GetLeadSubjectAsync(int id)
         {
             var query = _context.LeadSubjects.AsQueryable();
-            query = query.Where(x => x.LeadSubjectID == id);
+            query = query.Where(x => x.LeadSubjectId == id);
 
             var leadSubject = await query
                 .Select(x => new LeadSubjectModel
                 {
-                    LeadSubjectId = x.LeadSubjectID,
+                    LeadSubjectId = x.LeadSubjectId,
                     Detail = x.Detail,
                     Active = x.active
                 }).SingleOrDefaultAsync();
@@ -96,12 +96,12 @@ namespace ChapsDotNET.Business.Components
 
             await _context.LeadSubjects.AddAsync(leadSubject);
             await _context.SaveChangesAsync();
-            return leadSubject.LeadSubjectID;
+            return leadSubject.LeadSubjectId;
         }
 
         public async Task UpdateLeadSubjectAsync(LeadSubjectModel model)
         {
-            var leadSubject = await _context.LeadSubjects.FirstOrDefaultAsync(x => x.LeadSubjectID == model.LeadSubjectId);
+            var leadSubject = await _context.LeadSubjects.FirstOrDefaultAsync(x => x.LeadSubjectId == model.LeadSubjectId);
 
             if (leadSubject == null)
             {

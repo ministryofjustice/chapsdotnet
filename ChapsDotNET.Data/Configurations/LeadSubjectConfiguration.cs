@@ -8,7 +8,7 @@ namespace ChapsDotNET.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<LeadSubject> builder)
         {
-            builder.HasKey(x => x.LeadSubjectID);
+            builder.HasKey(x => x.LeadSubjectId);
             builder.Property(x => x.Detail).IsRequired().HasMaxLength(100);
         }
     }

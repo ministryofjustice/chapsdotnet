@@ -4,7 +4,7 @@ namespace ChapsDotNET.Data.Entities
 {
     public class LeadSubject : LookUpModel, IAuditable
     {
-        public int LeadSubjectID { get; set; }
+        public int LeadSubjectId { get; set; }
 
         public string? Detail { get; set; }
 
