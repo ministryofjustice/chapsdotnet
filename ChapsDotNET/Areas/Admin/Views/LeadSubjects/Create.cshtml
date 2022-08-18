@@ -1,0 +1,38 @@
+﻿@model ChapsDotNET.Models.LeadSubjectViewModel
+
+@{
+    ViewData["Title"] = "Add a new lead subject";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+    &nbsp;>&nbsp;
+    <a href="/Admin/LeadSubjects">Lead Subjects</a>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Detail)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Detail)
+            @Html.ValidationMessageFor(model => model.Detail)
+        </div>
+
+        <input type="submit" value="Create" />
+    </fieldset>
+
+}

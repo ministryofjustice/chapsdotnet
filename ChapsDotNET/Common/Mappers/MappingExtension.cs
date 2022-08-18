@@ -44,5 +44,24 @@ namespace ChapsDotNET.Common.Mappers
                 PublicHolidayId = viewModel.PublicHolidayId,
             };
         }
+        public static LeadSubjectViewModel ToViewModel(this LeadSubjectModel model)
+        {
+            return new LeadSubjectViewModel
+            {
+                Detail = model.Detail,
+                Active = model.Active,
+                LeadSubjectId = model.LeadSubjectId,
+            };
+        }
+
+        public static LeadSubjectModel ToModel(this LeadSubjectViewModel viewModel)
+        {
+            return new LeadSubjectModel
+            {
+                Detail = viewModel.Detail,
+                Active = viewModel.Active,
+                LeadSubjectId = viewModel.LeadSubjectId,
+            };
+        }
     }
 }
