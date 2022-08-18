@@ -727,6 +727,27 @@ div#accordion h3 {
 .pageButton-img-first-disabled {
     background: url('../Content/Images/page_first_disabled.png') no-repeat 6px center;
     display: inline-block;
-    height: 14px;
+    height: 16px;
+    width: 21px;
+}
+
+.pageButton-img-previous-disabled {
+    background: url('../Content/Images/page_prev_disabled.png') no-repeat 6px center;
+    display: inline-block;
+    height: 16px;
+    width: 21px;
+}
+
+.pageButton-img-first-enabled {
+    background: url('../Content/Images/page_first_enabled.png') no-repeat 6px center;
+    display: inline-block;
+    height: 16px;
+    width: 21px;
+}
+
+.pageButton-img-previous-enabled {
+    background: url('../Content/Images/page_prev_enabled.png') no-repeat 6px center;
+    display: inline-block;
+    height: 16px;
     width: 21px;
 }
