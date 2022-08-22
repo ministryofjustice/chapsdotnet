@@ -49,11 +49,12 @@ namespace ChapsDotNET.Common.Mappers
         {
             return new MoJMinisterViewModel
             {
+                Active = model.Active,
+                MoJMinisterId = model.MoJMinisterId,
                 Name = model.Name,
                 Prefix = model.Prefix,
-                Suffix = model.Suffix,
                 Rank = model.Rank,
-                MoJMinisterId = model.MoJMinisterId,
+                Suffix = model.Suffix
             };
         }
 
@@ -61,11 +62,12 @@ namespace ChapsDotNET.Common.Mappers
         {
             return new MoJMinisterModel
             {
+                Active = viewModel.Active,
+                MoJMinisterId = viewModel.MoJMinisterId,
                 Name = viewModel.Name,
                 Prefix = viewModel.Prefix,
-                Suffix = viewModel.Suffix,
                 Rank = viewModel.Rank,
-                MoJMinisterId = viewModel.MoJMinisterId,
+                Suffix = viewModel.Suffix
             };
         }
     }

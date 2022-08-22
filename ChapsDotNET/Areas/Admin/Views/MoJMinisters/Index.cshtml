@@ -38,11 +38,15 @@
         <tr>
             <td>
                 <a href="/Admin/MoJMinisters/Edit/@mojminister.MoJMinisterId">
-                    @Html.DisplayFor(x => mojminister.Prefix)
-                    &nbsp;
+                    @if (!string.IsNullOrWhiteSpace(mojminister.Prefix) )
+                    {
+                        @Html.DisplayFor(x => mojminister.Prefix);
+                    }
                     @Html.DisplayFor(x => mojminister.Name)
-                    &nbsp;
-                    @Html.DisplayFor(x => mojminister.Suffix)
+                    @if (!string.IsNullOrWhiteSpace(mojminister.Suffix) )
+                    {
+                        @Html.DisplayFor(x => mojminister.Suffix);
+                    }
                 </a>
             </td>
             <td>

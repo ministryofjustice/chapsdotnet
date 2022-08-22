@@ -1,0 +1,76 @@
+﻿@model ChapsDotNET.Models.MoJMinisterViewModel
+
+@{
+    ViewData["Title"] = "Edit a new MoJ Minister";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+    &nbsp;>&nbsp;
+    <a href="/Admin/MoJMinisters">MoJ Ministers</a>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.MoJMinisterId)
+    @Html.HiddenFor(model => model.Active)
+
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Prefix)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Prefix)
+            @Html.ValidationMessageFor(model => model.Prefix)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Suffix)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Suffix)
+            @Html.ValidationMessageFor(model => model.Suffix)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Rank)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Rank)
+            @Html.ValidationMessageFor(model => model.Rank)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Active)
+        </div>
+
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Active)
+            @Html.ValidationMessageFor(model => model.Active)
+        </div>
+    
+        <input class="button" type="submit" value="Save" />
+    </fieldset>
+}
+    

@@ -2,6 +2,7 @@
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
+using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,48 +23,46 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             var pagedResult = await _mojMinisterComponent
                 .GetMoJMinistersAsync(new MoJMinisterRequestModel
                 {
-                    NoPaging = true
+                    PageNumber = 1,
+                    PageSize = 100,
+                    ShowActiveAndInactive = true
                 });
 
             return View(pagedResult.Results);
         }
 
-        //public ActionResult Create()
-        //{
-        //    var model = new PublicHolidayViewModel
-        //    {
-        //        Date = DateTime.Now.AddDays(1)
-        //    };
+        public ActionResult Create()
+        {
+            var model = new MoJMinisterViewModel();
+            return View(model);
+        }
 
-        //    return View(model);
-        //}
+        [HttpPost]
+        public async Task<ActionResult> Create(MoJMinisterViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                await _mojMinisterComponent.AddMoJMinisterAsync(viewModel.ToModel());
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
 
-        //[HttpPost]
-        //public async Task<ActionResult> Create(PublicHolidayViewModel viewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _publicHolidayComponent.AddPublicHolidayAsync(viewModel.ToModel());
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View();
-        //}
+        public async Task<ActionResult> Edit(int id)
+        {
+            var model = await _mojMinisterComponent.GetMoJMinisterAsync(id);
+            return View(model.ToViewModel());
+        }
 
-        //public async Task<ActionResult> Edit(int id)
-        //{
-        //    var model = await _publicHolidayComponent.GetPublicHolidayAsync(id);
-        //    return View(model.ToViewModel());
-        //}
-
-        //[HttpPost]
-        //public async Task<ActionResult> Edit(PublicHolidayViewModel viewModel)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _publicHolidayComponent.UpdatePublicHolidayAsync(viewModel.ToModel());
-        //        return RedirectToAction("index");
-        //    }
-        //    return View();
-        //}
+        [HttpPost]
+        public async Task<ActionResult> Edit(MoJMinisterViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                await _mojMinisterComponent.UpdateMoJMinisterAsync(viewModel.ToModel());
+                return RedirectToAction("index");
+            }
+            return View();
+        }
     }
 }

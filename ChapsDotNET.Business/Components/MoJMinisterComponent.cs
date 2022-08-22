@@ -21,7 +21,7 @@ namespace ChapsDotNET.Business.Components
         /// This method by default returns a list of only active MoJ Ministers
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>A list of MoJ Minister Model</returns>
+        /// <returns>A list of MoJMinisterModel</returns>
         public async Task<PagedResult<List<MoJMinisterModel>>> GetMoJMinistersAsync(MoJMinisterRequestModel request)
         {
             var query = _context.MoJMinisters.AsQueryable();
@@ -43,12 +43,12 @@ namespace ChapsDotNET.Business.Components
             var MoJMinistersList = await query
                 .Select(x => new MoJMinisterModel
                 {
+                    Active = x.active,
                     MoJMinisterId = x.MoJMinisterID,
                     Name = x.Name,
                     Prefix = x.prefix,
-                    Suffix = x.suffix,
                     Rank = x.Rank,
-                    Active = x.active
+                    Suffix = x.suffix
                 }).ToListAsync();
 
             return new PagedResult<List<MoJMinisterModel>>
@@ -61,64 +61,78 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
-        //public async Task<MoJMinisterModel> GetMoJMinisterAsync(int id)
-        //{
-        //    var query = _context.MoJMinisters.AsQueryable();
-        //    query = query.Where(x => x.salutationID == id);
+        public async Task<MoJMinisterModel> GetMoJMinisterAsync(int id)
+        {
+            var query = _context.MoJMinisters.AsQueryable();
+            query = query.Where(x => x.MoJMinisterID == id);
 
-        //    var salutation = await query
-        //        .Select(x => new MoJMinisterModel
-        //        {
-        //            MoJMinisterId = x.salutationID,
-        //            Detail = x.Detail,
-        //            Active = x.active
-        //        }).SingleOrDefaultAsync();
+            var mojMinister = await query   
+                .Select(x => new MoJMinisterModel
+                {
+                    Active = x.active,
+                    MoJMinisterId = x.MoJMinisterID,
+                    Name = x.Name,
+                    Prefix = x.prefix,
+                    Rank = x.Rank,
+                    Suffix = x.suffix
+                }).SingleOrDefaultAsync();
 
-        //    if (salutation == null)
-        //    {
-        //        return new MoJMinisterModel
-        //        {
-        //            Detail = null
-        //        };
-        //    }
-        //    return salutation;
-        //}
+            if (mojMinister == null)
+            {
+                return new MoJMinisterModel
+                {
+                    Name = string.Empty,
+                    Prefix = null,
+                    Rank = null,
+                    Suffix = null
+                };
+            }
+            return mojMinister;
+        }
 
-        //public async Task<int> AddMoJMinisterAsync(MoJMinisterModel model)
-        //{
-        //    if (string.IsNullOrEmpty(model.Detail))
-        //    {
-        //        throw new ArgumentNullException("Parameter Detail cannot be empty");
-        //    }
+        public async Task<int> AddMoJMinisterAsync(MoJMinisterModel model)
+        {
+            if (string.IsNullOrEmpty(model.Name))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
 
-        //    var salutation = new MoJMinister
-        //    {
-        //        active = true,
-        //        Detail = model.Detail
-        //    };
+            var mojMinister = new MoJMinister
+            {
+                active = true,
+                Name = model.Name,
+                prefix = model.Prefix,
+                Rank = model.Rank,
+                suffix = model.Suffix
+            };
 
-        //    await _context.MoJMinisters.AddAsync(salutation);
-        //    await _context.SaveChangesAsync();
-        //    return salutation.salutationID;
-        //}
+            await _context.MoJMinisters.AddAsync(mojMinister);
+            await _context.SaveChangesAsync();
 
-        //public async Task UpdateMoJMinisterAsync(MoJMinisterModel model)
-        //{
-        //    var salutation = await _context.MoJMinisters.FirstOrDefaultAsync(x => x.salutationID == model.MoJMinisterId);
+            return mojMinister.MoJMinisterID;
+        }
 
-        //    if (salutation == null)
-        //    {
-        //        throw new NotFoundException("MoJMinister", model.MoJMinisterId.ToString());
-        //    }
+        public async Task UpdateMoJMinisterAsync(MoJMinisterModel model)
+        {
+            var mojMinister = await _context.MoJMinisters.FirstOrDefaultAsync(x => x.MoJMinisterID == model.MoJMinisterId);
 
-        //    if (string.IsNullOrEmpty(model.Detail))
-        //    {
-        //        throw new ArgumentNullException("Parameter Detail cannot be empty");
-        //    }
+            if (mojMinister == null)
+            {
+                throw new NotFoundException("MoJMinister", model.MoJMinisterId.ToString());
+            }
 
-        //    salutation.active = model.Active;
-        //    salutation.Detail = model.Detail;
-        //    await _context.SaveChangesAsync();
-        //}
+            if (string.IsNullOrEmpty(model.Name))
+            {
+                throw new ArgumentNullException("Parameter Detail cannot be empty");
+            }
+
+            mojMinister.active = model.Active;
+            mojMinister.Name = model.Name;
+            mojMinister.prefix = model.Prefix;
+            mojMinister.Rank = model.Rank;
+            mojMinister.suffix = model.Suffix;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

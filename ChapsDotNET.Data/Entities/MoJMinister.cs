@@ -9,7 +9,6 @@ namespace ChapsDotNET.Data.Entities
         public string? prefix { get; set; }
         public string? suffix { get; set; }
         public string? Rank { get; set; } 
-
         public bool Auditable()
         {
             return true;
