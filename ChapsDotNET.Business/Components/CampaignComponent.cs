@@ -53,7 +53,6 @@ namespace ChapsDotNET.Business.Components
                 Results = CampaignsList,
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
-                PageCount = count / request.PageSize,
                 RowCount = count
             };
         }
