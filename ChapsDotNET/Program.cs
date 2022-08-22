@@ -64,6 +64,7 @@ builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>(
 builder.Services.AddScoped<ISalutationComponent, SalutationComponent>();
 builder.Services.AddScoped<IPublicHolidayComponent, PublicHolidayComponent>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
+builder.Services.AddScoped<ILeadSubjectComponent, LeadSubjectComponent>();
 
 var app = builder.Build();
 
