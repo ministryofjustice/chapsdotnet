@@ -38,6 +38,8 @@
     <None Remove="Policies\Handlers\" />
     <None Remove="Areas\Admin\Views\PublicHolidays\" />
     <None Remove="Areas\Admin\Views\MoJMinisters\" />
+    <None Remove="Areas\Admin\Views\Campaigns\" />
+    <None Remove="Areas\Admin\Views\LeadSubjects\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
@@ -67,6 +69,8 @@
     <Folder Include="wwwroot\lib\flot\" />
     <Folder Include="Areas\Admin\Views\PublicHolidays\" />
     <Folder Include="Areas\Admin\Views\MoJMinisters\" />
+    <Folder Include="Areas\Admin\Views\Campaigns\" />
+    <Folder Include="Areas\Admin\Views\LeadSubjects\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\javascripts\" />

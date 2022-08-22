@@ -70,5 +70,45 @@ namespace ChapsDotNET.Common.Mappers
                 Suffix = viewModel.Suffix
             };
         }
+        
+        public static LeadSubjectViewModel ToViewModel(this LeadSubjectModel model)
+        {
+            return new LeadSubjectViewModel
+            {
+                Detail = model.Detail,
+                Active = model.Active,
+                LeadSubjectId = model.LeadSubjectId,
+            };
+        }
+
+        public static LeadSubjectModel ToModel(this LeadSubjectViewModel viewModel)
+        {
+            return new LeadSubjectModel
+            {
+                Detail = viewModel.Detail,
+                Active = viewModel.Active,
+                LeadSubjectId = viewModel.LeadSubjectId,
+            };
+        }
+
+        public static CampaignViewModel ToViewModel(this CampaignModel model)
+        {
+            return new CampaignViewModel
+            {
+                Detail = model.Detail,
+                Active = model.Active,
+                CampaignId = model.CampaignId
+            };
+        }
+
+        public static CampaignModel ToModel(this CampaignViewModel viewModel)
+        {
+            return new CampaignModel
+            {
+                Detail = viewModel.Detail,
+                Active = viewModel.Active,
+                CampaignId = viewModel.CampaignId
+            };
+        }
     }
 }

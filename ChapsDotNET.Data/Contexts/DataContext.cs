@@ -10,6 +10,8 @@ namespace ChapsDotNET.Data.Contexts
         { }
         public DbSet<CorrespondenceType> CorrespondenceTypes => Set<CorrespondenceType>();
         public DbSet<CorrespondenceTypesByTeam> CorrespondenceTypesByTeams => Set<CorrespondenceTypesByTeam>();
+        public DbSet<Campaign> Campaigns => Set<Campaign>();
+        public DbSet<LeadSubject> LeadSubjects => Set<LeadSubject>();
         public DbSet<MoJMinister> MoJMinisters => Set<MoJMinister>();
         public DbSet<PublicHoliday> PublicHolidays => Set<PublicHoliday>();
         public DbSet<Role> Roles => Set<Role>();
