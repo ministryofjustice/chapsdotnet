@@ -16,9 +16,8 @@
 
 @using (Html.BeginForm())
 {
-    @Html.ValidationSummary(true)
+
     @Html.HiddenFor(model => model.MoJMinisterId)
-    @Html.HiddenFor(model => model.Active)
 
     <fieldset class="form-fieldset">
         <legend>

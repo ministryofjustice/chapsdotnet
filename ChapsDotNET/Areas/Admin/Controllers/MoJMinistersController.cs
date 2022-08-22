@@ -2,7 +2,6 @@
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
-using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,14 +19,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var pagedResult = await _mojMinisterComponent
-                .GetMoJMinistersAsync(new MoJMinisterRequestModel
+            var pagedResult = await _mojMinisterComponent.GetMoJMinistersAsync(new MoJMinisterRequestModel
                 {
                     PageNumber = 1,
                     PageSize = 100,
                     ShowActiveAndInactive = true
-                });
-
+                }
+            );
             return View(pagedResult.Results);
         }
 
