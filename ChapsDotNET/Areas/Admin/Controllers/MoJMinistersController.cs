@@ -40,12 +40,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(MoJMinisterViewModel viewModel)
         {
-            if (ModelState.IsValid)
-            {
-                await _mojMinisterComponent.AddMoJMinisterAsync(viewModel.ToModel());
-                return RedirectToAction("Index");
-            }
-            return View();
+            await _mojMinisterComponent.AddMoJMinisterAsync(viewModel.ToModel());
+            return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> Edit(int id)
@@ -57,12 +53,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(MoJMinisterViewModel viewModel)
         {
-            if (ModelState.IsValid)
-            {
-                await _mojMinisterComponent.UpdateMoJMinisterAsync(viewModel.ToModel());
-                return RedirectToAction("index");
-            }
-            return View();
+            await _mojMinisterComponent.UpdateMoJMinisterAsync(viewModel.ToModel());
+            return RedirectToAction("index");
         }
     }
 }

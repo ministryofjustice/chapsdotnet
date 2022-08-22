@@ -24,7 +24,7 @@ namespace ChapsDotNET.Common.Mappers
                 SalutationId = viewModel.SalutationId,
             };
         }
-
+            
         public static PublicHolidayViewModel ToViewModel(this PublicHolidayModel model)
         {
             return new PublicHolidayViewModel
