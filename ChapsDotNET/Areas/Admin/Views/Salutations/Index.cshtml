@@ -1,9 +1,11 @@
-﻿@model List<ChapsDotNET.Business.Models.SalutationModel>
-
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Business.Models.Common.PagedResult<List<ChapsDotNET.Business.Models.SalutationModel>>
 @{
-    ViewData["Title"] = "Salutations administration";
+    ViewData["Title"] = "Salutations Administration";
 }
-
+@section head{
+    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+}
 <div class="breadcrumbs">
     <a href="">Home</a>
     &nbsp;>&nbsp;
@@ -11,7 +13,7 @@
     &nbsp;>&nbsp;
     <a href="">Lookups</a>
 </div>
-    
+
 <h1>Salutations</h1>
 
 <div class="actionLinks">
@@ -30,17 +32,23 @@
             </th>
         </tr>
     </thead>
-    @foreach (var salutation in Model.ToList())
+    @if (Model.Results != null)
     {
-        <tr>
-            <td>
-                <a href="/Admin/Salutations/Edit/@salutation.SalutationId">
-                    @Html.DisplayFor(x => salutation.Detail)
-                </a>
-            </td>
-            <td align="center">
-                @Html.DisplayFor(x => salutation.Active)
-            </td>
-        </tr>
+        @foreach (var salutation in Model.Results.ToList())
+        {
+            <tr>
+                <td>
+                    <a href="/Admin/Salutations/Edit/@salutation.SalutationId">
+                        @Html.DisplayFor(x => salutation.Detail)
+                    </a>
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(x => salutation.Active)
+                </td>
+            </tr>
+        }
     }
 </table>
+<div>
+    @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString() }))
+</div>

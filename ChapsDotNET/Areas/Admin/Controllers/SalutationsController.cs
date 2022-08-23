@@ -16,16 +16,17 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _salutationComponent = salutationComponent;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var pagedResult = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel
-                {
-                    PageNumber = 5,
-                    PageSize = 10,
-                    ShowActiveAndInactive = true
-                }
-            );
-            return View(pagedResult.Results);
+            var pagedResult = await _salutationComponent
+                .GetSalutationsAsync(new SalutationRequestModel
+            {
+                PageNumber = page,
+                PageSize = 10,
+                ShowActiveAndInactive = true
+            });
+
+            return View(pagedResult);
         }
 
         public ActionResult Create()
