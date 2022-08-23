@@ -215,16 +215,10 @@ namespace ChapsDotNET.Business.Tests
             var salutationComponent = new SalutationComponent(context);
 
             // Act
-            var result = await salutationComponent.GetSalutationAsync(53);
+            Func<Task> act = async () => { await salutationComponent.GetSalutationAsync(53); };
 
-            // Assert
-            result.Detail.Should().BeNull();
-
-            //result.Detail.Should().Be("Ms");
-            //result.SalutationId.Should().Be(54);
-            //result.Active.Should().BeTrue();
-
-
+            //Assert
+            await act.Should().ThrowAsync<NotFoundException>();
         }
 
         [Fact(DisplayName = "Add a Salutation to the database when calling the AddSalutation method returns Success")]
@@ -323,7 +317,6 @@ namespace ChapsDotNET.Business.Tests
             var salutationComponent = new SalutationComponent(context);
 
             // Act
-
             Func<Task> act = async () => { await salutationComponent.UpdateSalutationAsync(new Models.SalutationModel()); };
 
             //Assert

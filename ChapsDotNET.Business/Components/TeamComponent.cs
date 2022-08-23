@@ -60,7 +60,6 @@ namespace ChapsDotNET.Business.Components
                 Results = teamsList,
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
-                PageCount = count / request.PageSize,
                 RowCount = count
             };
         }

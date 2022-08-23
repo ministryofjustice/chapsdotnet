@@ -62,6 +62,9 @@ builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
 builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
 builder.Services.AddScoped<ISalutationComponent, SalutationComponent>();
+builder.Services.AddScoped<IPublicHolidayComponent, PublicHolidayComponent>();
+builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
+builder.Services.AddScoped<ILeadSubjectComponent, LeadSubjectComponent>();
 builder.Services.AddScoped<ITeamComponent, TeamComponent>();
 
 var app = builder.Build();

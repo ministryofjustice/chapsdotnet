@@ -53,32 +53,23 @@ namespace ChapsDotNET.Business.Components
                 Results = salutationsList,
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
-                PageCount = count / request.PageSize,
                 RowCount = count
             };
         }
 
         public async Task<SalutationModel> GetSalutationAsync(int id)
         {
-            var query = _context.Salutations.AsQueryable();
-            query = query.Where(x => x.salutationID == id);
+            var salutation = await _context.Salutations
+                .FirstOrDefaultAsync(x => x.salutationID == id);
 
-            var salutation = await query
-                .Select(x => new SalutationModel
-                {
-                    SalutationId = x.salutationID,
-                    Detail = x.Detail,
-                    Active = x.active
-                }).SingleOrDefaultAsync();
+            if (salutation == null) throw new NotFoundException("Salutation", id.ToString());
 
-            if (salutation == null)
+            return new SalutationModel
             {
-                return new SalutationModel
-                {
-                    Detail = null
-                };
-            }
-            return salutation;
+                SalutationId = salutation.salutationID,
+                Detail = salutation.Detail,
+                Active = salutation.active
+            };
         }
 
         public async Task<int> AddSalutationAsync(SalutationModel model)
@@ -93,13 +84,11 @@ namespace ChapsDotNET.Business.Components
                 active = true,
                 Detail = model.Detail
             };
-
             await _context.Salutations.AddAsync(salutation);
             await _context.SaveChangesAsync();
+
             return salutation.salutationID;
         }
-
-
 
         public async Task UpdateSalutationAsync(SalutationModel model)
         {
@@ -117,9 +106,7 @@ namespace ChapsDotNET.Business.Components
 
             salutation.active = model.Active;
             salutation.Detail = model.Detail;
-
             await _context.SaveChangesAsync();
         }
     }
 }
-
