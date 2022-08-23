@@ -25,6 +25,32 @@ namespace ChapsDotNET.Common.Mappers
             };
         }
 
+        public static TeamViewModel ToViewModel(this TeamModel model)
+        {
+            return new TeamViewModel
+            {
+                Acronym= model.Acronym,
+                Active = model.Active,
+                TeamId= model.TeamId,
+                Email = model.Email,
+                IsOgd = model.IsOgd,
+                IsPod = model.IsPod,
+                Name = model.Name
+            };
+        }
+        public static TeamModel ToModel(this TeamViewModel viewModel)
+        {
+            return new TeamModel
+            {
+                Acronym = viewModel.Acronym,
+                Active = viewModel.Active,
+                TeamId = viewModel.TeamId,
+                Email = viewModel.Email,
+                IsOgd = viewModel.IsOgd,
+                IsPod = viewModel.IsPod,
+                Name = viewModel.Name
+            };
+        }
         public static PublicHolidayViewModel ToViewModel(this PublicHolidayModel model)
         {
             return new PublicHolidayViewModel
