@@ -31,13 +31,26 @@ namespace ChapsDotNET.Common.Helpers
             //Page Numbers
             for (var i = 1; i <= pagedResult.PageCount; i++)
             {
-                pagingTags.Append(GetTagString(i.ToString(), pageUrl(i)));
+                if (pagedResult.CurrentPage == i)
+                {
+                    pagingTags.Append(GetTagString(i.ToString(), "", "pageButton pagenumber-disabled"));
+                }
+                else
+                {
+                    pagingTags.Append(GetTagString(i.ToString(), pageUrl(i), "pageButton"));
+                }
+                
             }
             //Next Page
             if (pagedResult.CurrentPage < pagedResult.PageCount)
             {
-                pagingTags.Append(GetTagString
-                    ("Next", pageUrl(pagedResult.CurrentPage + 1)));
+                pagingTags.Append(GetImageString("pageButton-img-next-enabled", pageUrl(pagedResult.CurrentPage + 1)));
+                pagingTags.Append(GetImageString("pageButton-img-last-enabled", pageUrl(pagedResult.PageCount)));
+            }
+            else
+            {
+                pagingTags.Append(GetImageString("pageButton-img-next-disabled", ""));
+                pagingTags.Append(GetImageString("pageButton-img-last-disabled", ""));
             }
 
             //Total Number of Records
@@ -47,11 +60,16 @@ namespace ChapsDotNET.Common.Helpers
             return new HtmlString(pagingTags.ToString());
         }
 
-        private static string GetTagString(string innerHtml, string? hrefValue)
+        private static string GetTagString(string innerHtml, string? hrefValue, string? cssClass="")
         {
             var tag = new TagBuilder("a"); // Construct an <a> tag
-            tag.MergeAttribute("class", "anchorstyle");
-            tag.MergeAttribute("href", hrefValue);
+
+            tag.MergeAttribute("class", !string.IsNullOrEmpty(cssClass) ? cssClass : "anchorstyle");
+
+            if (!string.IsNullOrEmpty(hrefValue))
+            {
+                tag.MergeAttribute("href", hrefValue);
+            }
 
             tag.InnerHtml.Append(" " + innerHtml + "  ");
 

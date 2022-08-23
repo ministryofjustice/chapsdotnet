@@ -728,26 +728,85 @@ div#accordion h3 {
     background: url('../Content/Images/page_first_disabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
-    width: 21px;
+    width: 25px;
 }
 
 .pageButton-img-previous-disabled {
     background: url('../Content/Images/page_prev_disabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
-    width: 21px;
+    width: 25px;
 }
 
 .pageButton-img-first-enabled {
     background: url('../Content/Images/page_first_enabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
-    width: 21px;
+    width: 25px;
 }
 
 .pageButton-img-previous-enabled {
     background: url('../Content/Images/page_prev_enabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
-    width: 21px;
+    width: 25px;
+}
+
+.pageButton-img-next-enabled {
+    background: url('../Content/Images/page_next_enabled.png') no-repeat 6px center;
+    display: inline-block;
+    height: 16px;
+    width: 25px;
+}
+
+.pageButton-img-last-enabled {
+    background: url('../Content/Images/page_last_enabled.png') no-repeat 6px center;
+    display: inline-block;
+    height: 16px;
+    width: 25px;
+}
+
+.pageButton-img-next-disabled {
+    background: url('../Content/Images/page_next_disabled.png') no-repeat 6px center;
+    display: inline-block;
+    height: 16px;
+    width: 25px;
+}
+
+.pageButton-img-last-disabled {
+    background: url('../Content/Images/page_last_disabled.png') no-repeat 6px center;
+    display: inline-block;
+    height: 16px;
+    width: 25px;
+}
+
+.pageButton {
+    display: inline;
+    margin: 0px !important;
+    background-color: transparent;
+    cursor: pointer;
+    color: #3399ff !important;
+    text-decoration: none;
+    /* vertical-align: middle; */
+    font-size: 1em !important;
+    background-image: none;
+    /* border: 1px solid #ccccff !important; */
+    border-radius: 2px 2px 2px 2px;
+    color: #666666;
+    padding: 8px 10px !important;
+    text-align: center !important;
+    height: 35px !important;
+    width: 35px !important;
+    background-color: #ffffff;
+    /* width: 40px; */
+    overflow: visible !important;
+}
+.pagenumber-disabled {
+    border: 1px solid #ccccff !important;
+    color: #000000 !important;
+}
+
+pageButton:hover {
+    color: #000000 !important;
+    background-color: #3399ff;
 }
