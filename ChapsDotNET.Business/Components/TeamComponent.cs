@@ -52,7 +52,7 @@ namespace ChapsDotNET.Business.Components
                     Active = x.active,
                     Email = x.email,
                     IsOgd = x.isOGD,
-                    IsPod = x.isPOD
+                    IsPod = x.isPOD,
                 }).ToListAsync();
 
             return new PagedResult<List<TeamModel>>
@@ -129,12 +129,14 @@ namespace ChapsDotNET.Business.Components
                 throw new ArgumentNullException("Parameter Name cannot be empty");
             }
 
+            team.Acronym = model.Acronym;
             team.active = model.Active;
-            model.Name = model.Name;
-            model.Email = model.Email;
-            model.IsOgd = model.IsOgd;
-            model.IsPod = model.IsPod;
+            team.Name = model.Name;
+            team.email= model.Email;
+            team.isOGD = model.IsOgd;
+            team.isPOD = model.IsPod;
 
+            _context.Teams.Update(team);
             await _context.SaveChangesAsync();
         }
     }
