@@ -1,8 +1,8 @@
 ﻿namespace ChapsDotNET.Business.Models
 {
-    public class SalutationModel
+    public class MPsModel
     {
-        public int SalutationId { get; set; }
+        public int MPId { get; set; }
         public string? Detail { get; set; }
         public bool Active { get; set; }
     }
