@@ -19,7 +19,7 @@ namespace ChapsDotNET.Tests.Areas
         public async Task WhenMoJMinistersIndexPageIsCalledAMoJMinistersListShouldBeReturned()
         {
             //Arrange
-            var mockMoJMinisterComponent = Substitute.For<MoJMinisterComponent>();
+            var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
             mockMoJMinisterComponent.GetMoJMinistersAsync(Arg.Any<MoJMinisterRequestModel>()).Returns(
                 new PagedResult<List<MoJMinisterModel>>
                 {
@@ -27,19 +27,19 @@ namespace ChapsDotNET.Tests.Areas
                     {
                         new MoJMinisterModel
                         {
+                            MoJMinisterId = 1,
                             Prefix = "Emperor",
                             Name = "Londo Mollari",
                             Suffix = "Paso Leati",
-                            Active = true,
-                            MoJMinisterId = 1
+                            Active = true
                         },
                         new MoJMinisterModel
                         {
+                            MoJMinisterId = 2,
                             Prefix = "Ambassador",
                             Name = "Delenn",
                             Suffix = "Grey Council",
-                            Active = true,
-                            MoJMinisterId = 2
+                            Active = true
                         }
                     }
                 });
@@ -54,6 +54,87 @@ namespace ChapsDotNET.Tests.Areas
             result.Should().NotBe(null);
             result.Should().BeOfType<ViewResult>();
             resultCount?.Count.Should().Be(2);
+        }
+
+        [Fact]
+        public void WhenCreateMethodIsCalledTheCreateViewIsReturned()
+        {
+            //Arrange
+            var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
+            var controller = new MoJMinistersController(mockMoJMinisterComponent);
+
+            //Act
+            var result = controller.Create();
+
+            //Assert
+            result.Should().BeOfType<ViewResult>();
+        }
+
+        [Fact]
+        public async Task WhenCreateMethodIsCalledTheAddMoJMinistersAsyncMethodIsCalled()
+        {
+            //Arrange
+            var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
+            var controller = new MoJMinistersController(mockMoJMinisterComponent);
+            var mojMinisterViewModel = new MoJMinisterViewModel()
+            {
+                MoJMinisterId = 2,
+                Prefix = "Ambassador",
+                Name = "Delenn",
+                Suffix = "Grey Council",
+                Active = true
+            };
+
+            //Act
+            var result = await controller.Create(mojMinisterViewModel);
+
+            //Assert
+            await mockMoJMinisterComponent.Received().AddMoJMinisterAsync(Arg.Any<MoJMinisterModel>());
+            result.Should().NotBe(null);
+        }
+
+        [Fact]
+        public async Task WhenEditMethodIsCalledTheEditViewIsReturned()
+        {
+            //Arrange
+            var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
+            MoJMinistersController controller = new MoJMinistersController(mockMoJMinisterComponent);
+            mockMoJMinisterComponent.GetMoJMinisterAsync(1).Returns(new MoJMinisterModel
+            {
+                MoJMinisterId = 3,
+                Prefix = "Captain",
+                Name = "John Sheridan",
+                Suffix = "",
+                Active = false
+            }); 
+            
+            //Act
+            var result = await controller.Edit(1);
+
+            //Assert
+            result.Should().BeOfType<ViewResult>();
+        }
+
+        [Fact]
+        public async Task WhenSaveButtonIsClickedOnTheEditScreenThenUpdateMoJMinisterAsyncIsCalled()
+        {
+            //Arrange
+            var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
+            var controller = new MoJMinistersController(mockMoJMinisterComponent);
+
+            //Act
+            var result = await controller.Edit(new MoJMinisterViewModel
+            {
+                MoJMinisterId = 4,
+                Prefix = "Ambassador",
+                Name = "G'Kar",
+                Suffix = "The Red Knight",
+                Active = true
+            });
+
+            //Assert
+            await mockMoJMinisterComponent.Received().UpdateMoJMinisterAsync(Arg.Any<MoJMinisterModel>());
+            result.Should().BeOfType<RedirectToActionResult>();
         }
 	}
 }
