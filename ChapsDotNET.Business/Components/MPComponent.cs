@@ -8,23 +8,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChapsDotNET.Business.Components
 {
-    public class SalutationComponent : ISalutationComponent
+    public class MPComponent : IMPComponent
     {
         private readonly DataContext _context;
 
-        public SalutationComponent(DataContext context)
+        public MPComponent(DataContext context)
         {
             _context = context;
         }
 
         /// <summary>
-        /// This method by default returns a list of only active Salutations
+        /// This method by default returns a list of only active MPs
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>A list of SalutationModel</returns>
-        public async Task<PagedResult<List<SalutationModel>>> GetSalutationsAsync(SalutationRequestModel request)
+        /// <returns>A list of MPModel</returns>
+        public async Task<PagedResult<List<MPModel>>> GetMPAsync(MPRequestModel request)
         {
-            var query = _context.Salutations.AsQueryable();
+            var query = _context.MPs.AsQueryable();
 
             if (!request.ShowActiveAndInactive)
             {
@@ -40,17 +40,17 @@ namespace ChapsDotNET.Business.Components
             query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
                 .Take(request.PageSize);
 
-            var salutationsList = await query
-                .Select(x => new SalutationModel
+            var mpsList = await query
+                .Select(x => new MPModel
                 {
-                    SalutationId = x.salutationID,
+                    MPID = x.mpID,
                     Detail = x.Detail,
                     Active = x.active
                 }).ToListAsync();
 
-            return new PagedResult<List<SalutationModel>>
+            return new PagedResult<List<MPModel>>
             {
-                Results = salutationsList,
+                Results = mpsList,
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
                 PageCount = count / request.PageSize,
@@ -58,54 +58,54 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
-        public async Task<SalutationModel> GetSalutationAsync(int id)
+        public async Task<MPModel> GetMPAsync(int id)
         {
-            var query = _context.Salutations.AsQueryable();
-            query = query.Where(x => x.salutationID == id);
+            var query = _context.MPs.AsQueryable();
+            query = query.Where(x => x.mpID == id);
 
-            var salutation = await query
-                .Select(x => new SalutationModel
+            var mp = await query
+                .Select(x => new MPModel
                 {
-                    SalutationId = x.salutationID,
+                    MPID = x.mpID,
                     Detail = x.Detail,
                     Active = x.active
                 }).SingleOrDefaultAsync();
 
-            if (salutation == null)
+            if (mp == null)
             {
-                return new SalutationModel
+                return new MPModel
                 {
                     Detail = null
                 };
             }
-            return salutation;
+            return mp;
         }
 
-        public async Task<int> AddSalutationAsync(SalutationModel model)
+        public async Task<int> AddMPAsync(MPModel model)
         {
             if (string.IsNullOrEmpty(model.Detail))
             {
                 throw new ArgumentNullException("Parameter Detail cannot be empty");
             }
 
-            var salutation = new Salutation
+            var mp = new MP
             {
                 active = true,
                 Detail = model.Detail
             };
 
-            await _context.Salutations.AddAsync(salutation);
+            await _context.MPs.AddAsync(mp);
             await _context.SaveChangesAsync();
-            return salutation.salutationID;
+            return mp.mpID;
         }
 
-        public async Task UpdateSalutationAsync(SalutationModel model)
+        public async Task UpdateMPsAsync(MPModel model)
         {
-            var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
+            var mp = await _context.MPs.FirstOrDefaultAsync(x => x.mpID == model.MPID);
 
-            if (salutation == null)
+            if (mp == null)
             {
-                throw new NotFoundException("Salutation", model.SalutationId.ToString());
+                throw new NotFoundException("mp", model.MPID.ToString());
             }
 
             if (string.IsNullOrEmpty(model.Detail))
@@ -113,9 +113,11 @@ namespace ChapsDotNET.Business.Components
                 throw new ArgumentNullException("Parameter Detail cannot be empty");
             }
 
-            salutation.active = model.Active;
-            salutation.Detail = model.Detail;
+            mp.active = model.Active;
+            mp.Detail = model.Detail;
             await _context.SaveChangesAsync();
         }
+
+        
     }
 }

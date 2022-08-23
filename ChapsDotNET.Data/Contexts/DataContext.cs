@@ -18,6 +18,7 @@ namespace ChapsDotNET.Data.Contexts
         public DbSet<Campaign> Campaigns => Set<Campaign>();
         public DbSet<PublicHoliday> PublicHolidays => Set<PublicHoliday>();
         public DbSet<LeadSubject> LeadSubjects => Set<LeadSubject>();
+        public DbSet<MP> MPs => Set<MP>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
