@@ -17,12 +17,12 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _mojMinisterComponent = mojMinisterComponent;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             var pagedResult = await _mojMinisterComponent.GetMoJMinistersAsync(new MoJMinisterRequestModel
                 {
-                    PageNumber = 1,
-                    PageSize = 100,
+                    PageNumber = page,
+                    PageSize = 10,
                     ShowActiveAndInactive = true
                 }
             );

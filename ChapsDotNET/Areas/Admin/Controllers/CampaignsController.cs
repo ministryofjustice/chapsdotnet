@@ -17,11 +17,11 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _campaignComponent = CampaignComponent;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             var pagedResult = await _campaignComponent.GetCampaignsAsync(new CampaignRequestModel
                 {
-                    PageNumber = 1,
+                    PageNumber = page,
                     PageSize = 10,
                     ShowActiveAndInactive = true
                 }
