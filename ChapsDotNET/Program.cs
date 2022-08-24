@@ -66,6 +66,7 @@ builder.Services.AddScoped<IPublicHolidayComponent, PublicHolidayComponent>();
 builder.Services.AddScoped<IMoJMinisterComponent, MoJMinisterComponent>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
 builder.Services.AddScoped<ILeadSubjectComponent, LeadSubjectComponent>();
+builder.Services.AddScoped<ITeamComponent, TeamComponent>();
 
 var app = builder.Build();
 

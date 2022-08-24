@@ -5,43 +5,56 @@ namespace ChapsDotNET.Common.Mappers
 {
     public static class MappingExtension
     {
-        public static SalutationViewModel ToViewModel(this SalutationModel model)
+        public static CampaignModel ToModel(this CampaignViewModel viewModel)
         {
-            return new SalutationViewModel
-            {
-                Detail = model.Detail,
-                Active = model.Active,
-                SalutationId = model.SalutationId,
-            };
-        }
-
-        public static SalutationModel ToModel(this SalutationViewModel viewModel)
-        {
-            return new SalutationModel
+            return new CampaignModel
             {
                 Detail = viewModel.Detail,
                 Active = viewModel.Active,
-                SalutationId = viewModel.SalutationId,
-            };
-        }
-            
-        public static PublicHolidayViewModel ToViewModel(this PublicHolidayModel model)
-        {
-            return new PublicHolidayViewModel
-            {
-                Description = model.Description,
-                Date = model.Date,
-                PublicHolidayId = model.PublicHolidayId,
+                CampaignId = viewModel.CampaignId
             };
         }
 
-        public static PublicHolidayModel ToModel(this PublicHolidayViewModel viewModel)
+        public static CampaignViewModel ToViewModel(this CampaignModel model)
         {
-            return new PublicHolidayModel
+            return new CampaignViewModel
             {
-                Description = viewModel.Description,
-                Date = viewModel.Date,
-                PublicHolidayId = viewModel.PublicHolidayId,
+                Detail = model.Detail,
+                Active = model.Active,
+                CampaignId = model.CampaignId
+            };
+        }
+
+        public static LeadSubjectModel ToModel(this LeadSubjectViewModel viewModel)
+        {
+            return new LeadSubjectModel
+            {
+                Detail = viewModel.Detail,
+                Active = viewModel.Active,
+                LeadSubjectId = viewModel.LeadSubjectId,
+            };
+        }
+
+        public static LeadSubjectViewModel ToViewModel(this LeadSubjectModel model)
+        {
+            return new LeadSubjectViewModel
+            {
+                Detail = model.Detail,
+                Active = model.Active,
+                LeadSubjectId = model.LeadSubjectId,
+            };
+        }
+
+        public static MoJMinisterModel ToModel(this MoJMinisterViewModel viewModel)
+        {
+            return new MoJMinisterModel
+            {
+                Active = viewModel.Active,
+                MoJMinisterId = viewModel.MoJMinisterId,
+                Name = viewModel.Name,
+                Prefix = viewModel.Prefix,
+                Rank = viewModel.Rank,
+                Suffix = viewModel.Suffix
             };
         }
 
@@ -58,57 +71,72 @@ namespace ChapsDotNET.Common.Mappers
             };
         }
 
-        public static MoJMinisterModel ToModel(this MoJMinisterViewModel viewModel)
+        public static PublicHolidayModel ToModel(this PublicHolidayViewModel viewModel)
         {
-            return new MoJMinisterModel
+            return new PublicHolidayModel
             {
-                Active = viewModel.Active,
-                MoJMinisterId = viewModel.MoJMinisterId,
-                Name = viewModel.Name,
-                Prefix = viewModel.Prefix,
-                Rank = viewModel.Rank,
-                Suffix = viewModel.Suffix
-            };
-        }
-        
-        public static LeadSubjectViewModel ToViewModel(this LeadSubjectModel model)
-        {
-            return new LeadSubjectViewModel
-            {
-                Detail = model.Detail,
-                Active = model.Active,
-                LeadSubjectId = model.LeadSubjectId,
+                Description = viewModel.Description,
+                Date = viewModel.Date,
+                PublicHolidayId = viewModel.PublicHolidayId,
             };
         }
 
-        public static LeadSubjectModel ToModel(this LeadSubjectViewModel viewModel)
+        public static PublicHolidayViewModel ToViewModel(this PublicHolidayModel model)
         {
-            return new LeadSubjectModel
+            return new PublicHolidayViewModel
+            {
+                Description = model.Description,
+                Date = model.Date,
+                PublicHolidayId = model.PublicHolidayId,
+            };
+        }
+
+        public static SalutationModel ToModel(this SalutationViewModel viewModel)
+        {
+            return new SalutationModel
             {
                 Detail = viewModel.Detail,
                 Active = viewModel.Active,
-                LeadSubjectId = viewModel.LeadSubjectId,
+                SalutationId = viewModel.SalutationId,
             };
         }
 
-        public static CampaignViewModel ToViewModel(this CampaignModel model)
+        public static SalutationViewModel ToViewModel(this SalutationModel model)
         {
-            return new CampaignViewModel
+            return new SalutationViewModel
             {
                 Detail = model.Detail,
                 Active = model.Active,
-                CampaignId = model.CampaignId
+                SalutationId = model.SalutationId,
             };
         }
 
-        public static CampaignModel ToModel(this CampaignViewModel viewModel)
+        public static TeamModel ToModel(this TeamViewModel viewModel)
         {
-            return new CampaignModel
+            return new TeamModel
             {
-                Detail = viewModel.Detail,
+                Acronym = viewModel.Acronym,
                 Active = viewModel.Active,
-                CampaignId = viewModel.CampaignId
+                TeamId = viewModel.TeamId,
+                Email = viewModel.Email,
+                IsOgd = viewModel.IsOgd,
+                IsPod = viewModel.IsPod,
+                Name = viewModel.Name
             };
         }
+
+        public static TeamViewModel ToViewModel(this TeamModel model)
+        {
+            return new TeamViewModel
+            {
+                Acronym= model.Acronym,
+                Active = model.Active,
+                TeamId= model.TeamId,
+                Email = model.Email,
+                IsOgd = model.IsOgd,
+                IsPod = model.IsPod,
+                Name = model.Name
+            };
+        }        
     }
 }

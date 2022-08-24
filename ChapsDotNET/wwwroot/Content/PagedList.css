@@ -1,0 +1,80 @@
+﻿.PagedList-pager 
+{
+	border-top: 2px solid #dddddd;
+	/*background-color:#dddddd;*/
+    border-radius: 0 0 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+}
+.PagedList-pager ul {
+	margin: 0;
+	padding:0;
+	list-style-type:none;
+	padding-top:5px;
+}
+.PagedList-pager ul li 
+{
+	margin: 0.25em 0.25em 0.25em 0.25em;
+	display: inline;
+	text-decoration:none;
+	vertical-align:middle;
+	line-height:35px;
+	height:35px;
+}
+.PagedList-pager ul li a 
+{
+	margin: 0.25em 0.25em 0.25em 0.25em;
+	display: inline;
+	text-decoration:none !important;
+	vertical-align:middle;
+	line-height:35px;
+	height:35px;
+	color:#3399ff !important;
+}
+.PagedList-pager ul li.PageNonSelectable, 
+.PagedList-pager ul li.PageSelectable > a:hover,
+.PagedList-pager ul li.PageSelectable > a:active
+{
+    background-color: #6699ff;
+    border: 1px solid #3333ff;
+    border-radius: 2px 2px 2px 2px;
+    color: #FFFFFF !important;
+    display: inline;
+    width:100%;
+    padding: 3px 7px;
+    text-align: center;
+    text-decoration: none;
+    height:35px;
+    line-height:35px;
+	vertical-align:middle;
+}
+.PagedList-pager ul > li.PageEllipsis
+{
+    border: 1px solid #ccccff;
+    border-radius: 2px 2px 2px 2px;
+    color: #666666;
+    display: inline;
+    width:100%;
+    padding: 3px 7px;
+    text-align: center;
+    text-decoration: none;
+    height:35px;
+    line-height:35px;
+	vertical-align:middle;
+}
+.PagedList-pager ul li.PageSelectable > a
+{
+    border: 1px solid #ccccff;
+    border-radius: 2px 2px 2px 2px;
+    color: #666666;
+    padding: 3px 7px;
+    text-align: center;
+    text-decoration: none;
+    height:35px;
+    background-color:#ffffff;
+}
+
+.PagedList-goToPage fieldset{
+	border: 0;
+}
+
