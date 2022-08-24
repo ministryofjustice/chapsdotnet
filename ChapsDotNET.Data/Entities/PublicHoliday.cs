@@ -14,4 +14,3 @@ namespace ChapsDotNET.Data.Entities
         }
     }
 }
-

@@ -17,11 +17,11 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _leadSubjectComponent = leadSubjectComponent;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             var pagedResult = await _leadSubjectComponent.GetLeadSubjectsAsync(new LeadSubjectRequestModel
             {
-                PageNumber = 5,
+                PageNumber = page,
                 PageSize = 10,
                 ShowActiveAndInactive = true
             }

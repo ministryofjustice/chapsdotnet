@@ -1,4 +1,4 @@
-﻿using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
