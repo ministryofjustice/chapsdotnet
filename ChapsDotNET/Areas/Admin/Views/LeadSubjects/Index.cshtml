@@ -1,0 +1,46 @@
+﻿@model List<ChapsDotNET.Business.Models.LeadSubjectModel>
+
+@{
+    ViewData["Title"] = "Lead Subject Administration";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+</div>
+    
+<h1>Lead Subjects</h1>
+
+<div class="actionLinks">
+    @Html.ActionLink("Create new Lead Subject", "Create", "LeadSubjects")
+</div>
+
+<table>
+    <caption class="caption">Existing lead subjects</caption>
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Active
+            </th>
+        </tr>
+    </thead>
+    @foreach (var leadSubject in Model.ToList())
+    {
+        <tr>
+            <td>
+                <a href="/Admin/LeadSubjects/Edit/@leadSubject.LeadSubjectId">
+                    @Html.DisplayFor(x => leadSubject.Detail)
+                </a>
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => leadSubject.Active)
+            </td>
+        </tr>
+    }
+</table>

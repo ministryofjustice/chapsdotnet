@@ -6,4 +6,3 @@ namespace ChapsDotNET.Business.Models.Common
         public bool ShowActiveAndInactive { get; set; } = false;
     }
 }
-

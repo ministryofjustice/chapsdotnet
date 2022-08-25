@@ -6,8 +6,6 @@ namespace ChapsDotNET.Data.Configurations
 {
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {
-
-
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(e => e.UserID);
@@ -17,8 +15,6 @@ namespace ChapsDotNET.Data.Configurations
             builder.Property(e => e.DisplayName).IsRequired().HasMaxLength(100);
             builder.Property(e => e.RoleStrength).IsRequired();
             builder.Property(e => e.email).HasMaxLength(80);
-
         }
     }
 }
-

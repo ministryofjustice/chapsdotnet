@@ -1,0 +1,54 @@
+﻿@model ChapsDotNET.Models.TeamViewModel
+
+@{
+    ViewData["Title"] = "Create a new team";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+    &nbsp;>&nbsp;
+    <a href="/Admin/Teams">Teams</a>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+        <div class="editor-field">
+            <label>Team Acronym<span alt="Mandatory field" class="required-star">*</span></label>
+            @Html.EditorFor(model => model.Acronym)
+            @Html.ValidationMessageFor(model => model.Acronym)
+        </div>
+        <div class="editor-field">
+            <label>Team<span alt="Mandatory field" class="required-star">*</span></label>
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            <label>OGD?</label>
+            @Html.EditorFor(model => model.IsOgd)
+            @Html.ValidationMessageFor(model => model.IsOgd)
+        </div>
+        <div class="editor-field">
+            <label>Private Office?</label>
+            @Html.EditorFor(model => model.IsPod)
+            @Html.ValidationMessageFor(model => model.IsPod)
+        </div>
+        <div class="editor-field">
+            <label>Email</label>
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+
+        <input type="submit" value="Create" />
+    </fieldset>
+
+}
