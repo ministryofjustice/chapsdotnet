@@ -1,39 +1,42 @@
 ﻿(function () {
     'use strict';
 
-    let todaysDate = new Date().toISOString().slice(0, 10);
-    let tomorrow = new Date(todaysDate);
+    var displayPastDateError = function () {
+        $("#Date")
+            .addClass("input-validation-error")
+            .attr( { 'aria-describedby': "Date-error", 'aria-invalid': "true" } );
+        $('span[data-valmsg-for="Date"]')
+            .switchClass("field-validation-valid", "field-validation-error")
+            .html('<span id="Date-error">The date must be set in the future.</span>');
+    }
+
+    var yearMonthDayFormat = function (rawDate) {
+        // returns date in yyyy-MM-dd format
+        return rawDate.toISOString().slice(0, 10);
+    }
+
+    let todaysDate = yearMonthDayFormat(new Date());
+    var tomorrow = new Date(todaysDate);
+    var yesterday = new Date(todaysDate);
 
     tomorrow.setDate(tomorrow.getDate() + 1);
-    var tomorrowsDate = tomorrow.toISOString().slice(0, 10);
+    let tomorrowsDate = yearMonthDayFormat(tomorrow);
 
-    var displayPastDateError = function () {
-        $("#Date").addClass("input-validation-error");
-        $("#Date").attr("aria-describedby", "Date-error");
-        $("#Date").attr("aria-invalid", "true");
-        $('span[data-valmsg-for="Date"]').switchClass("field-validation-valid", "field-validation-error");
-        $('span[data-valmsg-for="Date"]').html('<span id="Date-error">The date must be set in the future.</span>');
-    }
+    yesterday.setDate(yesterday.getDate() - 1)
+    let yesterdaysDate = yearMonthDayFormat(yesterday);
 
     //  +---------------------------------------------------------------------------+
 
     $(document).ready(function () {
-        $('#create_public_holiday').submit(function () {
-            if ($('#Date').val() < tomorrowsDate) {
-                displayPastDateError();
-                return false;
-            }
-            else {
-                return true;
-            }
-        });
-        $('#edit_public_holiday').submit(function () {
-            if ($('#Date').val() < tomorrowsDate) {
-                displayPastDateError();
-                return false;
-            }
-            else {
-                return true;
+        $('form').submit(function (event) {
+            if ($(event.target).has('input .future-date')) {
+                if ($('#Date').val() < tomorrowsDate) {
+                    displayPastDateError();
+                    return false;
+                }
+                else {
+                    return true;
+                }
             }
         });
     });
