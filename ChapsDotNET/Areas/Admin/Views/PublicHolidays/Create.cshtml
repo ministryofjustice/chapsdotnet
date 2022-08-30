@@ -14,7 +14,7 @@
     <a href="/Admin/PublicHolidays">Public holidays</a>
 </div>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "create_public_holiday" }))
+@using (Html.BeginForm())
 {
     @Html.ValidationSummary(true)
 
