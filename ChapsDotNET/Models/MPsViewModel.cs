@@ -18,7 +18,5 @@ namespace ChapsDotNET.Models
         public string? RtHon { get; set; }
         public string? Suffix { get; set; }
         public bool Active { get; set; }
-        public DateTime deactivatedOn { get; set; }
-        public DateTime deactivatedByID { get; set; }
     }
 }

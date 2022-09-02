@@ -21,7 +21,7 @@ namespace ChapsDotNET.Business.Components
         /// This method by default returns a list of only active MPs
         /// </summary>
         /// <param name="request"></param>
-        /// <returns>A list of MPModel</returns>
+        /// <returns>A list of MP Models</returns>
         public async Task<PagedResult<List<MPModel>>> GetMPAsync(MPRequestModel request)
         {
             var query = _context.MPs.AsQueryable();
@@ -31,20 +31,30 @@ namespace ChapsDotNET.Business.Components
                 query = query.Where(x => x.active == true);
             }
 
-            query = query.OrderBy(x => x.Detail);
+            query = query.OrderBy(x => x.Surname);
 
             //Row Count
             var count = await query.CountAsync();
 
             //Paging query
-            query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
-                .Take(request.PageSize);
+            query = query.Skip(((request.PageNumber) - 1) * request.PageSize).Take(request.PageSize);
 
             var mpsList = await query
                 .Select(x => new MPModel
                 {
-                    MPID = x.mpID,
-                    Detail = x.Detail,
+                    MPId = x.MPID,
+                    SalutationId = x.salutationID,
+                    Surname = x.Surname,
+                    FirstNames = x.FirstNames,
+                    AddressLine1 = x.AddressLine1,
+                    AddressLine2 = x.AddressLine2,
+                    AddressLine3 = x.AddressLine3,
+                    Town = x.Town,
+                    County = x.County,
+                    Postcode = x.Postcode,
+                    Email = x.Email,
+                    RtHon = x.RtHon,
+                    Suffix = x.Suffix,
                     Active = x.active
                 }).ToListAsync();
 

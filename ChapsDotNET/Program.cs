@@ -56,17 +56,18 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(myConnectionString.ConnectionString));
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(myConnectionString.ConnectionString));
+
 builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
-builder.Services.AddScoped<IUserComponent, UserComponent>();
-builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
-builder.Services.AddScoped<ISalutationComponent, SalutationComponent>();
-builder.Services.AddScoped<IPublicHolidayComponent, PublicHolidayComponent>();
-builder.Services.AddScoped<IMoJMinisterComponent, MoJMinisterComponent>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
+builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
 builder.Services.AddScoped<ILeadSubjectComponent, LeadSubjectComponent>();
+builder.Services.AddScoped<IMoJMinisterComponent, MoJMinisterComponent>();
+builder.Services.AddScoped<IMPComponent, MPComponent>();
+builder.Services.AddScoped<IPublicHolidayComponent, PublicHolidayComponent>();
+builder.Services.AddScoped<ISalutationComponent, SalutationComponent>();
 builder.Services.AddScoped<ITeamComponent, TeamComponent>();
+builder.Services.AddScoped<IUserComponent, UserComponent>();
 
 var app = builder.Build();
 
