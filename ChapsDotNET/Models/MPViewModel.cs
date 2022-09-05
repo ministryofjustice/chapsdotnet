@@ -2,7 +2,7 @@
 
 namespace ChapsDotNET.Models
 {
-    public class MPsViewModel
+    public class MPViewModel
     {
         public int MPId { get; set; }
         public int SalutationId { get; set; }
