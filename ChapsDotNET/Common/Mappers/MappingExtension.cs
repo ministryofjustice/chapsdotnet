@@ -94,7 +94,7 @@ namespace ChapsDotNET.Common.Mappers
 
         public static MPViewModel ToViewModel(this MPModel model)
         {
-            return new MPMinisterViewModel
+            return new MPViewModel
             {
                 MPId = model.MPId,
                 SalutationId = model.SalutationId,

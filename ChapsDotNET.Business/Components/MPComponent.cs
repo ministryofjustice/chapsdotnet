@@ -1,4 +1,6 @@
-﻿using ChapsDotNET.Business.Exceptions;
+﻿    using System;
+using System.Diagnostics.Metrics;
+using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
@@ -22,7 +24,7 @@ namespace ChapsDotNET.Business.Components
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of MP Models</returns>
-        public async Task<PagedResult<List<MPModel>>> GetMPAsync(MPRequestModel request)
+        public async Task<PagedResult<List<MPModel>>> GetMPsAsync(MPRequestModel request)
         {
             var query = _context.MPs.AsQueryable();
 
@@ -43,18 +45,18 @@ namespace ChapsDotNET.Business.Components
                 .Select(x => new MPModel
                 {
                     MPId = x.MPID,
+                    RtHon = x.RtHon,
                     SalutationId = x.salutationID,
-                    Surname = x.Surname,
                     FirstNames = x.FirstNames,
+                    Surname = x.Surname,
+                    Email = x.Email,
+                    Suffix = x.Suffix,
                     AddressLine1 = x.AddressLine1,
                     AddressLine2 = x.AddressLine2,
                     AddressLine3 = x.AddressLine3,
                     Town = x.Town,
                     County = x.County,
                     Postcode = x.Postcode,
-                    Email = x.Email,
-                    RtHon = x.RtHon,
-                    Suffix = x.Suffix,
                     Active = x.active
                 }).ToListAsync();
 
@@ -63,7 +65,6 @@ namespace ChapsDotNET.Business.Components
                 Results = mpsList,
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
-                PageCount = count / request.PageSize,
                 RowCount = count
             };
         }
@@ -71,21 +72,31 @@ namespace ChapsDotNET.Business.Components
         public async Task<MPModel> GetMPAsync(int id)
         {
             var query = _context.MPs.AsQueryable();
-            query = query.Where(x => x.mpID == id);
+            query = query.Where(x => x.MPID == id);
 
-            var mp = await query
-                .Select(x => new MPModel
+            var mp = await query.Select(x => new MPModel
                 {
-                    MPID = x.mpID,
-                    Detail = x.Detail,
-                    Active = x.active
+                    MPId = x.MPID,
+                    RtHon = x.RtHon,
+                    SalutationId = x.salutationID,
+                    FirstNames = x.FirstNames,
+                    Surname = x.Surname,
+                    Suffix = x.Suffix,
+                    Email = x.Email,
+                    Active = x.active,
+                    AddressLine1 = x.AddressLine1,
+                    AddressLine2 = x.AddressLine2,
+                    AddressLine3 = x.AddressLine3,
+                    Town = x.Town,
+                    County = x.County,
+                    Postcode = x.Postcode
                 }).SingleOrDefaultAsync();
 
             if (mp == null)
             {
                 return new MPModel
                 {
-                    Detail = null
+                    Surname = string.Empty
                 };
             }
             return mp;
@@ -93,15 +104,26 @@ namespace ChapsDotNET.Business.Components
 
         public async Task<int> AddMPAsync(MPModel model)
         {
-            if (string.IsNullOrEmpty(model.Detail))
+            if (string.IsNullOrEmpty(model.Surname))
             {
                 throw new ArgumentNullException("Parameter Detail cannot be empty");
             }
 
             var mp = new MP
             {
-                active = true,
-                Detail = model.Detail
+                RtHon = model.RtHon,
+                salutationID = model.SalutationId,
+                FirstNames = model.FirstNames,
+                Surname = model.Surname,
+                Suffix = model.Suffix,
+                Email = model.Email,
+                AddressLine1 = model.AddressLine1,
+                AddressLine2 = model.AddressLine2,
+                AddressLine3 = model.AddressLine3,
+                County = model.County,
+                Town = model.Town,
+                Postcode = model.Postcode,
+                active = true
             };
 
             await _context.MPs.AddAsync(mp);
@@ -109,25 +131,36 @@ namespace ChapsDotNET.Business.Components
             return mp.mpID;
         }
 
-        public async Task UpdateMPsAsync(MPModel model)
+        public async Task UpdateMPAsync(MPModel model)
         {
-            var mp = await _context.MPs.FirstOrDefaultAsync(x => x.mpID == model.MPID);
+            var mp = await _context.MPs.FirstOrDefaultAsync(x => x.MPID == model.MPId);
 
             if (mp == null)
             {
-                throw new NotFoundException("mp", model.MPID.ToString());
+                throw new NotFoundException("mp", model.MPId.ToString());
             }
 
-            if (string.IsNullOrEmpty(model.Detail))
+            if (string.IsNullOrEmpty(model.Surname))
             {
                 throw new ArgumentNullException("Parameter Detail cannot be empty");
             }
 
+            mp.RtHon = model.RtHon;
+            mp.salutationID = model.SalutationId;
+            mp.FirstNames = model.FirstNames;
+            mp.Surname = model.Surname;
+            mp.Suffix = model.Suffix;
+            mp.Email = model.Email;
+            mp.AddressLine1 = model.AddressLine1;
+            mp.AddressLine2 = model.AddressLine2;
+            mp.AddressLine3 = model.AddressLine3;
+            mp.County = model.County;
+            mp.Town = model.Town;
+            mp.Postcode = model.Postcode;
             mp.active = model.Active;
-            mp.Detail = model.Detail;
+
+            _context.MPs.Update(mp);
             await _context.SaveChangesAsync();
         }
-
-        
     }
 }

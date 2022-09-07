@@ -19,7 +19,7 @@ namespace ChapsDotNET.Data.Configurations
 			builder.Property(e => e.County).HasMaxLength(100);
 			builder.Property(e => e.Postcode).HasMaxLength(10);
 			builder.Property(e => e.Email).HasMaxLength(80);
-			// bool RtHon
+			builder.Property(e => e.RtHon).IsRequired();
 			builder.Property(e => e.Suffix).HasMaxLength(20);
 			// bool Active
 		}
