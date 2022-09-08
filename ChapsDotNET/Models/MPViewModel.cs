@@ -9,6 +9,7 @@ namespace ChapsDotNET.Models
         public int MPId { get; set; }
 
         public int SalutationId { get; set; }
+        public Salutation? Salutation { get; set; }
 
         [Required, MaxLength(50)]
         public string Surname { get; set; } = String.Empty;

@@ -6,7 +6,7 @@ namespace ChapsDotNET.Data.Entities
     public class MP : LookUpModel, IAuditable
     {
         public int MPID { get; set; }
-        public int salutationID { get; set; }
+        public int? salutationID { get; set; }
         public virtual Salutation? Salutation { get; set; }
         public string Surname { get; set; } = string.Empty;
         public string? FirstNames { get; set; }
