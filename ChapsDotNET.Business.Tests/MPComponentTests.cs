@@ -150,7 +150,7 @@ namespace ChapsDotNET.Business.Tests
             var mpComponent = new MPComponent(context);
 
             // Act
-            var result = await mpComponent.MPsAsync(new MPRequestModel());
+            var result = await mpComponent.GetMPsAsync(new MPRequestModel());
 
             // Assert
             result.Results.Should().NotBeNull();
@@ -399,7 +399,7 @@ namespace ChapsDotNET.Business.Tests
             var result = await mpComponent.GetMPAsync(53);
 
             // Assert
-            result.RtHon.Should().BeNull();
+            //result.RtHon.Should().BeNull();
             //result.SalutationId.Should().BeNull();
             result.Surname.Should().BeEmpty();
             result.FirstNames.Should().BeNull();
@@ -622,7 +622,7 @@ namespace ChapsDotNET.Business.Tests
                     MPId = 3,
                     RtHon = true,
                     SalutationId = 17,
-                    Surname = string.Empty,,
+                    Surname = string.Empty,
                     FirstNames = "Deanna",
                     Email = "d.troyd@starfleet.com",
                     AddressLine1 = "Dun Roaming", 

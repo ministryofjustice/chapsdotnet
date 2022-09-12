@@ -46,7 +46,7 @@ namespace ChapsDotNET.Business.Components
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
-                    SalutationId = x.salutationID,
+                    SalutationId = (int)x.salutationID,
                     FirstNames = x.FirstNames,
                     Surname = x.Surname,
                     Email = x.Email,
@@ -78,7 +78,7 @@ namespace ChapsDotNET.Business.Components
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
-                    SalutationId = x.salutationID,
+                    SalutationId = (int)x.salutationID,
                     FirstNames = x.FirstNames,
                     Surname = x.Surname,
                     Suffix = x.Suffix,
@@ -128,7 +128,7 @@ namespace ChapsDotNET.Business.Components
 
             await _context.MPs.AddAsync(mp);
             await _context.SaveChangesAsync();
-            return mp.mpID;
+            return mp.MPID;
         }
 
         public async Task UpdateMPAsync(MPModel model)

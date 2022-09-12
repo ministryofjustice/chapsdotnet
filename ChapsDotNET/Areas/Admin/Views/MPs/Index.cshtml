@@ -42,7 +42,7 @@
                     @if ( mp.RtHon == true ) {
                         @Html.DisplayText("Rt Hon");
                     }
-                    @if (!string.IsNullOrWhiteSpace(mp.FirstNames)
+                    @if (!string.IsNullOrWhiteSpace(mp.FirstNames))
                     {
                         @Html.DisplayFor(x => mp.FirstNames);
                     }
@@ -50,37 +50,38 @@
                 </a>
             </td>
             <td>
-                @if (!string.IsNullOrWhiteSpace(mp.AddressLine1)
+                @if (!string.IsNullOrWhiteSpace(mp.AddressLine1))
                 {
                     @Html.DisplayFor(x => mp.AddressLine1)
-                    &nbsp;,&nbsp;
+                    @Html.DisplayText(", ")
                 }
-                @if (!string.IsNullOrWhiteSpace(mp.AddressLine2)
+                @if (!string.IsNullOrWhiteSpace(mp.AddressLine2))
+                {
                     @Html.DisplayFor(x => mp.AddressLine2)
-                    &nbsp;,&nbsp;
+                    @Html.DisplayText(", ")
                 }
-                @if (!string.IsNullOrWhiteSpace(mp.AddressLine3)
+                @if (!string.IsNullOrWhiteSpace(mp.AddressLine3))
                 {
                     @Html.DisplayFor(x => mp.AddressLine3)
-                    &nbsp;,&nbsp;
+                    @Html.DisplayText(", ")
                 }
-                @if (!string.IsNullOrWhiteSpace(mp.Town)
+                @if (!string.IsNullOrWhiteSpace(mp.Town))
                 {
                     @Html.DisplayFor(x => mp.Town)
-                    &nbsp;,&nbsp;
+                    @Html.DisplayText(", ")
                 }
-                @if (!string.IsNullOrWhiteSpace(mp.County)
+                @if (!string.IsNullOrWhiteSpace(mp.County))
                 {
                     @Html.DisplayFor(x => mp.County)
-                    &nbsp;,&nbsp;
+                    @Html.DisplayText(", ")
                 }
-                @if (!string.IsNullOrWhiteSpace(mp.Postcode)
+                @if (!string.IsNullOrWhiteSpace(mp.Postcode))
                 {
                     @Html.DisplayFor(x => mp.Postcode)
                 }
             </td>
             <td>
-                @if (!string.IsNullOrWhiteSpace(mp.Email)
+                @if (!string.IsNullOrWhiteSpace(mp.Email))
                 {
                     @Html.DisplayFor(x => mp.Email)
                 }

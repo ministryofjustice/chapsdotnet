@@ -63,7 +63,7 @@ namespace ChapsDotNET.Tests.Areas
                     }
                 }
             );
-            var controller = new MoJMinistersController(mockMPComponent);
+            var controller = new MPsController(mockMPComponent);
 
             // Act
             var result = await controller.Index() as ViewResult;
@@ -81,7 +81,7 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
-            var controller = new MoJMinistersController(mockMPComponent);
+            var controller = new MPsController(mockMPComponent);
 
             //Act
             var result = controller.Create();
