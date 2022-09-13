@@ -46,7 +46,7 @@ namespace ChapsDotNET.Business.Components
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
-                    SalutationId = (int)x.salutationID,
+                    //SalutationId = x.salutationID,
                     FirstNames = x.FirstNames,
                     Surname = x.Surname,
                     Email = x.Email,
@@ -78,7 +78,7 @@ namespace ChapsDotNET.Business.Components
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
-                    SalutationId = (int)x.salutationID,
+                    //SalutationId = x.salutationID,
                     FirstNames = x.FirstNames,
                     Surname = x.Surname,
                     Suffix = x.Suffix,
@@ -112,7 +112,7 @@ namespace ChapsDotNET.Business.Components
             var mp = new MP
             {
                 RtHon = model.RtHon,
-                salutationID = model.SalutationId,
+                //salutationID = model.SalutationId,
                 FirstNames = model.FirstNames,
                 Surname = model.Surname,
                 Suffix = model.Suffix,
@@ -146,7 +146,7 @@ namespace ChapsDotNET.Business.Components
             }
 
             mp.RtHon = model.RtHon;
-            mp.salutationID = model.SalutationId;
+            //mp.salutationID = model.SalutationId;
             mp.FirstNames = model.FirstNames;
             mp.Surname = model.Surname;
             mp.Suffix = model.Suffix;
