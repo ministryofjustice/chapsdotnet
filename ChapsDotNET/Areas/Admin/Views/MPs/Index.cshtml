@@ -16,10 +16,14 @@
     @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
 </div>
 
-@*<div class="actionLinks">
-    @Html.ActionLink("Add a new MoJ Minister", "Create", "MoJMinisters")
-</div>*@
-
+<style>
+    table {
+        border-collapse: collapse;
+    }
+    tbody tr:nth-child(odd) {
+        background-color: #f9f9f2;
+    }
+</style>
 <table>
     <caption class="caption">Existing members of Parliament</caption>
     <thead>

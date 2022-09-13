@@ -48,29 +48,23 @@ A {
     background: white url('../images/Training.png') no-repeat center top;
 }
 
-.audit-oldValue {
+/*.audit-oldValue {
     color: #996666;
-}
+}*/
 
-.audit-newValue {
+/*.audit-newValue {
     color: #669966;
-}
-
-table.statement {
-    border: 1px solid #000;
-    width: 80%;
-    margin-left: 15em;
-}
-
-table.statement td {
-    border: 1px solid #000;
-}
+}*/
 
 .bold-text {
     font-weight: bold;
 }
 
 /* Table stuff */
+
+table {
+    border-collapse: collapse;
+}
 
 .caption {
     font-size: 1.2rem;
@@ -89,13 +83,17 @@ th {
     -moz-border-radius: 4px 4px 0 0;
 }
 
-.altRow {
+tbody tr:nth-child(odd) {
     background-color: #f9f9f2;
 }
 
-.normRow {
+/*.altRow {
+    background-color: #f9f9f2;
+}*/
+
+/*.normRow {
     background-color: #e7e7ff;
-}
+}*/
 
 .createButton {
     margin-bottom: 5px;
@@ -110,16 +108,30 @@ a.createButton:hover {
     color: Green !important;
 }
 
-.createButton img {
+/*.createButton img {
     vertical-align: middle;
-}
+}*/
 
-.required-star {
+/*.required-star {
     padding-left: 3px;
     color: Red;
     height: 14px;
     font-size: large;
     vertical-align: top;
+}*/
+
+table.statement {
+    border: 1px solid #000;
+    width: 80%;
+    margin-left: 15em;
+}
+
+table.statement tr {
+    border: solid 1px #000;
+}
+
+table.statement tr.first {
+    border-top: solid 3px #000;
 }
 
 table.statement th {
@@ -129,12 +141,8 @@ table.statement th {
     border: solid 1px #000;
 }
 
-table.statement tr {
-    border: solid 1px #000;
-}
-
-table.statement tr.first {
-    border-top: solid 3px #000;
+table.statement td {
+    border: 1px solid #000;
 }
 
 .passwordExpire {
@@ -162,6 +170,15 @@ dt {
     padding-left: 10px;
     min-height: 40px;
 }
+
+td {
+    padding: 10px 20px 10px 0;
+}
+
+td:last-child {
+    padding-right: 0;
+}
+
 
 /* HEADINGS   
 ----------------------------------------------------------*/
@@ -329,13 +346,13 @@ input.sortButton:hover {
     color: Green !important;
 }
 
-input.sortButton.asc {
+/*input.sortButton.asc {
     background: url('../images/bullet_arrow_up.png') no-repeat right;
-}
+}*/
 
-input.sortButton.desc {
+/*input.sortButton.desc {
     background: url('../images/bullet_arrow_down.png') no-repeat right;
-}
+}*/
 
 input.allocateButton {
     float: left;
@@ -362,13 +379,13 @@ input.allocateButton:hover {
     color: Green !important;
 }
 
-input.allocateButton.returnFalse {
+/*input.allocateButton.returnFalse {
     background: url('../images/arrow_right.png') no-repeat left;
-}
+}*/
 
-input.allocateButton.returnTrue {
+/*input.allocateButton.returnTrue {
     background: url('../images/arrow_undo.png') no-repeat left;
-}
+}*/
 
 input[sortButton] {
     width: auto;
