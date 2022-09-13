@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security;
 using ChapsDotNET.Data.Entities;
 
 namespace ChapsDotNET.Models
@@ -45,20 +46,5 @@ namespace ChapsDotNET.Models
         public string? Suffix { get; set; }
 
         public bool Active { get; set; }
-
-        //[Display(Name = "Name")]
-        //public virtual string DisplayName
-        //{
-        //    get
-        //    {
-        //        List<string> nameParts = new List<string>();
-        //        nameParts.Add(RtHon);
-        //        nameParts.Add(SalutationId.ToString() != null ? Salutation.Details : null);
-        //        nameParts.Add(FirstNames != null ? FirstNames : null);
-        //        nameParts.Add(Surname);
-        //        nameParts.Add(Suffix != null ? Suffix : null);
-        //        return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
-        //    }
-        //}
     }
 }

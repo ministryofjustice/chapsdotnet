@@ -13,8 +13,12 @@
 <h1>Members of Parliament (MPs)</h1>
 
 <div class="actionLinks">
-    @Html.ActionLink("Add a new member of Parliament", "Create", "MP")
+    @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
 </div>
+
+@*<div class="actionLinks">
+    @Html.ActionLink("Add a new MoJ Minister", "Create", "MoJMinisters")
+</div>*@
 
 <table>
     <caption class="caption">Existing members of Parliament</caption>
@@ -38,47 +42,12 @@
     {
         <tr>
             <td>
-                <a href="/Admin/MPs/Edit/@mp.MPId">
-                    @if ( mp.RtHon == true ) {
-                        @Html.DisplayText("Rt Hon");
-                    }
-                    @if (!string.IsNullOrWhiteSpace(mp.FirstNames))
-                    {
-                        @Html.DisplayFor(x => mp.FirstNames);
-                    }
-                    @Html.DisplayFor(x => mp.Surname)
+                <a href="/Admin/MPs/Edit/@mp.MPId"> 
+                    @Html.DisplayFor(modelItem => mp.DisplayFullName)
                 </a>
             </td>
             <td>
-                @if (!string.IsNullOrWhiteSpace(mp.AddressLine1))
-                {
-                    @Html.DisplayFor(x => mp.AddressLine1)
-                    @:,
-                }
-                @if (!string.IsNullOrWhiteSpace(mp.AddressLine2))
-                {
-                    @Html.DisplayFor(x => mp.AddressLine2)
-                    @:,
-                }
-                @if (!string.IsNullOrWhiteSpace(mp.AddressLine3))
-                {
-                    @Html.DisplayFor(x => mp.AddressLine3)
-                    @:,
-                }
-                @if (!string.IsNullOrWhiteSpace(mp.Town))
-                {
-                    @Html.DisplayFor(x => mp.Town)
-                    @:,
-                }
-                @if (!string.IsNullOrWhiteSpace(mp.County))
-                {
-                    @Html.DisplayFor(x => mp.County)
-                    @:,
-                }
-                @if (!string.IsNullOrWhiteSpace(mp.Postcode))
-                {
-                    @Html.DisplayFor(x => mp.Postcode)
-                }
+                @Html.DisplayFor(modelItem => mp.DisplaySingleLineAddress)
             </td>
             <td>
                 @if (!string.IsNullOrWhiteSpace(mp.Email))

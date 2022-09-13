@@ -30,9 +30,9 @@
             @Html.ValidationMessageFor(model => model.RtHon)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.RtHon)
-        </div>
+        @*<div class="editor-label">
+            @Html.LabelFor(model => model.Salutation)
+        </div>*@
 
         @*<div class="editor-field">
             @Html.LabelFor(model => model.SalutationId)
@@ -40,18 +40,18 @@
             @Html.ValidationMessageFor(model => model.SalutationId)
         </div>*@
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.FirstNames)
-        </div>
+        <lable class="editor-label" for="FirstNames">
+            First name
+        </lable>
 
         <div class="editor-field">
             @Html.EditorFor(model => model.FirstNames)
             @Html.ValidationMessageFor(model => model.FirstNames)
-        </div>
+        </div>  
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Surname)
-        </div>
+        <label class="editor-label" for="Surname">
+            Last name
+        </label>
 
         <div class="editor-field">
             @Html.EditorFor(model => model.Surname)
@@ -94,9 +94,9 @@
             @Html.ValidationMessageFor(model => model.AddressLine3)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Town)
-        </div>
+        <label class="editor-label" for="Town">
+            Town or city
+        </label>
 
         <div class="editor-field">
             @Html.EditorFor(model => model.Town)
