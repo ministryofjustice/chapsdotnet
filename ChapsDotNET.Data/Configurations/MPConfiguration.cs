@@ -9,7 +9,7 @@ namespace ChapsDotNET.Data.Configurations
 		public void Configure(EntityTypeBuilder<MP> builder)
 		{
 			builder.HasKey(e => e.MPID);
-			builder.HasOne(a => a.Salutation).WithMany(b => b.MPs).HasForeignKey(c => c.salutationID);
+			//builder.HasOne(a => a.Salutation).WithMany(b => b.MPs).HasForeignKey(c => c.salutationID);
             builder.Property(e => e.Surname).IsRequired().HasMaxLength(50);
             builder.Property(e => e.FirstNames).HasMaxLength(50);
             builder.Property(e => e.AddressLine1).HasMaxLength(100);

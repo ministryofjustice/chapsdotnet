@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Models;
+﻿using System.Collections;
+using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 
 namespace ChapsDotNET.Business.Interfaces
@@ -9,5 +10,6 @@ namespace ChapsDotNET.Business.Interfaces
         Task<int> AddMPAsync(MPModel model);
         Task UpdateMPAsync(MPModel model);
         Task<MPModel> GetMPAsync(int id);
+        Task<IEnumerable> GetActiveSalutationsListAsync();
     }
 }

@@ -1,12 +1,14 @@
 ﻿using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
-{
+{   
     [Area("Admin")]
     public class MPsController : Controller
     {
@@ -29,9 +31,10 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return View(pagedResult.Results);
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             var model = new MPViewModel();
+            model.SalutationList = new SelectList(await _mpComponent.GetActiveSalutationsListAsync().ConfigureAwait(false), "SalutationID", "Detail");
             return View(model);
         }
 

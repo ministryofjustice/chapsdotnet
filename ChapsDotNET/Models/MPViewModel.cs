@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security;
 using ChapsDotNET.Data.Entities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ChapsDotNET.Models
 {
@@ -9,8 +10,8 @@ namespace ChapsDotNET.Models
         [Key]
         public int MPId { get; set; }
 
-        public int SalutationId { get; set; }
-        public Salutation? Salutation { get; set; }
+        public int? SalutationID { get; set; }
+        public string? Salutation { get; set; }
 
         [Required, MaxLength(50)]
         public string Surname { get; set; } = String.Empty;
@@ -46,5 +47,7 @@ namespace ChapsDotNET.Models
         public string? Suffix { get; set; }
 
         public bool Active { get; set; }
+
+        public SelectList SalutationList { get; set; }
     }
 }

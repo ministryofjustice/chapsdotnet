@@ -29,7 +29,7 @@ namespace ChapsDotNET.Tests.Areas
                         {
                             MPId = 1,
                             RtHon = false,
-                            SalutationId = 3,
+                            SalutationID = 3,
                             Surname = "Janeway",
                             FirstNames = "Katherine",
                             Email = "kathrine.janeway@starfleet.com",
@@ -47,7 +47,7 @@ namespace ChapsDotNET.Tests.Areas
                         {
                             MPId = 2,
                             RtHon = true,
-                            SalutationId = 28,
+                            SalutationID = 28,
                             Surname = "Picard",
                             FirstNames = "Jean Luc",
                             Email = "j.picard@chateau-picard.com",
@@ -100,7 +100,7 @@ namespace ChapsDotNET.Tests.Areas
             {
                 MPId = 1,
                 RtHon = false,
-                SalutationId = 3,
+                SalutationID = 3,
                 Surname = "Janeway",
                 FirstNames = "Katherine",
                 Email = "kathrine.janeway@starfleet.com",
@@ -132,7 +132,7 @@ namespace ChapsDotNET.Tests.Areas
             {
                 MPId = 2,
                 RtHon = true,
-                SalutationId = 28,
+                SalutationID = 28,
                 Surname = "Picard",
                 FirstNames = "Jean Luc",
                 Email = "j.picard@chateau-picard.com",
@@ -165,7 +165,7 @@ namespace ChapsDotNET.Tests.Areas
             {
                 MPId = 3,
                 RtHon = false,
-                SalutationId = 17,
+                SalutationID = 17,
                 Surname = "Troy",
                 FirstNames = "Deanna",
                 Email = "d.troyd@starfleet.com",

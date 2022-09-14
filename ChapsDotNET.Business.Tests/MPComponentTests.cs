@@ -53,7 +53,7 @@ namespace ChapsDotNET.Business.Tests
             result.Results.Should().HaveCount(1);
             result.Results?.First().MPId.Should().Be(1);
             result.Results?.First().RtHon.Should().BeFalse();
-            result.Results?.First().SalutationId.Should().Be(3);
+            result.Results?.First().SalutationID.Should().Be(3);
             result.Results?.First().Surname.Should().Be("Janeway");
             result.Results?.First().FirstNames.Should().Be("Katherine");
             result.Results?.First().Email.Should().Be("kathrine.janeway@starfleet.com");
@@ -340,7 +340,7 @@ namespace ChapsDotNET.Business.Tests
             result.MPId.Should().Be(44);
             result.Postcode.Should().Be("C17 C02");
             result.RtHon.Should().BeFalse();
-            result.SalutationId.Should().Be(3);
+            result.SalutationID.Should().Be(3);
             result.Suffix.Should().Be("");
             result.Surname.Should().Be("Yar");
             result.Town.Should().Be("Loughton");
@@ -423,7 +423,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 MPId = 8,
                 RtHon = true,
-                SalutationId = 14,
+                SalutationID = 14,
                 Surname = "Crusher",
                 FirstNames = "Beverly",
                 Email = "beverly.crusher@starfleet.com",
@@ -469,7 +469,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 MPId = 8,
                 RtHon = true,
-                SalutationId = 14,
+                SalutationID = 14,
                 Surname = "",
                 FirstNames = "Beverly",
                 Email = "beverly.crusher@starfleet.com",
@@ -523,7 +523,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 MPId = 2,
                 RtHon = true,
-                SalutationId = 28,
+                SalutationID = 28,
                 Surname = "Picard",
                 FirstNames = "Jean Luc",
                 Email = "j.picard@chateau-picard.com",
@@ -621,7 +621,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPId = 3,
                     RtHon = true,
-                    SalutationId = 17,
+                    SalutationID = 17,
                     Surname = string.Empty,
                     FirstNames = "Deanna",
                     Email = "d.troyd@starfleet.com",

@@ -1,4 +1,5 @@
 ﻿    using System;
+using System.Collections;
 using System.Diagnostics.Metrics;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
@@ -46,7 +47,7 @@ namespace ChapsDotNET.Business.Components
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
-                    //SalutationId = x.salutationID,
+                    SalutationID = x.salutationID,
                     FirstNames = x.FirstNames,
                     Surname = x.Surname,
                     Email = x.Email,
@@ -65,8 +66,13 @@ namespace ChapsDotNET.Business.Components
                 Results = mpsList,
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
-                RowCount = count
+                RowCount = count    
             };
+        }
+
+        public async Task<IEnumerable> GetActiveSalutationsListAsync()
+        {
+            return await _context.Salutations.Where(x => x.active == true).OrderBy(x => x.Detail).ToListAsync();
         }
 
         public async Task<MPModel> GetMPAsync(int id)
@@ -78,7 +84,7 @@ namespace ChapsDotNET.Business.Components
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
-                    //SalutationId = x.salutationID,
+                    SalutationID = x.salutationID,
                     FirstNames = x.FirstNames,
                     Surname = x.Surname,
                     Suffix = x.Suffix,
@@ -112,7 +118,7 @@ namespace ChapsDotNET.Business.Components
             var mp = new MP
             {
                 RtHon = model.RtHon,
-                //salutationID = model.SalutationId,
+                salutationID = model.SalutationID,
                 FirstNames = model.FirstNames,
                 Surname = model.Surname,
                 Suffix = model.Suffix,
@@ -146,7 +152,7 @@ namespace ChapsDotNET.Business.Components
             }
 
             mp.RtHon = model.RtHon;
-            //mp.salutationID = model.SalutationId;
+            mp.salutationID = model.SalutationID;
             mp.FirstNames = model.FirstNames;
             mp.Surname = model.Surname;
             mp.Suffix = model.Suffix;
