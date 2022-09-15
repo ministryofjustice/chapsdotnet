@@ -8,7 +8,7 @@ namespace ChapsDotNET.Business.Tests.Common
 	{
 		public static Faker<MP> FakeData { get; } = new Faker<MP>()
             .RuleFor(x => x.RtHon, f => f.Random.Bool())
-            .RuleFor(x => x.salutationID, f => f.Random.Number(1, 10))
+            .RuleFor(x => x.SalutationID, f => f.Random.Number(1, 10))
             .RuleFor(x => x.Surname, f => f.Name.LastName())
             .RuleFor(x => x.FirstNames, f => f.Name.FirstName())
             .RuleFor(x => x.Email, (f, x) => f.Internet.Email(x.FirstNames, x.Surname))

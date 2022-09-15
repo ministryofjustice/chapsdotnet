@@ -8,7 +8,7 @@ namespace ChapsDotNET.Data.Entities
         public bool Auditable() { return true; }
         public bool RtHon { get; set; } = bool.Parse("RtHon");
         public int MPID { get; set; }
-        public int? salutationID { get; set; }
+        public int? SalutationID { get; set; }
         public string Surname { get; set; } = string.Empty;
         public string? AddressLine1 { get; set; }
         public string? AddressLine2 { get; set; }

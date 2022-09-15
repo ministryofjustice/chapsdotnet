@@ -47,7 +47,7 @@ namespace ChapsDotNET.Business.Components
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
-                    SalutationID = x.salutationID,
+                    SalutationId = x.SalutationID,
                     FirstNames = x.FirstNames,
                     Surname = x.Surname,
                     Email = x.Email,
@@ -72,7 +72,8 @@ namespace ChapsDotNET.Business.Components
 
         public async Task<IEnumerable> GetActiveSalutationsListAsync()
         {
-            return await _context.Salutations.Where(x => x.active == true).OrderBy(x => x.Detail).ToListAsync();
+            var salutationsList = await _context.Salutations.Where(x => x.active == true).OrderBy(x => x.Detail).ToListAsync();
+            return salutationsList;
         }
 
         public async Task<MPModel> GetMPAsync(int id)
@@ -84,7 +85,7 @@ namespace ChapsDotNET.Business.Components
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
-                    SalutationID = x.salutationID,
+                    SalutationId = x.SalutationID,
                     FirstNames = x.FirstNames,
                     Surname = x.Surname,
                     Suffix = x.Suffix,
@@ -118,7 +119,7 @@ namespace ChapsDotNET.Business.Components
             var mp = new MP
             {
                 RtHon = model.RtHon,
-                salutationID = model.SalutationID,
+                SalutationID = model.SalutationId,
                 FirstNames = model.FirstNames,
                 Surname = model.Surname,
                 Suffix = model.Suffix,
@@ -152,7 +153,7 @@ namespace ChapsDotNET.Business.Components
             }
 
             mp.RtHon = model.RtHon;
-            mp.salutationID = model.SalutationID;
+            mp.SalutationID = model.SalutationId;
             mp.FirstNames = model.FirstNames;
             mp.Surname = model.Surname;
             mp.Suffix = model.Suffix;

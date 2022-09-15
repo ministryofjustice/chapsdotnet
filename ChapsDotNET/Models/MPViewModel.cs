@@ -10,8 +10,8 @@ namespace ChapsDotNET.Models
         [Key]
         public int MPId { get; set; }
 
-        public int? SalutationID { get; set; }
-        public string? Salutation { get; set; }
+        public int? SalutationId { get; set; }
+        public Salutation Salutation { get; set; } = default!;
 
         [Required, MaxLength(50)]
         public string Surname { get; set; } = String.Empty;
@@ -48,6 +48,6 @@ namespace ChapsDotNET.Models
 
         public bool Active { get; set; }
 
-        public SelectList SalutationList { get; set; }
+        public SelectList SalutationList { get; set; } = default!;
     }
 }

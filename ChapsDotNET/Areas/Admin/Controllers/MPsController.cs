@@ -13,10 +13,12 @@ namespace ChapsDotNET.Areas.Admin.Controllers
     public class MPsController : Controller
     {
         private readonly IMPComponent _mpComponent;
+        private readonly ISalutationComponent _salutationComponent;
 
-        public MPsController(IMPComponent mpComponent)
+        public MPsController(IMPComponent mpComponent, ISalutationComponent salutationComponent)
         {
             _mpComponent = mpComponent;
+            _salutationComponent = salutationComponent;
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -34,14 +36,21 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<ActionResult> Create()
         {
             var model = new MPViewModel();
-            model.SalutationList = new SelectList(await _mpComponent.GetActiveSalutationsListAsync().ConfigureAwait(false), "SalutationID", "Detail");
-            return View(model);
+            var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel { NoPaging = true });
+
+            if (salutations.Results != null)
+            {
+                model.SalutationList = new SelectList(salutations.Results, "SalutationId", "Detail");
+            }
+
+            return View(model);   
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(MPViewModel viewModel)
         {
             await _mpComponent.AddMPAsync(viewModel.ToModel());
+            viewModel.SalutationList = new SelectList(await _mpComponent.GetActiveSalutationsListAsync(), "SalutationID", "Detail");
             return RedirectToAction("Index");
         }
 

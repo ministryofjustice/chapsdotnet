@@ -29,19 +29,19 @@
             @Html.CheckBoxFor(model => model.RtHon)
             @Html.ValidationMessageFor(model => model.RtHon)
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.RtHon)
-        </div>
+
 
         <div class="editor-field">
-            @Html.LabelFor(model => model.SalutationID)
-            @Html.DropDownListFor(model => model.SalutationID, Model.SalutationList, "Please select...", new { @class = "form-control" } )
-            @Html.ValidationMessageFor(model => model.SalutationID)
+            <label class="editor-label" for="Salutations">
+                Salutation:
+            </label>
+            @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList, "Select a Salutation", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SalutationId)
         </div>
 
-        <lable class="editor-label" for="FirstNames">
+        <label class="editor-label" for="FirstNames">
             First name
-        </lable>
+        </label>
 
         <div class="editor-field">
             @Html.EditorFor(model => model.FirstNames)

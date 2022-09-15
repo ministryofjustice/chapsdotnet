@@ -76,7 +76,7 @@ namespace ChapsDotNET.Common.Mappers
             return new MPModel
             {
                 MPId = viewModel.MPId,
-                SalutationID = viewModel.SalutationID,
+                SalutationId = viewModel.SalutationId,
                 Surname = viewModel.Surname,
                 FirstNames = viewModel.FirstNames,
                 AddressLine1 = viewModel.AddressLine1,
@@ -97,7 +97,7 @@ namespace ChapsDotNET.Common.Mappers
             return new MPViewModel
             {
                 MPId = model.MPId,
-                SalutationID = model.SalutationID,
+                SalutationId = model.SalutationId,
                 Surname = model.Surname,
                 FirstNames = model.FirstNames,
                 AddressLine1 = model.AddressLine1,

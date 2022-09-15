@@ -11,7 +11,7 @@ namespace ChapsDotNET.Business.Models
         public bool Active { get; set; }
         public bool RtHon { get; set; }
         public int MPId { get; set; }
-        public int? SalutationID { get; set; }
+        public int? SalutationId { get; set; }
         public string Surname { get; set; } = string.Empty;
         public string? AddressLine1 { get; set; }
         public string? AddressLine2 { get; set; }
@@ -22,7 +22,7 @@ namespace ChapsDotNET.Business.Models
         public string? Postcode { get; set; }
         public string? Suffix { get; set; }
         public string? Town { get; set; }
-        public virtual Salutation? Salutation { get; set; }
+        public virtual Salutation Salutation { get; set; } = default!;
 
         [Display(Name = "Name")]
         public virtual string DisplayFullName

@@ -20,6 +20,7 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
             mockMPComponent.GetMPsAsync(Arg.Any<MPRequestModel>()).Returns(
                 new PagedResult<List<MPModel>>
                 {
@@ -29,7 +30,7 @@ namespace ChapsDotNET.Tests.Areas
                         {
                             MPId = 1,
                             RtHon = false,
-                            SalutationID = 3,
+                            SalutationId = 3,
                             Surname = "Janeway",
                             FirstNames = "Katherine",
                             Email = "kathrine.janeway@starfleet.com",
@@ -47,7 +48,7 @@ namespace ChapsDotNET.Tests.Areas
                         {
                             MPId = 2,
                             RtHon = true,
-                            SalutationID = 28,
+                            SalutationId = 28,
                             Surname = "Picard",
                             FirstNames = "Jean Luc",
                             Email = "j.picard@chateau-picard.com",
@@ -63,7 +64,7 @@ namespace ChapsDotNET.Tests.Areas
                     }
                 }
             );
-            var controller = new MPsController(mockMPComponent);
+            var controller = new MPsController(mockMPComponent, mockSalutationComponent);
 
             // Act
             var result = await controller.Index() as ViewResult;
@@ -81,7 +82,9 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
-            var controller = new MPsController(mockMPComponent);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+
+            var controller = new MPsController(mockMPComponent, mockSalutationComponent);
 
             //Act
             var result = controller.Create();
@@ -95,12 +98,13 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
-            var controller = new MPsController(mockMPComponent);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var controller = new MPsController(mockMPComponent, mockSalutationComponent);
             var mpViewModel = new MPViewModel()
             {
                 MPId = 1,
                 RtHon = false,
-                SalutationID = 3,
+                SalutationId = 3,
                 Surname = "Janeway",
                 FirstNames = "Katherine",
                 Email = "kathrine.janeway@starfleet.com",
@@ -127,12 +131,13 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
-            MPsController controller = new MPsController(mockMPComponent);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            MPsController controller = new MPsController(mockMPComponent, mockSalutationComponent);
             mockMPComponent.GetMPAsync(1).Returns(new MPModel
             {
                 MPId = 2,
                 RtHon = true,
-                SalutationID = 28,
+                SalutationId = 28,
                 Surname = "Picard",
                 FirstNames = "Jean Luc",
                 Email = "j.picard@chateau-picard.com",
@@ -158,14 +163,15 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
-            var controller = new MPsController(mockMPComponent);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var controller = new MPsController(mockMPComponent, mockSalutationComponent);
 
             //Act
             var result = await controller.Edit(new MPViewModel
             {
                 MPId = 3,
                 RtHon = false,
-                SalutationID = 17,
+                SalutationId = 17,
                 Surname = "Troy",
                 FirstNames = "Deanna",
                 Email = "d.troyd@starfleet.com",

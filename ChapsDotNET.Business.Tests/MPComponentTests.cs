@@ -27,7 +27,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 1,
                     RtHon = false,
-                    salutationID = 3,
+                    SalutationID = 3,
                     Surname = "Janeway",
                     FirstNames = "Katherine",
                     Email = "kathrine.janeway@starfleet.com",
@@ -53,7 +53,7 @@ namespace ChapsDotNET.Business.Tests
             result.Results.Should().HaveCount(1);
             result.Results?.First().MPId.Should().Be(1);
             result.Results?.First().RtHon.Should().BeFalse();
-            result.Results?.First().SalutationID.Should().Be(3);
+            result.Results?.First().SalutationId.Should().Be(3);
             result.Results?.First().Surname.Should().Be("Janeway");
             result.Results?.First().FirstNames.Should().Be("Katherine");
             result.Results?.First().Email.Should().Be("kathrine.janeway@starfleet.com");
@@ -76,7 +76,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 1,
                     RtHon = false,
-                    salutationID = 3,
+                    SalutationID = 3,
                     Surname = "Janeway",
                     FirstNames = "Katherine",
                     Email = "kathrine.janeway@starfleet.com",
@@ -94,7 +94,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 2,
                     RtHon = true,
-                    salutationID = 28,
+                    SalutationID = 28,
                     Surname = "Picard",
                     FirstNames = "Jean Luc",
                     Email = "j.picard@chateau-picard.com",
@@ -112,7 +112,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 3,
                     RtHon = true,
-                    salutationID = 17,
+                    SalutationID = 17,
                     Surname = "Troy",
                     FirstNames = "Deanna",
                     Email = "d.troyd@starfleet.com",
@@ -130,7 +130,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 4,
                     RtHon = false,
-                    salutationID = 3,
+                    SalutationID = 3,
                     Surname = "Yar",
                     FirstNames = "Tasha",
                     Email = "t.yar@starfleet.com",
@@ -167,7 +167,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 1,
                     RtHon = false,
-                    salutationID = 3,
+                    SalutationID = 3,
                     Surname = "Janeway",
                     FirstNames = "Katherine",
                     Email = "kathrine.janeway@starfleet.com",
@@ -185,7 +185,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 2,
                     RtHon = true,
-                    salutationID = 28,
+                    SalutationID = 28,
                     Surname = "Picard",
                     FirstNames = "Jean Luc",
                     Email = "j.picard@chateau-picard.com",
@@ -203,7 +203,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 3,
                     RtHon = true,
-                    salutationID = 17,
+                    SalutationID = 17,
                     Surname = "Troy",
                     FirstNames = "Deanna",
                     Email = "d.troyd@starfleet.com",
@@ -221,7 +221,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 4,
                     RtHon = false,
-                    salutationID = 3,
+                    SalutationID = 3,
                     Surname = "Yar",
                     FirstNames = "Tasha",
                     Email = "t.yar@starfleet.com",
@@ -288,7 +288,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 22,
                     RtHon = true,
-                    salutationID = 28,
+                    SalutationID = 28,
                     Surname = "Picard",
                     FirstNames = "Jean Luc",
                     Email = "j.picard@chateau-picard.com",
@@ -307,7 +307,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 44,
                     RtHon = false,
-                    salutationID = 3,
+                    SalutationID = 3,
                     Surname = "Yar",
                     FirstNames = "Tasha",
                     Email = "t.yar@starfleet.com",
@@ -340,7 +340,7 @@ namespace ChapsDotNET.Business.Tests
             result.MPId.Should().Be(44);
             result.Postcode.Should().Be("C17 C02");
             result.RtHon.Should().BeFalse();
-            result.SalutationID.Should().Be(3);
+            result.SalutationId.Should().Be(3);
             result.Suffix.Should().Be("");
             result.Surname.Should().Be("Yar");
             result.Town.Should().Be("Loughton");
@@ -357,7 +357,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 22,
                     RtHon = true,
-                    salutationID = 28,
+                    SalutationID = 28,
                     Surname = "Picard",
                     FirstNames = "Jean Luc",
                     Email = "j.picard@chateau-picard.com",
@@ -376,7 +376,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPID = 44,
                     RtHon = false,
-                    salutationID = 3,
+                    SalutationID = 3,
                     Surname = "Yar",
                     FirstNames = "Tasha",
                     Email = "t.yar@starfleet.com",
@@ -423,7 +423,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 MPId = 8,
                 RtHon = true,
-                SalutationID = 14,
+                SalutationId = 14,
                 Surname = "Crusher",
                 FirstNames = "Beverly",
                 Email = "beverly.crusher@starfleet.com",
@@ -469,7 +469,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 MPId = 8,
                 RtHon = true,
-                SalutationID = 14,
+                SalutationId = 14,
                 Surname = "",
                 FirstNames = "Beverly",
                 Email = "beverly.crusher@starfleet.com",
@@ -500,7 +500,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 MPID = 2,
                 RtHon = true,
-                salutationID = 28,
+                SalutationID = 28,
                 Surname = "Picard",
                 FirstNames = "Jean Luc",
                 Email = "j.picard@chateau-picard.com",
@@ -523,7 +523,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 MPId = 2,
                 RtHon = true,
-                SalutationID = 28,
+                SalutationId = 28,
                 Surname = "Picard",
                 FirstNames = "Jean Luc",
                 Email = "j.picard@chateau-picard.com",
@@ -539,7 +539,7 @@ namespace ChapsDotNET.Business.Tests
 
             // Assert
             context.MPs.First().RtHon.Should().BeTrue();
-            context.MPs.First().salutationID.Should().Be(28);
+            context.MPs.First().SalutationID.Should().Be(28);
             context.MPs.First().Surname.Should().Be("Picard");
             context.MPs.First().FirstNames.Should().Be("Jean Luc");
             context.MPs.First().Email.Should().Be("j.picard@chateau-picard.com");
@@ -563,7 +563,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 MPID = 1,
                 RtHon = false,
-                salutationID = 3,
+                SalutationID = 3,
                 Surname = "Janeway",
                 FirstNames = "Katherine",
                 Email = "kathrine.janeway@starfleet.com",
@@ -597,7 +597,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 MPID = 3,
                 RtHon = true,
-                salutationID = 17,
+                SalutationID = 17,
                 Surname = "Troy",
                 FirstNames = "Deanna",
                 Email = "d.troyd@starfleet.com",
@@ -621,7 +621,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     MPId = 3,
                     RtHon = true,
-                    SalutationID = 17,
+                    SalutationId = 17,
                     Surname = string.Empty,
                     FirstNames = "Deanna",
                     Email = "d.troyd@starfleet.com",
