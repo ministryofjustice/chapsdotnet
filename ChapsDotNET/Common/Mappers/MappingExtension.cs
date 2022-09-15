@@ -88,7 +88,8 @@ namespace ChapsDotNET.Common.Mappers
                 Email = viewModel.Email,
                 RtHon = viewModel.RtHon,
                 Suffix = viewModel.Suffix,
-                Active = viewModel.Active
+                Active = viewModel.Active,
+                DisplayFullName = viewModel.DisplayFullName
             };
         }
 
@@ -109,7 +110,9 @@ namespace ChapsDotNET.Common.Mappers
                 Email = model.Email,
                 RtHon = model.RtHon,
                 Suffix = model.Suffix,
-                Active = model.Active
+                Active = model.Active,
+                DisplayFullName = model.DisplayFullName
+
             };
         }
 

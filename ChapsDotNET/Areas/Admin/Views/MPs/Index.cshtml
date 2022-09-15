@@ -44,9 +44,9 @@
     </thead>
     @foreach (var mp in Model.ToList())
     {
-        <tr>
+            <tr>
             <td>
-                <a href="/Admin/MPs/Edit/@mp.MPId"> 
+                <a href="/Admin/MPs/Edit/@mp.MPId">
                     @Html.DisplayFor(modelItem => mp.DisplayFullName)
                 </a>
             </td>

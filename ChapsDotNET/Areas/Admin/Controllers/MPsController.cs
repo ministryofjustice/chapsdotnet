@@ -3,6 +3,7 @@ using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
+using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,12 +25,20 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<IActionResult> Index(int page = 1)
         {
             var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel
-                {
-                    PageNumber = page,
-                    PageSize = 10,
-                    ShowActiveAndInactive = true
-                }
+            {
+                PageNumber = page,
+                PageSize = 10,
+                ShowActiveAndInactive = true
+            }
             );
+
+            foreach (var item in pagedResult.Results)
+            {
+                if (item != null)
+                {
+                    item.DisplayFullName = DisplayFullName(item.MPId).Result;
+                }
+            }
             return View(pagedResult.Results);
         }
 
@@ -50,7 +59,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<ActionResult> Create(MPViewModel viewModel)
         {
             await _mpComponent.AddMPAsync(viewModel.ToModel());
-            viewModel.SalutationList = new SelectList(await _mpComponent.GetActiveSalutationsListAsync(), "SalutationID", "Detail");
+            //viewModel.SalutationList = new SelectList(await _mpComponent.GetSalutationsListAsync(), "SalutationID", "Detail");
+            
             return RedirectToAction("Index");
         }
 
@@ -65,6 +75,37 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             await _mpComponent.UpdateMPAsync(viewModel.ToModel());
             return RedirectToAction("index");
+        }
+
+        public async Task<string> DisplayFullName(int id)
+        {
+
+            var mpmodel = await _mpComponent.GetMPAsync(id);
+            var mp = mpmodel.ToViewModel();
+            string? s = null;
+            if (mp.SalutationId != null)
+            {
+                s = _salutationComponent.GetSalutationAsync((int)mp.SalutationId).Result.Detail;
+            }
+            else
+            {
+                s = String.Empty;
+            }
+           
+            List<string> nameParts = new List<string>();
+
+            if (mp.RtHon == true)
+            {
+                nameParts.Add("RtHon");
+            }
+
+            nameParts.Add(s);
+            nameParts.Add(mp.FirstNames != null ? mp.FirstNames : null);
+            nameParts.Add(mp.Surname);
+            nameParts.Add(mp.Suffix != null ? mp.Suffix : null);
+
+            return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
+
         }
     }
 }
