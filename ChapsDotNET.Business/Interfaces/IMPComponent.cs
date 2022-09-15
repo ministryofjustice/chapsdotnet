@@ -11,6 +11,5 @@ namespace ChapsDotNET.Business.Interfaces
         Task UpdateMPAsync(MPModel model);
         Task<MPModel> GetMPAsync(int id);
         Task<IEnumerable> GetActiveSalutationsListAsync();
-        
     }
 }

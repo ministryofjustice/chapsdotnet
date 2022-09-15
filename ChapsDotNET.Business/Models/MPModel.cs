@@ -25,46 +25,6 @@ namespace ChapsDotNET.Business.Models
         public virtual Salutation Salutation { get; set; } = default!;
         public string? DisplayFullName { get; set; }
 
-        //[Display(Name = "Name")]
-        //public virtual string DisplayFullName
-        //{
-        //    get
-        //    {
-        //        List<string> nameParts = new List<string>();
-
-        //        if (RtHon == true)
-        //        {
-        //            nameParts.Add("RtHon");
-        //        }
-        //        nameParts.Add(SalutationId.ToString() != null ? Salutation.Details : null);
-        //        nameParts.Add(FirstNames != null ? FirstNames : null);
-        //        nameParts.Add(Surname);
-        //        nameParts.Add(Suffix != null ? Suffix : null);
-        //        return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
-        //    }
-        //}
-
-        //public async Task<string> DisplayFullName(int id)
-        //{
-
-        //    var mpmodel = await _mpComponent.GetMPAsync(id);
-        //    var mp = mpmodel.ToViewModel();
-        //    var salutation = _salutationComponent.GetSalutationAsync((int)mp.SalutationId).Result.Detail;
-        //    List<string> nameParts = new List<string>();
-
-        //    if (mp.RtHon == true)
-        //    {
-        //        nameParts.Add("RtHon");
-        //    }
-        //    nameParts.Add(mp.SalutationId.ToString() != null ? salutation : null);
-        //    nameParts.Add(mp.FirstNames != null ? mp.FirstNames : null);
-        //    nameParts.Add(mp.Surname);
-        //    nameParts.Add(mp.Suffix != null ? mp.Suffix : null);
-
-        //    return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
-
-        //}
-
         //builds the address with out spaces
         public virtual List<string> populatedLines
         {

@@ -16,14 +16,6 @@
     @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
 </div>
 
-<style>
-    table {
-        border-collapse: collapse;
-    }
-    tbody tr:nth-child(odd) {
-        background-color: #f9f9f2;
-    }
-</style>
 <table>
     <caption class="caption">Existing members of Parliament</caption>
     <thead>
@@ -44,7 +36,7 @@
     </thead>
     @foreach (var mp in Model.ToList())
     {
-            <tr>
+        <tr>
             <td>
                 <a href="/Admin/MPs/Edit/@mp.MPId">
                     @Html.DisplayFor(modelItem => mp.DisplayFullName)

@@ -47,10 +47,7 @@ namespace ChapsDotNET.Models
         public string? Suffix { get; set; }
 
         public bool Active { get; set; }
-
         public SelectList SalutationList { get; set; } = default!;
-
         public string? DisplayFullName { get; set; }
-
     }
 }

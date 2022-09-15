@@ -30,13 +30,12 @@
             @Html.ValidationMessageFor(model => model.RtHon)
         </div>
 
-        @*<div class="editor-label">
-            @Html.LabelFor(model => model.Salutation)
-        </div>*@
+        <label class="editor-label" for="salutationId">
+            Salutation
+        </label>
 
         @*<div class="editor-field">
-            @Html.LabelFor(model => model.SalutationId)
-            @Html.DropDownListFor(model => model.SalutationId, Model.SalutationList, "Please select...")
+            @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList, Model.Salutation);
             @Html.ValidationMessageFor(model => model.SalutationId)
         </div>*@
 
@@ -47,7 +46,7 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.FirstNames)
             @Html.ValidationMessageFor(model => model.FirstNames)
-        </div>  
+        </div>
 
         <label class="editor-label" for="Surname">
             Last name

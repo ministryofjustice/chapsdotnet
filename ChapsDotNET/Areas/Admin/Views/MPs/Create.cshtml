@@ -30,12 +30,12 @@
             @Html.ValidationMessageFor(model => model.RtHon)
         </div>
 
+        <label class="editor-label" for="salutationId">
+            Salutation
+        </label>
 
         <div class="editor-field">
-            <label class="editor-label" for="Salutations">
-                Salutation:
-            </label>
-            @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList, "Select a Salutation", new { @class = "form-control" })
+            @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList, "Select a Salutation")
             @Html.ValidationMessageFor(model => model.SalutationId)
         </div>
 
@@ -130,5 +130,5 @@
         </div>
 
         <input class="button" type="submit" value="Create" />
-    </fieldset>
+</fieldset>
 }

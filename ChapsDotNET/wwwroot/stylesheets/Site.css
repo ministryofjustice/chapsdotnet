@@ -83,7 +83,7 @@ th {
     -moz-border-radius: 4px 4px 0 0;
 }
 
-tbody tr:nth-child(odd) {
+tbody tr:nth-child(even) {
     background-color: #f9f9f2;
 }
 

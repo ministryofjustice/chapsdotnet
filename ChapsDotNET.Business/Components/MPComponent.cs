@@ -171,7 +171,5 @@ namespace ChapsDotNET.Business.Components
             _context.MPs.Update(mp);
             await _context.SaveChangesAsync();
         }
-
-        
     }
 }

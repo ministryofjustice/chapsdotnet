@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Components;
+﻿using System.Text;
+using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
@@ -32,7 +33,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             }
             );
 
-            foreach (var item in pagedResult.Results)
+            foreach (var item in pagedResult.Results!)
             {
                 if (item != null)
                 {
@@ -58,9 +59,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(MPViewModel viewModel)
         {
-            await _mpComponent.AddMPAsync(viewModel.ToModel());
-            //viewModel.SalutationList = new SelectList(await _mpComponent.GetSalutationsListAsync(), "SalutationID", "Detail");
-            
+            await _mpComponent.AddMPAsync(viewModel.ToModel());            
             return RedirectToAction("Index");
         }
 
@@ -79,10 +78,10 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
         public async Task<string> DisplayFullName(int id)
         {
-
             var mpmodel = await _mpComponent.GetMPAsync(id);
             var mp = mpmodel.ToViewModel();
             string? s = null;
+
             if (mp.SalutationId != null)
             {
                 s = _salutationComponent.GetSalutationAsync((int)mp.SalutationId).Result.Detail;
@@ -91,7 +90,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             {
                 s = String.Empty;
             }
-           
+
             List<string> nameParts = new List<string>();
 
             if (mp.RtHon == true)
@@ -99,13 +98,12 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 nameParts.Add("RtHon");
             }
 
-            nameParts.Add(s);
-            nameParts.Add(mp.FirstNames != null ? mp.FirstNames : null);
+            nameParts.Add(s!);
+            nameParts.Add(mp.FirstNames != null ? mp.FirstNames : null!);
             nameParts.Add(mp.Surname);
-            nameParts.Add(mp.Suffix != null ? mp.Suffix : null);
+            nameParts.Add(mp.Suffix != null ? mp.Suffix : null!);
 
             return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
-
         }
     }
 }
