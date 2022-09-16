@@ -5,11 +5,11 @@ using ChapsDotNET.Business.Models.Common;
 
 namespace ChapsDotNET.Business.Interfaces
 {
-    public interface IPublicHolidayComponent
+    public interface IReportComponent
     {
-        Task<PagedResult<List<PublicHolidayModel>>> GetPublicHolidaysAsync(PublicHolidayRequestModel request);
-        Task<PublicHolidayModel> GetPublicHolidayAsync(int id);
-        Task<int> AddPublicHolidayAsync(PublicHolidayModel model);
-        Task UpdatePublicHolidayAsync(PublicHolidayModel model);
+        
+        Task<ReportModel> GetReportAsync(int id);
+
+        Task UpdateReportAsync(ReportModel model);
     }
 }
