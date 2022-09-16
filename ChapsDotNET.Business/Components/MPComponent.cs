@@ -72,11 +72,6 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
-        public async Task<IEnumerable> GetActiveSalutationsListAsync()
-        {
-            var salutationsList = await _context.Salutations.Where(x => x.active == true).OrderBy(x => x.Detail).ToListAsync();
-            return salutationsList;
-        }
 
         public async Task<MPModel> GetMPAsync(int id)
         {

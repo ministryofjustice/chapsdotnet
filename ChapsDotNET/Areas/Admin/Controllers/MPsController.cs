@@ -1,5 +1,4 @@
-﻿using System.Text;
-using ChapsDotNET.Business.Components;
+﻿using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
@@ -46,7 +45,11 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<ActionResult> Create()
         {
             var model = new MPViewModel();
-            var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel { NoPaging = true });
+            var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel
+            {
+                PageSize = 75,
+                ShowActiveAndInactive = false
+            });
 
             if (salutations.Results != null)
             {
@@ -59,14 +62,26 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(MPViewModel viewModel)
         {
-            await _mpComponent.AddMPAsync(viewModel.ToModel());            
+            await _mpComponent.AddMPAsync(viewModel.ToModel());
             return RedirectToAction("Index");
         }
 
         public async Task<ActionResult> Edit(int id)
         {
             var model = await _mpComponent.GetMPAsync(id);
-            return View(model.ToViewModel());
+            var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel
+            {
+                PageSize = 75,
+                ShowActiveAndInactive = false
+            });
+
+            var viewModel = model.ToViewModel();
+            if (salutations.Results != null)
+            {
+                viewModel.SalutationList = new SelectList(salutations.Results, "SalutationId", "Detail");
+            }
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -80,17 +95,16 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             var mpmodel = await _mpComponent.GetMPAsync(id);
             var mp = mpmodel.ToViewModel();
-            string? s = null;
-
+            string? salutation = null;
             if (mp.SalutationId != null)
             {
-                s = _salutationComponent.GetSalutationAsync((int)mp.SalutationId).Result.Detail;
+                salutation = _salutationComponent.GetSalutationAsync((int)mp.SalutationId).Result.Detail;
             }
             else
             {
-                s = String.Empty;
+                salutation = String.Empty;
             }
-
+           
             List<string> nameParts = new List<string>();
 
             if (mp.RtHon == true)
@@ -98,12 +112,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 nameParts.Add("RtHon");
             }
 
-            nameParts.Add(s!);
+            nameParts.Add(salutation!);
             nameParts.Add(mp.FirstNames != null ? mp.FirstNames : null!);
             nameParts.Add(mp.Surname);
             nameParts.Add(mp.Suffix != null ? mp.Suffix : null!);
 
             return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
+
         }
     }
 }

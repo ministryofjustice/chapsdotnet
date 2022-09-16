@@ -35,7 +35,7 @@
         </label>
 
         <div class="editor-field">
-            @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList, "Select a Salutation")
+            @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList,  Model.Salutation)
             @Html.ValidationMessageFor(model => model.SalutationId)
         </div>
 
