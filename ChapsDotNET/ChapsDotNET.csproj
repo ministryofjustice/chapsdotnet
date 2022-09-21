@@ -38,6 +38,7 @@
     <None Remove="Areas\Admin\Views\MoJMinisters\" />
     <None Remove="Areas\Admin\Views\Campaigns\" />
     <None Remove="Areas\Admin\Views\LeadSubjects\" />
+    <None Remove="Areas\Admin\Views\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
@@ -69,6 +70,7 @@
     <Folder Include="Areas\Admin\Views\MoJMinisters\" />
     <Folder Include="Areas\Admin\Views\Campaigns\" />
     <Folder Include="Areas\Admin\Views\LeadSubjects\" />
+    <Folder Include="Areas\Admin\Views\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\javascripts\" />

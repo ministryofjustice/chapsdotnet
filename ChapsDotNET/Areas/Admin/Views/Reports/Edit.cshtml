@@ -1,0 +1,50 @@
+﻿@model ChapsDotNET.Models.ReportViewModel
+
+@{
+    ViewData["Title"] = "Edit an existing report";
+}
+
+<link rel="stylesheet" type="text/css" href="ChapsDotNET/wwwroot/Content/jHtmlArea.css" />
+<script type="text/javascript" src="ChapsDotNET/wwwroot/lib/jHtmlArea/jHtmlArea-0.8.min.js"></script>
+<script>$(function () { ('textarea').htmlarea(); });</script>
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+    &nbsp;>&nbsp;
+    <a href="/Admin/Reports">Reports</a>
+</div>
+
+@using (Html.BeginForm())
+{
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+
+        @Html.HiddenFor(model => model.ReportId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+
+        <textarea id="descriptionEditor" cols ="100" rows="3">
+        @Model.Description
+        </textarea>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LongDescription)
+        </div>
+
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.LongDescription, new { @class = "form-control", @style = "width:50%" })
+            @Html.ValidationMessageFor(model => model.LongDescription)
+        </div>
+
+        <input type="submit" value="Save" />
+    </fieldset>
+}
+

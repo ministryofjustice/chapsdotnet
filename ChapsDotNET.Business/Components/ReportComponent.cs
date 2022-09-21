@@ -4,6 +4,7 @@ using ChapsDotNET.Business.Models;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ChapsDotNET.Business.Components
 {
@@ -13,7 +14,20 @@ namespace ChapsDotNET.Business.Components
 
         public ReportComponent(DataContext context)
         {
-            this._context = context;
+            _context = context;
+        }
+
+        public async Task<List<ReportModel>> GetReportsAsync()
+        {
+            var query = _context.Reports.AsQueryable();
+            var reportsList = await query.Select(x => new ReportModel
+                {
+                    ReportId = x.ReportId,
+                    Name = x.Name,
+                    Description = x.Description,
+                    LongDescription = x.LongDescription
+                }).ToListAsync();
+            return reportsList;
         }
 
         public async Task<ReportModel> GetReportAsync(int id)
@@ -27,6 +41,7 @@ namespace ChapsDotNET.Business.Components
                     ReportId = x.ReportId,
                     Name = x.Name,
                     Description = x.Description,
+                    LongDescription = x.LongDescription
                 }).SingleOrDefaultAsync();
 
             if (Report == null)
@@ -56,6 +71,7 @@ namespace ChapsDotNET.Business.Components
             }
 
             Report.Description = model.Description;
+            Report.LongDescription = model.LongDescription;
 
             await _context.SaveChangesAsync();
         }

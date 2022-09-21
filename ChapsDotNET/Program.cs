@@ -67,6 +67,7 @@ builder.Services.AddScoped<IMoJMinisterComponent, MoJMinisterComponent>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
 builder.Services.AddScoped<ILeadSubjectComponent, LeadSubjectComponent>();
 builder.Services.AddScoped<ITeamComponent, TeamComponent>();
+builder.Services.AddScoped<IReportComponent, ReportComponent>();
 
 var app = builder.Build();
 
