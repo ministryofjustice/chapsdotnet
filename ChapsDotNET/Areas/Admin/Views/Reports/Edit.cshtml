@@ -16,31 +16,32 @@
 
 @using (Html.BeginForm())
 {
-    <fieldset class="form-fieldset">
-        <legend>
-            <h1>@ViewBag.Title</h1>
-        </legend>
-
+    <fieldset class="form-fieldset", style="margin-left: 50px;">
+        <h1>@ViewBag.Title</h1>
+        <br />
+        <br />
         @Html.HiddenFor(model => model.ReportId)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Description)
         </div>
 
-        <textarea id="short-description" cols="100" rows="3">
-            @Model.Description
-        </textarea>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.Description, new { @id = "short-description", @class = "form-control", @style = "width:50%", @rows = "10" })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.LongDescription)
         </div>
 
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.LongDescription, new { @id = "long-description", @class = "form-control", @style = "width:50%" })
+            @Html.TextAreaFor(model => model.LongDescription, new { @id = "long-description", @class = "form-control", @style = "width:50%", @rows = "10" })
             @Html.ValidationMessageFor(model => model.LongDescription)
         </div>
 
         <input type="submit" value="Save" />
     </fieldset>
+
 }
 

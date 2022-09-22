@@ -39,7 +39,23 @@
                 }
             }
         });
-        $('#short-description').htmlarea();
-        $('#long-description').htmlarea();
+        $('#short-description').htmlarea({
+            toolbar: [
+                "bold", "italic","underline",
+                "|",
+                "h1", "h2", "p",
+                "|",
+                "orderedList", "unorderedList"
+            ]
+        });
+        $('#long-description').htmlarea({
+            toolbar: [
+                "bold", "italic", "underline",
+                "|",
+                "h1", "h2", "p",
+                "|",
+                "orderedList", "unorderedList"
+            ]
+        });
     });
 }());
