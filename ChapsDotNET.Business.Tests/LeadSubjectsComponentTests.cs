@@ -13,7 +13,7 @@ namespace ChapsDotNET.Business.Tests
 {
     public class LeadSubjectsComponentTests
     {
-        [Fact(DisplayName = "Get a list of salutations when GetSalutationsAsync is called")]
+        [Fact(DisplayName = "Get a list of lead subjects when GetLeadSubjectsAsync is called")]
         public async Task GetAListOfLeadSubjectsWhenGetLeadSubjectsAsyncIsCalled()
         {
             // Arrange
@@ -114,10 +114,10 @@ namespace ChapsDotNET.Business.Tests
 
             await context.SaveChangesAsync();
 
-            var salutationComponent = new LeadSubjectComponent(context);
+            var leadsubjectComponent = new LeadSubjectComponent(context);
 
             // Act
-            var result = await salutationComponent.GetLeadSubjectsAsync(new LeadSubjectRequestModel
+            var result = await leadsubjectComponent.GetLeadSubjectsAsync(new LeadSubjectRequestModel
             {
                 ShowActiveAndInactive = true
             });
