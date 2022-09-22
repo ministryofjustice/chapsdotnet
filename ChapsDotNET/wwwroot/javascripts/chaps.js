@@ -39,6 +39,7 @@
                 }
             }
         });
-        $('#descriptionEditor').htmlarea();
+        $('#short-description').htmlarea();
+        $('#long-description').htmlarea();
     });
 }());

@@ -4,15 +4,6 @@
     ViewData["Title"] = "Edit an existing report";
 }
 
-
-@*@section Scripts
-{
-    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Content/jHtmlArea/jHtmlArea.css") />
-    <script type="text/javascript" src="~/lib/jHtmlArea/jHtmlArea-0.8.min.js"></script>
-    <script type="text/javascript">$(function () { ('textarea').htmlarea(); });</script>
-}*@
-
-
 <div class="breadcrumbs">
     <a href="">Home</a>
     &nbsp;>&nbsp;
@@ -36,8 +27,8 @@
             @Html.LabelFor(model => model.Description)
         </div>
 
-        <textarea id="descriptionEditor" cols="100" rows="3">
-        @Model.Description
+        <textarea id="short-description" cols="100" rows="3">
+            @Model.Description
         </textarea>
 
         <div class="editor-label">
@@ -45,7 +36,7 @@
         </div>
 
         <div class="editor-field">
-            @Html.TextAreaFor(model => model.LongDescription, new { @class = "form-control", @style = "width:50%" })
+            @Html.TextAreaFor(model => model.LongDescription, new { @id = "long-description", @class = "form-control", @style = "width:50%" })
             @Html.ValidationMessageFor(model => model.LongDescription)
         </div>
 

@@ -1,20 +1,21 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>@ViewBag.Title</title>
+    <title>@ViewBag.Title</title>
 
-        <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/stylesheets/menuBar.css")" />
-        <link rel="stylesheet" type="text/css" media="print" href="@Url.Content("~/stylesheets/menuBarPrint.css")" />
-        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" />
-        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/Site.css")" />
+    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/stylesheets/menuBar.css")" />
+    <link rel="stylesheet" type="text/css" media="print" href="@Url.Content("~/stylesheets/menuBarPrint.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/jHtmlArea/jHtmlArea.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/Site.css")" />
 
-        @RenderSection("head", false)
+    @RenderSection("head", false)
 
 
-    </head>
+</head>
     <body>
         @*@{Html.RenderAction("DisplayAlerts", "Home", new { area = "" });}*@
         <div>
@@ -58,12 +59,8 @@
         <script type="text/javascript" src="~/lib/jquery-ui-1.13.1.min.js"></script>
         <script type="text/javascript" src="~/lib/jquery.validate.min.js"></script>
         <script type="text/javascript" src="~/lib/jquery.validate.unobtrusive.min.js"></script>
+        <script type="text/javascript" src="~/lib/jHtmlArea-0.8.min.js"></script>
         <script type="text/javascript" src="~/javascripts/chaps.js" async></script>
-        @*@RenderSection("Scripts", false)*@
-
-        <link rel="stylesheet" type="text/css" href=@Url.Content("~/stylesheets/jHtmlArea/jHtmlArea.css") />
-        <script type="text/javascript" src="~/lib/jHtmlArea/jHtmlArea-0.8.min.js"></script>
-        @*<script type="text/javascript">$(function () { ('textarea').htmlarea(); });</script>*@
 
         <script type="text/javascript">
                 $(document).ready(function () {
