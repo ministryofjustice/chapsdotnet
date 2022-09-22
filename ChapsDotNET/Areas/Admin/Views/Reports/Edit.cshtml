@@ -4,9 +4,14 @@
     ViewData["Title"] = "Edit an existing report";
 }
 
-<link rel="stylesheet" type="text/css" href="ChapsDotNET/wwwroot/Content/jHtmlArea.css" />
-<script type="text/javascript" src="ChapsDotNET/wwwroot/lib/jHtmlArea/jHtmlArea-0.8.min.js"></script>
-<script>$(function () { ('textarea').htmlarea(); });</script>
+
+@*@section Scripts
+{
+    <link rel="stylesheet" type="text/css" href=@Url.Content("~/Content/jHtmlArea/jHtmlArea.css") />
+    <script type="text/javascript" src="~/lib/jHtmlArea/jHtmlArea-0.8.min.js"></script>
+    <script type="text/javascript">$(function () { ('textarea').htmlarea(); });</script>
+}*@
+
 
 <div class="breadcrumbs">
     <a href="">Home</a>
@@ -31,7 +36,7 @@
             @Html.LabelFor(model => model.Description)
         </div>
 
-        <textarea id="descriptionEditor" cols ="100" rows="3">
+        <textarea id="descriptionEditor" cols="100" rows="3">
         @Model.Description
         </textarea>
 
