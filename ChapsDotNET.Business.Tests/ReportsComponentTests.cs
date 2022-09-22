@@ -77,37 +77,41 @@ namespace ChapsDotNET.Business.Tests
             result.LongDescription.Should().Be("Long Description 53");
         }
 
-        //[Fact(DisplayName = "What happens for the wrong ReportId?")]
-        //public async Task GetWrongReportAsync()
-        //{
-        //    // Arrange
-        //    var context = DataContextFactory.Create();
-        //    await context.Reports.AddAsync(new Report
-        //    {
-        //        ReportId = 2,
-        //        Detail = "Brexit",
-        //        active = true
-        //    });
+        [Fact(DisplayName = "What happens for the wrong ReportId?")]
+        public async Task GetWrongReportAsync()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+            await context.Reports.AddAsync(new Report
+            {
+                ReportId = 2,
+                Name = "Report 2",
+                Description = "Description 2",
+                LongDescription = "Long Description 2"
+            });
 
-        //    await context.Reports.AddAsync(new Report
-        //    {
-        //        ReportId = 54,
-        //        Detail = "Courts",
-        //        active = true
-        //    });
+            await context.Reports.AddAsync(new Report
+            {
+                ReportId = 53,
+                Name = "Report 53",
+                Description = "Description 53",
+                LongDescription = "Long Description 53"
+            });
 
-        //    await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
-        //    var ReportComponent = new ReportComponent(context);
+            var ReportComponent = new ReportComponent(context);
 
-        //    // Act
-        //    var result = await ReportComponent.GetReportAsync(53);
+            // Act
+            var result = await ReportComponent.GetReportAsync(54);
 
-        //    // Assert
-        //    result.Detail.Should().BeNull();
-        //}
+            // Assert
+            result.Description.Should().BeNull();
+            result.LongDescription.Should().BeNull();
 
-        
+        }
+
+
 
     }
 }

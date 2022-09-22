@@ -48,7 +48,8 @@ namespace ChapsDotNET.Business.Components
             {
                 return new ReportModel
                 {
-                    Description = null
+                    Description = null,
+                    LongDescription = null
                 };
             }
             return Report;
