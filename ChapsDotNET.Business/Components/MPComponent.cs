@@ -27,6 +27,7 @@ namespace ChapsDotNET.Business.Components
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of MP Models</returns>
+
         public async Task<PagedResult<List<MPModel>>> GetMPsAsync(MPRequestModel request)
         {
             var query = _context.MPs.AsQueryable();
@@ -36,7 +37,24 @@ namespace ChapsDotNET.Business.Components
                 query = query.Where(x => x.active == true);
             }
 
-            query = query.OrderBy(x => x.Surname);
+            // ----------------------------------------------------------------
+
+            if (request.nameSearchTerm != null)
+            {
+                query = query.Where( x => x.FirstNames!.Contains(request.nameSearchTerm) || x.Surname.Contains(request.nameSearchTerm) ).OrderBy( x => x.Surname );
+            }
+            if (request.addressSearchTerm != null)
+            {
+                query = query.Where( x => x.AddressLine1!.Contains(request.addressSearchTerm) || x.AddressLine2!.Contains(request.addressSearchTerm) || x.AddressLine3!.Contains(request.addressSearchTerm) || x.Town!.Contains(request.addressSearchTerm) || x.County!.Contains(request.addressSearchTerm) || x.Postcode!.Contains(request.addressSearchTerm) ).OrderBy( x => x.AddressLine1 );
+            }
+            if (request.emailSearchTerm != null)
+            {
+                query = query.Where( x => x.Email!.Contains(request.emailSearchTerm) ).OrderBy( x => x.Email );
+            }
+            else
+                query = query.OrderBy(x => x.Surname);
+
+            // ----------------------------------------------------------------
 
             //Row Count
             var count = await query.CountAsync();
@@ -71,7 +89,6 @@ namespace ChapsDotNET.Business.Components
                 RowCount = count    
             };
         }
-
 
         public async Task<MPModel> GetMPAsync(int id)
         {

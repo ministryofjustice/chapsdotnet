@@ -112,7 +112,6 @@ namespace ChapsDotNET.Common.Mappers
                 Suffix = model.Suffix,
                 Active = model.Active,
                 DisplayFullName = model.DisplayFullName
-
             };
         }
 

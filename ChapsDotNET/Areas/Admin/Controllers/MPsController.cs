@@ -1,4 +1,6 @@
-﻿using ChapsDotNET.Business.Components;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
@@ -22,14 +24,22 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _salutationComponent = salutationComponent;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index(
+            string nameSearchTerm,
+            string addressSearchTerm,
+            string emailSearchTerm,
+            int page = 1
+        )
         {
             var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel
-            {
-                PageNumber = page,
-                PageSize = 10,
-                ShowActiveAndInactive = true
-            }
+                {
+                    PageNumber = page,
+                    PageSize = 10,
+                    ShowActiveAndInactive = true,
+                    nameSearchTerm = nameSearchTerm,
+                    addressSearchTerm = addressSearchTerm,
+                    emailSearchTerm = emailSearchTerm
+                }
             );
 
             foreach (var item in pagedResult.Results!)

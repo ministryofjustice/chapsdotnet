@@ -7,11 +7,13 @@
 <style>
     .flex-container {
         display: flex;
-        flex-wrap: wrap;   
+        flex-wrap: wrap;
     }
+
     .flex-container > form,
     .flex-container > table {
         margin: 15px;
+        height: min-content;
     }
 </style>
 
@@ -27,42 +29,41 @@
     @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
 </div>
 
-<h2>Existing members of Parliament</h2>
-
 <div class="flex-container">
+    @using (Html.BeginForm())
+    {
+        <fieldset>
+            <legend class="caption">
+                Filter
+            </legend>
+            <label class="editor-label" for="nameContains">
+                Name contains:
+            </label>
+            <div class="editor-field">
+                @Html.TextBox("nameSearchTerm", null)
+            </div>
 
-    <form id="filters" action="/Chaps_deploy/Admin/MPs" method="post" novalidate="novalidate">
-        <legend>
-            <h3>Filter MPs</h3>
-        </legend>
-        <label class="editor-label" for="nameContains">
-            Name contains
-        </label>
-        <div class="editor-field">
-            <input id="nameContains" name="nameContains" type="text" value="">
-        </div>
-        <label class="editor-label" for="addressContains">
-            Address contains
-        </label>
-        <div class="editor-field">
-            <input id="addressContains" name="addressContains" type="text" value="">
-        </div>
-        <label class="editor-label" for="emailContains">
-            Email contains
-        </label>
-        <div class="editor-field">
-            <input id="emailContains" name="emailContains" type="text" value="" accesskey="F">
-        </div>
-        <label class="editor-label" for="onlyActive">
-            Is active
-        </label>
-        <div class="editor-field">
-            <input id="onlyActive" name="onlyActive" type="checkbox" value="True" checked="checked" data-val="true" data-val-required="The onlyActive field is required.">
-        </div>
-    </form>
+            <label class="editor-label" for="addressSearchTerm">
+                Address contains
+            </label>
+            <div class="editor-field">
+                @Html.TextBox("addressContains", null)
+            </div>
+
+            <label class="editor-label" for="emailSearchTerm">
+                Email address contains
+            </label>
+            <div class="editor-field">
+                @Html.TextBox("emailSearchTerm", null)
+            </div>
+
+            @*@Html.TextBox("onlyActive", null)*@
+            <input alt="Filter MPs" type="submit" value="Apply filters" />
+        </fieldset>
+    }
 
     <table>
-        @*<caption class="caption">Existing members of Parliament</caption>*@
+        <caption class="caption">Members of Parliament</caption>
         <thead>
             <tr>
                 <th>
@@ -77,30 +78,33 @@
                 <th>
                     Active
                 </th>
+                <th>
+                </th>
             </tr>
         </thead>
-        @foreach (var mp in Model.ToList())
-        {
-            <tr>
-                <td>
-                    <a href="/Admin/MPs/Edit/@mp.MPId">
-                        @Html.DisplayFor(modelItem => mp.DisplayFullName)
-                    </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => mp.DisplaySingleLineAddress)
-                </td>
-                <td>
-                    @if (!string.IsNullOrWhiteSpace(mp.Email))
-                    {
-                        @Html.DisplayFor(x => mp.Email)
-                    }
-                </td>
-                <td align="center">
-                    @Html.DisplayFor(x => mp.Active)
-                </td>
-            </tr>
-        }
+        <tbody>
+            @foreach (var mp in Model.ToList())
+            {
+                <tr>
+                    <td>
+                        <a href="/Admin/MPs/Edit/@mp.MPId">
+                            @Html.DisplayFor(modelItem => mp.DisplayFullName)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => mp.DisplaySingleLineAddress)
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(mp.Email))
+                        {
+                            @Html.DisplayFor(x => mp.Email)
+                        }
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(x => mp.Active)
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
-
 </div>

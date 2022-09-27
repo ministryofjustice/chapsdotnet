@@ -15,6 +15,22 @@ body {
     font-size: 0.8em;
 }
 
+/* RESPONSIVE ELEMENTS   
+----------------------------------------------------------*/
+
+/*.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-container > form,
+.flex-container > table {
+    margin: 15px;
+    height: min-content;
+}*/
+
+/* -------------------------------------------------------*/
+
 img {
     border: none;
 }
@@ -178,7 +194,6 @@ td {
 td:last-child {
     padding-right: 0;
 }
-
 
 /* HEADINGS   
 ----------------------------------------------------------*/
