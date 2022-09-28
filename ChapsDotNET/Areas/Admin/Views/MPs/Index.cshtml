@@ -4,19 +4,6 @@
     ViewData["Title"] = "Members of Parliament administration";
 }
 
-<style>
-    .flex-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .flex-container > form,
-    .flex-container > table {
-        margin: 15px;
-        height: min-content;
-    }
-</style>
-
 <div class="breadcrumbs">
     <a href="">Home</a>
     &nbsp;>&nbsp;
@@ -40,24 +27,30 @@
                 Name contains:
             </label>
             <div class="editor-field">
-                @Html.TextBox("nameSearchTerm", null)
+                @Html.TextBox("nameFilterTerm", null)
             </div>
 
-            <label class="editor-label" for="addressSearchTerm">
+            <label class="editor-label" for="addressFilterTerm">
                 Address contains
             </label>
             <div class="editor-field">
-                @Html.TextBox("addressContains", null)
+                @Html.TextBox("addressFilterTerm", null)
             </div>
 
-            <label class="editor-label" for="emailSearchTerm">
+            <label class="editor-label" for="emailFilterTerm">
                 Email address contains
             </label>
             <div class="editor-field">
-                @Html.TextBox("emailSearchTerm", null)
+                @Html.TextBox("emailFilterTerm", null)
             </div>
 
-            @*@Html.TextBox("onlyActive", null)*@
+            <label class="editor-label" for="activeMPFilterTerm">
+                Only active
+            </label>
+            <div class="editor-field">
+                @Html.CheckBox("activeFilter", null)
+            </div>
+    
             <input alt="Filter MPs" type="submit" value="Apply filters" />
         </fieldset>
     }
@@ -77,8 +70,6 @@
                 </th>
                 <th>
                     Active
-                </th>
-                <th>
                 </th>
             </tr>
         </thead>

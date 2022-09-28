@@ -25,9 +25,10 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         }
 
         public async Task<IActionResult> Index(
-            string nameSearchTerm,
-            string addressSearchTerm,
-            string emailSearchTerm,
+            string nameFilterTerm,
+            string addressFilterTerm,
+            string emailFilterTerm,
+            bool activeFilter,
             int page = 1
         )
         {
@@ -36,9 +37,10 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     PageNumber = page,
                     PageSize = 10,
                     ShowActiveAndInactive = true,
-                    nameSearchTerm = nameSearchTerm,
-                    addressSearchTerm = addressSearchTerm,
-                    emailSearchTerm = emailSearchTerm
+                    nameFilterTerm = nameFilterTerm,
+                    addressFilterTerm = addressFilterTerm,
+                    emailFilterTerm = emailFilterTerm,
+                    activeFilter = activeFilter
                 }
             );
 
