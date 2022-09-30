@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿//using System.Collections.Generic;
 using System.Linq;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
@@ -24,16 +24,9 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _salutationComponent = salutationComponent;
         }
 
-        public async Task<IActionResult> Index(
-            string nameFilterTerm,
-            string addressFilterTerm,
-            string emailFilterTerm,
-            bool activeFilter,
-            int page = 1
-        )
+        public async Task<IActionResult> Index(string nameFilterTerm, string addressFilterTerm, string emailFilterTerm, bool activeFilter, int page = 1)
         {
-            var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel
-                {
+            var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel {
                     PageNumber = page,
                     PageSize = 10,
                     ShowActiveAndInactive = true,
@@ -41,8 +34,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     addressFilterTerm = addressFilterTerm,
                     emailFilterTerm = emailFilterTerm,
                     activeFilter = activeFilter
-                }
-            );
+            } );
 
             foreach (var item in pagedResult.Results!)
             {
@@ -51,7 +43,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     item.DisplayFullName = DisplayFullName(item.MPId).Result;
                 }
             }
-            return View(pagedResult.Results);
+            return View(pagedResult);
         }
 
         public async Task<ActionResult> Create()

@@ -15,6 +15,5 @@
         public int PageCount { get; }
         public int PageSize { get; set; }
         public int RowCount { get; set; }
-
     }
 }

@@ -8,11 +8,10 @@
 
         <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/stylesheets/menuBar.css")" />
         <link rel="stylesheet" type="text/css" media="print" href="@Url.Content("~/stylesheets/menuBarPrint.css")" />
-        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" />
+        <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" />
         <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/Site.css")" />
 
         @RenderSection("head", false)
-
 
     </head>
     <body>
@@ -67,17 +66,9 @@
                     var ServerName = "";
                     if (ServerName != "PRODUCTION") {
                         $('#menuBar li, #menuBar li.leftText, #MenuContainer, .helpButton').css('background-color', '#1d73e8');
-                        $('#first').css('background-image', 'url("../images/blue_nav_left_corner_bottom.gif")');
-                        $('#MenuContainer').css('background-image', 'url("../images/blue_nav_right_corner_bottom.gif")');
+                        $('#first').css('background-image', 'url("@Url.Content("~/images/blue_nav_left_corner_bottom.gif")")');
+                        $('#MenuContainer').css('background-image', 'url("@Url.Content("~/images/blue_nav_right_corner_bottom.gif")")');
                     }
-
-                    @*var TOKENHEADERVALUE = '@TokenHeaderValue()';*@
-
-                    @*$.ajaxSetup({
-                        headers: {
-                            'AntiForgeryToken': TOKENHEADERVALUE
-                        },
-                    });*@
                 });
 
                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
