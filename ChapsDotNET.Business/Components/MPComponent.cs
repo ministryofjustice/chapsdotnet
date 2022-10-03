@@ -32,45 +32,47 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.MPs.AsQueryable();
 
-            if (!request.ShowActiveAndInactive)
-            {
-                query = query.Where(x => x.active == true);
-            }
+
 
             // ----------------------------------------------------------------
 
+
+
+
+
             if (request.nameFilterTerm != null)
             {
-                query = query.Where( x =>
+                query = query.Where(x =>
                                         //TODO: RtHon -> boolean
-                                        //TODO: Salutation -> foreign key
+                                        //TODO: Salutation -> foreign key≠
                                         x.FirstNames!.Contains(request.nameFilterTerm)
                                         || x.Surname.Contains(request.nameFilterTerm)
                                         || x.Suffix!.Contains(request.nameFilterTerm)
-                                    ).OrderBy( x => x.Surname );
+                                    ).OrderBy(x => x.Surname);
             }
             if (request.addressFilterTerm != null)
             {
-                query = query.Where( x => x.AddressLine1!.Contains(request.addressFilterTerm)
+                query = query.Where(x => x.AddressLine1!.Contains(request.addressFilterTerm)
                                         || x.AddressLine2!.Contains(request.addressFilterTerm)
                                         || x.AddressLine3!.Contains(request.addressFilterTerm)
                                         || x.Town!.Contains(request.addressFilterTerm)
                                         || x.County!.Contains(request.addressFilterTerm)
                                         || x.Postcode!.Contains(request.addressFilterTerm)
-                                    ).OrderBy( x => x.AddressLine1 );
+                                    ).OrderBy(x => x.AddressLine1);
             }
             if (request.emailFilterTerm != null)
             {
-                query = query.Where( x => x.Email!.Contains(request.emailFilterTerm) ).OrderBy( x => x.Email );
+                query = query.Where(x => x.Email!.Contains(request.emailFilterTerm)).OrderBy(x => x.Email);
             }
-            if ( request.activeFilter == true )
+            if (request.activeFilter == true)
             {
-                query = query.Where( x => x.active == true).OrderBy( x => x.Surname );
+                query = query.Where(x => x.active == true).OrderBy(x => x.Surname);
             }
-            if ( request.activeFilter == false )
+            if (request.activeFilter == false)
             {
-                query = query.Where( x => x.active == false).OrderBy( x => x.Surname );
+                query = query.Where(x => x.active == false).OrderBy(x => x.Surname);
             }
+            //DEFAULT
             else
                 query = query.OrderBy(x => x.Surname);
 

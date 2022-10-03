@@ -24,16 +24,18 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _salutationComponent = salutationComponent;
         }
 
-        public async Task<IActionResult> Index(string nameFilterTerm, string addressFilterTerm, string emailFilterTerm, bool activeFilter, int page = 1)
+        public async Task<IActionResult> Index(string nameFilterTerm, string addressFilterTerm, string emailFilterTerm, bool activeFilter, int sortOrder = 0, int page = 1)
         {
             var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel {
                     PageNumber = page,
-                    PageSize = 10,
+                    //PageSize = 10,
+                    PageSize = 1000,
                     ShowActiveAndInactive = true,
                     nameFilterTerm = nameFilterTerm,
                     addressFilterTerm = addressFilterTerm,
                     emailFilterTerm = emailFilterTerm,
-                    activeFilter = activeFilter
+                    activeFilter = activeFilter,
+                    sortOrder = sortOrder
             } );
 
             foreach (var item in pagedResult.Results!)
