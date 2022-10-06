@@ -2,6 +2,7 @@
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Metrics;
+using System.Net;
 using System.Xml.Linq;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
@@ -32,51 +33,37 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.MPs.AsQueryable();
 
+            //query = query.OrderBy(x => x.Surname);
 
+            // Sorting --------------------------------------------------------
+
+            System.Diagnostics.Debug.WriteLine("Sort order: " + request.sortOrder);
+
+            switch (request.sortOrder)
+            {
+                case "name desc":
+                    query = query.OrderByDescending(x => x.Surname);
+                    break;
+                case "address asc":
+                    query = query.OrderBy(x => x.AddressLine1);
+                    break;
+                case "address desc":
+                    query = query.OrderByDescending(x => x.AddressLine1);
+                    break;
+                case "email asc":
+                    query = query.OrderBy(x => x.Email);
+                    break;
+                case "email desc":
+                    query = query.OrderByDescending(x => x.Email);
+                    break;
+                default:
+                    query = query.OrderBy(x => x.Surname);
+                    break;
+            }
 
             // ----------------------------------------------------------------
 
 
-
-
-
-            if (request.nameFilterTerm != null)
-            {
-                query = query.Where(x =>
-                                        //TODO: RtHon -> boolean
-                                        //TODO: Salutation -> foreign key≠
-                                        x.FirstNames!.Contains(request.nameFilterTerm)
-                                        || x.Surname.Contains(request.nameFilterTerm)
-                                        || x.Suffix!.Contains(request.nameFilterTerm)
-                                    ).OrderBy(x => x.Surname);
-            }
-            if (request.addressFilterTerm != null)
-            {
-                query = query.Where(x => x.AddressLine1!.Contains(request.addressFilterTerm)
-                                        || x.AddressLine2!.Contains(request.addressFilterTerm)
-                                        || x.AddressLine3!.Contains(request.addressFilterTerm)
-                                        || x.Town!.Contains(request.addressFilterTerm)
-                                        || x.County!.Contains(request.addressFilterTerm)
-                                        || x.Postcode!.Contains(request.addressFilterTerm)
-                                    ).OrderBy(x => x.AddressLine1);
-            }
-            if (request.emailFilterTerm != null)
-            {
-                query = query.Where(x => x.Email!.Contains(request.emailFilterTerm)).OrderBy(x => x.Email);
-            }
-            if (request.activeFilter == true)
-            {
-                query = query.Where(x => x.active == true).OrderBy(x => x.Surname);
-            }
-            if (request.activeFilter == false)
-            {
-                query = query.Where(x => x.active == false).OrderBy(x => x.Surname);
-            }
-            //DEFAULT
-            else
-                query = query.OrderBy(x => x.Surname);
-
-            // ----------------------------------------------------------------
 
             //Row Count
             var count = await query.CountAsync();

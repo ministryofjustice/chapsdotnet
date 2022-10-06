@@ -37,21 +37,21 @@
                     Name contains:
                 </label>
                 <div class="editor-field">
-                    @Html.TextBox("nameFilterTerm", null)
+                    @Html.Editor("nameFilterTerm", null)
                 </div>
 
                 <label class="editor-label" for="addressFilterTerm">
                     Address contains
                 </label>
                 <div class="editor-field">
-                    @Html.TextBox("addressFilterTerm", null)
+                    @Html.Editor("addressFilterTerm", null)
                 </div>
 
                 <label class="editor-label" for="emailFilterTerm">
                     Email address contains
                 </label>
                 <div class="editor-field">
-                    @Html.TextBox("emailFilterTerm", null)
+                    @Html.Editor("emailFilterTerm", null)
                 </div>
 
                 <label class="editor-label" for="activeFilter">
@@ -60,6 +60,8 @@
                 <div class="editor-field">
                     @Html.CheckBox("activeFilter", null)
                 </div>
+
+                @Html.Hidden("sortOrder", null)
 
                 <input alt="Filter MPs" type="submit" value="Apply filters" />
             </fieldset>
@@ -71,14 +73,38 @@
             <caption class="caption">Members of Parliament</caption>
             <thead>
                 <tr>
-                    <th>
-                        Name
+                    <th scope="col">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.Hidden("addressFilterTerm", null)
+                            @Html.Hidden("emailFilterTerm", null)
+                            @Html.Hidden("nameFilterTerm", null)
+                            @Html.Hidden("activeTerm", null)
+                            @Html.Hidden("sortOrder", "name asc")
+                            <input type="Submit" value="Full Name">
+                        }
                     </th>
-                    <th>
-                        Address
+                    <th scope="col">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.Hidden("addressFilterTerm", null)
+                            @Html.Hidden("emailFilterTerm", null)
+                            @Html.Hidden("nameFilterTerm", null)
+                            @Html.Hidden("activeTerm", null)
+                            @Html.Hidden("sortOrder", "address asc")
+                            <input type="Submit" value="Address">
+                        }
                     </th>
-                    <th>
-                        Email
+                    <th scope="col">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.Hidden("addressFilterTerm", null)
+                            @Html.Hidden("emailFilterTerm", null)
+                            @Html.Hidden("nameFilterTerm", null)
+                            @Html.Hidden("activeTerm", null)
+                            @Html.Hidden("sortOrder", "email asc")
+                            <input type="Submit" value="Email">
+                        }
                     </th>
                     <th>
                         Active

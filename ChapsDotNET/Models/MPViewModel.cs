@@ -49,5 +49,6 @@ namespace ChapsDotNET.Models
         public bool Active { get; set; }
         public SelectList SalutationList { get; set; } = default!;
         public string? DisplayFullName { get; set; }
+        public string? sortOrder { get; set; }
     }
 }

@@ -24,6 +24,7 @@ namespace ChapsDotNET.Business.Models
         public string? Town { get; set; }
         public virtual Salutation Salutation { get; set; } = default!;
         public string? DisplayFullName { get; set; }
+        public string? sortOrder { get; set; }
 
         //builds the address with out spaces
         public virtual List<string> populatedLines
