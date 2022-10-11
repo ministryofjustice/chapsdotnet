@@ -10,9 +10,6 @@
     <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
 }
 
-<style>
-</style>
-
 <div class="breadcrumbs">
     <a href="">Home</a>
     &nbsp;>&nbsp;
@@ -67,7 +64,7 @@
             </fieldset>
         }
     </section>
-
+    
     <section class="mainContent">
         <table>
             <caption class="caption">Members of Parliament</caption>
@@ -76,33 +73,34 @@
                     <th scope="col">
                         @using (Html.BeginForm())
                         {
+                            @Html.Hidden("activeFilter", null)
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
-                            @Html.Hidden("activeTerm", null)
-                            @Html.Hidden("sortOrder", "name asc")
+                            @Html.Hidden("sortOrder", "name_asc")
                             <input type="Submit" value="Full Name">
                         }
                     </th>
                     <th scope="col">
                         @using (Html.BeginForm())
                         {
+
+                            @Html.Hidden("activeFilter", null)
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
-                            @Html.Hidden("activeTerm", null)
-                            @Html.Hidden("sortOrder", "address asc")
+                            @Html.Hidden("sortOrder", "address_asc")
                             <input type="Submit" value="Address">
                         }
                     </th>
                     <th scope="col">
                         @using (Html.BeginForm())
                         {
+                            @Html.Hidden("activeFilter", null)
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
-                            @Html.Hidden("activeTerm", null)
-                            @Html.Hidden("sortOrder", "email asc")
+                            @Html.Hidden("sortOrder", "email_asc")
                             <input type="Submit" value="Email">
                         }
                     </th>
