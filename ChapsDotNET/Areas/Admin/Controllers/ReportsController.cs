@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Interfaces;
+﻿using System.Text.RegularExpressions;
+using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
@@ -33,8 +34,12 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(ReportViewModel viewModel)
         {
-            await _reportComponent.UpdateReportAsync(viewModel.ToModel());
-            return RedirectToAction("index");
+            if (ModelState.IsValid)
+            {
+                await _reportComponent.UpdateReportAsync(viewModel.ToModel());
+                return RedirectToAction("index");
+            }
+            return View();
         }
     }
 }

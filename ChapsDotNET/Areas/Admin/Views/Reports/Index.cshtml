@@ -31,18 +31,18 @@
     {
         @foreach (var report in Model.ToList())
         {
-            <tr>
-                <td>
+            <dl>
+                <dt>
                     <a href="/Admin/Reports/Edit/@report.ReportId">@Html.DisplayFor(x => report.Name)
                     </a>
-                </td>
-                <td>
+                </dt>
+                <dd>
                     @{
                         var description = report.Description;
                         @Html.Raw(description);
                     }
-                </td>
-            </tr>
+                </dd>
+            </dl>
         }
     }
 </table>
