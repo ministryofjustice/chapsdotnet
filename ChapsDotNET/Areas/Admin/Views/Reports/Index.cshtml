@@ -1,0 +1,48 @@
+﻿@model List<ChapsDotNET.Business.Models.ReportModel>
+@{
+    ViewData["Title"] = "Reports Administration";
+}
+@section head{
+    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+}
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+</div>
+
+<h1>Reports</h1>
+
+<table>
+    @*<caption class="caption">Reports</caption>*@
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+    </thead>
+    @if (Model != null)
+    {
+        @foreach (var report in Model.ToList())
+        {
+            <dl>
+                <dt>
+                    <a href="/Admin/Reports/Edit/@report.ReportId">@Html.DisplayFor(x => report.Name)
+                    </a>
+                </dt>
+                <dd>
+                    @{
+                        var description = report.Description;
+                        @Html.Raw(description);
+                    }
+                </dd>
+            </dl>
+        }
+    }
+</table>

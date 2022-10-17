@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using System.Data.SqlClient;
+using ChapsDotNET.Common.Helpers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,6 +68,7 @@ builder.Services.AddScoped<IMoJMinisterComponent, MoJMinisterComponent>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
 builder.Services.AddScoped<ILeadSubjectComponent, LeadSubjectComponent>();
 builder.Services.AddScoped<ITeamComponent, TeamComponent>();
+builder.Services.AddScoped<IReportComponent, ReportComponent>();
 
 var app = builder.Build();
 
