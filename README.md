@@ -1,4 +1,4 @@
-CHAPS
+ CHAPS
 Correspondence Handling and Processing System
 
 The Ministerial Correspondence Unit (MCU) receives correspondence from MP on behalf of constituents as well as direct from members of the public.
