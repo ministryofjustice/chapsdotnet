@@ -17,24 +17,6 @@ spec:
         image: ${ECR_URL}:${IMAGE_TAG}
         ports:
         - containerPort: 5010
-        readinessProbe:
-          httpGet:
-            path: /Ping
-            port: 5010
-            httpHeaders:
-              - name: X-Forwarded-Proto
-                value: https
-              - name: X-Forwarded-Ssl
-                value: "on"
-        livenessProbe:
-          httpGet:
-            path: /Ping
-            port: 5010
-            httpHeaders:
-              - name: X-Forwarded-Proto
-                value: https
-              - name: X-Forwarded-Ssl
-                value: "on"
         env:
             - name: DB_NAME
               valueFrom:
