@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Diagnostics.Metrics;
+using System.Linq;
 using System.Net;
+using System.Reflection.Emit;
+using System.Text;
 using System.Xml.Linq;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
@@ -11,6 +15,7 @@ using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Primitives;
 
 namespace ChapsDotNET.Business.Components
 {
@@ -35,51 +40,47 @@ namespace ChapsDotNET.Business.Components
 
             // Filtering ------------------------------------------------------
 
-            //if (request.nameFilterTerm != null)
-            //{
-            //    query = query.Where(x =>
-            //                            //TODO: RtHon -> boolean
-            //                            //TODO: Salutation -> foreign key≠
-            //                            x.FirstNames!.Contains(request.nameFilterTerm)
-            //                            || x.Surname.Contains(request.nameFilterTerm)
-            //                            || x.Suffix!.Contains(request.nameFilterTerm)
-            //                        ).OrderBy(x => x.Surname);
-            //}
-            //if (request.addressFilterTerm != null)
-            //{
-            //    query = query.Where(x => x.AddressLine1!.Contains(request.addressFilterTerm)
-            //                            || x.AddressLine2!.Contains(request.addressFilterTerm)
-            //                            || x.AddressLine3!.Contains(request.addressFilterTerm)
-            //                            || x.Town!.Contains(request.addressFilterTerm)
-            //                            || x.County!.Contains(request.addressFilterTerm)
-            //                            || x.Postcode!.Contains(request.addressFilterTerm)
-            //                        ).OrderBy(x => x.AddressLine1);
-            //}
-            //if (request.emailFilterTerm != null)
-            //{
-            //    query = query.Where(x => x.Email!.Contains(request.emailFilterTerm)).OrderBy(x => x.Email);
-            //}
-            //if (request.activeFilter == true)
-            //{
-            //    query = query.Where(x => x.active == true).OrderBy(x => x.Surname);
-            //}
-            //if (request.activeFilter == false)
-            //{
-            //    query = query.Where(x => x.active == false).OrderBy(x => x.Surname);
-            //}
-            //else
-            //    query = query.Where( x => x.active == true ).OrderBy(x => x.Surname);
-
-            // ----------------------------------------------------------------
+            if (request.nameFilterTerm != null)
+            {
+                //TODO: RtHon -> boolean
+                //TODO: Salutation -> foreign key
+                query = query.Where(
+                    x => x.FirstNames!.Contains(request.nameFilterTerm) ||
+                    x.Surname.Contains(request.nameFilterTerm) ||
+                    x.Suffix!.Contains(request.nameFilterTerm)
+                );
+            }
+            else if (request.addressFilterTerm != null)
+            {
+                query = query.Where(
+                    x => x.AddressLine1!.Contains(request.addressFilterTerm) ||
+                    x.AddressLine2!.Contains(request.addressFilterTerm) ||
+                    x.AddressLine3!.Contains(request.addressFilterTerm) ||
+                    x.Town!.Contains(request.addressFilterTerm) ||
+                    x.County!.Contains(request.addressFilterTerm) ||
+                    x.Postcode!.Contains(request.addressFilterTerm)
+                );
+            }
+            else if (request.emailFilterTerm != null)
+            {
+                query = query.Where(
+                    x => x.Email!.Contains(request.emailFilterTerm)
+                );
+            }
+            else if (request.activeFilter == false)
+            {
+                query = query.Where(
+                    x => x.active == false
+                );
+            }
+            else // Default ~ no filter
+            {
+                query = query.Where(
+                    x => x.active == true
+                );
+            }  
 
             // Sorting--------------------------------------------------------
-
-            //System.Diagnostics.Debug.WriteLine("Active filter:  " + request.activeFilter);
-            //System.Diagnostics.Debug.WriteLine("Address filter: " + request.addressFilterTerm);
-            //System.Diagnostics.Debug.WriteLine("email filter:   " + request.emailFilterTerm);
-            //System.Diagnostics.Debug.WriteLine("Name filter:    " + request.nameFilterTerm);
-
-            System.Diagnostics.Debug.WriteLine("Sort order:     " + request.sortOrder);
 
             switch (request.sortOrder)
             {
@@ -102,7 +103,6 @@ namespace ChapsDotNET.Business.Components
                     query = query.OrderBy(x => x.Surname);
                     break;
             }
-
             // ----------------------------------------------------------------
 
             //Row Count
@@ -129,7 +129,7 @@ namespace ChapsDotNET.Business.Components
                     Postcode = x.Postcode,
                     Active = x.active
                 }).ToListAsync();
-        
+           
             return new PagedResult<List<MPModel>>
             {
                 Results = mpsList,
