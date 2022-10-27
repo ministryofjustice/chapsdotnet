@@ -25,7 +25,7 @@
 <div class="flex-container">
     <section class="filters">
         @using (Html.BeginForm())
-        {
+            {
             <fieldset>
                 <legend class="caption">
                     Filter
@@ -51,12 +51,12 @@
                     @Html.Editor("emailFilterTerm", null)
                 </div>
 
-                <label class="editor-label" for="activeFilter">
+                @*<label class="editor-label" for="activeFilter">
                     Only active
                 </label>
                 <div class="editor-field">
-                    @Html.CheckBox("activeFilter", null)
-                </div>
+                    @Html.CheckBox("activeFilter", null, new { @checked = "checked", @value = "true" })
+                </div>*@
 
                 @Html.Hidden("sortOrder", null)
 
@@ -73,39 +73,43 @@
                     <th scope="col">
                         @using (Html.BeginForm())
                         {
-                            @Html.Hidden("activeFilter", null)
+                            @*@Html.Hidden("activeFilter", null)*@
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
                             @Html.Hidden("sortOrder", "name_asc")
-                            <input type="Submit" value="Name">
+                            <input type="submit" name="submit" value="Name">
                         }
                     </th>
                     <th scope="col">
                         @using (Html.BeginForm())
                         {
-
-                            @Html.Hidden("activeFilter", null)
+                            @*@Html.Hidden("activeFilter", null)*@
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
                             @Html.Hidden("sortOrder", "address_asc")
-                            <input type="Submit" value="Address">
+                            <input type="submit" name="submit" value="Address">
                         }
                     </th>
                     <th scope="col">
                         @using (Html.BeginForm())
                         {
-                            @Html.Hidden("activeFilter", null)
+                            @*@Html.Hidden("activeFilter", null)*@
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
                             @Html.Hidden("sortOrder", "email_asc")
-                            <input type="Submit" value="Email">
+                            <input type="submit" name="submit" value="Email">
                         }
                     </th>
                     <th>
-                        Active
+                        @*@Html.Hidden("activeFilter", null)*@
+                        @Html.Hidden("addressFilterTerm", null)
+                        @Html.Hidden("emailFilterTerm", null)
+                        @Html.Hidden("nameFilterTerm", null)
+                        @Html.Hidden("sortOrder", "active")
+                        <input type="submit" name="submit" value="Active">
                     </th>
                 </tr>
             </thead>

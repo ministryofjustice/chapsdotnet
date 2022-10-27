@@ -28,6 +28,7 @@
     //  +---------------------------------------------------------------------------+
 
     $(document).ready(function () {
+
         $('form').submit(function (event) {
             if ($(event.target).has('input .future-date')) {
                 if ($('#Date').val() < tomorrowsDate) {
@@ -39,5 +40,6 @@
                 }
             }
         });
+
     });
 }());

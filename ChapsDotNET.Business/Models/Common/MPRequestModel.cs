@@ -7,6 +7,6 @@
         public string addressFilterTerm { get; set; } = String.Empty;
         public string emailFilterTerm { get; set; } = String.Empty;
         public string? sortOrder { get; set; }
-        public bool activeFilter { get; set; }
+        public bool activeFilter { get; set; } = true;
     }
 }

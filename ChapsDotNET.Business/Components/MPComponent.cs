@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Reflection.Emit;
 using System.Text;
 using System.Xml.Linq;
@@ -40,50 +41,44 @@ namespace ChapsDotNET.Business.Components
 
             // Filtering ------------------------------------------------------
 
-            if (request.nameFilterTerm != null)
+            if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
             {
                 //TODO: RtHon -> boolean
                 //TODO: Salutation -> foreign key
                 query = query.Where(
-                    x => x.FirstNames!.Contains(request.nameFilterTerm) ||
-                    x.Surname.Contains(request.nameFilterTerm) ||
-                    x.Suffix!.Contains(request.nameFilterTerm)
+                    x => x.FirstNames!.ToLower().Contains(request.nameFilterTerm.ToLower()) ||
+                    x.Surname.ToLower().Contains(request.nameFilterTerm.ToLower()) ||
+                    x.Suffix!.ToLower().Contains(request.nameFilterTerm.ToLower())
                 );
             }
-            else if (request.addressFilterTerm != null)
+            else if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
             {
                 query = query.Where(
-                    x => x.AddressLine1!.Contains(request.addressFilterTerm) ||
-                    x.AddressLine2!.Contains(request.addressFilterTerm) ||
-                    x.AddressLine3!.Contains(request.addressFilterTerm) ||
-                    x.Town!.Contains(request.addressFilterTerm) ||
-                    x.County!.Contains(request.addressFilterTerm) ||
-                    x.Postcode!.Contains(request.addressFilterTerm)
+                    x => x.AddressLine1!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.AddressLine2!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.AddressLine3!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.Town!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.County!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.Postcode!.ToLower().Contains(request.addressFilterTerm.ToLower())
                 );
             }
-            else if (request.emailFilterTerm != null)
+            else if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
             {
                 query = query.Where(
-                    x => x.Email!.Contains(request.emailFilterTerm)
+                    x => x.Email!.ToLower().Contains(request.emailFilterTerm.ToLower())
                 );
             }
-            else if (request.activeFilter == false)
-            {
-                query = query.Where(
-                    x => x.active == false
-                );
-            }
-            else // Default ~ no filter
-            {
-                query = query.Where(
-                    x => x.active == true
-                );
-            }  
 
             // Sorting--------------------------------------------------------
 
             switch (request.sortOrder)
             {
+                case "active":
+                    query = query.Where(x => x.active == true);
+                    break;
+                case "non_active":
+                    query = query.Where(x => x.active == false);
+                    break;
                 case "address_asc":
                     query = query.OrderBy(x => x.AddressLine1);
                     break;
@@ -100,10 +95,9 @@ namespace ChapsDotNET.Business.Components
                     query = query.OrderByDescending(x => x.Surname);
                     break;
                 default:
-                    query = query.OrderBy(x => x.Surname);
+                    query = query.Where(x => x.active == true).OrderBy(x => x.Surname);
                     break;
             }
-            // ----------------------------------------------------------------
 
             //Row Count
             var count = await query.CountAsync();
@@ -111,8 +105,7 @@ namespace ChapsDotNET.Business.Components
             //Paging query
             query = query.Skip(((request.PageNumber) - 1) * request.PageSize).Take(request.PageSize);
 
-            var mpsList = await query
-                .Select(x => new MPModel
+            var mpsList = await query.Select(x => new MPModel
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
@@ -128,8 +121,20 @@ namespace ChapsDotNET.Business.Components
                     County = x.County,
                     Postcode = x.Postcode,
                     Active = x.active
-                }).ToListAsync();
-           
+                }
+            ).ToListAsync();
+
+            System.Diagnostics.Debug.WriteLine("");
+            System.Diagnostics.Debug.WriteLine("----------------------------------------------------------------");
+            System.Diagnostics.Debug.WriteLine("Active filter:  " + request.activeFilter);
+            System.Diagnostics.Debug.WriteLine("Address filter: " + request.addressFilterTerm);
+            System.Diagnostics.Debug.WriteLine("email filter:   " + request.emailFilterTerm);
+            System.Diagnostics.Debug.WriteLine("Name filter:    " + request.nameFilterTerm);
+            System.Diagnostics.Debug.WriteLine("Sort order: " + request.sortOrder);
+            System.Diagnostics.Debug.WriteLine("SQL Query: " + query);
+            System.Diagnostics.Debug.WriteLine("----------------------------------------------------------------");
+            System.Diagnostics.Debug.WriteLine("");
+            
             return new PagedResult<List<MPModel>>
             {
                 Results = mpsList,
