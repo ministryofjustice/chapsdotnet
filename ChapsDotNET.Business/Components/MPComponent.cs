@@ -41,7 +41,7 @@ namespace ChapsDotNET.Business.Components
 
             // Filtering ------------------------------------------------------
 
-            if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
+			if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
             {
                 //TODO: RtHon -> boolean
                 //TODO: Salutation -> foreign key
@@ -50,7 +50,8 @@ namespace ChapsDotNET.Business.Components
                     x.Surname.ToLower().Contains(request.nameFilterTerm.ToLower()) ||
                     x.Suffix!.ToLower().Contains(request.nameFilterTerm.ToLower())
                 );
-            }
+                string lastFilterValue = request.nameFilterTerm;
+			}
             else if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
             {
                 query = query.Where(
@@ -61,13 +62,15 @@ namespace ChapsDotNET.Business.Components
                     x.County!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
                     x.Postcode!.ToLower().Contains(request.addressFilterTerm.ToLower())
                 );
-            }
+                string lastFilterValue = request.addressFilterTerm;
+			}
             else if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
             {
                 query = query.Where(
                     x => x.Email!.ToLower().Contains(request.emailFilterTerm.ToLower())
                 );
-            }
+                string lastFilterValue = request.emailFilterTerm;
+			}
 
             // Sorting--------------------------------------------------------
 
@@ -134,7 +137,7 @@ namespace ChapsDotNET.Business.Components
             System.Diagnostics.Debug.WriteLine("SQL Query: " + query);
             System.Diagnostics.Debug.WriteLine("----------------------------------------------------------------");
             System.Diagnostics.Debug.WriteLine("");
-            
+
             return new PagedResult<List<MPModel>>
             {
                 Results = mpsList,

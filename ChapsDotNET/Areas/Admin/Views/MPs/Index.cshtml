@@ -30,6 +30,7 @@
                 <legend class="caption">
                     Filter
                 </legend>
+
                 <label class="editor-label" for="nameFilterTerm">
                     Name contains:
                 </label>
@@ -58,6 +59,7 @@
                     @Html.CheckBox("activeFilter", null, new { @checked = "checked", @value = "true" })
                 </div>*@
 
+                @Html.Hidden("activeFilter", null)
                 @Html.Hidden("sortOrder", null)
 
                 <input alt="Filter MPs" type="submit" value="Apply filters" />
@@ -71,7 +73,7 @@
             <thead>
                 <tr>
                     <th scope="col">
-                        @using (Html.BeginForm())
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
                         {
                             @*@Html.Hidden("activeFilter", null)*@
                             @Html.Hidden("addressFilterTerm", null)
@@ -82,7 +84,7 @@
                         }
                     </th>
                     <th scope="col">
-                        @using (Html.BeginForm())
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
                         {
                             @*@Html.Hidden("activeFilter", null)*@
                             @Html.Hidden("addressFilterTerm", null)
@@ -93,7 +95,7 @@
                         }
                     </th>
                     <th scope="col">
-                        @using (Html.BeginForm())
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
                         {
                             @*@Html.Hidden("activeFilter", null)*@
                             @Html.Hidden("addressFilterTerm", null)
@@ -103,13 +105,16 @@
                             <input type="submit" name="submit" value="Email">
                         }
                     </th>
-                    <th>
-                        @*@Html.Hidden("activeFilter", null)*@
-                        @Html.Hidden("addressFilterTerm", null)
-                        @Html.Hidden("emailFilterTerm", null)
-                        @Html.Hidden("nameFilterTerm", null)
-                        @Html.Hidden("sortOrder", "active")
-                        <input type="submit" name="submit" value="Active">
+                    <th scope="col">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
+                        {
+                            @*@Html.Hidden("activeFilter", null)*@
+                            @Html.Hidden("addressFilterTerm", null)
+                            @Html.Hidden("emailFilterTerm", null)
+                            @Html.Hidden("nameFilterTerm", null)
+                            @Html.Hidden("sortOrder", "active")
+                            <input type="submit" name="submit" value="Active">
+                        }
                     </th>
                 </tr>
             </thead>
