@@ -78,3 +78,30 @@ jobs:
       - name: Apply the updated manifest
         run: |
             kubectl -n ${KUBE_NAMESPACE} apply -f kubectl_staging
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    environment: production
+    env:
+      KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE_PRODUCTION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Update image tag
+        env:
+            ECR_URL: ${{ secrets.ECR_URL_DEV }}
+        run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_production/deployment.tpl | envsubst > kubectl_production/deployment.yaml          
+      - name: Authenticate to the cluster
+        env:
+            KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER_PRODUCTION }}
+        run: |
+            echo "${{ secrets.KUBE_CERT_PRODUCTION }}" > ca.crt
+            kubectl config set-cluster ${KUBE_CLUSTER} --certificate-authority=./ca.crt --server=https://${KUBE_CLUSTER}
+            kubectl config set-credentials deploy-user --token=${{ secrets.KUBE_TOKEN_PRODUCTION }}
+            kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${{ secrets.KUBE_NAMESPACE_PRODUCTION }}
+            kubectl config use-context ${KUBE_CLUSTER}            
+      - name: Apply the updated manifest
+        run: |
+            kubectl -n ${KUBE_NAMESPACE} apply -f kubectl_production
