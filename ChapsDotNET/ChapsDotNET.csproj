@@ -142,7 +142,6 @@
     <None Include="wwwroot\Content\Images\key.png" />
     <None Include="wwwroot\Content\Images\lock.png" />
     <None Include="wwwroot\Content\Images\lock_open.png" />
-    <None Include="wwwroot\Content\Images\MoJ.gif" />
     <None Include="wwwroot\Content\Images\oops.jpg" />
     <None Include="wwwroot\Content\Images\page.png" />
     <None Include="wwwroot\Content\Images\page_add.png" />
