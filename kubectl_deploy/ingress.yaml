@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: chaps-dev-ingress
@@ -14,6 +14,7 @@ metadata:
     external-dns.alpha.kubernetes.io/set-identifier: chaps-dev-ingress-chaps-dev-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
 spec:
+  ingressClassName: default
   tls:
   - hosts:
     - dev.chaps.apps.live.cloud-platform.service.justice.gov.uk
@@ -23,6 +24,9 @@ spec:
     http:
       paths:
       - path: /
+        pathType: ImplementationSpecific
         backend:
-          serviceName: dotnet-service
-          servicePort: 5010
+          service:
+            name: dotnet-service
+            port: 
+              number: 5010
