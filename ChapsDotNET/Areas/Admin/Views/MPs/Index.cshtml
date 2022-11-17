@@ -24,7 +24,7 @@
 
 <div class="flex-container">
     <section class="filters">
-        @using (Html.BeginForm())
+        @*@using (Html.BeginForm())
             {
             <fieldset>
                 <legend class="caption">
@@ -52,63 +52,97 @@
                     @Html.Editor("emailFilterTerm", null)
                 </div>
 
-                @*<label class="editor-label" for="activeFilter">
-                    Only active
-                </label>
-                <div class="editor-field">
-                    @Html.CheckBox("activeFilter", null, new { @checked = "checked", @value = "true" })
-                </div>*@
-
                 @Html.Hidden("activeFilter", null)
                 @Html.Hidden("sortOrder", null)
 
                 <input alt="Filter MPs" type="submit" value="Apply filters" />
             </fieldset>
-        }
+        }*@
     </section>
     
     <section class="mainContent">
-        <table>
+        <table class="withSort">
             <caption class="caption">Members of Parliament</caption>
+
             <thead>
+                <!-- initial aria-sort values ascending:none:none:none -->
+                <!-- sequesnce none:ascending:decending -->
+
                 <tr>
-                    <th scope="col">
+                    <th scope="col" aria-sort="ascending">
                         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
                         {
-                            @*@Html.Hidden("activeFilter", null)*@
+                            <button id="name" data-index="0" name="sortOrder" type="submit" value="name">Name</button>
+                        }
+                    </th>
+                    <th scope="col" aria-sort="none">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
+                        {
+                            <button id="address" data-index="1" name="sortOrder" type="submit" value="address">Address</button>
+                        }
+                    </th>
+                    <th scope="col" aria-sort="none">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
+                        {
+                            <button id="email" data-index="2" name="sortOrder" type="submit" value="email">Email</button>
+                        }
+                    </th>
+                    <th scope="col" aria-sort="none">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
+                        {
+                            <button id="active" data-index="3" name="sortOrder" type="submit" value="active">Active</button>
+                        }
+                    </th>
+                </tr>
+            </thead>
+
+            @*<thead>
+                <tr>
+                    <th scope="col">
+                        Name
+
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
+                        {
+                            @Html.Hidden("activeFilter", null)
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
-                            @Html.Hidden("sortOrder", "name_asc")
+                            @Html.Hidden("sortOrder", "name asc")
                             <input type="submit" name="submit" value="Name">
                         }
                     </th>
                     <th scope="col">
+                        Address
+
                         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
                         {
-                            @*@Html.Hidden("activeFilter", null)*@
+                            @Html.Hidden("activeFilter", null)
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
-                            @Html.Hidden("sortOrder", "address_asc")
+                            @Html.Hidden("sortOrder", "address asc")
                             <input type="submit" name="submit" value="Address">
                         }
                     </th>
                     <th scope="col">
+                        Email
+
                         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
                         {
-                            @*@Html.Hidden("activeFilter", null)*@
+                            @Html.Hidden("activeFilter", null)
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
-                            @Html.Hidden("sortOrder", "email_asc")
+                            @Html.Hidden("sortOrder", "email asc")
                             <input type="submit" name="submit" value="Email">
                         }
                     </th>
                     <th scope="col">
+                        Active
+
                         @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "tableSort" }))
                         {
-                            @*@Html.Hidden("activeFilter", null)*@
+                            @Html.Hidden("activeFilter", null)
                             @Html.Hidden("addressFilterTerm", null)
                             @Html.Hidden("emailFilterTerm", null)
                             @Html.Hidden("nameFilterTerm", null)
@@ -117,7 +151,9 @@
                         }
                     </th>
                 </tr>
-            </thead>
+            </thead>*@
+
+
             <tbody>
                 @foreach (var mp in Model.Results!.ToList())
                 {

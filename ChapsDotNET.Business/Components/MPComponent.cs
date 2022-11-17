@@ -72,35 +72,56 @@ namespace ChapsDotNET.Business.Components
                 string lastFilterValue = request.emailFilterTerm;
 			}
 
+            // Detect page button presses ------------------------------------
+
+
+
             // Sorting--------------------------------------------------------
+
 
             switch (request.sortOrder)
             {
                 case "active":
                     query = query.Where(x => x.active == true);
                     break;
-                case "non_active":
-                    query = query.Where(x => x.active == false);
-                    break;
-                case "address_asc":
+                case "address":
                     query = query.OrderBy(x => x.AddressLine1);
                     break;
-                case "address_desc":
-                    query = query.OrderByDescending(x => x.AddressLine1);
-                    break;
-                case "email_asc":
+                case "email":
                     query = query.OrderBy(x => x.Email);
-                    break;
-                case "email_desc":
-                    query = query.OrderByDescending(x => x.Email);
-                    break;
-                case "name_desc":
-                    query = query.OrderByDescending(x => x.Surname);
                     break;
                 default:
                     query = query.Where(x => x.active == true).OrderBy(x => x.Surname);
                     break;
             }
+
+            //switch (request.sortOrder)
+            //{
+            //    case "active":
+            //        query = query.Where(x => x.active == true);
+            //        break;
+            //    case "non_active":
+            //        query = query.Where(x => x.active == false);
+            //        break;
+            //    case "address_asc":
+            //        query = query.OrderBy(x => x.AddressLine1);
+            //        break;
+            //    case "address_desc":
+            //        query = query.OrderByDescending(x => x.AddressLine1);
+            //        break;
+            //    case "email_asc":
+            //        query = query.OrderBy(x => x.Email);
+            //        break;
+            //    case "email_desc":
+            //        query = query.OrderByDescending(x => x.Email);
+            //        break;
+            //    case "name_desc":
+            //        query = query.OrderByDescending(x => x.Surname);
+            //        break;
+            //    default:
+            //        query = query.Where(x => x.active == true).OrderBy(x => x.Surname);
+            //        break;
+            //}
 
             //Row Count
             var count = await query.CountAsync();

@@ -29,6 +29,28 @@
 
     $(document).ready(function () {
 
+        if ($('table.withSort').length) {
+
+            var previousSortOrder = localStorage.getItem('aria-sort');
+            var previousSortby = "#" + localStorage.getItem('buttonID');
+
+            switch (previousSortOrder) {
+                case "ascending":
+                    $(previousSortby).parents('th').attr('aria-sort', 'descending');
+                    break;
+                default:
+                    $(previousSortby).parents('th').attr('aria-sort', 'ascending');
+            }
+            localStorage.clear();
+
+            $('button').click(function (e) {
+                localStorage.setItem('buttonID',  $(this).attr("id"));
+                localStorage.setItem('aria-sort', $(this).parents('th').attr('aria-sort'));
+            })
+        }
+
+        // Form post validations
+
         $('form').submit(function (event) {
             if ($(event.target).has('input .future-date')) {
                 if ($('#Date').val() < tomorrowsDate) {

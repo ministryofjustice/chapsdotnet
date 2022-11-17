@@ -9,9 +9,10 @@
         <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/stylesheets/menuBar.css")" />
         <link rel="stylesheet" type="text/css" media="print" href="@Url.Content("~/stylesheets/menuBarPrint.css")" />
         <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" />
-        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/Site.css")" />
 
         @RenderSection("head", false)
+
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/Site.css")" />
     </head>
     <body>
         @*@{Html.RenderAction("DisplayAlerts", "Home", new { area = "" });}*@
