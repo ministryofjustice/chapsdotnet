@@ -92,7 +92,7 @@
                 else {
                     return true;
                 }
-            }
+            }         
         });
 
         var $textAreaWithCharCounter = $('#short-description');

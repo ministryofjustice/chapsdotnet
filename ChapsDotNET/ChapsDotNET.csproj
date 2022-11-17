@@ -9,38 +9,42 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.8" />
-    <PackageReference Include="Microsoft.Identity.Web" Version="1.25.1" />
-    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Metadata" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
+    <PackageReference Include="Microsoft.Identity.Web.UI" Version="1.25.3" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.25.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Microsoft.Extensions.Configuration.UserSecrets" />
-    <None Remove="Microsoft.Data.SqlClient" />
-    <None Remove="System.Data.SqlClient" />
-    <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
-    <None Remove="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />
-    <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
-    <None Remove="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
-    <None Remove="Microsoft.AspNetCore.Identity.UI" />
-    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
-    <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
-    <None Remove="Microsoft.Identity.Web" />
-    <None Remove="Microsoft.Identity.Web.UI" />
-    <None Remove="Policies\" />
-    <None Remove="Policies\Requirements\" />
-    <None Remove="Policies\Handlers\" />
-    <None Remove="Areas\Admin\Views\PublicHolidays\" />
-    <None Remove="Areas\Admin\Views\MoJMinisters\" />
     <None Remove="Areas\Admin\Views\Campaigns\" />
     <None Remove="Areas\Admin\Views\LeadSubjects\" />
+    <None Remove="Areas\Admin\Views\MoJMinisters\" />
     <None Remove="Areas\Admin\Views\MPs\" />
+    <None Remove="Areas\Admin\Views\PublicHolidays\" />
+    <None Remove="Areas\Admin\Views\Reports\" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Microsoft.AspNetCore.Authentication.MicrosoftAccount" />
+    <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
+    <None Remove="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
+    <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="Microsoft.AspNetCore.Identity.UI" />
+    <None Remove="Microsoft.AspNetCore.Metadata" />
+    <None Remove="Microsoft.Data.SqlClient" />
+    <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Microsoft.Extensions.Configuration.UserSecrets" />
+    <None Remove="Microsoft.Identity.Web.UI" />
+    <None Remove="Microsoft.Identity.Web" />
+    <None Remove="Policies\" />
+    <None Remove="Policies\Handlers\" />
+    <None Remove="Policies\Requirements\" />
+    <None Remove="System.Data.SqlClient" />
+    <None Remove="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
@@ -53,26 +57,27 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Views\Account\" />
+    <Folder Include="Areas\Admin\Views\Campaigns\" />
+    <Folder Include="Areas\Admin\Views\LeadSubjects\" />
+    <Folder Include="Areas\Admin\Views\MoJMinisters\" />
+    <Folder Include="Areas\Admin\Views\PublicHolidays\" />
+    <Folder Include="Areas\Admin\Views\Reports\" />
     <Folder Include="Policies\" />
-    <Folder Include="Policies\Requirements\" />
     <Folder Include="Policies\Handlers\" />
-    <Folder Include="wwwroot\javascripts\" />
-    <Folder Include="wwwroot\stylesheets\" />
+    <Folder Include="Policies\Requirements\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
     <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\javascripts\" />
+    <Folder Include="wwwroot\javascripts\search\" />
+    <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\lib\flot\" />
+    <Folder Include="wwwroot\lib\i18n\" />
+    <Folder Include="wwwroot\stylesheets\" />
     <Folder Include="wwwroot\stylesheets\jHtmlArea\" />
     <Folder Include="wwwroot\stylesheets\themes\" />
     <Folder Include="wwwroot\stylesheets\themes\base\" />
     <Folder Include="wwwroot\stylesheets\themes\base\images\" />
-    <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\javascripts\search\" />
-    <Folder Include="wwwroot\lib\i18n\" />
-    <Folder Include="wwwroot\lib\flot\" />
-    <Folder Include="Areas\Admin\Views\PublicHolidays\" />
-    <Folder Include="Areas\Admin\Views\MoJMinisters\" />
-    <Folder Include="Areas\Admin\Views\Campaigns\" />
-    <Folder Include="Areas\Admin\Views\LeadSubjects\" />
-    <Folder Include="Areas\Admin\Views\MPs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\javascripts\" />
@@ -140,7 +145,6 @@
     <None Include="wwwroot\Content\Images\key.png" />
     <None Include="wwwroot\Content\Images\lock.png" />
     <None Include="wwwroot\Content\Images\lock_open.png" />
-    <None Include="wwwroot\Content\Images\MoJ.gif" />
     <None Include="wwwroot\Content\Images\oops.jpg" />
     <None Include="wwwroot\Content\Images\page.png" />
     <None Include="wwwroot\Content\Images\page_add.png" />

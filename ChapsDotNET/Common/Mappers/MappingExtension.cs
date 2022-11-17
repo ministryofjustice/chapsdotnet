@@ -181,6 +181,28 @@ namespace ChapsDotNET.Common.Mappers
                 IsPod = model.IsPod,
                 Name = model.Name
             };
-        }        
+        }
+
+        public static ReportModel ToModel(this ReportViewModel viewModel)
+        {
+            return new ReportModel
+            {
+                ReportId = viewModel.ReportId,
+                Name = viewModel.Name,
+                Description = viewModel.Description,
+                LongDescription = viewModel.LongDescription
+            };
+        }
+
+        public static ReportViewModel ToViewModel(this ReportModel model)
+        {
+            return new ReportViewModel
+            {
+                ReportId = model.ReportId,
+                Name = model.Name,
+                Description = model.Description,
+                LongDescription = model.LongDescription
+            };
+        }
     }
 }

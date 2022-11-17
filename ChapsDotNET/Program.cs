@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using System.Data.SqlClient;
-
+using ChapsDotNET.Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +65,7 @@ builder.Services.AddScoped<ILeadSubjectComponent, LeadSubjectComponent>();
 builder.Services.AddScoped<IMoJMinisterComponent, MoJMinisterComponent>();
 builder.Services.AddScoped<IMPComponent, MPComponent>();
 builder.Services.AddScoped<IPublicHolidayComponent, PublicHolidayComponent>();
+builder.Services.AddScoped<IReportComponent, ReportComponent>();
 builder.Services.AddScoped<ISalutationComponent, SalutationComponent>();
 builder.Services.AddScoped<ITeamComponent, TeamComponent>();
 builder.Services.AddScoped<IUserComponent, UserComponent>();
@@ -79,7 +80,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
 // This code below, ending at line 'app.UseForwardedHeaders(forwardedHeaderOptions);' is required to redirect to https.
 
 var forwardedHeaderOptions = new ForwardedHeadersOptions
@@ -92,11 +92,10 @@ forwardedHeaderOptions.KnownProxies.Clear();
 app.UseForwardedHeaders(forwardedHeaderOptions);
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers().RequireAuthorization("IsAuthorisedUser");

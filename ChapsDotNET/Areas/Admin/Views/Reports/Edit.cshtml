@@ -1,0 +1,68 @@
+﻿@model ChapsDotNET.Models.ReportViewModel
+
+@{
+    ViewData["Title"] = "Edit an existing report";
+
+}
+
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="">Lookups</a>
+    &nbsp;>&nbsp;
+    <a href="/Admin/Reports">Reports</a>
+</div>
+
+@using (Html.BeginForm(new { @class = "form", @id = "create_report_form" }))
+{
+
+    <fieldset class="form-fieldset" , style="margin-left: 50px;">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+        @Html.HiddenFor(model => model.ReportId)
+        @Html.HiddenFor(model => model.Name)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+        </div>
+
+        <div id="jhtml">
+            @Html.TextAreaFor(model => model.Description, new
+            {
+                @id = "short-description",
+                @class = "withCharacterCount form-control",
+                data_limit_input = "" + @Html.DisplayFor(model => model.MaxLengthShort) + "",
+                @style = "width:50%",
+                @rows = "10"
+            })<br />
+            @Html.ValidationMessageFor(model => model.Description)
+            
+        </div>
+
+        @*<div class="editor-field-short">
+                @Html.TextAreaFor(model => model.Description);
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>*@
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LongDescription)
+        </div>
+
+        <div class="editor-field-long">
+            @Html.TextAreaFor(model => model.LongDescription, new { @id = "long-description", @class = "form-control", @style = "width:50%", @rows = "10" })
+            @Html.ValidationMessageFor(model => model.LongDescription)
+        </div>
+
+        <input type="submit" value="Save" />
+    </fieldset>
+    <style>
+        #jhtml body {
+            border: 5px solid #f00;
+        }
+    </style>
+}
+
