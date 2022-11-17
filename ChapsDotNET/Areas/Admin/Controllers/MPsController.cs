@@ -28,8 +28,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel {
                     PageNumber = page,
-                    PageSize = 25,
-                    ShowActiveAndInactive = false,
+                    PageSize = 20,
+                    ShowActiveAndInactive = true,
                     nameFilterTerm = nameFilterTerm,
                     addressFilterTerm = addressFilterTerm,
                     emailFilterTerm = emailFilterTerm,

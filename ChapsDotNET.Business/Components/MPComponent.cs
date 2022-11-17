@@ -39,89 +39,12 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.MPs.AsQueryable();
 
-            // Filtering ------------------------------------------------------
-
-			if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
+            if (!request.ShowActiveAndInactive)
             {
-                //TODO: RtHon -> boolean
-                //TODO: Salutation -> foreign key
-                query = query.Where(
-                    x => x.FirstNames!.ToLower().Contains(request.nameFilterTerm.ToLower()) ||
-                    x.Surname.ToLower().Contains(request.nameFilterTerm.ToLower()) ||
-                    x.Suffix!.ToLower().Contains(request.nameFilterTerm.ToLower())
-                );
-                string lastFilterValue = request.nameFilterTerm;
-			}
-            else if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
-            {
-                query = query.Where(
-                    x => x.AddressLine1!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.AddressLine2!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.AddressLine3!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.Town!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.County!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.Postcode!.ToLower().Contains(request.addressFilterTerm.ToLower())
-                );
-                string lastFilterValue = request.addressFilterTerm;
-			}
-            else if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
-            {
-                query = query.Where(
-                    x => x.Email!.ToLower().Contains(request.emailFilterTerm.ToLower())
-                );
-                string lastFilterValue = request.emailFilterTerm;
-			}
-
-            // Detect page button presses ------------------------------------
-
-
-
-            // Sorting--------------------------------------------------------
-
-
-            switch (request.sortOrder)
-            {
-                case "active":
-                    query = query.Where(x => x.active == true);
-                    break;
-                case "address":
-                    query = query.OrderBy(x => x.AddressLine1);
-                    break;
-                case "email":
-                    query = query.OrderBy(x => x.Email);
-                    break;
-                default:
-                    query = query.Where(x => x.active == true).OrderBy(x => x.Surname);
-                    break;
+                query = query.Where(x => x.active == true);
             }
 
-            //switch (request.sortOrder)
-            //{
-            //    case "active":
-            //        query = query.Where(x => x.active == true);
-            //        break;
-            //    case "non_active":
-            //        query = query.Where(x => x.active == false);
-            //        break;
-            //    case "address_asc":
-            //        query = query.OrderBy(x => x.AddressLine1);
-            //        break;
-            //    case "address_desc":
-            //        query = query.OrderByDescending(x => x.AddressLine1);
-            //        break;
-            //    case "email_asc":
-            //        query = query.OrderBy(x => x.Email);
-            //        break;
-            //    case "email_desc":
-            //        query = query.OrderByDescending(x => x.Email);
-            //        break;
-            //    case "name_desc":
-            //        query = query.OrderByDescending(x => x.Surname);
-            //        break;
-            //    default:
-            //        query = query.Where(x => x.active == true).OrderBy(x => x.Surname);
-            //        break;
-            //}
+            query = query.OrderBy(x => x.Surname);
 
             //Row Count
             var count = await query.CountAsync();
@@ -147,17 +70,6 @@ namespace ChapsDotNET.Business.Components
                     Active = x.active
                 }
             ).ToListAsync();
-
-            System.Diagnostics.Debug.WriteLine("");
-            System.Diagnostics.Debug.WriteLine("----------------------------------------------------------------");
-            System.Diagnostics.Debug.WriteLine("Active filter:  " + request.activeFilter);
-            System.Diagnostics.Debug.WriteLine("Address filter: " + request.addressFilterTerm);
-            System.Diagnostics.Debug.WriteLine("email filter:   " + request.emailFilterTerm);
-            System.Diagnostics.Debug.WriteLine("Name filter:    " + request.nameFilterTerm);
-            System.Diagnostics.Debug.WriteLine("Sort order: " + request.sortOrder);
-            System.Diagnostics.Debug.WriteLine("SQL Query: " + query);
-            System.Diagnostics.Debug.WriteLine("----------------------------------------------------------------");
-            System.Diagnostics.Debug.WriteLine("");
 
             return new PagedResult<List<MPModel>>
             {
