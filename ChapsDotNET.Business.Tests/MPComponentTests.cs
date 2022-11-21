@@ -338,7 +338,7 @@ namespace ChapsDotNET.Business.Tests
             result.Email.Should().Be("t.yar@starfleet.com");
             result.FirstNames.Should().Be("Tasha");
             result.MPId.Should().Be(44);
-            result.Postcode.Should().Be("C17 C02");
+            result.Postcode.Should().Be("NC17 C02");
             result.RtHon.Should().BeFalse();
             result.SalutationId.Should().Be(3);
             result.Suffix.Should().Be("");
@@ -399,8 +399,8 @@ namespace ChapsDotNET.Business.Tests
             var result = await mpComponent.GetMPAsync(53);
 
             // Assert
-            //result.RtHon.Should().BeNull();
-            //result.SalutationId.Should().BeNull();
+            result.RtHon.Should().BeFalse();
+            result.SalutationId.Should().BeNull();
             result.Surname.Should().BeEmpty();
             result.FirstNames.Should().BeNull();
             result.Email.Should().BeNull();
@@ -434,7 +434,7 @@ namespace ChapsDotNET.Business.Tests
                 County = "Texas",
                 Postcode = "AB1 2CD",
                 Suffix = "Msc",
-                Active = false
+                Active = true
             };
 
             // Act
@@ -442,9 +442,7 @@ namespace ChapsDotNET.Business.Tests
 
             // Assert
             result.Should().NotBe(0);
-            context.Salutations.First().Detail.Should().Be("AAA");
-            context.Salutations.First().active.Should().Be(true);
-
+            context.MPs.First().SalutationID.Should().Be(14);
             context.MPs.First().RtHon.Should().BeTrue();
             context.MPs.First().Surname.Should().Be("Crusher");
             context.MPs.First().FirstNames.Should().Be("Beverly");
@@ -456,7 +454,7 @@ namespace ChapsDotNET.Business.Tests
             context.MPs.First().County.Should().Be("Texas");
             context.MPs.First().Postcode.Should().Be("AB1 2CD");
             context.MPs.First().Suffix.Should().Be("Msc");
-            context.MPs.First().active.Should().BeFalse();
+            context.MPs.First().active.Should().BeTrue();
         }
 
         [Fact(DisplayName = "Adding an MP without a surname should throw a ArgumentNullException")]

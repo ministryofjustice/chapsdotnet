@@ -84,7 +84,6 @@ namespace ChapsDotNET.Tests.Areas
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
             var mockSalutationComponent = Substitute.For<ISalutationComponent>();
-
             var controller = new MPsController(mockMPComponent, mockSalutationComponent);
 
             //Act
@@ -133,7 +132,9 @@ namespace ChapsDotNET.Tests.Areas
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
             var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+
             MPsController controller = new MPsController(mockMPComponent, mockSalutationComponent);
+
             mockMPComponent.GetMPAsync(1).Returns(new MPModel
             {
                 MPId = 2,

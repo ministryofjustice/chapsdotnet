@@ -11,15 +11,15 @@
     <None Remove="Components\" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
-    <None Remove="Models\SalutationModel1cs" />
+    <!--<None Remove="Models\SalutationModel1cs" />-->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.8" />
-  </ItemGroup>
+<!--  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.9" />
+  </ItemGroup>-->
 <!--
     <ItemGroup>
         <Compile Include="Models\SalutationModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
