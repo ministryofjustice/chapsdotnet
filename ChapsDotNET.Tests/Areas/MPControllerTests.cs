@@ -35,7 +35,7 @@ namespace ChapsDotNET.Tests.Areas
         //                    Surname = "Janeway",
         //                    FirstNames = "Katherine",
         //                    Email = "kathrine.janeway@starfleet.com",
-        //                    AddressLine1 = "StarFleet HQ", 
+        //                    AddressLine1 = "StarFleet HQ",
         //                    AddressLine2 = "",
         //                    AddressLine3 = "",
         //                    Town = "San Francisco",
@@ -53,7 +53,7 @@ namespace ChapsDotNET.Tests.Areas
         //                    Surname = "Picard",
         //                    FirstNames = "Jean Luc",
         //                    Email = "j.picard@chateau-picard.com",
-        //                    AddressLine1 = "Chateau Picard", 
+        //                    AddressLine1 = "Chateau Picard",
         //                    AddressLine2 = "Le Rue Dragon",
         //                    AddressLine3 = "",
         //                    Town = "Lyon",
@@ -79,7 +79,7 @@ namespace ChapsDotNET.Tests.Areas
         //}
 
         [Fact]
-        public void WhenCreateMethodIsCalledTheCreateViewIsReturned()
+        public async void WhenCreateMethodIsCalledTheCreateViewIsReturned()
         {
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
@@ -87,7 +87,7 @@ namespace ChapsDotNET.Tests.Areas
             var controller = new MPsController(mockMPComponent, mockSalutationComponent);
 
             //Act
-            var result = controller.Create();
+            var result = await controller.Create();
 
             //Assert
             result.Should().BeOfType<ViewResult>();
