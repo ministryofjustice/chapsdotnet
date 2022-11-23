@@ -50,9 +50,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<ActionResult> Create()
         {
             var model = new MPViewModel();
-            var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel
-            {
-                PageSize = 75,
+            var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel {
+                PageSize = 1000,
                 ShowActiveAndInactive = false
             });
 

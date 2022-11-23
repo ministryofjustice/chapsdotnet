@@ -79,11 +79,26 @@ namespace ChapsDotNET.Tests.Areas
         //}
 
         [Fact]
-        public async void WhenCreateMethodIsCalledTheCreateViewIsReturned()
+        public async Task WhenCreateMethodIsCalledTheCreateViewIsReturned()
         {
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
             var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mockSalutation = mockSalutationComponent.GetSalutationsAsync(Arg.Any<SalutationRequestModel>()).Returns(
+                new PagedResult<List<SalutationModel>>
+                {
+                    Results = new List<SalutationModel>()
+                    {
+                        new SalutationModel
+                        {
+                            Detail = "Lord",
+                            SalutationId = 1,
+                            Active = true
+                        },
+                    }
+                }
+            );
+
             var controller = new MPsController(mockMPComponent, mockSalutationComponent);
 
             //Act
@@ -132,14 +147,28 @@ namespace ChapsDotNET.Tests.Areas
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
             var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mockSalutation = mockSalutationComponent.GetSalutationsAsync(Arg.Any<SalutationRequestModel>()).Returns(
+                new PagedResult<List<SalutationModel>>
+                {
+                    Results = new List<SalutationModel>()
+                    {
+                        new SalutationModel
+                        {
+                            Detail = "Lord",
+                            SalutationId = 1,
+                            Active = true
+                        },
+                    }
+                }
+            );
 
             MPsController controller = new MPsController(mockMPComponent, mockSalutationComponent);
 
             mockMPComponent.GetMPAsync(1).Returns(new MPModel
             {
-                MPId = 2,
+                MPId = 1,
                 RtHon = true,
-                SalutationId = 28,
+                SalutationId = 1,
                 Surname = "Picard",
                 FirstNames = "Jean Luc",
                 Email = "j.picard@chateau-picard.com",
