@@ -8,7 +8,7 @@ namespace ChapsDotNET.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Salutation> builder)
         {
-            builder.HasKey(x => x.salutationID);
+            builder.HasKey(a => new { a.salutationID });
             builder.Property(x => x.Detail).IsRequired().HasMaxLength(10);
         }
     }

@@ -113,8 +113,6 @@ namespace ChapsDotNET.Business.Components
             return team.TeamID;
         }
 
-
-
         public async Task UpdateTeamAsync(TeamModel model)
         {
             var team = await _context.Teams.FirstOrDefaultAsync(x => x.TeamID == model.TeamId);

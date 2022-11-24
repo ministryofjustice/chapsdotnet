@@ -66,8 +66,6 @@ namespace ChapsDotNET.Tests.Areas
             result.Should().BeOfType<ViewResult>();
         }
 
-
-
         [Fact]
         public async Task WhenCreateMethodIsCalledTheAddCampaignAsyncMethodIsCalled()
         {
@@ -89,8 +87,6 @@ namespace ChapsDotNET.Tests.Areas
             result.Should().NotBe(null);
 
         }
-
-
 
         [Fact]
         public async Task WhenEditCampaignMethodIsCalledTheEditViewIsReturned()
@@ -135,6 +131,3 @@ namespace ChapsDotNET.Tests.Areas
         }
     }
 }
-
-
-

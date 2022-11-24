@@ -7,7 +7,4 @@ namespace ChapsDotNET.Business.Interfaces
         public Task<bool> IsUserAuthorisedAsync(string? userEmailAddress);
         public Task<UserModel> GetUserByNameAsync(string? userEmailAddress);
     }
-
-
 }
-

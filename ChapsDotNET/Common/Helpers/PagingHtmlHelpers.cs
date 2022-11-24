@@ -12,10 +12,7 @@ namespace ChapsDotNET.Common.Helpers
         {
             var pagingTags = new StringBuilder();
 
-            //Add a leading space before the paging starts
-            pagingTags.Append("<br/>");
-            //Add how many total pages and what page we are on
-            pagingTags.Append($"&nbsp;&nbsp;Page {pagedResult.CurrentPage} of {pagedResult.PageCount}&nbsp;&nbsp;");
+            pagingTags.Append($"<p>Page {pagedResult.CurrentPage} of {pagedResult.PageCount} of {pagedResult.RowCount} records</p>  ");
 
             if (pagedResult.CurrentPage > 1)
             {
@@ -52,9 +49,6 @@ namespace ChapsDotNET.Common.Helpers
                 pagingTags.Append(GetImageString("pageButton-img-next-disabled", ""));
                 pagingTags.Append(GetImageString("pageButton-img-last-disabled", ""));
             }
-
-            //Total Number of Records
-            pagingTags.Append($"&nbsp;&nbsp;&nbsp; {pagedResult.RowCount} records");
 
             //paging tags
             return new HtmlString(pagingTags.ToString());

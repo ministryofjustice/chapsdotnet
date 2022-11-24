@@ -67,8 +67,6 @@ namespace ChapsDotNET.Tests.Areas
             result.Should().BeOfType<ViewResult>();
         }
 
-
-
         [Fact]
         public async Task WhenCreateMethodIsCalledTheAddSalutationsAsyncMethodIsCalled()
         {
@@ -88,10 +86,7 @@ namespace ChapsDotNET.Tests.Areas
             //Assert
             await mockSalutationsComponent.Received().AddSalutationAsync(Arg.Any<SalutationModel>());
             result.Should().NotBe(null);
-
         }
-
-
 
         [Fact]
         public async Task WhenEditMethodIsCalledTheEditViewIsReturned()
@@ -104,8 +99,7 @@ namespace ChapsDotNET.Tests.Areas
                 Detail = "aaa",
                 Active = true,
                 SalutationId = 1
-            }); 
-            
+            });
 
             //Act
             var result = await controller.Edit(1);
@@ -121,7 +115,6 @@ namespace ChapsDotNET.Tests.Areas
             var mockSalutationsComponent = Substitute.For<ISalutationComponent>();
             var controller = new SalutationsController(mockSalutationsComponent);
 
-
             //Act
             var result = await controller.Edit(new SalutationViewModel
             {
@@ -134,6 +127,5 @@ namespace ChapsDotNET.Tests.Areas
             await mockSalutationsComponent.Received().UpdateSalutationAsync(Arg.Any<SalutationModel>());
             result.Should().BeOfType<RedirectToActionResult>();
         }
-
     }
 }
