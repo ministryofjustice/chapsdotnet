@@ -15,6 +15,30 @@ body {
     font-size: 0.8em;
 }
 
+/* RESPONSIVE ELEMENTS   
+----------------------------------------------------------*/    
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-container > section.filters,
+.flex-container > section.mainContent {
+    margin: 15px;
+    height: min-content;
+}
+
+.flex-container > section.filters {
+    max-width: 25%;
+}
+
+.flex-container > section.mainContent {
+    max-width: 75%;
+}
+
+/* -------------------------------------------------------*/
+
 img {
     border: none;
 }
@@ -48,29 +72,19 @@ A {
     background: white url('../images/Training.png') no-repeat center top;
 }
 
-.audit-oldValue {
-    color: #996666;
-}
-
-.audit-newValue {
-    color: #669966;
-}
-
-table.statement {
-    border: 1px solid #000;
-    width: 80%;
-    margin-left: 15em;
-}
-
-table.statement td {
-    border: 1px solid #000;
-}
-
 .bold-text {
     font-weight: bold;
 }
 
-/* Table stuff */
+.pagination a {
+    line-height: 2.5em;
+}
+
+/* TABLES
+----------------------------------------------------------*/
+table {
+    border-collapse: collapse;
+}
 
 .caption {
     font-size: 1.2rem;
@@ -81,20 +95,15 @@ table.statement td {
     width: max-content;
 }
 
-th {
+th, td {
+    padding: 10px 20px 10px 0;
+    border-bottom: 1px solid #b1b4b6;
     text-align: left;
-    background-color: #dddddd;
-    border-radius: 4px 4px 0 0;
-    -webkit-border-radius: 4px 4px 0 0;
-    -moz-border-radius: 4px 4px 0 0;
+    vertical-align: top;
 }
 
-.altRow {
-    background-color: #f9f9f2;
-}
-
-.normRow {
-    background-color: #e7e7ff;
+td:last-child {
+    padding-right: 0;
 }
 
 .createButton {
@@ -110,16 +119,18 @@ a.createButton:hover {
     color: Green !important;
 }
 
-.createButton img {
-    vertical-align: middle;
+table.statement {
+    border: 1px solid #000;
+    width: 80%;
+    margin-left: 15em;
 }
 
-.required-star {
-    padding-left: 3px;
-    color: Red;
-    height: 14px;
-    font-size: large;
-    vertical-align: top;
+table.statement tr {
+    border: solid 1px #000;
+}
+
+table.statement tr.first {
+    border-top: solid 3px #000;
 }
 
 table.statement th {
@@ -129,12 +140,8 @@ table.statement th {
     border: solid 1px #000;
 }
 
-table.statement tr {
-    border: solid 1px #000;
-}
-
-table.statement tr.first {
-    border-top: solid 3px #000;
+table.statement td {
+    border: 1px solid #000;
 }
 
 .passwordExpire {
@@ -329,13 +336,13 @@ input.sortButton:hover {
     color: Green !important;
 }
 
-input.sortButton.asc {
+/*input.sortButton.asc {
     background: url('../images/bullet_arrow_up.png') no-repeat right;
-}
+}*/
 
-input.sortButton.desc {
+/*input.sortButton.desc {
     background: url('../images/bullet_arrow_down.png') no-repeat right;
-}
+}*/
 
 input.allocateButton {
     float: left;
@@ -362,13 +369,13 @@ input.allocateButton:hover {
     color: Green !important;
 }
 
-input.allocateButton.returnFalse {
+/*input.allocateButton.returnFalse {
     background: url('../images/arrow_right.png') no-repeat left;
-}
+}*/
 
-input.allocateButton.returnTrue {
+/*input.allocateButton.returnTrue {
     background: url('../images/arrow_undo.png') no-repeat left;
-}
+}*/
 
 input[sortButton] {
     width: auto;

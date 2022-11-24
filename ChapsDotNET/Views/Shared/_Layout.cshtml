@@ -1,21 +1,21 @@
 ﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewBag.Title</title>
+<html lang="en-gb">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/stylesheets/menuBar.css")" />
-    <link rel="stylesheet" type="text/css" media="print" href="@Url.Content("~/stylesheets/menuBarPrint.css")" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/jHtmlArea/jHtmlArea.css")" />
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/Site.css")" />
+        <title>@ViewBag.Title</title>
 
-    @RenderSection("head", false)
+        <link rel="stylesheet" type="text/css" media="screen" href="@Url.Content("~/stylesheets/menuBar.css")" />
+        <link rel="stylesheet" type="text/css" media="print" href="@Url.Content("~/stylesheets/menuBarPrint.css")" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/themes/base/jquery-ui-custom.min.css")" />
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/jHtmlArea/jHtmlArea.css")" />
 
+        @RenderSection("head", false)
 
-</head>
+        <link rel="stylesheet" type="text/css" href="@Url.Content("~/stylesheets/Site.css")" />
+    </head>
     <body>
         @*@{Html.RenderAction("DisplayAlerts", "Home", new { area = "" });}*@
         <div>
@@ -69,17 +69,9 @@
                     var ServerName = "";
                     if (ServerName != "PRODUCTION") {
                         $('#menuBar li, #menuBar li.leftText, #MenuContainer, .helpButton').css('background-color', '#1d73e8');
-                        $('#first').css('background-image', 'url("../images/blue_nav_left_corner_bottom.gif")');
-                        $('#MenuContainer').css('background-image', 'url("../images/blue_nav_right_corner_bottom.gif")');
+                        $('#first').css('background-image', 'url("@Url.Content("~/images/blue_nav_left_corner_bottom.gif")")');
+                        $('#MenuContainer').css('background-image', 'url("@Url.Content("~/images/blue_nav_right_corner_bottom.gif")")');
                     }
-
-                    @*var TOKENHEADERVALUE = '@TokenHeaderValue()';*@
-
-                    @*$.ajaxSetup({
-                        headers: {
-                            'AntiForgeryToken': TOKENHEADERVALUE
-                        },
-                    });*@
                 });
 
                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -1,0 +1,71 @@
+﻿@using ChapsDotNET.Common.Helpers
+
+@model ChapsDotNET.Business.Models.Common.PagedResult<List<ChapsDotNET.Business.Models.MPModel>>
+
+@{
+    ViewData["Title"] = "Members of Parliament administration";
+}
+
+@section head{
+    <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+</div>
+
+<h1>Members of Parliament (MPs)</h1>
+
+<div class="actionLinks">
+    @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
+</div>
+
+<table class="withSort">
+    <caption class="caption">Members of Parliament</caption>
+    <thead>
+        <tr>
+            <th scope="col">
+                Name
+            </th>
+            <th scope="col">
+                Address
+            </th>
+            <th scope="col">
+                Email
+            </th>
+            <th scope="col">
+                Active
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mp in Model.Results!.ToList())
+        {
+            <tr>
+                <td>
+                    <a href="/Admin/MPs/Edit/@mp.MPId">
+                        @Html.DisplayFor(modelItem => mp.DisplayFullName)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => mp.DisplaySingleLineAddress)
+                </td>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(mp.Email))
+                    {
+                        @Html.DisplayFor(x => mp.Email)
+                    }
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(x => mp.Active)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="pagination">
+    @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString() }))
+</div>

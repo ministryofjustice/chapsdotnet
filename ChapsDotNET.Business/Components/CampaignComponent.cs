@@ -57,8 +57,6 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
-
-
         public async Task<CampaignModel> GetCampaignAsync(int id)
         {
             var query = _context.Campaigns.AsQueryable();

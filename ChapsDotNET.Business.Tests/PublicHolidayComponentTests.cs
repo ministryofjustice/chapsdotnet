@@ -102,36 +102,31 @@ namespace ChapsDotNET.Business.Tests
             result.Description.Should().Be("Beltane");
         }
 
-
         [Fact(DisplayName = "Add a Public Holiday to the database when calling the AddPublicHolidayAsync method returns correct PublicHolidayID")]
         public async Task AddAPublicHolidayToTheDatabase()
         {
             // Arrange
             var context = DataContextFactory.Create();
-
             var publicHolidayComponent = new PublicHolidayComponent(context);
             var newrecord = new Models.PublicHolidayModel
             {
                 PublicHolidayId = 1,
                 Description = "Samhain",
-                Date = new DateTime(2022, 11, 01)
+                Date = DateTime.Today.AddDays(1)
             };
 
             // Act
             var result = await publicHolidayComponent.AddPublicHolidayAsync(newrecord);
 
-
             // Assert
             result.Should().NotBe(0);
             result.Should().Be(1);
             context.PublicHolidays.First().Description.Should().Be("Samhain");
-            context.PublicHolidays.First().Date.Should().HaveDay(01);
-            context.PublicHolidays.First().Date.Should().HaveMonth(11);
-            context.PublicHolidays.First().Date.Should().HaveYear(2022);
+            context.PublicHolidays.First().Date.Should().HaveDay(DateTime.Today.AddDays(1).Day);
+            context.PublicHolidays.First().Date.Should().HaveMonth(DateTime.Today.AddDays(1).Month);
+            context.PublicHolidays.First().Date.Should().HaveYear(DateTime.Today.AddDays(1).Year);
             context.PublicHolidays.First().PublicHolidayID.Should().Be(1);
-            
         }
-
 
         [Fact(DisplayName = "Adding a Public Holiday with empty detail should throw an ArgumentNullException")]
         public async Task AddingAnEmptyDescriptionShouldThrowException()

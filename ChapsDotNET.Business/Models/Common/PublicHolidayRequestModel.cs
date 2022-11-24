@@ -1,5 +1,4 @@
-﻿using System;
-namespace ChapsDotNET.Business.Models.Common
+﻿namespace ChapsDotNET.Business.Models.Common
 {
     public class PublicHolidayRequestModel : PagedRequest
     {

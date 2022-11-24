@@ -9,8 +9,5 @@
         public bool IsOgd { get; set; }
         public bool IsPod { get; set; }
         public bool Active { get; set; }
-        
     }
-
-
 }

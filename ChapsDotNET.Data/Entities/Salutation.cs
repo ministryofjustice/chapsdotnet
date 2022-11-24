@@ -6,6 +6,8 @@ namespace ChapsDotNET.Data.Entities
     {
         public int salutationID { get; set; }
         public string? Detail { get; set; }
+        public virtual ICollection<MP>? MPs { get; set; }
+
         public bool Auditable()
         {
             return true;

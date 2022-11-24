@@ -4,7 +4,7 @@
     var displayPastDateError = function () {
         $("#Date")
             .addClass("input-validation-error")
-            .attr( { 'aria-describedby': "Date-error", 'aria-invalid': "true" } );
+            .attr({ 'aria-describedby': "Date-error", 'aria-invalid': "true" });
         $('span[data-valmsg-for="Date"]')
             .switchClass("field-validation-valid", "field-validation-error")
             .html('<span id="Date-error">The date must be set in the future.</span>');
@@ -24,8 +24,6 @@
 
     yesterday.setDate(yesterday.getDate() - 1)
     let yesterdaysDate = yearMonthDayFormat(yesterday);
-
-
 
     var characterCount = function (textArea) {
         var numberOfCharacters = $(textArea).val().length;
@@ -98,11 +96,8 @@
         });
 
         var $textAreaWithCharCounter = $('#short-description');
-        console.log($textAreaWithCharCounter.val());
-        console.log(characterCount($textAreaWithCharCounter));
         $textAreaWithCharCounter.on('keydown keyup paste', function (event) {
-                    updateCharCounterMsg($(this));
-            
+            updateCharCounterMsg($(this));
         });
 
         $('#create_note_form').submit(function () {
@@ -113,20 +108,16 @@
             }
         });
 
-
-    
-
-
-
         $('#short-description').htmlarea({
             toolbar: [
-                "bold", "italic","underline",
+                "bold", "italic", "underline",
                 "|",
                 "h1", "h2", "p",
                 "|",
                 "orderedList", "unorderedList"
             ]
         });
+
         $('#long-description').htmlarea({
             toolbar: [
                 "bold", "italic", "underline",

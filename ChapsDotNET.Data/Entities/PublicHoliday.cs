@@ -7,7 +7,6 @@ namespace ChapsDotNET.Data.Entities
         public int PublicHolidayID { get; set; }
         public DateTime Date { get; set; }
         public string? Description { get; set; } 
-
         public bool Auditable()
         {
             return true;

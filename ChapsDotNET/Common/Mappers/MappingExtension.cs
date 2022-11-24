@@ -71,6 +71,50 @@ namespace ChapsDotNET.Common.Mappers
             };
         }
 
+        public static MPModel ToModel(this MPViewModel viewModel)
+        {
+            return new MPModel
+            {
+                MPId = viewModel.MPId,
+                SalutationId = viewModel.SalutationId,
+                Surname = viewModel.Surname,
+                FirstNames = viewModel.FirstNames,
+                AddressLine1 = viewModel.AddressLine1,
+                AddressLine2 = viewModel.AddressLine2,
+                AddressLine3 = viewModel.AddressLine3,
+                Town = viewModel.Town,
+                County = viewModel.County,
+                Postcode = viewModel.Postcode,
+                Email = viewModel.Email,
+                RtHon = viewModel.RtHon,
+                Suffix = viewModel.Suffix,
+                Active = viewModel.Active,
+                DisplayFullName = viewModel.DisplayFullName
+            };
+        }
+
+        public static MPViewModel ToViewModel(this MPModel model)
+        {
+            return new MPViewModel
+            {
+                MPId = model.MPId,
+                SalutationId = model.SalutationId,
+                Surname = model.Surname,
+                FirstNames = model.FirstNames,
+                AddressLine1 = model.AddressLine1,
+                AddressLine2 = model.AddressLine2,
+                AddressLine3 = model.AddressLine3,
+                Town = model.Town,
+                County = model.County,
+                Postcode = model.Postcode,
+                Email = model.Email,
+                RtHon = model.RtHon,
+                Suffix = model.Suffix,
+                Active = model.Active,
+                DisplayFullName = model.DisplayFullName
+            };
+        }
+
         public static PublicHolidayModel ToModel(this PublicHolidayViewModel viewModel)
         {
             return new PublicHolidayModel
