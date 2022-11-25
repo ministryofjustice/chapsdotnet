@@ -22,50 +22,87 @@
     @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
 </div>
 
-<table class="withSort">
-    <caption class="caption">Members of Parliament</caption>
-    <thead>
-        <tr>
-            <th scope="col">
-                Name
-            </th>
-            <th scope="col">
-                Address
-            </th>
-            <th scope="col">
-                Email
-            </th>
-            <th scope="col">
-                Active
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var mp in Model.Results!.ToList())
+<div class="flex-container">
+    <section class="filters">
+        @using (Html.BeginForm())
         {
-            <tr>
-                <td>
-                    <a href="/Admin/MPs/Edit/@mp.MPId">
-                        @Html.DisplayFor(modelItem => mp.DisplayFullName)
-                    </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => mp.DisplaySingleLineAddress)
-                </td>
-                <td>
-                    @if (!string.IsNullOrWhiteSpace(mp.Email))
-                    {
-                        @Html.DisplayFor(x => mp.Email)
-                    }
-                </td>
-                <td align="center">
-                    @Html.DisplayFor(x => mp.Active)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <fieldset>
+                <legend class="caption">
+                    Filter
+                </legend>
 
-<div class="pagination">
-    @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString() }))
+                <label class="editor-label" for="nameFilterTerm">
+                    Name contains:
+                </label>
+                <div class="editor-field">
+                    @Html.Editor("nameFilterTerm", null)
+                </div>
+
+                <label class="editor-label" for="addressFilterTerm">
+                    Address contains
+                </label>
+                <div class="editor-field">
+                    @Html.Editor("addressFilterTerm", null)
+                </div>
+
+                <label class="editor-label" for="emailFilterTerm">
+                    Email address contains
+                </label>
+                <div class="editor-field">
+                    @Html.Editor("emailFilterTerm", null)
+                </div>
+
+                <input alt="Filter MPs" type="submit" value="Apply filters" />
+
+            </fieldset>
+        }
+    </section>
+    <section class="mainContent">
+        <table class="withSort">
+            <caption class="caption">Members of Parliament</caption>
+            <thead>
+                <tr>
+                    <th scope="col">
+                        Name
+                    </th>
+                    <th scope="col">
+                        Address
+                    </th>
+                    <th scope="col">
+                        Email
+                    </th>
+                    <th scope="col">
+                        Active
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var mp in Model.Results!.ToList())
+                {
+                    <tr>
+                        <td>
+                            <a href="/Admin/MPs/Edit/@mp.MPId">
+                                @Html.DisplayFor(modelItem => mp.DisplayFullName)
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => mp.DisplaySingleLineAddress)
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(mp.Email))
+                            {
+                                @Html.DisplayFor(x => mp.Email)
+                            }
+                        </td>
+                        <td align="center">
+                            @Html.DisplayFor(x => mp.Active)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="pagination">
+            @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString() }))
+        </div>
+    </section>
 </div>
