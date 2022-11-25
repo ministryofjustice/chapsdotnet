@@ -39,12 +39,37 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.MPs.AsQueryable();
 
-            if (!request.ShowActiveAndInactive)
-            {
-                query = query.Where(x => x.active == true);
-            }
+            // Filtering ------------------------------------------------------
 
-            query = query.OrderBy(x => x.Surname);
+			if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
+            {
+                //TODO: RtHon -> boolean
+                //TODO: Salutation -> foreign key
+                query = query.Where(
+                    x => x.FirstNames!.ToLower().Contains(request.nameFilterTerm.ToLower()) ||
+                    x.Surname.ToLower().Contains(request.nameFilterTerm.ToLower()) ||
+                    x.Suffix!.ToLower().Contains(request.nameFilterTerm.ToLower())
+                );
+			}
+            else if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
+            {
+                query = query.Where(
+                    x => x.AddressLine1!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.AddressLine2!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.AddressLine3!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.Town!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.County!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                    x.Postcode!.ToLower().Contains(request.addressFilterTerm.ToLower())
+                );
+			}
+            else if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
+            {
+                query = query.Where(
+                    x => x.Email!.ToLower().Contains(request.emailFilterTerm.ToLower())
+                );
+			}
+
+            // ----------------------------------------------------------------
 
             //Row Count
             var count = await query.CountAsync();
