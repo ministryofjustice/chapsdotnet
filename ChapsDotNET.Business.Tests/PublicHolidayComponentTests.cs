@@ -83,7 +83,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 PublicHolidayID = 5,
                 Description = "Yule",
-                Date = new DateTime(2022, 12, 25)
+                Date = new DateTime(2022, 12, 25)   
             });
 
             await context.SaveChangesAsync();
@@ -133,7 +133,6 @@ namespace ChapsDotNET.Business.Tests
         {
             // Arrange
             var context = DataContextFactory.Create();
-
             var publicHolidayComponent = new PublicHolidayComponent(context);
             var newrecord = new Models.PublicHolidayModel
             {
@@ -154,7 +153,6 @@ namespace ChapsDotNET.Business.Tests
         {
             // Arrange
             var context = DataContextFactory.Create();
-
             var publicHolidayComponent = new PublicHolidayComponent(context);
             var newrecord = new Models.PublicHolidayModel
             {
@@ -175,7 +173,6 @@ namespace ChapsDotNET.Business.Tests
         {
             // Arrange
             var context = DataContextFactory.Create();
-
             var publicHolidayComponent = new PublicHolidayComponent(context);
             var newrecord = new Models.PublicHolidayModel
             {
@@ -221,7 +218,6 @@ namespace ChapsDotNET.Business.Tests
             //Arrange
             var context = DataContextFactory.Create();
             
-
             await context.PublicHolidays.AddAsync(new PublicHoliday
             {
                 PublicHolidayID = 1,
@@ -276,7 +272,6 @@ namespace ChapsDotNET.Business.Tests
 
             //Assert
             await act.Should().NotThrowAsync<ArgumentOutOfRangeException>();
-
         }
 
         [Fact(DisplayName = "Updating a Public Holiday with empty detail should throw an ArgumentNullException")]

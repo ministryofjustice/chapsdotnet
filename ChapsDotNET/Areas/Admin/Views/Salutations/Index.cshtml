@@ -1,17 +1,19 @@
 ﻿@using ChapsDotNET.Common.Helpers
+
 @model ChapsDotNET.Business.Models.Common.PagedResult<List<ChapsDotNET.Business.Models.SalutationModel>>
+
 @{
     ViewData["Title"] = "Salutations Administration";
 }
+
 @section head{
     <link href="@Url.Content("~/Content/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
 }
+
 <div class="breadcrumbs">
     <a href="">Home</a>
     &nbsp;>&nbsp;
     <a href="">Administration</a>
-    &nbsp;>&nbsp;
-    <a href="">Lookups</a>
 </div>
 
 <h1>Salutations</h1>
