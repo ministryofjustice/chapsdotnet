@@ -83,6 +83,28 @@
     //  +---------------------------------------------------------------------------+
 
     $(document).ready(function () {
+        
+        $('form.filter').change(function (event) {
+            switch ($(event.target).attr('id')) {
+                case 'addressFilterTerm':
+                    $('#emailFilterTerm').val('');
+                    $('#nameFilterTerm').val('');
+                    break;
+                case 'emailFilterTerm':
+                    $('#addressFilterTerm').val('');
+                    $('#nameFilterTerm').val('');
+                    break;
+                case 'nameFilterTerm':
+                    $('#addressFilterTerm').val('');
+                    $('#emailFilterTerm').val('');
+                    break;
+                default:
+                    $('#addressFilterTerm').val('');
+                    $('#emailFilterTerm').val('');
+                    $('#nameFilterTerm').val('');
+            }
+        });
+
         $('form').submit(function (event) {
             if ($(event.target).has('input .future-date')) {
                 if ($('#Date').val() < tomorrowsDate) {
