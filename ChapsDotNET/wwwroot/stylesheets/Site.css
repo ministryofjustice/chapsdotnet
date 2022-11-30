@@ -626,6 +626,16 @@ span.ok {
     border: none !important;
 }
 
+
+dl#reports-list dt {
+    margin-bottom: 0.5em;
+}
+
+dl#reports-list dd {
+    margin-bottom: 1em;
+    margin-left: 0;
+}
+
 /* css for datepicker */
 
 .ui-datepicker-trigger {
