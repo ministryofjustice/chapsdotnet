@@ -51,7 +51,7 @@ namespace ChapsDotNET.Business.Components
                     x.Suffix!.ToLower().Contains(request.nameFilterTerm.ToLower())
                 );
 			}
-            else if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
+            if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
             {
                 query = query.Where(
                     x => x.AddressLine1!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
@@ -62,7 +62,7 @@ namespace ChapsDotNET.Business.Components
                     x.Postcode!.ToLower().Contains(request.addressFilterTerm.ToLower())
                 );
 			}
-            else if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
+            if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
             {
                 query = query.Where(
                     x => x.Email!.ToLower().Contains(request.emailFilterTerm.ToLower())
