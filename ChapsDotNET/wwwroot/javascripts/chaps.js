@@ -83,29 +83,57 @@
     //  +---------------------------------------------------------------------------+
 
     $(document).ready(function () {
-        
-        $('form.filter').change(function (event) {
-            switch ($(event.target).attr('id')) {
-                case 'addressFilterTerm':
-                    $('#emailFilterTerm').val('');
-                    $('#nameFilterTerm').val('');
-                    break;
-                case 'emailFilterTerm':
-                    $('#addressFilterTerm').val('');
-                    $('#nameFilterTerm').val('');
-                    break;
-                case 'nameFilterTerm':
-                    $('#addressFilterTerm').val('');
-                    $('#emailFilterTerm').val('');
-                    break;
-                default:
-                    $('#addressFilterTerm').val('');
-                    $('#emailFilterTerm').val('');
-                    $('#nameFilterTerm').val('');
+
+
+        if ($(document.body).has('form')) {
+
+            if ($('form').hasClass('filter')) {
+
+                if (typeof (Storage) !== "undefined") {
+
+                    if ((sessionStorage.lastInputId === undefined) && (sessionStorage.lastInputValue === undefined)) {
+                        sessionStorage.lastInputId = "none";
+                        sessionStorage.lastInputValue = "none";
+                    }
+
+                    $('form.filter').on('change paste', function (event) {
+                        switch ($(event.target).attr('id')) {                            
+                            case 'addressFilterTerm':
+                                $('#emailFilterTerm, #nameFilterTerm').val('');
+                                sessionStorage.lastInputValue = $('#addressFilterTerm').val();
+                                break;
+                            case 'emailFilterTerm':
+                                $('#addressFilterTerm, #nameFilterTerm').val('');
+                                sessionStorage.lastInputValue = $('#emailFilterTerm').val();
+                                break;
+                            case 'nameFilterTerm':
+                                $('#addressFilterTerm, #emailFilterTerm').val('');
+                                sessionStorage.lastInputValue = $('#nameFilterTerm').val();
+                                break;
+                        }
+
+                        sessionStorage.lastInputId = $(event.target).attr('id');
+                    });
+                }
             }
-        });
+        }
+        // ----------------------------------------------------------------
+
+        // ---- Form valuidations -----------------------------------------
 
         $('form').submit(function (event) {
+
+            if ($(event.target).has('form .filter')) {
+                console.log("this is a filter form");
+
+                //document.cookie = “lastInputId = ' +  + ";" path = /Admin/MPs /; secrure”;
+                //document.cookie = “lastInputValue = ; path = /Admin/MPs /; secrure”;
+
+                // TODO: move the session storage assignment to here!
+                // sessionStorage.lastInputId = $(event.target).attr('id');
+                // sessionStorage.lastInputValue = $(event.target).val();
+            }
+
             if ($(event.target).has('input .future-date')) {
                 if ($('#Date').val() < tomorrowsDate) {
                     displayPastDateError();
@@ -114,8 +142,12 @@
                 else {
                     return true;
                 }
-            }         
+            }
+
+
         });
+
+        // --- Character counter -------------------------------------------
 
         var $textAreaWithCharCounter = $('#short-description');
         $textAreaWithCharCounter.on('keydown keyup paste', function (event) {
