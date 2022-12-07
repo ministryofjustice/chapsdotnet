@@ -24,7 +24,7 @@
 
 <div class="flex-container">
     <section class="filters">
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "filter" }))
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "filter" }))
         {
             <fieldset>
                 <legend class="caption">
@@ -38,21 +38,21 @@
                     @Html.Editor("nameFilterTerm", null)
                 </div>
 
-                <label class="editor-label" for="addressFilterTerm">
-                    Address contains
-                </label>
-                <div class="editor-field">
-                    @Html.Editor("addressFilterTerm", null)
-                </div>
+                @*<label class="editor-label" for="addressFilterTerm">
+            Address contains
+        </label>
+        <div class="editor-field">
+            @Html.Editor("addressFilterTerm", null)
+        </div>
 
-                <label class="editor-label" for="emailFilterTerm">
-                    Email address contains
-                </label>
-                <div class="editor-field">
-                    @Html.Editor("emailFilterTerm", null)
-                </div>
+        <label class="editor-label" for="emailFilterTerm">
+            Email address contains
+        </label>
+        <div class="editor-field">
+            @Html.Editor("emailFilterTerm", null)
+        </div>*@
 
-                <input alt="Filter MPs" name="filter" type="submit" value="Apply filter" />
+                <button alt="Filter MPs" type="submit">Apply filter</button>
 
             </fieldset>
         }
@@ -102,7 +102,7 @@
             </tbody>
         </table>
         <div class="pagination">
-            @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString() }))
+            @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString(), nameFilterTerm = "smith" }))
         </div>
     </section>
 </div>
