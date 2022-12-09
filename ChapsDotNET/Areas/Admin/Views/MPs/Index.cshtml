@@ -38,21 +38,32 @@
                     @Html.Editor("nameFilterTerm", null)
                 </div>
 
-                @*<label class="editor-label" for="addressFilterTerm">
-            Address contains
-        </label>
-        <div class="editor-field">
-            @Html.Editor("addressFilterTerm", null)
-        </div>
+                <label class="editor-label" for="addressFilterTerm">
+                    Address contains
+                </label>
+                <div class="editor-field">
+                    @Html.Editor("addressFilterTerm", null)
+                </div>
 
-        <label class="editor-label" for="emailFilterTerm">
-            Email address contains
-        </label>
-        <div class="editor-field">
-            @Html.Editor("emailFilterTerm", null)
-        </div>*@
+                <label class="editor-label" for="emailFilterTerm">
+                    Email address contains
+                </label>
+                <div class="editor-field">
+                    @Html.Editor("emailFilterTerm", null)
+                </div>
+
+                <label class="editor-label" for="activeFilter">
+                    Only active
+                </label>
+                <div class="editor-field">
+                    @Html.CheckBox("activeFilter", null)
+                </div>
+
+                @Html.Hidden("sortOrder", null)
 
                 <button alt="Filter MPs" type="submit">Apply filter</button>
+
+                <a href="" class="reset">Clear filters</a>
 
             </fieldset>
         }
@@ -62,6 +73,7 @@
             <caption class="caption">Members of Parliament</caption>
             <thead>
                 <tr>
+
                     <th scope="col">
                         Name
                     </th>
@@ -74,6 +86,43 @@
                     <th scope="col">
                         Active
                     </th>
+
+                    @*<th scope="col" aria-sort="ascending">
+                        @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "tableSort" }))
+                        {
+                            @Html.Hidden("activeFilter", null)
+                            @Html.Hidden("addressFilterTerm", null)
+                            @Html.Hidden("emailFilterTerm", null)
+                            @Html.Hidden("nameFilterTerm", null)
+                            @Html.Hidden("sortOrder", "name asc")
+                            <button id="name" data-index="0" name="sortOrder" type="submit" value="name">Name</button>
+                        }
+                    </th>
+                    <th scope="col" aria-sort="none">
+                        @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "tableSort" }))
+                        {
+                            @Html.Hidden("activeFilter", null)
+                            @Html.Hidden("addressFilterTerm", null)
+                            @Html.Hidden("emailFilterTerm", null)
+                            @Html.Hidden("nameFilterTerm", null)
+                            @Html.Hidden("sortOrder", "address asc")
+                            <button id="address" data-index="1" name="sortOrder" type="submit" value="address">Address</button>
+                        }
+                    </th>
+                    <th scope="col" aria-sort="none">
+                        @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "tableSort" }))
+                        {
+                            @Html.Hidden("activeFilter", null)
+                            @Html.Hidden("addressFilterTerm", null)
+                            @Html.Hidden("emailFilterTerm", null)
+                            @Html.Hidden("nameFilterTerm", null)
+                            @Html.Hidden("sortOrder", "email asc")
+                            <button id="email" data-index="2" name="sortOrder" type="submit" value="email">Email</button>
+                        }
+                    </th>
+                    <th scope="col">
+                        Active
+                    </th>*@
                 </tr>
             </thead>
             <tbody>

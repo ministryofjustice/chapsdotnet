@@ -292,6 +292,11 @@ input[type="submit"] {
     vertical-align: middle;
 }
 
+.reset {
+    display: block;
+    margin: 2em 0 .5em 0;
+}
+
 /* MISC  
 ----------------------------------------------------------*/
 

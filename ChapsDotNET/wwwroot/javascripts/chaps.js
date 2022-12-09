@@ -119,6 +119,11 @@
         //}
         // ----------------------------------------------------------------
 
+        $('a.reset').click(function () {
+            var form = $(this).parents('form');
+            form.trigger("reset");
+        });
+
         // ---- Form valuidations -----------------------------------------
 
         $('form').submit(function (event) {
@@ -143,7 +148,6 @@
                     return true;
                 }
             }
-
 
         });
 
