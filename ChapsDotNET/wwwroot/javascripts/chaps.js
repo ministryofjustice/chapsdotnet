@@ -12,6 +12,7 @@
 
     var yearMonthDayFormat = function (rawDate) {
         // returns date in yyyy-MM-dd format
+
         return rawDate.toISOString().slice(0, 10);
     }
 
@@ -85,59 +86,25 @@
     $(document).ready(function () {
 
 
-        //if ($(document.body).has('form')) {
+        if ($(document.body).has('form')) {
+            if ($('form').hasClass('filter')) {
+            }
+        }
 
-        //    if ($('form').hasClass('filter')) {
-
-        //        if (typeof (Storage) !== "undefined") {
-
-        //            if ((sessionStorage.lastInputId === undefined) && (sessionStorage.lastInputValue === undefined)) {
-        //                sessionStorage.lastInputId = "none";
-        //                sessionStorage.lastInputValue = "none";
-        //            }
-
-        //            $('form.filter').on('change paste', function (event) {
-        //                switch ($(event.target).attr('id')) {                            
-        //                    case 'addressFilterTerm':
-        //                        $('#emailFilterTerm, #nameFilterTerm').val('');
-        //                        sessionStorage.lastInputValue = $('#addressFilterTerm').val();
-        //                        break;
-        //                    case 'emailFilterTerm':
-        //                        $('#addressFilterTerm, #nameFilterTerm').val('');
-        //                        sessionStorage.lastInputValue = $('#emailFilterTerm').val();
-        //                        break;
-        //                    case 'nameFilterTerm':
-        //                        $('#addressFilterTerm, #emailFilterTerm').val('');
-        //                        sessionStorage.lastInputValue = $('#nameFilterTerm').val();
-        //                        break;
-        //                }
-
-        //                sessionStorage.lastInputId = $(event.target).attr('id');
-        //            });
-        //        }
-        //    }
-        //}
-        // ----------------------------------------------------------------
+        // Form listeners ----------------------------------------------------------------
 
         $('a.reset').click(function () {
-            var form = $(this).parents('form');
-            form.trigger("reset");
+            $('.filer :input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+            $('.filter :checkbox, :radio').prop('checked', false);
         });
 
-        // ---- Form valuidations -----------------------------------------
+        // ---- Form validations -----------------------------------------
 
         $('form').submit(function (event) {
 
-            //if ($(event.target).has('form .filter')) {
-            //    console.log("this is a filter form");
-
-            //    //document.cookie = “lastInputId = ' +  + ";" path = /Admin/MPs /; secrure”;
-            //    //document.cookie = “lastInputValue = ; path = /Admin/MPs /; secrure”;
-
-            //    // TODO: move the session storage assignment to here!
-            //    // sessionStorage.lastInputId = $(event.target).attr('id');
-            //    // sessionStorage.lastInputValue = $(event.target).val();
-            //}
+            if ($(event.target).has('form .filter')) {
+                console.log("this is a filter form");
+            }
 
             if ($(event.target).has('input .future-date')) {
                 if ($('#Date').val() < tomorrowsDate) {
@@ -154,6 +121,7 @@
         // --- Character counter -------------------------------------------
 
         var $textAreaWithCharCounter = $('#short-description');
+
         $textAreaWithCharCounter.on('keydown keyup paste', function (event) {
             updateCharCounterMsg($(this));
         });

@@ -27,13 +27,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<IActionResult> Index(string nameFilterTerm, string addressFilterTerm, string emailFilterTerm, bool activeFilter, string sortOrder, int page = 1)
         {
             var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel {
+                    activeFilter = activeFilter,
+                    addressFilterTerm = addressFilterTerm,
+                    emailFilterTerm = emailFilterTerm,
+                    nameFilterTerm = nameFilterTerm,
                     PageNumber = page,
                     PageSize = 20,
                     ShowActiveAndInactive = true,
-                    nameFilterTerm = nameFilterTerm,
-                    addressFilterTerm = addressFilterTerm,
-                    emailFilterTerm = emailFilterTerm,
-                    activeFilter = activeFilter,
                     sortOrder = sortOrder
             } );
 

@@ -68,6 +68,18 @@ namespace ChapsDotNET.Business.Components
                     x => x.Email!.ToLower().Contains(request.emailFilterTerm.ToLower())
                 );
 			}
+            if (request.activeFilter == true)
+            {
+                query = query.Where(
+                    x => x.active.Equals(true)
+                );
+            }
+            if (request.activeFilter == false)
+            {
+                query = query.Where(
+                    x => x.active.Equals(false)
+                );
+            }
 
             // ----------------------------------------------------------------
 
