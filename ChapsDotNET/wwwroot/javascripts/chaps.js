@@ -81,31 +81,25 @@
         $('span.counter').html(counterMsg);
     }
 
+    var hasQueryParams = function (url) {
+        return url.indexOf('?') !== -1;
+    }
+
     //  +---------------------------------------------------------------------------+
 
     $(document).ready(function () {
 
-
-        if ($(document.body).has('form')) {
-            if ($('form').hasClass('filter')) {
-            }
-        }
-
-        // Form listeners ----------------------------------------------------------------
-
-        $('a.reset').click(function () {
-            $('.filer :input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-            $('.filter :checkbox, :radio').prop('checked', false);
-        });
+        //if ( $(document.body).has('form') ) {
+        //    if ( $('form').hasClass('filter') ) {
+        //        if ($(this).find(":checkbox#activeFilter") && hasQueryParams(window.location.href) == false ) {
+        //            $('input#activeFilter').prop("checked", true);
+        //        }
+        //    }
+        //}
 
         // ---- Form validations -----------------------------------------
 
         $('form').submit(function (event) {
-
-            if ($(event.target).has('form .filter')) {
-                console.log("this is a filter form");
-            }
-
             if ($(event.target).has('input .future-date')) {
                 if ($('#Date').val() < tomorrowsDate) {
                     displayPastDateError();
@@ -115,7 +109,6 @@
                     return true;
                 }
             }
-
         });
 
         // --- Character counter -------------------------------------------

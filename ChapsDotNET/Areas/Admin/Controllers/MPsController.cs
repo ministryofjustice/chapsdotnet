@@ -27,10 +27,10 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<IActionResult> Index(string nameFilterTerm, string addressFilterTerm, string emailFilterTerm, bool activeFilter, string sortOrder, int page = 1)
         {
             var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel {
-                    activeFilter = activeFilter,
+                    nameFilterTerm = nameFilterTerm,
                     addressFilterTerm = addressFilterTerm,
                     emailFilterTerm = emailFilterTerm,
-                    nameFilterTerm = nameFilterTerm,
+                    activeFilter = activeFilter,  
                     PageNumber = page,
                     PageSize = 20,
                     ShowActiveAndInactive = true,
@@ -122,7 +122,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             nameParts.Add(mp.Suffix != null ? mp.Suffix : null!);
 
             return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
-
         }
     }
 }

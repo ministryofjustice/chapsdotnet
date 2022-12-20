@@ -53,17 +53,17 @@
                 </div>
 
                 <label class="editor-label" for="activeFilter">
-                    Only active
+                    Active only
                 </label>
                 <div class="editor-field">
                     @Html.CheckBox("activeFilter", null)
                 </div>
 
-                @Html.Hidden("sortOrder", null)
+                @*@Html.Hidden("sortOrder", null)*@
 
                 <button alt="Filter MPs" type="submit">Apply filter</button>
 
-                <a href="" class="reset">Clear filters</a>
+                <input type="reset" value="Clear filters" />
 
             </fieldset>
         }
@@ -113,7 +113,17 @@
             </tbody>
         </table>
         <div class="pagination">
-            @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString(), nameFilterTerm = "smith" }))
+            @Html.PageLinks(
+                @Model, x => Url.Action(
+                    "Index", new {
+                        page = x.ToString(),
+                        nameFilterTerm = Model.nameFilterTerm,
+                        addressFilterTerm = Model.addressFilterTerm,
+                        emailFilterTerm = Model.emailFilterTerm,
+                        activeFilter = Model.activeFilter
+                    }
+                )
+            )
         </div>
     </section>
 </div>

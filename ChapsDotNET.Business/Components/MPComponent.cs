@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection.Emit;
-using System.Text;
+using System.Text;  
 using System.Xml.Linq;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
@@ -15,6 +15,7 @@ using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 
@@ -37,49 +38,58 @@ namespace ChapsDotNET.Business.Components
 
         public async Task<PagedResult<List<MPModel>>> GetMPsAsync(MPRequestModel request)
         {
-            var query = _context.MPs.AsQueryable();
+            var query = _context.MPs.Include(x => x.Salutation).AsQueryable();
+
 
             // Filtering ------------------------------------------------------
 
-			if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
+            if (
+                string.IsNullOrWhiteSpace(request.nameFilterTerm) &&
+                string.IsNullOrWhiteSpace(request.addressFilterTerm) &&
+                string.IsNullOrWhiteSpace(request.emailFilterTerm) &&
+                request.activeFilter.Equals(null)
+                )
             {
-                //TODO: RtHon -> boolean
-                //TODO: Salutation -> foreign key
-                query = query.Where(
-                    x => x.FirstNames!.ToLower().Contains(request.nameFilterTerm.ToLower()) ||
-                    x.Surname.ToLower().Contains(request.nameFilterTerm.ToLower()) ||
-                    x.Suffix!.ToLower().Contains(request.nameFilterTerm.ToLower())
-                );
-			}
-            if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
-            {
-                query = query.Where(
-                    x => x.AddressLine1!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.AddressLine2!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.AddressLine3!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.Town!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.County!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                    x.Postcode!.ToLower().Contains(request.addressFilterTerm.ToLower())
-                );
-			}
-            if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
-            {
-                query = query.Where(
-                    x => x.Email!.ToLower().Contains(request.emailFilterTerm.ToLower())
-                );
-			}
-            if (request.activeFilter == true)
-            {
-                query = query.Where(
-                    x => x.active.Equals(true)
-                );
+                    query = query.Where(x => x.active.Equals(true));
             }
-            if (request.activeFilter == false)
+            else
             {
-                query = query.Where(
-                    x => x.active.Equals(false)
-                );
+                if ( !string.IsNullOrWhiteSpace(request.nameFilterTerm) ) {
+                    query = query.Where(
+                        x => (
+                            x.Salutation!.Detail??"".Concat(x.FirstNames!).Concat(x.Surname).Concat(x.Suffix!)
+                        )
+                        .ToString()
+                        .ToLower()
+                        .Contains(request.nameFilterTerm.ToLower())
+                    );
+                }
+
+                if ( !string.IsNullOrWhiteSpace(request.addressFilterTerm )) {
+                    query = query.Where(
+                        x => x.AddressLine1!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                        x.AddressLine2!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                        x.AddressLine3!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                        x.Town!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                        x.County!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
+                        x.Postcode!.ToLower().Contains(request.addressFilterTerm.ToLower())
+                    );
+                }
+
+                if ( !string.IsNullOrWhiteSpace(request.emailFilterTerm) ) {
+                    query = query.Where( x => x.Email!.ToLower().Contains(request.emailFilterTerm.ToLower()) );
+                }
+
+                if ( request.activeFilter == true ) {
+                    query = query.Where( x => x.active.Equals(true) );
+                }
+
+                if ( request.activeFilter == false ) {
+                    query = query.Where( x => x.active.Equals(false) );
+                }
             }
+
+            query = query.OrderBy(x => x.Surname).ThenBy(x => x.FirstNames);
 
             // ----------------------------------------------------------------
 
@@ -110,10 +120,14 @@ namespace ChapsDotNET.Business.Components
 
             return new PagedResult<List<MPModel>>
             {
-                Results = mpsList,
-                PageSize = request.PageSize,
+                activeFilter = request.activeFilter,
+                addressFilterTerm = request.addressFilterTerm,
                 CurrentPage = request.PageNumber,
-                RowCount = count    
+                emailFilterTerm = request.emailFilterTerm,
+                nameFilterTerm = request.nameFilterTerm,
+                PageSize = request.PageSize,
+                Results = mpsList,
+                RowCount = count
             };
         }
 
