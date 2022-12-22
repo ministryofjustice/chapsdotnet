@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Reflection.Emit;
-using System.Text;  
-using System.Xml.Linq;
-using ChapsDotNET.Business.Exceptions;
+﻿using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
 
 namespace ChapsDotNET.Business.Components
 {
@@ -55,13 +42,9 @@ namespace ChapsDotNET.Business.Components
             else
             {
                 if ( !string.IsNullOrWhiteSpace(request.nameFilterTerm) ) {
-                    query = query.Where(
-                        x => (
-                            x.Salutation!.Detail??"".Concat(x.FirstNames!).Concat(x.Surname).Concat(x.Suffix!)
-                        )
-                        .ToString()
-                        .ToLower()
-                        .Contains(request.nameFilterTerm.ToLower())
+                    query = query
+                        .Where(x => (x.Salutation!.Detail + x.FirstNames + x.Surname + x.Suffix)
+                        .Contains(request.nameFilterTerm.Replace(" ", "").ToLower())
                     );
                 }
 
