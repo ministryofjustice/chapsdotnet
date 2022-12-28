@@ -4,6 +4,7 @@ using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChapsDotNET.Business.Components
@@ -27,7 +28,6 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.MPs.Include(x => x.Salutation).AsQueryable();
 
-
             // Filtering ------------------------------------------------------
 
             if (
@@ -37,38 +37,41 @@ namespace ChapsDotNET.Business.Components
                 request.activeFilter.Equals(null)
                 )
             {
-                    query = query.Where(x => x.active.Equals(true));
+                query = query.Where(x => x.active.Equals(true));
             }
             else
             {
-                if ( !string.IsNullOrWhiteSpace(request.nameFilterTerm) ) {
+                if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
+                {
                     query = query
-                        .Where(x => (x.Salutation!.Detail + x.FirstNames + x.Surname + x.Suffix)
+                        .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
                         .Contains(request.nameFilterTerm.Replace(" ", "").ToLower())
                     );
                 }
 
-                if ( !string.IsNullOrWhiteSpace(request.addressFilterTerm )) {
-                    query = query.Where(
-                        x => x.AddressLine1!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                        x.AddressLine2!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                        x.AddressLine3!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                        x.Town!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                        x.County!.ToLower().Contains(request.addressFilterTerm.ToLower()) ||
-                        x.Postcode!.ToLower().Contains(request.addressFilterTerm.ToLower())
+                if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
+                {
+                    query = query
+                        .Where(x => (x.AddressLine1! + x.AddressLine2! + x.AddressLine3! + x.Town! + x.County! + x.Postcode!)
+                        .Contains(request.addressFilterTerm.Replace(" ", "").ToLower())
                     );
                 }
 
-                if ( !string.IsNullOrWhiteSpace(request.emailFilterTerm) ) {
-                    query = query.Where( x => x.Email!.ToLower().Contains(request.emailFilterTerm.ToLower()) );
+                if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
+                {
+                    query = query
+                        .Where(x => x.Email!.ToLower()
+                        .Contains(request.emailFilterTerm.ToLower()));
                 }
 
-                if ( request.activeFilter == true ) {
-                    query = query.Where( x => x.active.Equals(true) );
+                if (request.activeFilter == true)
+                {
+                    query = query.Where(x => x.active.Equals(true));
                 }
 
-                if ( request.activeFilter == false ) {
-                    query = query.Where( x => x.active.Equals(false) );
+                if (request.activeFilter == false)
+                {
+                    query = query.Where(x => x.active.Equals(false));
                 }
             }
 
