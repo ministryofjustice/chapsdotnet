@@ -113,7 +113,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
             if (mp.RtHon == true)
             {
-                nameParts.Add("RtHon");
+                nameParts.Add("Rt Hon");
             }
 
             nameParts.Add(salutation!);
