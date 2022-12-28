@@ -28,56 +28,46 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.MPs.Include(x => x.Salutation).AsQueryable();
 
-            // Filtering ------------------------------------------------------
+            // Filtering
 
-            if (
-                string.IsNullOrWhiteSpace(request.nameFilterTerm) &&
-                string.IsNullOrWhiteSpace(request.addressFilterTerm) &&
-                string.IsNullOrWhiteSpace(request.emailFilterTerm) &&
-                request.activeFilter.Equals(null)
-                )
+            if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
             {
-                query = query.Where(x => x.active.Equals(true));
-            }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
-                {
-                    query = query
-                        .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
-                        .Contains(request.nameFilterTerm.Replace(" ", "").ToLower())
-                    );
-                }
-
-                if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
-                {
-                    query = query
-                        .Where(x => (x.AddressLine1! + x.AddressLine2! + x.AddressLine3! + x.Town! + x.County! + x.Postcode!)
-                        .Contains(request.addressFilterTerm.Replace(" ", "").ToLower())
-                    );
-                }
-
-                if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
-                {
-                    query = query
-                        .Where(x => x.Email!.ToLower()
-                        .Contains(request.emailFilterTerm.ToLower()));
-                }
-
-                if (request.activeFilter == true)
-                {
-                    query = query.Where(x => x.active.Equals(true));
-                }
-
-                if (request.activeFilter == false)
-                {
-                    query = query.Where(x => x.active.Equals(false));
-                }
+                query = query
+                    .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
+                    .Contains(request.nameFilterTerm.Replace(" ", "").ToLower())
+                );
             }
 
-            query = query.OrderBy(x => x.Surname).ThenBy(x => x.FirstNames);
+            if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
+            {
+                query = query
+                    .Where(x => (x.AddressLine1! + x.AddressLine2! + x.AddressLine3! + x.Town! + x.County! + x.Postcode!)
+                    .Contains(request.addressFilterTerm.Replace(" ", "").ToLower())
+                );
+            }
 
-            // ----------------------------------------------------------------
+            if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
+            {
+                query = query
+                    .Where(x => x.Email!.ToLower()
+                    .Contains(request.emailFilterTerm.ToLower()));
+            }
+
+            if (request.activeFilter == true)
+            {
+                query = query
+                    .Where(x => x.active.Equals(true));
+            }
+
+            if (request.activeFilter == false)
+            {
+                query = query
+                    .Where(x => x.active.Equals(false));
+            }
+
+            query = query
+                .OrderBy(x => x.Surname)
+                .ThenBy(x => x.FirstNames);
 
             //Row Count
             var count = await query.CountAsync();
