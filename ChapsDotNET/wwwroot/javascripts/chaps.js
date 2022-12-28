@@ -89,15 +89,7 @@
 
     $(document).ready(function () {
 
-        //if ( $(document.body).has('form') ) {
-        //    if ( $('form').hasClass('filter') ) {
-        //        if ($(this).find(":checkbox#activeFilter") && hasQueryParams(window.location.href) == false ) {
-        //            $('input#activeFilter').prop("checked", true);
-        //        }
-        //    }
-        //}
-
-        // ---- Form validations -----------------------------------------
+        // Form validations
 
         $('form').submit(function (event) {
             if ($(event.target).has('input .future-date')) {
@@ -111,7 +103,7 @@
             }
         });
 
-        // --- Character counter -------------------------------------------
+        // Character counter
 
         var $textAreaWithCharCounter = $('#short-description');
 
