@@ -24,7 +24,7 @@ namespace ChapsDotNET.Tests.Areas
         //    var mockSalutationComponent = Substitute.For<ISalutationComponent>();
         //    mockMPComponent.GetMPsAsync(Arg.Any<MPRequestModel>()).Returns(
         //        new PagedResult<List<MPModel>>
-        //        {
+        //        {   
         //            Results = new List<MPModel>()
         //            {
         //                new MPModel
@@ -68,14 +68,14 @@ namespace ChapsDotNET.Tests.Areas
         //    var controller = new MPsController(mockMPComponent, mockSalutationComponent);
 
         //    // Act
-        //    var result = await controller.Index() as ViewResult;
+        //    var result = await controller.Index("", "", "", false, "") as ViewResult;
         //    var resultCount = result?.Model as List<MPModel>;
 
         //    // Assert
         //    await mockMPComponent.Received().GetMPsAsync(Arg.Any<MPRequestModel>());
         //    result.Should().NotBe(null);
         //    result.Should().BeOfType<ViewResult>();
-        //    resultCount?.Count.Should().Be(2);
+        //    resultCount?.Count.Should().Be(1);
         //}
 
         [Fact]

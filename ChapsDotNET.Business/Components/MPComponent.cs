@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Exceptions;
+﻿using System.Text.RegularExpressions;
+using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
@@ -32,10 +33,20 @@ namespace ChapsDotNET.Business.Components
 
             if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
             {
-                query = query
-                    .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
-                    .Contains(request.nameFilterTerm.Replace(" ", "").ToLower())
-                );
+                string nameTerm =  request.nameFilterTerm.Replace(" ", "").ToLower();
+                string rtHon = "rthon";
+
+                if ( ( (nameTerm.Length<6) && (rtHon.Contains(nameTerm)) ) || ( (nameTerm.Length>5) && (nameTerm.Contains(rtHon)) ) ){
+                    query = query
+                        .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
+                        .Contains(nameTerm)
+                        || x.RtHon.Equals(true));
+                }
+                else {
+                    query = query
+                        .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
+                        .Contains(nameTerm));
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
