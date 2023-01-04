@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
@@ -31,21 +33,33 @@ namespace ChapsDotNET.Business.Components
 
             // Filtering
 
-            if (!string.IsNullOrWhiteSpace(request.nameFilterTerm))
-            {
-                string nameTerm =  request.nameFilterTerm.Replace(" ", "").ToLower();
-                string rtHon = "rthon";
+            if (!string.IsNullOrWhiteSpace(request.nameFilterTerm)) {
+                bool includeRtHonourables = false;
+                string characterPattern = @"/(rtho)|(thon)|(rth)|(tho)|(hon)|(rt)|(th)|(ho)|(on)|[rthon]/";
+                string name =  request.nameFilterTerm.Replace(" ", "").ToLower();
+                Regex regularExpression = new Regex(characterPattern);
+                
+                switch (name.Length) {
+                    case > 5:
+                        if ( name.Contains("rthon") )
+                        {
+                            includeRtHonourables = true;
+                        }
+                        break;
+                    case <= 5:
+                        includeRtHonourables = regularExpression.IsMatch(name);
+                        break;
+                }
 
-                if ( ( (nameTerm.Length<6) && (rtHon.Contains(nameTerm)) ) || ( (nameTerm.Length>5) && (nameTerm.Contains(rtHon)) ) ){
+                if (includeRtHonourables) {
                     query = query
                         .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
-                        .Contains(nameTerm)
-                        || x.RtHon.Equals(true));
+                        .Contains(name) || x.RtHon.Equals(true));
                 }
                 else {
                     query = query
                         .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
-                        .Contains(nameTerm));
+                        .Contains(name));
                 }
             }
 
