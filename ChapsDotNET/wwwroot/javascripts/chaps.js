@@ -89,6 +89,19 @@
 
     $(document).ready(function () {
 
+        $('a.reset').click(function () {
+            $('#nameFilterTerm', '#addressFilterTerm', '#emailFilterTerm').val("");
+            $('#activeFilter').prop("checked", false);
+
+            // Remove any query strings
+            var uri = window.location.href.toString();
+            if (uri.indexOf("?") > 0) {
+                var clean_uri = uri.substring(0, uri.indexOf("?"));
+                window.history.replaceState({}, document.title, clean_uri);
+            }
+
+        });
+
         // Form validations
 
         $('form').submit(function (event) {
