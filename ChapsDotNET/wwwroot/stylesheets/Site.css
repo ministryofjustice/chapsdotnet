@@ -607,8 +607,9 @@ ul.recordMenu-tabs > li > a {
 }
 
 .alert > span {
-    padding-left: 20px;
     font-weight: bold;
+    padding-left: 20px;
+    padding-right: 6px;
 }
 
 span.error {
