@@ -1,6 +1,7 @@
 ﻿using Bogus;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Exceptions;
+using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Business.Tests.Common;
 using ChapsDotNET.Data.Entities;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
+using NSubstitute;
 
 namespace ChapsDotNET.Business.Tests
 {
@@ -43,7 +45,9 @@ namespace ChapsDotNET.Business.Tests
             );
             await context.SaveChangesAsync();
 
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
+
 
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel());
@@ -147,7 +151,8 @@ namespace ChapsDotNET.Business.Tests
 
             await context.SaveChangesAsync();
 
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
 
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel());
@@ -158,8 +163,8 @@ namespace ChapsDotNET.Business.Tests
             result.Results?.All(x => x.Active).Should().BeTrue();
         }
 
-        [Fact(DisplayName = "Get a list of all MPs when GetMPsAsync method is called with ShowActiveInactive in the parameter")]
-        public async Task GetAListOfActiveAndInactiveMPsWhenGetMPsAsyncIsCalled()
+        [Fact(DisplayName = "Get a list of all MPs when GetMPsAsync method is called with Show Active in the parameter")]
+        public async Task GetAListOfActiveMPsWhenGetMPsAsyncIsCalled()
         {
             // Arrange
             var context = DataContextFactory.Create();
@@ -238,12 +243,13 @@ namespace ChapsDotNET.Business.Tests
 
             await context.SaveChangesAsync();
 
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
 
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                ShowActiveAndInactive = true
+                activeFilter = false
             });
 
             // Assert
@@ -261,12 +267,13 @@ namespace ChapsDotNET.Business.Tests
                 .ToList();
             await context.MPs.AddRangeAsync(fakeMPs);
             await context.SaveChangesAsync();
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
 
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                ShowActiveAndInactive = true
+                activeFilter = false
             });
 
             // Assert
@@ -324,7 +331,8 @@ namespace ChapsDotNET.Business.Tests
 
             await context.SaveChangesAsync();
 
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
 
             // Act
             var result = await mpComponent.GetMPAsync(44);
@@ -393,7 +401,8 @@ namespace ChapsDotNET.Business.Tests
 
             await context.SaveChangesAsync();
 
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
 
             // Act
             var result = await mpComponent.GetMPAsync(53);
@@ -418,7 +427,8 @@ namespace ChapsDotNET.Business.Tests
         {
             // Arrange
             var context = DataContextFactory.Create();
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
             var newrecord = new Models.MPModel
             {
                 MPId = 8,
@@ -462,7 +472,8 @@ namespace ChapsDotNET.Business.Tests
         {
             // Arrange
             var context = DataContextFactory.Create();
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
             var newrecord = new Models.MPModel
             {
                 MPId = 8,
@@ -514,7 +525,8 @@ namespace ChapsDotNET.Business.Tests
 
             await context.SaveChangesAsync();
 
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
 
             // Act
             await mpComponent.UpdateMPAsync(new Models.MPModel
@@ -576,7 +588,8 @@ namespace ChapsDotNET.Business.Tests
             });
 
             await context.SaveChangesAsync();
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
 
             // Act
             Func<Task> act = async () => { await mpComponent.UpdateMPAsync(new Models.MPModel()); };
@@ -610,7 +623,8 @@ namespace ChapsDotNET.Business.Tests
             });
 
             await context.SaveChangesAsync();
-            var mpComponent = new MPComponent(context);
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
 
             // Act
             Func<Task> act = async () =>

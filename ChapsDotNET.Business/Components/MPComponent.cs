@@ -15,10 +15,12 @@ namespace ChapsDotNET.Business.Components
     public class MPComponent : IMPComponent
     {
         private readonly DataContext _context;
+        private readonly ISalutationComponent _salutationComponent;
 
-        public MPComponent(DataContext context)
+        public MPComponent(DataContext context, ISalutationComponent salutationComponent)
         {
             _context = context;
+            _salutationComponent = salutationComponent;
         }
 
         /// <summary>
@@ -82,12 +84,6 @@ namespace ChapsDotNET.Business.Components
             {
                 query = query
                     .Where(x => x.active.Equals(true));
-            }
-
-            if (request.activeFilter == false)
-            {
-                query = query
-                    .Where(x => x.active.Equals(false));
             }
 
             query = query
@@ -224,6 +220,34 @@ namespace ChapsDotNET.Business.Components
 
             _context.MPs.Update(mp);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<string> DisplayFullName(int id)
+        {
+            var mpmodel = await GetMPAsync(id);
+            string? salutation = null;
+            if (mpmodel.SalutationId != null)
+            {
+                salutation = _salutationComponent.GetSalutationAsync((int)mpmodel.SalutationId).Result.Detail;
+            }
+            else
+            {
+                salutation = String.Empty;
+            }
+           
+            List<string> nameParts = new List<string>();
+
+            if (mpmodel.RtHon == true)
+            {
+                nameParts.Add("Rt Hon");
+            }
+
+            nameParts.Add(salutation!);
+            nameParts.Add(mpmodel.FirstNames != null ? mpmodel.FirstNames : null!);
+            nameParts.Add(mpmodel.Surname);
+            nameParts.Add(mpmodel.Suffix != null ? mpmodel.Suffix : null!);
+            var tep = string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
+            return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
         }
     }
 }

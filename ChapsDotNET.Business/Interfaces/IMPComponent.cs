@@ -10,5 +10,6 @@ namespace ChapsDotNET.Business.Interfaces
         Task<int> AddMPAsync(MPModel model);
         Task UpdateMPAsync(MPModel model);
         Task<MPModel> GetMPAsync(int id);
+        Task<string> DisplayFullName(int id);
     }
 }

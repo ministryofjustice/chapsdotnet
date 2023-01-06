@@ -33,7 +33,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     activeFilter = activeFilter,  
                     PageNumber = page,
                     PageSize = 20,
-                    ShowActiveAndInactive = true,
                     sortOrder = sortOrder
             } );
 
@@ -41,7 +40,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             {
                 if (item != null)
                 {
-                    item.DisplayFullName = DisplayFullName(item.MPId).Result;
+                    item.DisplayFullName = _mpComponent.DisplayFullName(item.MPId).Result;
                 }
             }
             return View(pagedResult);
@@ -93,35 +92,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             await _mpComponent.UpdateMPAsync(viewModel.ToModel());
             return RedirectToAction("index");
-        }
-
-        public async Task<string> DisplayFullName(int id)
-        {
-            var mpmodel = await _mpComponent.GetMPAsync(id);
-            var mp = mpmodel.ToViewModel();
-            string? salutation = null;
-            if (mp.SalutationId != null)
-            {
-                salutation = _salutationComponent.GetSalutationAsync((int)mp.SalutationId).Result.Detail;
-            }
-            else
-            {
-                salutation = String.Empty;
-            }
-           
-            List<string> nameParts = new List<string>();
-
-            if (mp.RtHon == true)
-            {
-                nameParts.Add("Rt Hon");
-            }
-
-            nameParts.Add(salutation!);
-            nameParts.Add(mp.FirstNames != null ? mp.FirstNames : null!);
-            nameParts.Add(mp.Surname);
-            nameParts.Add(mp.Suffix != null ? mp.Suffix : null!);
-
-            return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
         }
     }
 }
