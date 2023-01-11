@@ -1,4 +1,6 @@
-﻿namespace ChapsDotNET.Business.Models.Common
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ChapsDotNET.Business.Models.Common
 {
     public class PagedResult<T> : IPagedResult
     {
@@ -7,11 +9,11 @@
         public int PageCount => (int)Math.Ceiling((double)RowCount / PageSize);
         public int PageSize { get; set; }
         public int RowCount { get; set; }
-        public string? sortOrder { get; set; }
-        public string? nameFilterTerm { get; set; }
-        public string? addressFilterTerm { get; set; }
-        public string? emailFilterTerm { get; set; }
-        public bool activeFilter { get; set; }
+        public string? SortOrder { get; set; }
+        public string? AddressFilterTerm { get; set; } = String.Empty;
+        public string? EmailFilterTerm { get; set; } = String.Empty;
+        public string? NameFilterTerm { get; set; } = String.Empty;
+        public bool ActiveFilter { get; set; }
     }
 
     public interface IPagedResult

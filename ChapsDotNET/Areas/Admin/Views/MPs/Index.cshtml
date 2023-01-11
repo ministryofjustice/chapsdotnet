@@ -24,42 +24,41 @@
 
 <div class="flex-container">
     <section class="filters">
-        @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "filter" }))
-        {
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { @class = "filter", novalidate = "novalidate" }))
+            {
             <fieldset>
                 <legend class="caption">
                     Filter
                 </legend>
-
-                <label class="editor-label" for="nameFilterTerm">
+                <label class="editor-label" for="NameFilterTerm">
                     Name contains:
                 </label>
                 <div class="editor-field">
-                    @Html.Editor("nameFilterTerm", null)
+                    @Html.EditorFor( model => model.NameFilterTerm, new { htmlAttributes = new { AccessKey = "F" } } )
                 </div>
 
-                <label class="editor-label" for="addressFilterTerm">
+                <label class="editor-label" for="AddressFilterTerm">
                     Address contains
                 </label>
                 <div class="editor-field">
-                    @Html.Editor("addressFilterTerm", null)
+                    @Html.EditorFor(model => model.AddressFilterTerm, new { htmlAttributes = new { AccessKey = "F" } })
                 </div>
 
-                <label class="editor-label" for="emailFilterTerm">
+                <label class="editor-label" for="EmailFilterTerm">
                     Email address contains
                 </label>
                 <div class="editor-field">
-                    @Html.Editor("emailFilterTerm", null)
+                    @Html.EditorFor(model => model.EmailFilterTerm, new { htmlAttributes = new { AccessKey = "F" } })
                 </div>
 
-                <label class="editor-label" for="activeFilter">
+                <label class="editor-label" for="ActiveFilter">
                     Active only
                 </label>
                 <div class="editor-field">
-                    @Html.CheckBox("activeFilter", null)
+                    @Html.CheckBoxFor(model => model.ActiveFilter, new { htmlAttributes = new { AccessKey = "F" } })
                 </div>
 
-                @*@Html.Hidden("sortOrder", null)*@
+                @*@Html.Hidden("SortOrder", null)*@
 
                 <button alt="Filter MPs" type="submit">Apply filter</button>
 
@@ -120,10 +119,10 @@
                         "Index", new
                              {
                             page = x.ToString(),
-                            nameFilterTerm = Model.nameFilterTerm,
-                            addressFilterTerm = Model.addressFilterTerm,
-                            emailFilterTerm = Model.emailFilterTerm,
-                            activeFilter = Model.activeFilter
+                            NameFilterTerm = Model.NameFilterTerm,
+                            AddressFilterTerm = Model.AddressFilterTerm,
+                            EmailFilterTerm = Model.EmailFilterTerm,
+                            ActiveFilter = Model.ActiveFilter
                         }
                     )
                 )

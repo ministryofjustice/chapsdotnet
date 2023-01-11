@@ -35,9 +35,9 @@ namespace ChapsDotNET.Business.Components
 
             // Filtering
 
-            if (!string.IsNullOrWhiteSpace(request.nameFilterTerm)) {
+            if (!string.IsNullOrWhiteSpace(request.NameFilterTerm)) {
                 bool includeRtHonourables = false;
-                string name = request.nameFilterTerm.Replace(" ", "").ToLower();
+                string name = request.NameFilterTerm.Replace(" ", "").ToLower();
                 string characterPattern = "";
 
                 switch (name.Length)
@@ -76,22 +76,22 @@ namespace ChapsDotNET.Business.Components
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
+            if (!string.IsNullOrWhiteSpace(request.AddressFilterTerm))
             {
                 query = query
                     .Where(x => (x.AddressLine1! + x.AddressLine2! + x.AddressLine3! + x.Town! + x.County! + x.Postcode!).Replace(" ", "").ToLower()
-                    .Contains(request.addressFilterTerm.Replace(" ", "").ToLower())
+                    .Contains(request.AddressFilterTerm.Replace(" ", "").ToLower())
                 );
             }
 
-            if (!string.IsNullOrWhiteSpace(request.emailFilterTerm))
+            if (!string.IsNullOrWhiteSpace(request.EmailFilterTerm))
             {
                 query = query
                     .Where(x => x.Email!.ToLower()
-                    .Contains(request.emailFilterTerm.ToLower()));
+                    .Contains(request.EmailFilterTerm.ToLower()));
             }
 
-            if (request.activeFilter == true)
+            if (request.ActiveFilter == true)
             {
                 query = query
                     .Where(x => x.active.Equals(true));
@@ -128,11 +128,11 @@ namespace ChapsDotNET.Business.Components
 
             return new PagedResult<List<MPModel>>
             {
-                activeFilter = request.activeFilter,
-                addressFilterTerm = request.addressFilterTerm,
+                ActiveFilter = request.ActiveFilter,
+                AddressFilterTerm = request.AddressFilterTerm,
                 CurrentPage = request.PageNumber,
-                emailFilterTerm = request.emailFilterTerm,
-                nameFilterTerm = request.nameFilterTerm,
+                EmailFilterTerm = request.EmailFilterTerm,
+                NameFilterTerm = request.NameFilterTerm,
                 PageSize = request.PageSize,
                 Results = mpsList,
                 RowCount = count

@@ -249,7 +249,7 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                activeFilter = false
+                ActiveFilter = false
             });
 
             // Assert
@@ -273,7 +273,7 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                activeFilter = false
+                ActiveFilter = false
             });
 
             // Assert
@@ -742,8 +742,8 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync( new MPRequestModel
             {
-               nameFilterTerm = "RTHON",
-               activeFilter = false
+               NameFilterTerm = "RTHON",
+               ActiveFilter = false
             });
 
             // Assert
@@ -841,8 +841,8 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                nameFilterTerm = "THON",
-                activeFilter = false
+                NameFilterTerm = "THON",
+                ActiveFilter = false
             });
 
             // Assert
@@ -940,8 +940,8 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                nameFilterTerm = "N",
-                activeFilter = false
+                NameFilterTerm = "N",
+                ActiveFilter = false
             });
 
             // Assert
@@ -1039,8 +1039,8 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                nameFilterTerm = "ON",
-                activeFilter = false
+                NameFilterTerm = "ON",
+                ActiveFilter = false
             });
 
             // Assert
@@ -1138,8 +1138,8 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                nameFilterTerm = "N",
-                activeFilter = false
+                NameFilterTerm = "N",
+                ActiveFilter = false
             });
 
             // Assert
@@ -1199,8 +1199,8 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                addressFilterTerm = "THE LANE",
-                activeFilter = false
+                AddressFilterTerm = "THE LANE",
+                ActiveFilter = false
             });
 
             // Assert
@@ -1260,8 +1260,8 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                emailFilterTerm = "Earth",
-                activeFilter = false
+                EmailFilterTerm = "Earth",
+                ActiveFilter = false
             });
 
             // Assert
@@ -1321,7 +1321,7 @@ namespace ChapsDotNET.Business.Tests
             // Act
             var result = await mpComponent.GetMPsAsync(new MPRequestModel
             {
-                activeFilter = true
+                ActiveFilter = true
             });
 
             // Assert
