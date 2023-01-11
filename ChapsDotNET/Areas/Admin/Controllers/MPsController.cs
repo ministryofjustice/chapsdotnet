@@ -30,7 +30,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     nameFilterTerm = nameFilterTerm,
                     addressFilterTerm = addressFilterTerm,
                     emailFilterTerm = emailFilterTerm,
-                    activeFilter = activeFilter,  
+                    activeFilter = activeFilter,
                     PageNumber = page,
                     PageSize = 20,
                     sortOrder = sortOrder

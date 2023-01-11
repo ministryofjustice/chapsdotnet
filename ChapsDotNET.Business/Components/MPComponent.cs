@@ -37,30 +37,41 @@ namespace ChapsDotNET.Business.Components
 
             if (!string.IsNullOrWhiteSpace(request.nameFilterTerm)) {
                 bool includeRtHonourables = false;
-                string characterPattern = @"/(rtho)|(thon)|(rth)|(tho)|(hon)|(rt)|(th)|(ho)|(on)|[rthon]/";
-                string name =  request.nameFilterTerm.Replace(" ", "").ToLower();
-                Regex regularExpression = new Regex(characterPattern);
-                
-                switch (name.Length) {
-                    case > 5:
-                        if ( name.Contains("rthon") )
-                        {
-                            includeRtHonourables = true;
-                        }
+                string name = request.nameFilterTerm.Replace(" ", "").ToLower();
+                string characterPattern = "";
+
+                switch (name.Length)
+                {
+                    case 1:
+                        characterPattern = @"[rthon]";
                         break;
-                    case <= 5:
-                        includeRtHonourables = regularExpression.IsMatch(name);
+                    case 2:
+                        characterPattern = @"(rt|th|ho|on)";
+                        break;
+                    case 3:
+                        characterPattern = @"(rth|tho|hon)";
+                        break;
+                    case 4:
+                        characterPattern = @"(rtho|thon)";
+                        break;
+                    default:
+                        characterPattern = @"(rthon)";
                         break;
                 }
 
-                if (includeRtHonourables) {
+                Regex isRtHonourable = new Regex(characterPattern);
+                includeRtHonourables = isRtHonourable.IsMatch(name);
+
+                if (includeRtHonourables)
+                {
                     query = query
-                        .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
+                        .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!).Replace(" ", "").ToLower()
                         .Contains(name) || x.RtHon.Equals(true));
                 }
-                else {
+                else
+                {
                     query = query
-                        .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!)
+                        .Where(x => (x.Salutation!.Detail + x.FirstNames! + x.Surname + x.Suffix!).Replace(" ", "").ToLower()
                         .Contains(name));
                 }
             }
@@ -68,7 +79,7 @@ namespace ChapsDotNET.Business.Components
             if (!string.IsNullOrWhiteSpace(request.addressFilterTerm))
             {
                 query = query
-                    .Where(x => (x.AddressLine1! + x.AddressLine2! + x.AddressLine3! + x.Town! + x.County! + x.Postcode!)
+                    .Where(x => (x.AddressLine1! + x.AddressLine2! + x.AddressLine3! + x.Town! + x.County! + x.Postcode!).Replace(" ", "").ToLower()
                     .Contains(request.addressFilterTerm.Replace(" ", "").ToLower())
                 );
             }

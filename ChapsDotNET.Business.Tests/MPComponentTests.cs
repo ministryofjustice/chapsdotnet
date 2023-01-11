@@ -20,8 +20,8 @@ namespace ChapsDotNET.Business.Tests
 {
     public class MPComponentTests
     {
-        [Fact(DisplayName = "Get a list of MPs when GetMPsAsync method is called")]
-        public async Task GetAListOfMPsWhenGetMPsAsyncMethodIsCalled()
+        [Fact(DisplayName = "Get a list of all MPs when GetMPsAsync method is called")]
+        public async Task GetAListOfAllMPsWhenGetMPsAsyncMethodIsCalled()
         {
             // Arrange
             var context = DataContextFactory.Create();
@@ -650,6 +650,683 @@ namespace ChapsDotNET.Business.Tests
 
             //Assert
             await act.Should().ThrowAsync<ArgumentNullException>();
+        }
+
+        [Fact(DisplayName = "Typing 'RTHON' in the Name filter should return a list of all Right Honourable MPs")]
+        public async Task TypingRTHONTheNameFilterShouldReturnAListOfAllRightHonourableMPs()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 1,
+                    RtHon = true,
+                    SalutationID = 3,
+                    Surname = "Dax",
+                    FirstNames = "Jadzia",
+                    Email = "jadzia.daxy@starfleet.com",
+                    AddressLine1 = "Deep Space Nine",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "",
+                    County = "",
+                    Postcode = "XX33 Q45",
+                    Suffix = "PHD",
+                    active = true
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 2,
+                    RtHon = true,
+                    SalutationID = 28,
+                    Surname = "Jurati",
+                    FirstNames = "Agnes",
+                    Email = "agnes.jurati@daystrom-institute.com",
+                    AddressLine1 = "Daystrom Institute",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "Okinawa",
+                    County = "",
+                    Postcode = "JP01 8AN",
+                    Suffix = "",
+                    active = false
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 3,
+                    RtHon = false,
+                    SalutationID = 3,
+                    Surname = "Soong",
+                    FirstNames = "Noonian",
+                    Email = "n.soong@.com",
+                    AddressLine1 = "colony 44",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "",
+                    County = "",
+                    Postcode = "",
+                    Suffix = "",
+                    active = true
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 4,
+                    RtHon = false,
+                    SalutationID = 28,
+                    Surname = "Asha",
+                    FirstNames = "Soji",
+                    Email = "sofi.asha@earth.com",
+                    AddressLine1 = "123 The Lane",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "New York",
+                    County = "",
+                    Postcode = "NY00 2BD",
+                    Suffix = "",
+                    active = false
+                }
+            );
+
+            await context.SaveChangesAsync();
+
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
+
+            // Act
+            var result = await mpComponent.GetMPsAsync( new MPRequestModel
+            {
+               nameFilterTerm = "RTHON",
+               activeFilter = false
+            });
+
+            // Assert
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(2);
+        }
+
+        [Fact(DisplayName = "Typing 'THON' in the Name filter should return a list of all MPs with 'THON' in their name")]
+        public async Task TypingTHONinTheNameFilterShouldReturnAListOfAllRightHonourableMPs()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 1,
+                    RtHon = true,
+                    SalutationID = 3,
+                    Surname = "Dax",
+                    FirstNames = "Jadzia",
+                    Email = "jadzia.daxy@starfleet.com",
+                    AddressLine1 = "Deep Space Nine",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "",
+                    County = "",
+                    Postcode = "XX33 Q45",
+                    Suffix = "PHD",
+                    active = true
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 2,
+                    RtHon = true,
+                    SalutationID = 28,
+                    Surname = "Jurati",
+                    FirstNames = "Agnes",
+                    Email = "agnes.jurati@daystrom-institute.com",
+                    AddressLine1 = "Daystrom Institute",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "Okinawa",
+                    County = "",
+                    Postcode = "JP01 8AN",
+                    Suffix = "",
+                    active = false
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 3,
+                    RtHon = false,
+                    SalutationID = 3,
+                    Surname = "Archer",
+                    FirstNames = "Jonathon",
+                    Email = "j.archer@starfleet.com",
+                    AddressLine1 = "colony 44",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "",
+                    County = "",
+                    Postcode = "",
+                    Suffix = "",
+                    active = true
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 4,
+                    RtHon = false,
+                    SalutationID = 28,
+                    Surname = "Asha",
+                    FirstNames = "Soji",
+                    Email = "sofi.asha@earth.com",
+                    AddressLine1 = "123 The Lane",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "New York",
+                    County = "",
+                    Postcode = "NY00 2BD",
+                    Suffix = "",
+                    active = false
+                }
+            );
+
+            await context.SaveChangesAsync();
+
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
+
+            // Act
+            var result = await mpComponent.GetMPsAsync(new MPRequestModel
+            {
+                nameFilterTerm = "THON",
+                activeFilter = false
+            });
+
+            // Assert
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(3);
+        }
+
+        [Fact(DisplayName = "Typing 'HON' in the Name filter should return a list of all MPs with 'HON' in their name")]
+        public async Task TypingHONinTheNameFilterShouldReturnAListOfAllMPsWithHONInTheirName()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 1,
+                    RtHon = true,
+                    SalutationID = 3,
+                    Surname = "Dax",
+                    FirstNames = "Jadzia",
+                    Email = "jadzia.daxy@starfleet.com",
+                    AddressLine1 = "Deep Space Nine",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "",
+                    County = "",
+                    Postcode = "XX33 Q45",
+                    Suffix = "PHD",
+                    active = true
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 2,
+                    RtHon = true,
+                    SalutationID = 28,
+                    Surname = "Jurati",
+                    FirstNames = "Agnes",
+                    Email = "agnes.jurati@daystrom-institute.com",
+                    AddressLine1 = "Daystrom Institute",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "Okinawa",
+                    County = "",
+                    Postcode = "JP01 8AN",
+                    Suffix = "",
+                    active = false
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 3,
+                    RtHon = false,
+                    SalutationID = 3,
+                    Surname = "Frakes",
+                    FirstNames = "Jonathon",
+                    Email = "j.frakes@paramount.com",
+                    AddressLine1 = "colony 44",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "",
+                    County = "",
+                    Postcode = "",
+                    Suffix = "",
+                    active = true
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 4,
+                    RtHon = false,
+                    SalutationID = 28,
+                    Surname = "Rapp",
+                    FirstNames = "Anthony",
+                    Email = "a.rapp@earth.com",
+                    AddressLine1 = "123 The Lane",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "New York",
+                    County = "",
+                    Postcode = "NY00 2BD",
+                    Suffix = "",
+                    active = false
+                }
+            );
+
+            await context.SaveChangesAsync();
+
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
+
+            // Act
+            var result = await mpComponent.GetMPsAsync(new MPRequestModel
+            {
+                nameFilterTerm = "N",
+                activeFilter = false
+            });
+
+            // Assert
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(4);
+        }
+
+        [Fact(DisplayName = "Typing 'ON' in the Name filter should return a list of all MPs with 'ON' in their name")]
+        public async Task TypingONinTheNameFilterShouldReturnAListOfAllMPsWithONInTheirName()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.MPs.AddAsync(new MP
+            {
+                MPID = 1,
+                RtHon = true,
+                SalutationID = 3,
+                Surname = "McCoy",
+                FirstNames = "Leonard",
+                Email = "l.mcoy@starfleet.com",
+                AddressLine1 = "Star base 10",
+                AddressLine2 = "",
+                AddressLine3 = "",
+                Town = "",
+                County = "",
+                Postcode = "XX33 Q45",
+                Suffix = "PHD",
+                active = true
+            }
+            );
+
+            await context.MPs.AddAsync(new MP
+            {
+                MPID = 2,
+                RtHon = true,
+                SalutationID = 28,
+                Surname = "Scott",
+                FirstNames = "Montgomery",
+                Email = "m.scott@starfleet.com",
+                AddressLine1 = "Starfleet HQ",
+                AddressLine2 = "",
+                AddressLine3 = "",
+                Town = "San Francisco",
+                County = "",
+                Postcode = "JP01 8AN",
+                Suffix = "",
+                active = false
+            }
+            );
+
+            await context.MPs.AddAsync(new MP
+            {
+                MPID = 3,
+                RtHon = false,
+                SalutationID = 3,
+                Surname = "Soong",
+                FirstNames = "Noonian",
+                Email = "n.soong@.com",
+                AddressLine1 = "colony 44",
+                AddressLine2 = "",
+                AddressLine3 = "",
+                Town = "",
+                County = "",
+                Postcode = "",
+                Suffix = "",
+                active = true
+            }
+            );
+
+            await context.MPs.AddAsync(new MP
+            {
+                MPID = 4,
+                RtHon = false,
+                SalutationID = 28,
+                Surname = "Asha",
+                FirstNames = "Soji",
+                Email = "sofi.asha@earth.com",
+                AddressLine1 = "123 The Lane",
+                AddressLine2 = "",
+                AddressLine3 = "",
+                Town = "New York",
+                County = "",
+                Postcode = "NY00 2BD",
+                Suffix = "",
+                active = false
+            }
+            );
+
+            await context.SaveChangesAsync();
+
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
+
+            // Act
+            var result = await mpComponent.GetMPsAsync(new MPRequestModel
+            {
+                nameFilterTerm = "ON",
+                activeFilter = false
+            });
+
+            // Assert
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(3);
+        }
+
+        [Fact(DisplayName = "Typing 'N' in the Name filter should return a list of all MPs with 'N' in their name")]
+        public async Task TypingNinTheNameFilterShouldReturnAListOfAllMPsWithNInTheirName()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 1,
+                    RtHon = true,
+                    SalutationID = 3,
+                    Surname = "Dax",
+                    FirstNames = "Jadzia",
+                    Email = "jadzia.dax@starfleet.com",
+                    AddressLine1 = "Deep Space Nine",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "",
+                    County = "",
+                    Postcode = "XX33 Q45",
+                    Suffix = "PHD",
+                    active = true
+                }
+            );
+                
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 2,
+                    RtHon = true,
+                    SalutationID = 28,
+                    Surname = "Jurati",
+                    FirstNames = "Agnes",
+                    Email = "agnes.jurati@daystrom-institute.com",
+                    AddressLine1 = "Daystrom Institute",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "Okinawa",
+                    County = "",
+                    Postcode = "JP01 8AN",
+                    Suffix = "",
+                    active = false
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 3,
+                    RtHon = false,
+                    SalutationID = 3,
+                    Surname = "Soong",
+                    FirstNames = "Noonian",
+                    Email = "n.soong@.com",
+                    AddressLine1 = "colony 44",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "",
+                    County = "",
+                    Postcode = "",
+                    Suffix = "",
+                    active = true
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 4,
+                    RtHon = false,
+                    SalutationID = 28,
+                    Surname = "Asha",
+                    FirstNames = "Dahj",
+                    Email = "dahj.asha@earth.com",
+                    AddressLine1 = "123 The Lane",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "New York",
+                    County = "",
+                    Postcode = "NY00 2BD",
+                    Suffix = "",
+                    active = false
+                }
+            );
+
+            await context.SaveChangesAsync();
+
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
+
+            // Act
+            var result = await mpComponent.GetMPsAsync(new MPRequestModel
+            {
+                nameFilterTerm = "N",
+                activeFilter = false
+            });
+
+            // Assert
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(3);
+        }
+
+        [Fact(DisplayName = "Typing 'THE LANE' in the Name filter should return a list of all MPs with 'The Lane' in their address")]
+        public async Task TypingTHELANEInTheNameFilterShouldReturnAListOfAllMPsWithTheLaneInTheirAddress()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 1,
+                    RtHon = false,
+                    SalutationID = 3,
+                    Surname = "Soong",
+                    FirstNames = "Noonian",
+                    Email = "n.soong@colony44.com",
+                    AddressLine1 = "Colony 44",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "",
+                    County = "",
+                    Postcode = "",
+                    Suffix = "",
+                    active = true
+                }
+            );
+
+            await context.MPs.AddAsync(new MP
+                {
+                    MPID = 2,
+                    RtHon = false,
+                    SalutationID = 28,
+                    Surname = "Asha",
+                    FirstNames = "Soji",
+                    Email = "sofi.asha@earth.com",
+                    AddressLine1 = "123 The Lane",
+                    AddressLine2 = "",
+                    AddressLine3 = "",
+                    Town = "New York",
+                    County = "",
+                    Postcode = "NY00 2BD",
+                    Suffix = "",
+                    active = false
+                }
+            );
+
+            await context.SaveChangesAsync();
+
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
+
+            // Act
+            var result = await mpComponent.GetMPsAsync(new MPRequestModel
+            {
+                addressFilterTerm = "THE LANE",
+                activeFilter = false
+            });
+
+            // Assert
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(1);
+        }
+
+        [Fact(DisplayName = "Typing 'Earth' in the Email filter should return a list of all MPs with 'Earth' in their email address")]
+        public async Task TypingEarthInTheEmailFilterShouldReturnAListOfAllMPsWithEarthInTheirEmailAddress()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.MPs.AddAsync(new MP
+            {
+                MPID = 1,
+                RtHon = false,
+                SalutationID = 3,
+                Surname = "Soong",
+                FirstNames = "Noonian",
+                Email = "n.soong@colony44.com",
+                AddressLine1 = "colony 44",
+                AddressLine2 = "",
+                AddressLine3 = "",
+                Town = "",
+                County = "",
+                Postcode = "",
+                Suffix = "",
+                active = true
+            }
+            );
+
+            await context.MPs.AddAsync(new MP
+            {
+                MPID = 2,
+                RtHon = false,
+                SalutationID = 28,
+                Surname = "Asha",
+                FirstNames = "Soji",
+                Email = "sofi.asha@earth.com",
+                AddressLine1 = "123 The Lane",
+                AddressLine2 = "",
+                AddressLine3 = "",
+                Town = "New York",
+                County = "",
+                Postcode = "NY00 2BD",
+                Suffix = "",
+                active = false
+            }
+            );
+
+            await context.SaveChangesAsync();
+
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
+
+            // Act
+            var result = await mpComponent.GetMPsAsync(new MPRequestModel
+            {
+                emailFilterTerm = "Earth",
+                activeFilter = false
+            });
+
+            // Assert
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(1);
+        }
+
+        [Fact(DisplayName = "Clicking on the 'Only Active' filter should return a list of only 'Active' MP records")]
+        public async Task ClickingOnTheOnlyActiveFilterShouldReturnAListOfOnlyActiveMPRecords()
+        {
+            // Arrange
+            var context = DataContextFactory.Create();
+
+            await context.MPs.AddAsync(new MP
+            {
+                MPID = 1,
+                RtHon = true,
+                SalutationID = 3,
+                Surname = "McCoy",
+                FirstNames = "Leonard",
+                Email = "l.mcoy@starfleet.com",
+                AddressLine1 = "Star base 10",
+                AddressLine2 = "",
+                AddressLine3 = "",
+                Town = "",
+                County = "",
+                Postcode = "XX33 Q45",
+                Suffix = "PHD",
+                active = true
+            }
+            );
+
+            await context.MPs.AddAsync(new MP
+            {
+                MPID = 2,
+                RtHon = true,
+                SalutationID = 28,
+                Surname = "Scott",
+                FirstNames = "Montgomery",
+                Email = "m.scott@starfleet.com",
+                AddressLine1 = "Starfleet HQ",
+                AddressLine2 = "",
+                AddressLine3 = "",
+                Town = "San Francisco",
+                County = "",
+                Postcode = "JP01 8AN",
+                Suffix = "",
+                active = false
+            }
+            );
+
+            await context.SaveChangesAsync();
+
+            var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mpComponent = new MPComponent(context, mockSalutationComponent);
+
+            // Act
+            var result = await mpComponent.GetMPsAsync(new MPRequestModel
+            {
+                activeFilter = true
+            });
+
+            // Assert
+            result.Results.Should().NotBeNull();
+            result.Results.Should().HaveCount(1);
         }
     }
 }
