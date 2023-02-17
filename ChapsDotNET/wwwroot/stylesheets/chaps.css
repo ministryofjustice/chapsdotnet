@@ -749,56 +749,56 @@ div#accordion h3 {
 }
 
 .pageButton-img-first-disabled {
-    background: url('../Content/Images/page_first_disabled.png') no-repeat 6px center;
+    background: url('../images/page_first_disabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
     width: 25px;
 }
 
 .pageButton-img-previous-disabled {
-    background: url('../Content/Images/page_prev_disabled.png') no-repeat 6px center;
+    background: url('../images/page_prev_disabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
     width: 25px;
 }
 
 .pageButton-img-first-enabled {
-    background: url('../Content/Images/page_first_enabled.png') no-repeat 6px center;
+    background: url('../images/page_first_enabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
     width: 25px;
 }
 
 .pageButton-img-previous-enabled {
-    background: url('../Content/Images/page_prev_enabled.png') no-repeat 6px center;
+    background: url('../images/page_prev_enabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
     width: 25px;
 }
 
 .pageButton-img-next-enabled {
-    background: url('../Content/Images/page_next_enabled.png') no-repeat 6px center;
+    background: url('../images/page_next_enabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
     width: 25px;
 }
 
 .pageButton-img-last-enabled {
-    background: url('../Content/Images/page_last_enabled.png') no-repeat 6px center;
+    background: url('../images/page_last_enabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
     width: 25px;
 }
 
 .pageButton-img-next-disabled {
-    background: url('../Content/Images/page_next_disabled.png') no-repeat 6px center;
+    background: url('../images/page_next_disabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
     width: 25px;
 }
 
 .pageButton-img-last-disabled {
-    background: url('../Content/Images/page_last_disabled.png') no-repeat 6px center;
+    background: url('../images/page_last_disabled.png') no-repeat 6px center;
     display: inline-block;
     height: 16px;
     width: 25px;
