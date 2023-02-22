@@ -33,4 +33,4 @@ CallbackPath
 Use the command:
 $ dotnet user-secrets set "key_name" 'value'
 
-The above secret key-value pairs are stored in LastPass
+The above secret key-value pairs are stored in LastPass - shortly to be somewhere else
