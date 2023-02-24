@@ -73,7 +73,7 @@
     <Folder Include="Areas\Admin\Views\MoJMinisters\" />
     <Folder Include="Areas\Admin\Views\Campaigns\" />
     <Folder Include="Areas\Admin\Views\LeadSubjects\" />
-    <Folder Include="Areas\Admin\Views\Reports\" />
+    <Folder Include="Areas\Admin\Views\Report\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>

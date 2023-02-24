@@ -138,7 +138,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 PublicHolidayId = 1,
                 Description = "",
-                Date = new DateTime(2023, 01, 01)
+                Date = new DateTime(2025, 01, 01)
             };
 
             //Act
@@ -197,7 +197,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 PublicHolidayId = 1,
                 Description = "New Year's Day",
-                Date = new DateTime(2023, 01, 01)
+                Date = new DateTime(2025, 01, 01)
             };
 
             var publicHolidayComponent = new PublicHolidayComponent(context);
@@ -266,7 +266,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     PublicHolidayId = 1,
                     Description = "New Year's Day",
-                    Date = new DateTime(2023, 01, 01)
+                    Date = new DateTime(2025, 01, 01)
                 });
             };
 
@@ -284,7 +284,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 PublicHolidayID = 1,
                 Description = "New Year's Day",
-                Date = new DateTime(2023, 01, 01)
+                Date = new DateTime(2025, 01, 01)
             });
 
             var publicHolidayComponent = new PublicHolidayComponent(context);
@@ -296,7 +296,7 @@ namespace ChapsDotNET.Business.Tests
                 {
                     PublicHolidayId = 1,
                     Description = "",
-                    Date = new DateTime(2023, 01, 01)
+                    Date = new DateTime(2025, 01, 01)
                 });
             };
 

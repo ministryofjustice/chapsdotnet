@@ -9,9 +9,9 @@
 }
 
 <div class="breadcrumbs">
-    <a href="">Home</a>
+    <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/">Home</a>
     &nbsp;>&nbsp;
-    <a href="">Administration</a>
+    <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Admin">Administration</a>
 </div>
 
 <h1>Reports</h1>
@@ -22,7 +22,7 @@
         @foreach (var report in Model.ToList())
         {
             <dt>
-                <a href="/Admin/Reports/Edit/@report.ReportId">
+                <a href="/Admin/Report/Edit/@report.ReportId">
                     @Html.DisplayFor(x => report.Name)
                 </a>
             </dt>

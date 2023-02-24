@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace ChapsDotNET.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ReportsController : Controller
+    public class ReportController : Controller
     {
         private readonly IReportComponent _reportComponent;
 
-        public ReportsController(IReportComponent reportComponent)
+        public ReportController(IReportComponent reportComponent)
         {
             _reportComponent = reportComponent;
         }
