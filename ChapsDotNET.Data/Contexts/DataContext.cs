@@ -7,6 +7,7 @@ namespace ChapsDotNET.Data.Contexts
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
+        public DbSet<Alert> Alerts => Set<Alert>();
         public DbSet<Campaign> Campaigns => Set<Campaign>();
         public DbSet<CorrespondenceType> CorrespondenceTypes => Set<CorrespondenceType>();
         public DbSet<CorrespondenceTypesByTeam> CorrespondenceTypesByTeams => Set<CorrespondenceTypesByTeam>();

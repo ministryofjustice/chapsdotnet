@@ -1,0 +1,36 @@
+﻿@model ChapsDotNET.Models.AlertViewModel
+
+@{
+    ViewData["Title"] = "Add a new Alert";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="/Admin/Alerts">Alerts</a>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Message)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Message)
+            @Html.ValidationMessageFor(model => model.Message)
+        </div>
+
+        <input type="submit" value="Create" />
+    </fieldset>
+
+}

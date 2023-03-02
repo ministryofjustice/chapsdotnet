@@ -1,0 +1,45 @@
+﻿@model ChapsDotNET.Models.AlertViewModel
+
+@{
+    ViewData["Title"] = "Edit an existing Alert";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+    &nbsp;>&nbsp;
+    <a href="/Admin/Alerts">Alerts</a>
+</div>
+
+@using (Html.BeginForm())
+{
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+
+        @Html.HiddenFor(model => model.AlertId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Message)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Message)
+            @Html.ValidationMessageFor(model => model.Message)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.live)
+        </div>
+
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.live, new { @value = Model.live = true })
+            @Html.ValidationMessageFor(model => model.live)
+        </div>
+
+        <input type="submit" value="Save" />
+    </fieldset>
+}
+

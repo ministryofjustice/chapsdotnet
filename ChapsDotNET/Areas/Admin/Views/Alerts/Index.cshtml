@@ -1,0 +1,44 @@
+﻿@model List<ChapsDotNET.Business.Models.AlertModel>
+
+@{
+    ViewData["Title"] = "Alert Administration";
+}
+
+<div class="breadcrumbs">
+    <a href="">Home</a>
+    &nbsp;>&nbsp;
+    <a href="">Administration</a>
+</div>
+    
+<h1>Alerts</h1>
+
+<div class="actionLinks">
+    @Html.ActionLink("Create new Alert", "Create", "Alerts")
+</div>
+
+<table>
+    <caption class="caption">Existing Alerts</caption>
+    <thead>
+        <tr>
+            <th>
+                Message
+            </th>
+            <th>
+                Live?
+            </th>
+        </tr>
+    </thead>
+    @foreach (var Alert in Model.ToList())
+    {
+        <tr>
+            <td>
+                <a href="/Admin/Alerts/Edit/@Alert.AlertId">
+                    @Html.DisplayFor(x => Alert.Message)
+                </a>
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => Alert.Live)
+            </td>
+        </tr>
+    }
+</table>

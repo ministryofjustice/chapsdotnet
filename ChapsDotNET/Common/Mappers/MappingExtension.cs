@@ -5,6 +5,28 @@ namespace ChapsDotNET.Common.Mappers
 {
     public static class MappingExtension
     {
+
+
+        public static AlertModel ToModel(this AlertViewModel viewModel)
+        {
+            return new AlertModel
+            {
+                Message = viewModel.Message,
+                Live = viewModel.live,
+                AlertId = viewModel.AlertId,
+            };
+        }
+
+        public static AlertViewModel ToViewModel(this AlertModel model)
+        {
+            return new AlertViewModel
+            {
+                Message = model.Message,
+                live = model.Live,
+                AlertId = model.AlertId,
+            };
+        }
+
         public static CampaignModel ToModel(this CampaignViewModel viewModel)
         {
             return new CampaignModel

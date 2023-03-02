@@ -58,6 +58,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(myConnectionString.ConnectionString));
 
+builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
 builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
