@@ -22,7 +22,7 @@ namespace ChapsDotNET.Business.Tests
             {
                 AlertId = 1,
                 Message = "Brexit",
-                active = true
+                live = true
             });
             await context.SaveChangesAsync();
 

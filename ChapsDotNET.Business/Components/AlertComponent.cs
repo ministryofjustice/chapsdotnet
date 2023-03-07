@@ -26,10 +26,10 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.Alerts.AsQueryable();
 
-            if (!request.ShowActiveAndInactive)
-            {
-                query = query.Where(x => x.active == true);
-            }
+            //if (!request.ShowActiveAndInactive)
+            //{
+            //    query = query.Where(x => x.active == true);
+            //}
 
             query = query.OrderBy(x => x.Message);
 
@@ -89,7 +89,7 @@ namespace ChapsDotNET.Business.Components
 
             var Alert = new Alert
             {
-                active = true,
+                live = true,
                 Message = model.Message
             };
 
