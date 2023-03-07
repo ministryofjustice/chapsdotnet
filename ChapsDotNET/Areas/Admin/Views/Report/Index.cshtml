@@ -22,7 +22,7 @@
         @foreach (var report in Model.ToList())
         {
             <dt>
-                <a href="/Admin/Reports/Edit/@report.ReportId">
+                <a href="/Admin/Report/Edit/@report.ReportId">
                     @Html.DisplayFor(x => report.Name)
                 </a>
             </dt>
