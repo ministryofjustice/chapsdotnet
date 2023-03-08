@@ -38,7 +38,7 @@ namespace ChapsDotNET.Tests.Areas
                     }
                 });
 
-            var controller = new ReportsController(mockReportComponent);
+            var controller = new ReportController(mockReportComponent);
 
             // Act
             var result = await controller.Index() as ViewResult;
@@ -58,7 +58,7 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockReportComponent = Substitute.For<IReportComponent>();
-            ReportsController controller = new ReportsController(mockReportComponent);
+            ReportController controller = new ReportController(mockReportComponent);
 
             mockReportComponent.GetReportAsync(1).Returns(new ReportModel
             {
@@ -80,7 +80,7 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockReportComponent = Substitute.For<IReportComponent>();
-            var controller = new ReportsController(mockReportComponent);
+            var controller = new ReportController(mockReportComponent);
 
 
             //Act

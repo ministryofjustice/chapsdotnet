@@ -4,13 +4,29 @@
 
 @{
     var user = await UserComponent.GetUserByNameAsync(User.Identity?.Name);
+    var currentEnvironment = Context.Request.Host.Value.ToString();
+    var environment = string.Empty;
+    if (currentEnvironment.Contains("staging"))
+    {
+        environment = "staging.";
+    }
+    else if (currentEnvironment.Contains("dev") || currentEnvironment.Contains("localhost"))
+    {
+        environment = "dev.";
+    }
+    else
+    {
+        environment = "production.";
+    }
+
+    var targetUrl = $"https://chaps.{environment}net.tp.dsd.io/Chaps_deploy";
 }
 
 <div id="MenuContainer">
     <ul id="menuBar">
         <li class="button" id="first"></li>
         <li class="button">
-            <a href="https://chaps.staging.net.tp.dsd.io/Chaps_deploy/">Home</a>
+            <a href="@targetUrl">Home</a>
         </li>
 
         @if (user.RoleStrength > 25)
@@ -20,55 +36,55 @@
             if (user.RoleStrength > 49)
             {
                 <li class="button" style="background:none !important;">
-                    <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Correspondent/Choose">
+                    <a href="@targetUrl/Correspondent/Choose">
                         <img alt="Add Correspondence" src="~/images/add.png">
                     </a>
                 </li>
             }
 
             <li class="button">
-                <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Correspondence">
+                <a href="@targetUrl/Correspondence">
                     <img alt="List Correspondence" src="~/images/page_white_stack.png">
                 </a>
             </li>
             <li class="button">
-                <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Correspondent">Correspondents</a>
+                <a href="@targetUrl/Correspondent">Correspondents</a>
             </li>
 
             if (user.RoleStrength > 25)
             {
                 <li class="button">
-                    <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Search">Search</a>
+                    <a href="@targetUrl/Search">Search</a>
                 </li>
                 <li class="button">
-                    <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/SearchChase">Search Chase</a>
+                    <a href="@targetUrl/SearchChase">Search Chase</a>
                 </li>
 
                 if (user.RoleStrength > 49)
                 {
                     <li class="button">
-                        <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Reports">Reports</a>
+                        <a href="@targetUrl/Reports">Reports</a>
                     </li>
 
                     if (user.RoleStrength > 74)
                     {
                         <li class="button">
-                            <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Admin">Admin</a>
+                            <a href="@targetUrl/Admin">Admin</a>
                         </li>
                     }
                 }
             }
 
-    <li class="text">
-        Connected as <strong>@User.Identity?.Name</strong> (@user.TeamAcronym)
-    </li>
+            <li class="text">
+                Connected as <strong>@User.Identity?.Name</strong> (@user.TeamAcronym)
+            </li>
             <li class="helpButton">
-                <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/FAQ">
+                <a href="@targetUrl/FAQ">
                     <img alt="Help" src="~/images/help.png">
                 </a>
             </li>
             <li class="text">
-                <form action="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/Search/QuickSearch" autocomplete="off" method="post" title="Quick search for references (theirs and ours)" novalidate="novalidate">
+                <form action="@targetUrl/Search/QuickSearch" autocomplete="off" method="post" title="Quick search for references (theirs and ours)" novalidate="novalidate">
                     <input name="__RequestVerificationToken" type="hidden" value="TBOT9ffnzm38vm4kV3jSewgiXZPC9cml4l1HBGtkj5kwdEbR6zIXPwazfzlSIRCO88-acTTavgz9l2JiKuxBQk2u87jlW5YQYf8d0cMonWAYTYdQ8hlTMSENnU20pbwtOZ_myKZ_lbV_BdXjR1ZYtA2">
                     <input accesskey="S" id="searchRecord" name="searchRecord" style="width: 75px;" type="text" value="">
                     <input alt="Search for record" type="image" value="Search" src="~/images/view.png">
@@ -78,7 +94,7 @@
         else
         {
             <li class="helpButton">
-                <a href="https://chaps.dev.net.tp.dsd.io/Chaps_deploy/FAQ">
+                <a href="@targetUrl/FAQ">
                     <img alt="Help" src="~/images/help.png">
                 </a>
             </li>
