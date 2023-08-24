@@ -12,32 +12,54 @@ env:
 jobs:
   main:
     runs-on: ubuntu-latest
+    permissions: 
+      id-token: write
+      contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - uses: aws-actions/configure-aws-credentials@v2
+        with: 
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.ECR_REGION }}
+      - uses: aws-actions/amazon-ecr-login@v1
+        id: login-ecr
+        
       - name: Build
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ github.sha }}         
         run: docker build . -f ChapsDotNET/Dockerfile -t chapsdotnetimage
       - name: Push to ECR
-        id: ecr
-        uses: jwalton/gh-ecr-push@v1
-        with:
-          access-key-id: ${{ secrets.ECR_AWS_ACCESS_KEY_ID_DEV }}
-          secret-access-key: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY_DEV }}
-          region: eu-west-2
-          local-image: chapsdotnetimage
-          image: ${{ secrets.ECR_NAME_DEV }}:${{ github.sha }}  
+        run: |
+          docker build \
+            --label build.git.sha=${{ github.sha }} \
+            --label build.git.branch=${{ github.ref }} \
+            -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:dev-reporting.latest . 
+          docker push $REGISTRY/$REPOSITORY --all-tags
+
   deploy-dev:
     runs-on: ubuntu-latest
     needs: main
+    permissions: 
+      id-token: write
+      contents: read
     env:
       KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE_DEV }}
-
+      AWS_REGION: ${{ vars.ECR_REGION }}
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - uses: aws-actions/configure-aws-credentials@v2
+        with: 
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.ECR_REGION }}   
+      - name: login to ECR_URL
+        uses: aws-actions/amazon-ecr-login@v1
+        id: login-ecr
       - name: Update image tag
-        env:
-            ECR_URL: ${{ secrets.ECR_URL_DEV }}
         run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_deploy/deployment.tpl | envsubst > kubectl_deploy/deployment.yaml          
       - name: Authenticate to the cluster
         env:
@@ -56,15 +78,25 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy-dev
     environment: staging
+    permissions: 
+      id-token: write
+      contents: read
     env:
       KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE_STAGING }}
-
+      AWS_REGION: ${{ vars.ECR_REGION }}
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - name: configure AWS set-credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with: 
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ vars.ECR_REGION }}
+      - name: login to ECR_URL
+        uses: aws-actions/amazon-ecr-login@v1
+        id: login-ecr
       - name: Update image tag
-        env:
-            ECR_URL: ${{ secrets.ECR_URL_DEV }}
         run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_staging/deployment.tpl | envsubst > kubectl_staging/deployment.yaml          
       - name: Authenticate to the cluster
         env:
@@ -83,15 +115,25 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy-staging
     environment: production
+    permissions: 
+      id-token: write
+      contents: read
     env:
       KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE_PRODUCTION }}
-
+      AWS_REGION: ${{ vars.ECR_REGION }}
+      ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - name: configure AWS set-credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with: 
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: login to ECR_URL
+        uses: aws-actions/amazon-ecr-login@v1
+        id: login-ecr
       - name: Update image tag
-        env:
-            ECR_URL: ${{ secrets.ECR_URL_DEV }}
         run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_production/deployment.tpl | envsubst > kubectl_production/deployment.yaml          
       - name: Authenticate to the cluster
         env:
