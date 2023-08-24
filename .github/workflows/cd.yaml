@@ -30,13 +30,12 @@ jobs:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}         
-        run: docker build . -f ChapsDotNET/Dockerfile -t chapsdotnetimage
       - name: Push to ECR
         run: |
           docker build \
             --label build.git.sha=${{ github.sha }} \
             --label build.git.branch=${{ github.ref }} \
-            -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:dev-reporting.latest . 
+            -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:dev-chaps.latest . 
           docker push $REGISTRY/$REPOSITORY --all-tags
 
   deploy-dev:
