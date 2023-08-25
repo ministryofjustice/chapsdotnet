@@ -36,8 +36,6 @@ jobs:
             --label build.git.branch=${{ github.ref }} \
             -f ChapsDotNET/Dockerfile \
             -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:dev-chaps.latest .
-      - name: Push to ECR
-        run: |
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
   deploy-dev:
     runs-on: ubuntu-latest
