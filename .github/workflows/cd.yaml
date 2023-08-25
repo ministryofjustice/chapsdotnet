@@ -29,14 +29,15 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.ECR_REPOSITORY }}
-          IMAGE_TAG: ${{ github.sha }}         
-      - name: Push to ECR
+          IMAGE_TAG: ${{ github.sha }}  
         run: |
           docker build \
             --label build.git.sha=${{ github.sha }} \
             --label build.git.branch=${{ github.ref }} \
-            -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:dev-chaps.latest . 
-          docker push $REGISTRY/$REPOSITORY --all-tags
+            -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:dev-chaps.latest .        
+      - name: Push to ECR
+        run: |
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
   deploy-dev:
     runs-on: ubuntu-latest
