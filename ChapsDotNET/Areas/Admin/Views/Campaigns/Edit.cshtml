@@ -5,11 +5,10 @@
 }
 
 <div class="breadcrumbs">
-    <a href="">Home</a>
+    <a href="/Admin">Administration</a>
     &nbsp;>&nbsp;
-    <a href="">Administration</a>
-    &nbsp;>&nbsp;
-    <a href="/Admin/Campaigns">Campaigns</a>
+    <a href="/Admin">Lookups</a>
+    &nbsp;>&nbsp; Campaigns
 </div>
 
 @using (Html.BeginForm())
@@ -35,7 +34,7 @@
         </div>
 
         <div class="editor-field">
-            @Html.CheckBoxFor(model => model.Active, new { @value = Model.Active = true })
+            @Html.CheckBoxFor(model => model.Active)
             @Html.ValidationMessageFor(model => model.Active)
         </div>
 
