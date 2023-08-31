@@ -6,16 +6,18 @@ namespace Chaps.Areas.Admin.Controllers
     //[AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Manager)]
     //[Authorize]
     //[ValidateAntiForgeryTokenOnAllPosts]
+
+    [Area("Admin")]
     public class AdminController : Controller
     {
         //
         // GET: /Admin/Admin/
 
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
-        public ActionResult Lookups()
+        public async Task<IActionResult> Lookups()
         {
             return View();
         }

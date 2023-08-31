@@ -4,27 +4,33 @@
 }
 
 <h6>@ViewBag.Title</h6>
-<fieldset>
+
+<fieldset class="FieldsetCR">
     <legend>@Html.ActionLink("User management", "Index", "Users")</legend>
     <p>Allows managers and admins to add, update and block named users</p>
 </fieldset>
-@Html.Partial("_LookupAdminList")
-<fieldset>
+
+@await Html.PartialAsync("_LookupAdminList")
+
+<fieldset class="FieldsetCR">
     <legend>@Html.ActionLink("Email Templates", "Index", "emailTemplates")</legend>
     <div>Allows admin users to maintain email templates.</div>
 </fieldset>
-@if ((User as Chaps.ICurrentUser).AccessLevel == Chaps.AccessLevel.Admin)
-{
-    <fieldset>
-        <legend>@Html.ActionLink("Alerts", "Index", "Alerts")</legend>
-        <div>Allows admin users to maintain alerts, e.g. All users must be logged off by 4pm.</div>
-    </fieldset>
-    <fieldset>
-        <legend>@Html.ActionLink("Templates", "Index", "Templates")</legend>
-        <div>Allows admin users to maintain letter templates.</div>
-    </fieldset>
 
-}
+@*@if ((User as Chaps.ICurrentUser).AccessLevel == Chaps.AccessLevel.Admin)*@
+@*{*@
+
+<fieldset class="FieldsetCR">
+    <legend>@Html.ActionLink("Alerts", "Index", "Alerts")</legend>
+    <div>Allows admin users to maintain alerts, e.g. All users must be logged off by 4pm.</div>
+</fieldset>
+
+<fieldset class="FieldsetCR">
+    <legend>@Html.ActionLink("Templates", "Index", "Templates")</legend>
+    <div>Allows admin users to maintain letter templates.</div>
+</fieldset>
+
+@*}*@
 @*<fieldset>
         <legend>Deleted Records</legend>
         @Html.ActionLink("Deleted records", "Index", "DeletedTipstaffRecord")
