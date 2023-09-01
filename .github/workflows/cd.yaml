@@ -47,7 +47,6 @@ jobs:
       KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE_DEV }}
       AWS_REGION: ${{ vars.ECR_REGION }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
