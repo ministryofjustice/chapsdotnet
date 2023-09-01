@@ -233,7 +233,7 @@ fieldset {
     margin: 0;
 }
 
-fieldset .FieldsetCR {
+fieldset.FieldsetCR {
     border: 1px solid #ddd;
     padding: 0 1.4em 0.7em 1.4em;
     margin: 0 0 0 0;
