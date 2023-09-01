@@ -15,7 +15,7 @@ spec:
       serviceAccountName: chaps-dev-service-pod
       containers:
       - name: dotnet
-        image: ${ECR_REPOSITORY}:${IMAGE_TAG}
+        image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
         ports:
         - containerPort: 5010
         env:
