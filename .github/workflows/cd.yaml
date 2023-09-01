@@ -47,7 +47,7 @@ jobs:
       KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE_DEV }}
       AWS_REGION: ${{ vars.ECR_REGION }}
       REPOSITORY: ${{ vars.ECR_REPOSITORY }}
-      REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -60,6 +60,9 @@ jobs:
         id: login-ecr
       - name: Update image tag
         run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_deploy/deployment.tpl | envsubst > kubectl_deploy/deployment.yaml          
+      -name: Set registry URL
+        run: |
+          echo "REGISTRY: ${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name: Authenticate to the cluster
         env:
             KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER_DEV }}
