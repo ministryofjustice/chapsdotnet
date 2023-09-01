@@ -12,6 +12,7 @@ spec:
       labels:
         app: chaps-dev
     spec:
+      serviceAccountName: chaps-dev-service-pod
       containers:
       - name: dotnet
         image: ${ECR_URL}:${IMAGE_TAG}
