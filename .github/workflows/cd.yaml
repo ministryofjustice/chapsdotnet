@@ -24,7 +24,6 @@ jobs:
           aws-region: ${{ vars.ECR_REGION }}
       - uses: aws-actions/amazon-ecr-login@v1
         id: login-ecr
-        
       - name: Build
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -156,7 +155,7 @@ jobs:
         run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_production/deployment.tpl | envsubst > kubectl_production/deployment.yaml          
       - name: Authenticate to the cluster
         env:
-            KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER_PRODUCTION }}
+          KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER_PRODUCTION }}
         run: |
             echo "${{ secrets.KUBE_CERT_PRODUCTION }}" > ca.crt
             kubectl config set-cluster ${KUBE_CLUSTER} --certificate-authority=./ca.crt --server=https://${KUBE_CLUSTER}
