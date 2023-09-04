@@ -5,11 +5,11 @@
 }
 
 <div class="breadcrumbs">
-    <a href="">Home</a>
+    @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
     &nbsp;>&nbsp;
-    <a href="">Administration</a>
+    @Html.ActionLink("Administration", "Index", "Admin")
     &nbsp;>&nbsp;
-    <a href="/Admin/LeadSubjects">Lead Subjects</a>
+    @Html.ActionLink("Lead Subjects", "Index", "LeadSubjects")
 </div>
 
 @using (Html.BeginForm())
