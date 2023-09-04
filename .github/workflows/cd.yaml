@@ -57,10 +57,16 @@ jobs:
       - name: login to ECR_URL
         uses: aws-actions/amazon-ecr-login@v1
         id: login-ecr
+      - name: Debug Image Tag
+        run: |
+          IMAGE_TAG=${{ github.sha }}
+          echo "Debug: IMAGE_TAG = $IMAGE_TAG"
       - name: Update image tag
         run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_deploy/deployment.tpl | envsubst > kubectl_deploy/deployment.yaml          
       - name: Set registry URL
         run: |
+          REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          echo "Debug: REGISTY = $REGISTRY"
           echo "REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name: Authenticate to the cluster
         env:
