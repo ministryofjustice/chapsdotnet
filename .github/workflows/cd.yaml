@@ -62,11 +62,14 @@ jobs:
           IMAGE_TAG=${{ github.sha }}
           echo "Debug: IMAGE_TAG = $IMAGE_TAG"
       - name: Update image tag
-        run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_deploy/deployment.tpl | envsubst > kubectl_deploy/deployment.yaml          
+        run: |
+          export IMAGE_TAG=${{ github.sha }} # && cat kubectl_deploy/deployment.tpl | envsubst > kubectl_deploy/deployment.yaml
+          REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          sed -i "s|{{ vars.ECR_REPOSITORY }}:.*$|${REGISTRY}{{ vars.ECR_REPOSITORY }}:${IMAGE_TAG}|g" kubectl_deploy/deployment.tpl
       - name: Set registry URL
         run: |
           REGISTRY=${{ steps.login-ecr.outputs.registry }}
-          echo "Debug: REGISTY = $REGISTRY"
+          echo "Debug: REGISTRY = $REGISTRY"
           echo "REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name: Authenticate to the cluster
         env:
