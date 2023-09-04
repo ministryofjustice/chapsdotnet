@@ -71,6 +71,7 @@ jobs:
           export IMAGE_TAG=${{ github.sha }} # && cat kubectl_deploy/deployment.tpl | envsubst > kubectl_deploy/deployment.yaml
           REGISTRY=${{ steps.login-ecr.outputs.registry }}
           sed -i "s|${{ vars.ECR_REPOSITORY }}:.*$|${REGISTRY}${{ vars.ECR_REPOSITORY }}:${IMAGE_TAG}|g" kubectl_deploy/deployment.tpl
+          echo "Updated image reference: ${REGISTRY}/$(( vars.ECR_REPOSITORY }}:${IMAGE_TAG}"
       - name: Authenticate to the cluster
         env:
             KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER_DEV }}
