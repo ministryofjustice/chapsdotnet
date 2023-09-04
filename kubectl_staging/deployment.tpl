@@ -15,7 +15,7 @@ spec:
       serviceAccountName: chaps-staging-service-pod
       containers:
       - name: dotnet
-         image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
+        image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
         ports:
         - containerPort: 5010
         env:
