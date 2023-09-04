@@ -12,6 +12,7 @@ spec:
       labels:
         app: chaps-production
     spec:
+      serviceAccountName: chaps-production-service-pod
       containers:
       - name: dotnet
         image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
