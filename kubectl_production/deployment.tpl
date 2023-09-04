@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: dotnet
-        image: ${ECR_URL}:${IMAGE_TAG}
+        image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
         ports:
         - containerPort: 5010
         env:
