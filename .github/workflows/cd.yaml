@@ -59,8 +59,6 @@ jobs:
         id: login-ecr
       - name: Set registry URL
         run: |
-          REGISTRY=${{ steps.login-ecr.outputs.registry }}
-          echo "Debug: REGISTRY = $REGISTRY"
           echo "REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name: Debug Image Tag
         run: |
@@ -111,14 +109,9 @@ jobs:
         id: login-ecr
       - name: Set registry URL
         run: |
-          REGISTRY=${{ steps.login-ecr.outputs.registry }}
-          echo "Debug: REGISTRY = $REGISTRY"
           echo "REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name: Update image tag
         run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_staging/deployment.tpl | envsubst > kubectl_staging/deployment.yaml          
-      - name: Set registry URL
-        run: |
-          echo "REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name: Authenticate to the cluster
         env:
           KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER_STAGING }}
@@ -156,11 +149,11 @@ jobs:
       - name: login to ECR_URL
         uses: aws-actions/amazon-ecr-login@v1
         id: login-ecr
-      - name: Update image tag
-        run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_production/deployment.tpl | envsubst > kubectl_production/deployment.yaml          
       - name: Set registry URL
         run: |
           echo "REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
+      - name: Update image tag
+        run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_production/deployment.tpl | envsubst > kubectl_production/deployment.yaml          
       - name: Authenticate to the cluster
         env:
             KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER_PRODUCTION }}
