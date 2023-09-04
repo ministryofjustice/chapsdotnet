@@ -128,6 +128,8 @@ jobs:
           kubectl config set-credentials deploy-user --token=${{ secrets.KUBE_TOKEN_STAGING }}
           kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${{ secrets.KUBE_NAMESPACE_STAGING }}
           kubectl config use-context ${KUBE_CLUSTER}            
+      - name: Debug print deployment.yaml
+        run: cat kubectl_staging/deployment.yaml
       - name: Apply the updated manifest
         run: |
           kubectl -n ${KUBE_NAMESPACE} apply -f kubectl_staging
