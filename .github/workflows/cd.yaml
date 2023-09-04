@@ -109,6 +109,11 @@ jobs:
       - name: login to ECR_URL
         uses: aws-actions/amazon-ecr-login@v1
         id: login-ecr
+      - name: Set registry URL
+        run: |
+          REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          echo "Debug: REGISTRY = $REGISTRY"
+          echo "REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name: Update image tag
         run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_staging/deployment.tpl | envsubst > kubectl_staging/deployment.yaml          
       - name: Set registry URL
@@ -116,16 +121,16 @@ jobs:
           echo "REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
       - name: Authenticate to the cluster
         env:
-            KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER_STAGING }}
+          KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER_STAGING }}
         run: |
-            echo "${{ secrets.KUBE_CERT_STAGING }}" > ca.crt
-            kubectl config set-cluster ${KUBE_CLUSTER} --certificate-authority=./ca.crt --server=https://${KUBE_CLUSTER}
-            kubectl config set-credentials deploy-user --token=${{ secrets.KUBE_TOKEN_STAGING }}
-            kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${{ secrets.KUBE_NAMESPACE_STAGING }}
-            kubectl config use-context ${KUBE_CLUSTER}            
+          echo "${{ secrets.KUBE_CERT_STAGING }}" > ca.crt
+          kubectl config set-cluster ${KUBE_CLUSTER} --certificate-authority=./ca.crt --server=https://${KUBE_CLUSTER}
+          kubectl config set-credentials deploy-user --token=${{ secrets.KUBE_TOKEN_STAGING }}
+          kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${{ secrets.KUBE_NAMESPACE_STAGING }}
+          kubectl config use-context ${KUBE_CLUSTER}            
       - name: Apply the updated manifest
         run: |
-            kubectl -n ${KUBE_NAMESPACE} apply -f kubectl_staging
+          kubectl -n ${KUBE_NAMESPACE} apply -f kubectl_staging
 
   deploy-production:
     runs-on: ubuntu-latest
