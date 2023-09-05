@@ -5,9 +5,12 @@
 }
 
 <div class="breadcrumbs">
-    @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-    &nbsp;>&nbsp;
-    @Html.ActionLink("Administration", "Index", "Admin")
+    <h6>
+        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Administration", "Index", "Admin")
+        > Teams
+    </h6>
 </div>
     
 <h1>Teams</h1>
