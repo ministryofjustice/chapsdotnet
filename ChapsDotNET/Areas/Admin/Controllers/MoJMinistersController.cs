@@ -21,9 +21,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             var pagedResult = await _mojMinisterComponent.GetMoJMinistersAsync(new MoJMinisterRequestModel
                 {
-                    PageNumber = page,
-                    PageSize = 10,
-                    ShowActiveAndInactive = true
+                    NoPaging = true
                 }
             );
             return View(pagedResult.Results);

@@ -4,7 +4,7 @@
     {
         public T? Results { get; set; }
         public int CurrentPage { get; set; }
-        public int PageCount => (int)Math.Ceiling((double)RowCount / PageSize);
+        public int PageCount => NoPaging? 1 : (int)Math.Ceiling((double)RowCount / PageSize);
         public int PageSize { get; set; }
         public int RowCount { get; set; }
         public string? sortOrder { get; set; }
@@ -12,6 +12,7 @@
         public string? addressFilterTerm { get; set; }
         public string? emailFilterTerm { get; set; }
         public bool activeFilter { get; set; }
+        public bool NoPaging { get; set; }
     }
 
     public interface IPagedResult
@@ -20,5 +21,6 @@
         public int PageCount { get; }
         public int PageSize { get; set; }
         public int RowCount { get; set; }
+        public bool NoPaging { get; set; }
     }
 }
