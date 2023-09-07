@@ -37,8 +37,12 @@ namespace ChapsDotNET.Business.Components
             var count = await query.CountAsync();
 
             //Paging query
-            query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
-                .Take(request.PageSize);
+            if(!request.NoPaging)
+            {
+                query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
+                    .Take(request.PageSize);
+            }
+
 
             var MoJMinistersList = await query
                 .Select(x => new MoJMinisterModel
