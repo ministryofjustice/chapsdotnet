@@ -1,0 +1,38 @@
+﻿@model ChapsDotNET.Models.CampaignViewModel
+
+@{
+    ViewData["Title"] = "Create a new campaign";
+}
+
+<div class="breadcrumbs">
+    <h6>
+        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Administration", "Index", "Admin")
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Campaigns", "Index", "Campaigns")
+        > Create
+    </h6>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+<fieldset class="form-fieldset">
+    <legend>
+        <h1>@ViewBag.Title</h1>
+    </legend>
+
+    <div class="editor-label">
+        <label for="Detail">Name</label>
+    </div>
+
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Detail)
+        @Html.ValidationMessageFor(model => model.Detail)
+    </div>
+
+    <input class="button" type="submit" value="Create" />
+</fieldset>
+}

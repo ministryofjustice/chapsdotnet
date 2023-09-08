@@ -37,7 +37,7 @@ namespace ChapsDotNET.Business.Components
             var count = await query.CountAsync();
 
             //Paging query
-            if (request.NoPaging)
+            if (!request.NoPaging)
             {
                 query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
                     .Take(request.PageSize);

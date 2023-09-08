@@ -1,0 +1,95 @@
+﻿@model ChapsDotNET.Models.UsersViewModel
+@using ChapsDotNET.Helpers
+@{
+    ViewData["Title"] = "User administration";
+    
+}
+@functions {
+    string ToggleSortOrder(string currentSortOrder, string column)
+    {
+        if (currentSortOrder == column)
+        {
+            return column + "_desc";
+        }
+        return column;
+    }
+}
+}
+@section head{
+    <script src="@Url.Content("ChapsDotNET/wwwroot/javascripts/jquery.timeago.js")" type="text/javascript"></script>
+    <script type="text/javascript">$(document).ready(function () {
+            $("abbr.timeago").timeago();
+        });</script>
+}
+<div class="breadcrumbs">
+    <h6>
+        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Administration", "Index", "Admin")
+        > Users
+    </h6>
+
+</div>
+
+<h1>Users</h1>
+
+<div class="actionLinks">
+    @Html.ActionLink("Create new user", "Create", "User")
+</div>
+
+<table>
+    <caption class="caption">Existing Users </caption>
+    <thead>
+        <tr>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "UserLogin") })">User Login</a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "Display_name") })">Display Name</a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "Team") })">Team</a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "Access_Level") })">Access Level</a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "email") })">email</a>
+            </th>
+            <th>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "Last_Active") })">Last Active</a>
+            </th>
+        </tr>
+    </thead>
+    @foreach (var user in Model.Users!)
+    {
+        <tr>
+            <td>
+                <a href="/Admin/User/Edit/@user.UserId">
+                    @Html.DisplayFor(x => user.Name)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(x => user.DisplayName)
+            </td>
+            <td>
+                @if (user.Team != null)
+                {
+                    @Html.DisplayFor(x => user.Team)
+                }
+            </td>
+            <td>
+                @if (user.Role != null)
+                {
+                    @Html.DisplayFor(x => user.Role)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(x => user.Email)
+            </td>
+            <td>
+                @Html.Timeago(user.LastActive)
+            </td>
+        </tr>
+    }
+</table>

@@ -1,6 +1,7 @@
 ﻿using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
+using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,8 +13,83 @@ namespace ChapsDotNET.Business.Components
 
         public UserComponent(DataContext context)
         {
-            this._context = context;
+            _context = context;
         }
+
+        /// <summary>
+        /// This method by default returns a list of Users
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>A list of UserModel</returns>
+        public async Task<List<UserModel>> GetUsersAsync(string? sortOrder = null)
+        {
+            var query = _context.Users.Include(u => u.Team).Include(u => u.Role).AsQueryable();
+
+            switch (sortOrder)
+            {
+                case "UserLogin":
+                    query = query.OrderBy(x => x.Name);
+                    break;
+                case "UserLogin_desc":
+                    query = query.OrderByDescending(x => x.Name);
+                    break;
+                case "Display_name":
+                    query = query.OrderBy(x => x.DisplayName);
+                    break;
+                case "Display_name_desc":
+                    query = query.OrderByDescending(x => x.DisplayName);
+                    break;
+                case "Team":
+                    query = query.OrderBy(x => x.Team != null ? x.Team.Name : string.Empty);
+                    break;
+                case "Team_desc":
+                    query = query.OrderByDescending(x => x.Team != null ? x.Team.Name : string.Empty);
+                    break;
+                case "Access_Level":
+                    query = query.OrderBy(x => x.Role != null ? x.Role.Detail : string.Empty);
+                    break;
+                case "Access_Level_desc":
+                    query = query.OrderByDescending(x => x.Role != null ? x.Role.Detail : string.Empty);
+                    break;
+                case "email":
+                    query = query.OrderBy(x => x.email);
+                    break;
+                case "email_desc":
+                    query = query.OrderByDescending(x => x.email);
+                    break;
+                case "Last_Active":
+                    query = query.OrderBy(x => x.LastActive);
+                    break;
+                case "Last_Active_desc":
+                    query = query.OrderByDescending(x => x.LastActive);
+                    break;
+                default:
+                    query = query.OrderBy(x => x.UserID); 
+                    break;
+            }
+
+
+            //Row Count
+            var count = await query.CountAsync();
+
+            var UserList = await query
+                .Select(x => new UserModel
+                {
+                    UserId = x.UserID,
+                    Name = x.Name,
+                    DisplayName = x.DisplayName,
+                    Email = x.email,
+                    RoleStrength = x.RoleStrength,
+                    TeamId = x.TeamID,
+                    LastActive = x.LastActive,
+                    Team = x.Team != null? x.Team.Name : string.Empty,
+                    Role = x.Role != null? x.Role.Detail : string.Empty
+                }).ToListAsync();
+
+            return UserList;
+            
+        }
+
 
         public async Task<bool> IsUserAuthorisedAsync(string? userEmailAddress)
         {

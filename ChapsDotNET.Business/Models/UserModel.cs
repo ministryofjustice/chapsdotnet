@@ -1,4 +1,6 @@
-﻿namespace ChapsDotNET.Business.Models
+﻿using ChapsDotNET.Data.Entities;
+
+namespace ChapsDotNET.Business.Models
 {
     public class UserModel
     {
@@ -8,6 +10,9 @@
         public string? Email { get; set; }
         public int RoleStrength { get; set; }
         public int TeamId { get; set; }
+        public string? Team { get; set; }
+        public string? Role { get; set; }
         public string? TeamAcronym { get; set; }
+        public DateTime? LastActive { get; set; }
     }
 }

@@ -43,6 +43,8 @@
     <None Remove="Views\Shared\EditorTemplates\" />
     <None Remove="Areas\Admin\Views\Admin\" />
     <None Remove="Areas\Admin\Views\Shared\" />
+    <None Remove="Areas\Admin\Views\Users\" />
+    <None Remove="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
@@ -77,6 +79,8 @@
     <Folder Include="Views\Shared\EditorTemplates\" />
     <Folder Include="Areas\Admin\Views\Admin\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Areas\Admin\Views\Users\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\javascripts\" />
