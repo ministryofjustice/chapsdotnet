@@ -69,6 +69,7 @@ builder.Services.AddScoped<IReportComponent, ReportComponent>();
 builder.Services.AddScoped<ISalutationComponent, SalutationComponent>();
 builder.Services.AddScoped<ITeamComponent, TeamComponent>();
 builder.Services.AddScoped<IUserComponent, UserComponent>();
+builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 
 var app = builder.Build();
 

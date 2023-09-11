@@ -1,4 +1,4 @@
-﻿@model ChapsDotNET.Models.CampaignViewModel
+﻿@model ChapsDotNET.Models.UserViewModel
 
 @{
     ViewData["Title"] = "Create a new user";
@@ -10,7 +10,7 @@
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         &nbsp;>&nbsp;
-        @Html.ActionLink("Campaigns", "Index", "Campaigns")
+        @Html.ActionLink("Users", "Index", "Users")
         > Create
     </h6>
 </div>
@@ -29,8 +29,40 @@
     </div>
 
     <div class="editor-field">
-        @Html.EditorFor(model => model.Detail)
-        @Html.ValidationMessageFor(model => model.Detail)
+        @Html.EditorFor(model => model.Name)
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+    <div class="editor-label">
+        <label for="Detail">Display Name</label>
+    </div>
+
+    <div class="editor-field">
+        @Html.EditorFor(model => model.DisplayName)
+        @Html.ValidationMessageFor(model => model.DisplayName)
+    </div>
+
+    <div class="editor-label">
+        <label for="Detail">Email</label>
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Email)
+        @Html.ValidationMessageFor(model => model.Email)
+    </div>
+
+    <div class="editor-label">
+        <label for="Detail">Role</label>
+    </div>
+
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.RoleStrength, Model.RoleList, "Please select a role", new { @class = "required" })   
+        @Html.ValidationMessageFor(model => model.RoleStrength)
+    </div>
+    <div class="editor-label">
+        <label for="Detail">Team</label>
+    </div>
+    <div class="editor-field">
+        @Html.DropDownListFor(model => model.TeamId, Model.TeamList, "Please select an office", new { @class = "required" })
+        @Html.ValidationMessageFor(model => model.TeamId)
     </div>
 
     <input class="button" type="submit" value="Create" />

@@ -3,6 +3,7 @@ using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
+using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChapsDotNET.Business.Components
@@ -68,6 +69,8 @@ namespace ChapsDotNET.Business.Components
                     break;
             }
 
+            
+
 
             //Row Count
             var count = await query.CountAsync();
@@ -90,6 +93,26 @@ namespace ChapsDotNET.Business.Components
             
         }
 
+        public async Task<int> AddUserAsync(UserModel model)   
+        {
+            if (string.IsNullOrEmpty(model.Name))
+            {
+                throw new ArgumentNullException("Parameter Name cannot be empty");
+            }
+
+            var user = new User
+            {
+                Name = model.Name,
+                DisplayName = model.DisplayName == null ? string.Empty : model.DisplayName,
+                email = model.Email,
+                TeamID = model.TeamId,
+                RoleStrength = model.RoleStrength,  
+            };
+
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return user.UserID;
+        }
 
         public async Task<bool> IsUserAuthorisedAsync(string? userEmailAddress)
         {

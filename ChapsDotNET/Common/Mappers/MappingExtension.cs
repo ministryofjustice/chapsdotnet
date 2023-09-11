@@ -1,4 +1,6 @@
-﻿using ChapsDotNET.Business.Models;
+﻿using System.Reflection.Metadata.Ecma335;
+using ChapsDotNET.Business.Models;
+using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 
 namespace ChapsDotNET.Common.Mappers
@@ -204,5 +206,32 @@ namespace ChapsDotNET.Common.Mappers
                 LongDescription = model.LongDescription
             };
         }
+
+        public static UserViewModel ToViewModel(this UserModel model)
+        {
+            return new UserViewModel
+            {
+                               
+                Name = model.Name,
+                DisplayName = model.DisplayName,
+                Email = model.Email,
+                RoleStrength = model.RoleStrength,
+                TeamId = model.TeamId
+                
+            };
+        }
+
+        public static UserModel ToModel(this UserViewModel model)
+        {
+            return new UserModel
+            {
+                Name = model.Name,
+                DisplayName = model.DisplayName,
+                Email = model.Email,
+                RoleStrength = model.RoleStrength,
+                TeamId = model.TeamId
+            };
+        }
+
     }
 }
