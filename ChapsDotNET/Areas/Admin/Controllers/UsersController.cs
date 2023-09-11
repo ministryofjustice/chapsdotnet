@@ -54,6 +54,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
             model.TeamList = new SelectList(teams.Results, "TeamId", "Name");
             model.RoleList = new SelectList(roles.Results, "RoleStrength", "Detail");
+            model.RoleStrength = -2; // prevents 'deactive' from being the default selection
             return View(model);
         }
 
