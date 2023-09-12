@@ -13,11 +13,12 @@ namespace Chaps.Areas.Admin.Controllers
         //
         // GET: /Admin/Admin/
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
-        public async Task<IActionResult> Lookups()
+
+        public IActionResult Lookups()
         {
             return View();
         }

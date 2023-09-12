@@ -46,22 +46,22 @@
     <thead>
         <tr>
             <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "UserLogin") })">User Login</a>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "UserLogin") })">User Login</a>
             </th>
             <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "Display_name") })">Display Name</a>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Display_name") })">Display Name</a>
             </th>
             <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "Team") })">Team</a>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Team") })">Team</a>
             </th>
             <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "Access_Level") })">Access Level</a>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Access_Level") })">Access Level</a>
             </th>
             <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "email") })">email</a>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "email") })">email</a>
             </th>
             <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder, "Last_Active") })">Last Active</a>
+                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Last_Active") })">Last Active</a>
             </th>
         </tr>
     </thead>
@@ -69,7 +69,7 @@
     {
         <tr>
             <td>
-                <a href="/Admin/User/Edit/@user.UserId">
+                <a href="/Admin/Users/Edit/@user.UserId">
                     @Html.DisplayFor(x => user.Name)
                 </a>
             </td>

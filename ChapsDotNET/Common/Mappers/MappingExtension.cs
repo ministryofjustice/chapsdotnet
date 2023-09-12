@@ -225,6 +225,7 @@ namespace ChapsDotNET.Common.Mappers
         {
             return new UserModel
             {
+                UserId = model.UserId,
                 Name = model.Name,
                 DisplayName = model.DisplayName,
                 Email = model.Email,

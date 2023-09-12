@@ -1,10 +1,13 @@
-﻿using ChapsDotNET.Business.Exceptions;
+﻿using System.Net;
+using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace ChapsDotNET.Business.Components
 {
@@ -93,25 +96,49 @@ namespace ChapsDotNET.Business.Components
             
         }
 
-        public async Task<int> AddUserAsync(UserModel model)   
+        /// <summary>
+        /// This method adds a new user to the database
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>int, string</returns>
+        public async Task<(int userId, string warning)> AddUserAsync(UserModel model)   
         {
             if (string.IsNullOrEmpty(model.Name))
             {
                 throw new ArgumentNullException("Parameter Name cannot be empty");
             }
 
-            var user = new User
-            {
-                Name = model.Name,
-                DisplayName = model.DisplayName == null ? string.Empty : model.DisplayName,
-                email = model.Email,
-                TeamID = model.TeamId,
-                RoleStrength = model.RoleStrength,  
-            };
+            string condensedNewUserName = model.Name.Replace(" ", "").ToLower();
+            string duplicateError = "The user you are trying to create already exists. Please amend the existing user details below instead";
 
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-            return user.UserID;
+            var users = await GetUsersAsync("");
+
+            bool nameAndDisplayNameMatches =  users.Any(x => x.Name!.Equals(model.Name, StringComparison.OrdinalIgnoreCase) && x.DisplayName!.Equals(model.DisplayName, StringComparison.OrdinalIgnoreCase));
+
+            bool loginNameOnlyMatch = users.Any(x => x.Name!.Equals(model.Name, StringComparison.OrdinalIgnoreCase)
+            && !x.DisplayName!.Equals(model.DisplayName, StringComparison.OrdinalIgnoreCase));
+
+
+            if (nameAndDisplayNameMatches || loginNameOnlyMatch)
+            {
+                var getuser = await GetUserByLoginNameAsync(model.Name);
+                return (getuser.UserId, duplicateError!); 
+            }
+            else
+            {
+                var user = new User
+                {
+                    Name = model.Name,
+                    DisplayName = model.DisplayName == null ? string.Empty : model.DisplayName,
+                    email = model.Email,
+                    TeamID = model.TeamId,
+                    RoleStrength = model.RoleStrength,
+                };
+                var success = "Success";
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+                return (user.UserID, success);
+            }
         }
 
         public async Task<bool> IsUserAuthorisedAsync(string? userEmailAddress)
@@ -125,6 +152,12 @@ namespace ChapsDotNET.Business.Components
             return user != null;
         }
 
+
+        /// <summary>
+        /// This method returns a user by email address
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>UserModel</returns>
         public async Task<UserModel> GetUserByNameAsync(string? userEmailAddress)
         {
             if (string.IsNullOrEmpty(userEmailAddress?.Trim()))
@@ -147,6 +180,82 @@ namespace ChapsDotNET.Business.Components
                 TeamId = user.TeamID,
                 TeamAcronym = user.Team?.Acronym ?? string.Empty,
             };
+        }
+        /// <summary>
+        /// This method returns a user by Name 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>UserModel</returns>
+        public async Task<UserModel> GetUserByLoginNameAsync(string? name)
+        {
+            if (string.IsNullOrEmpty(name?.Trim()))
+                throw new ArgumentNullException("User Name cannot be null");
+            var user = await _context.Users
+                .Include(x => x.Team)
+                .FirstOrDefaultAsync(x => x.Name == name);
+
+            if(user == null)
+            {
+                throw new NotFoundException("User", name);
+            }
+
+            return new UserModel
+            {
+                Name = user.Name,
+                DisplayName = user.DisplayName,
+                RoleStrength = user.RoleStrength,
+                Email = (user.email ?? string.Empty),
+                UserId = user.UserID,
+                TeamId = user.TeamID,
+                TeamAcronym = user.Team?.Acronym ?? string.Empty,
+            };
+        }
+        /// <summary>
+        /// This method returns a user by UserId 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>UserModel</returns>
+        public async Task<UserModel> GetUserByIdAsync(int userId)
+        {
+            var user = await _context.Users
+                .Include(x => x.Team)
+                .FirstOrDefaultAsync(x => x.UserID == userId);
+            if (user == null)
+            {
+                throw new NotFoundException("User", userId.ToString());
+            }
+            return new UserModel
+            {
+                Name = user.Name,
+                DisplayName = user.DisplayName,
+                RoleStrength = user.RoleStrength,
+                Email = (user.email ?? string.Empty),
+                UserId = user.UserID,
+                TeamId = user.TeamID,
+                TeamAcronym = user.Team?.Acronym ?? string.Empty,
+            };
+        }
+        /// <summary>
+        /// This method update a User
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>void</returns>
+        public async Task UpdateUserAsync(UserModel model)
+        {
+            var user = await _context.Users.Include(x => x.Team).FirstOrDefaultAsync(x => x.UserID == model.UserId);
+            if(user == null)
+            {
+                throw new NotFoundException("User", model.UserId.ToString());
+            }
+
+            user.Name = model.Name!;
+            user.DisplayName = model.DisplayName!;
+            user.email = model.Email;
+            user.RoleStrength = model.RoleStrength;
+            user.LastActive = model.LastActive;
+            user.TeamID = model.TeamId;
+
+            await _context.SaveChangesAsync();
         }
     }
 }
