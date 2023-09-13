@@ -24,7 +24,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(string sortOrder)
         {
-            var model = new UsersViewModel();
+            var model = new UserAdminViewModel();
             model.SortOrder = sortOrder;
 
             var users = await _userComponent.GetUsersAsync(sortOrder);
