@@ -18,7 +18,8 @@ namespace ChapsDotNET.Data.Contexts
         public DbSet<Salutation> Salutations => Set<Salutation>();
         public DbSet<Team> Teams => Set<Team>();
         public DbSet<User> Users => Set<User>();
-        public DbSet<Report> Reports => Set<Report>(); 
+        public DbSet<Report> Reports => Set<Report>();
+        public DbSet<Alert> Alerts => Set<Alert>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
