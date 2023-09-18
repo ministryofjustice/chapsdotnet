@@ -5,6 +5,7 @@ namespace ChapsDotNET.Models
 {
     public class TeamViewModel
     {
+        [Key]
         public int TeamId { get; set; }
         [Required, MaxLength(10), Display(Name = "Team Acronym")]
         public string? Acronym { get; set; }

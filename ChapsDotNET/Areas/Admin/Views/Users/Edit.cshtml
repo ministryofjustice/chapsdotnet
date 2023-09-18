@@ -1,0 +1,77 @@
+﻿@model ChapsDotNET.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "Edit an existing user";
+}
+
+<div class="breadcrumbs">
+    <h6>
+        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Administration", "Index", "Admin")
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Users", "Index", "Users")
+        > Edit
+    </h6>
+</div>
+
+@using (Html.BeginForm())
+{
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+        @if (Model != null && !string.IsNullOrEmpty(Model.warning))
+        {
+            <div style="color:red; margin-bottom:10px">
+                @Html.DisplayFor(model => model.warning)
+                &nbsp;
+            </div>
+        }
+        @Html.HiddenFor(model => model.DisplayName)
+
+        <div class="editor-label">
+            <label for="Detail">Name</label>
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DisplayName)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DisplayName)
+            @Html.ValidationMessageFor(model => model.DisplayName)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Role)
+        </div>
+
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.RoleStrength, Model!.RoleList, "Please select a role", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.RoleStrength)
+        </div>
+        <div class="editor-label">
+            <label for="Detail">Team</label>
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.TeamId, Model.TeamList, "Please select an office", new { @class = "required" })
+            @Html.ValidationMessageFor(model => model.TeamId)
+        </div>
+        <input type="submit" value="Save" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/users/';">Cancel</button>
+    </fieldset>
+}
+
