@@ -72,12 +72,6 @@ namespace ChapsDotNET.Business.Components
                     break;
             }
 
-            
-
-
-            //Row Count
-            var count = await query.CountAsync();
-
             var UserList = await query
                 .Select(x => new UserModel
                 {
@@ -93,7 +87,6 @@ namespace ChapsDotNET.Business.Components
                 }).ToListAsync();
 
             return UserList;
-            
         }
 
         /// <summary>
