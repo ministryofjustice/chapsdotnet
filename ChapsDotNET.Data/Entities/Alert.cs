@@ -4,7 +4,7 @@ using ChapsDotNET.Data.Interfaces;
 
 namespace ChapsDotNET.Data.Entities
 {
-	public class Alert : LookUpModel, IAuditable
+	public class Alert : IAuditable
 	{
 		public int AlertID { get; set; }
         public bool Live { get; set; }

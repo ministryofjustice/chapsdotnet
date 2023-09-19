@@ -26,7 +26,7 @@ namespace ChapsDotNET.Business.Components
 
 			if(!request.ShowActiveAndInactive)
 			{
-				query = query.Where(x => x.active == true);
+				query = query.Where(x => x.Live == true);
 			}
 
 			query = query.OrderByDescending(x => x.EventStart);
@@ -58,6 +58,7 @@ namespace ChapsDotNET.Business.Components
 
 			var alert = await query.Select(x => new AlertModel
 			{
+				AlertID = x.AlertID,
 				Live = x.Live,
 				EventStart = x.EventStart,
 				RaisedHours = x.RaisedHours,

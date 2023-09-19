@@ -1,13 +1,13 @@
-﻿using System;
-using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
+using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
 {
-	public class AlertsController : Controller
+    [Area("Admin")]
+    public class AlertsController : Controller
 	{
 		private readonly IAlertComponent _alertComponent;
 
@@ -18,14 +18,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
 		public async Task<IActionResult> Index(int page = 1)
 		{
-			var pagedResult = await _alertComponent.GetAlertsAsync(new AlertRequestModel
+			var alerts = await _alertComponent.GetAlertsAsync(new AlertRequestModel
 			{
-				PageNumber = page,
-				PageSize = 10,
+				NoPaging = true,
 				ShowActiveAndInactive = true
-			});
+			}); ;
 
-			return View(pagedResult);
+			return View(alerts);
 
 		}
 
@@ -40,13 +39,11 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 			var model = await _alertComponent.GetAlertAsync(id);
 			return View(model.ToViewModel());
 		}
-
+		[HttpPost]
 		public async Task<ActionResult> Edit(AlertViewModel viewmodel)
 		{
 			await _alertComponent.UpdateAlertAsync(viewmodel.ToModel());
 			return RedirectToAction("Index");
 		}
 	}
-
-
 }
