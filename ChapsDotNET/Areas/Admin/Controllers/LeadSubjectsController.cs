@@ -21,9 +21,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             var pagedResult = await _leadSubjectComponent.GetLeadSubjectsAsync(new LeadSubjectRequestModel
             {
-                PageNumber = page,
-                PageSize = 10,
-                ShowActiveAndInactive = true
+                NoPaging = true
             }
             );
             return View(pagedResult.Results);
