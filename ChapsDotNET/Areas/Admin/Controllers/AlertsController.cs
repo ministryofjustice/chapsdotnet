@@ -39,6 +39,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 			var model = await _alertComponent.GetAlertAsync(id);
 			return View(model.ToViewModel());
 		}
+
 		[HttpPost]
 		public async Task<ActionResult> Edit(AlertViewModel viewmodel)
 		{

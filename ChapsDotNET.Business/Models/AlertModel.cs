@@ -1,9 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace ChapsDotNET.Business.Models
+﻿namespace ChapsDotNET.Business.Models
 {
-	public class AlertModel
+    public class AlertModel
 	{
 		public int AlertID { get; set; }
 		public bool Live { get; set; }

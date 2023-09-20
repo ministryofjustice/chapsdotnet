@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
@@ -118,6 +119,24 @@ namespace ChapsDotNET.Business.Components
 			await _context.SaveChangesAsync();
 			return alert.AlertID;
         }
+
+		public async Task<List<AlertModel>> GetCurrentAlertsAsync()
+		{
+            var query = _context.Alerts.AsQueryable();
+            query = query.Where(x => x.Live && x.WarnStart <= DateTime.Now);
+
+			var alertsList = await query.Select(x => new AlertModel
+            {
+                AlertID = x.AlertID,
+                Live = x.Live,
+                EventStart = x.EventStart,
+                RaisedHours = x.RaisedHours,
+                WarnStart = x.WarnStart,
+                Message = x.Message ?? string.Empty
+            }).ToListAsync();
+
+			return alertsList;
+		}
     }
 }
 

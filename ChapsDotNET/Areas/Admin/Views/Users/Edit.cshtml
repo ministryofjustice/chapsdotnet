@@ -21,10 +21,10 @@
         <legend>
             <h1>@ViewBag.Title</h1>
         </legend>
-        @if (Model != null && !string.IsNullOrEmpty(Model.warning))
+        @if (Model != null && !string.IsNullOrEmpty(Model.Warning))
         {
             <div style="color:red; margin-bottom:10px">
-                @Html.DisplayFor(model => model.warning)
+                @Html.DisplayFor(model => model.Warning)
                 &nbsp;
             </div>
         }

@@ -10,7 +10,7 @@ namespace ChapsDotNET.Business.Interfaces
         Task<AlertModel> GetAlertAsync(int Id);
         Task<int> AddAlertAsync(AlertModel model);
         Task UpdateAlertAsync(AlertModel model);
+        Task<List<AlertModel>> GetCurrentAlertsAsync();
 
     }
 }
-

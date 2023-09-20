@@ -1,4 +1,8 @@
-﻿using ChapsDotNET.Models;
+﻿using ChapsDotNET.Business.Components;
+using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Models;
+using ChapsDotNET.Business.Models.Common;
+using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,7 +11,7 @@ namespace ChapsDotNET.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+       
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;

@@ -45,6 +45,9 @@
     <None Remove="Areas\Admin\Views\Shared\" />
     <None Remove="Areas\Admin\Views\Users\" />
     <None Remove="Areas\Admin\Views\Alerts\" />
+    <None Remove="Views\Shared\Components\" />
+    <None Remove="Views\Shared\Components\DisplayAlerts\" />
+    <None Remove="ViewComponents\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
@@ -81,6 +84,9 @@
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Admin\Views\Users\" />
     <Folder Include="Areas\Admin\Views\Alerts\" />
+    <Folder Include="Views\Shared\Components\" />
+    <Folder Include="Views\Shared\Components\DisplayAlerts\" />
+    <Folder Include="ViewComponents\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\javascripts\" />
