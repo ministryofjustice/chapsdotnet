@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Html;
 using System;
 using System.IO;
 
-namespace ChapsDotNET.Helpers
+namespace ChapsDotNET.Common.Helpers
 {
     public static class HtmlHelperExtensions
     {

@@ -27,7 +27,7 @@ namespace ChapsDotNET.Models
         public SelectList? TeamList { get; set; }
         public SelectList? RoleList { get; set; }
 
-        public string? warning { get; set; }
+        public string? Warning { get; set; }
 
     }
 }

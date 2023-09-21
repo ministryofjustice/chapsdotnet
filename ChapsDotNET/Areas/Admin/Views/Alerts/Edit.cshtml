@@ -1,0 +1,81 @@
+﻿@model ChapsDotNET.Models.AlertViewModel
+
+@{
+    ViewData["Title"] = "Edit an existing alert";
+}
+@section head{
+    <link href="@Url.Content("~/Content/tooltip.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-timepicker-addon.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jHtmlArea-0.8.min.js")" charset="utf-8"></script>
+    <link href="@Url.Content("~/stylesheets/jHtmlArea.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="breadcrumbs">
+    <h6>
+        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Administration", "Index", "Admin")
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Alerts", "Index", "Alerts")
+        > Edit
+    </h6>
+</div>
+
+@using (Html.BeginForm(new { @class = "form", @id = "create_report_form" }))
+{
+    <fieldset class="form-fieldset" , style="margin-left: 50px;">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+
+        @Html.HiddenFor(model => model.AlertID)
+
+        <div class="editor-label">
+            <label for="Detail">Live</label>
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Live)
+            @Html.ValidationMessageFor(model => model.Live)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.WarnStart)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.WarnStart)
+            @Html.ValidationMessageFor(model => model.WarnStart)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RaisedHours)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RaisedHours)
+            @Html.ValidationMessageFor(model => model.RaisedHours)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EventStart)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.EventStart)
+            @Html.ValidationMessageFor(model => model.EventStart)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Message)
+        </div>
+        <div class="editor-field-long" id="jhtml">
+            @Html.TextAreaFor(model => model.Message, new { @id = "long-description", @class = "form-control", @style = "width:50%", @rows = "10" })
+            @Html.ValidationMessageFor(model => model.Message)
+
+        </div>
+        <input type="submit" value="Save" />
+    </fieldset>
+    <style>
+        #jhtml body {
+            border: 5px solid #f00;
+        }
+    </style>
+}
+

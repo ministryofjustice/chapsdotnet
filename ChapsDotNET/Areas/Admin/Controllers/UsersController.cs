@@ -67,6 +67,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 return RedirectToAction("Edit", "Users", new { userId = result.userId, warning=result.warning });
             }
         }
+
         [Route("Admin/Users/Edit/{userId:int}")]
         public async Task<IActionResult> Edit(int userId, string? warning ="")
         {
@@ -78,7 +79,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 Email = user.Email,
                 RoleStrength = user.RoleStrength,
                 TeamId= user.TeamId,
-                warning = warning
+                Warning = warning
             };
 
             var roles = await _rolecomponent.GetRolesAsync(new RoleRequestModel
