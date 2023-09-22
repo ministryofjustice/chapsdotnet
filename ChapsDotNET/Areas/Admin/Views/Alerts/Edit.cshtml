@@ -31,7 +31,7 @@
         @Html.HiddenFor(model => model.AlertID)
 
         <div class="editor-label">
-            <label for="Detail">Live</label>
+            @Html.LabelFor(model => model.Live)
         </div>
         <div class="editor-field">
             @Html.CheckBoxFor(model => model.Live)
@@ -72,6 +72,7 @@
         </div>
         <input type="submit" value="Save" />
     </fieldset>
+
     <style>
         #jhtml body {
             border: 5px solid #f00;
