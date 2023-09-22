@@ -19,37 +19,36 @@
 {
     @Html.ValidationSummary(true)
 
-    <fieldset class="form-fieldset">
-        <legend>
-            <h1>@ViewBag.Title</h1>
-        </legend>
+<fieldset class="form-fieldset">
+    <legend>
+        <h1>@ViewBag.Title</h1>
+    </legend>
 
-        <div class="editor-label">
-            <label for="Date">Date</label>
-        </div>
-
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Date, "{0:yyyy-MM-dd}", new
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Date)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Date, "{0:yyyy-MM-dd}", new
+        {
+            htmlAttributes = new
             {
-                htmlAttributes = new
-                {
-                    @class = "future-date",
-                    @type = "date",
-                    @value = DateTime.Now.AddDays(1).ToShortDateString()
-                }
-            })
-            @Html.ValidationMessageFor(model => model.Date)
-        </div>
+                @class = "future-date",
+                @type = "date",
+                @value = DateTime.Now.AddDays(1).ToShortDateString()
+            }
+        })
+        @Html.ValidationMessageFor(model => model.Date)
+    </div>
 
-        <div class="editor-label">
-            <label for="Description">Detail</label>
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Description)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Description)
+        @Html.ValidationMessageFor(model => model.Description)
+    </div>
 
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Description)
-            @Html.ValidationMessageFor(model => model.Description)
-        </div>
-
-        <input class="button" type="submit" value="Create" />
-    </fieldset>
+    <input class="createButton" type="submit" value="Create" />
+    <button class="cancel-button" type="button" onclick="location.href='/Admin/PublicHolidays/';">Cancel</button>
+</fieldset>
 }

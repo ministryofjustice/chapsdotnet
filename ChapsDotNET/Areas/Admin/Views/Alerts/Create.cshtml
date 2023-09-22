@@ -8,43 +8,7 @@
     <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-timepicker-addon.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/Scripts/jHtmlArea-0.8.min.js")" charset="utf-8"></script>
     <link href="@Url.Content("~/Content/jHtmlArea.css")" rel="stylesheet" type="text/css" />
-    <style type="text/css">
-
-        div.jHtmlArea .ToolBar ul li a.custom_disk_button {
-            background: url(images/disk.png) no-repeat;
-            background-position: 0 0;
-        }
-
-        div.jHtmlArea {
-            border: none
-        }
-
-        #Message {
-            width: 600px;
-            height: 200px;
-        }
-    </style>
-
-    <script type="text/javascript">// You can do this to perform a global override of any of the "default" options
-        // jHtmlArea.fn.defaultOptions.css = "jHtmlArea.Editor.css";
-
-        $(function () {
-
-            $("#Message").htmlarea({
-                // Override/Specify the Toolbar buttons to show
-                toolbar: [
-                    ["bold", "italic", "underline"],
-                    ["h1", "h2"], ["orderedlist", "unorderedlist"]
-                ],
-
-                // Do something once the editor has finished loading
-                loaded: function () {
-                    //// 'this' is equal to the jHtmlArea object
-                    //alert("jHtmlArea has loaded!");
-                    //this.showHTMLView(); // show the HTML view once the editor has finished loading
-                }
-            });
-        });</script>
+    
 }
 <div class="breadcrumbs">
     <h6>
@@ -67,7 +31,7 @@
         </legend>
 
         <div class="editor-label">
-            <label for="Detail">Warn Start</label>
+            @Html.LabelFor(model => model.WarnStart)
         </div>
 
         <div class="editor-field">
@@ -76,7 +40,7 @@
         </div>
 
         <div class="editor-label">
-            <label for="Detail">Raised Hours</label>
+            @Html.LabelFor(model => model.RaisedHours)
         </div>
 
         <div class="editor-field">
@@ -85,22 +49,26 @@
         </div>
 
         <div class="editor-label">
-            <label for="Detail">Event Start</label>
+            @Html.LabelFor(model => model.EventStart)
         </div>
-
         <div class="editor-field">
             @Html.EditorFor(model => model.EventStart)
             @Html.ValidationMessageFor(model => model.EventStart)
         </div>
 
         <div class="editor-label">
-            <label for="Detail">Message</label>
+            @Html.LabelFor(model => model.Message)
         </div>
-
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Message)
+        <div class="editor-field-long" id="jhtml">
+            @Html.TextAreaFor(model => model.Message, new { @id = "long-description", @class = "form-control", @style = "width:50%", @rows = "10" })
             @Html.ValidationMessageFor(model => model.Message)
         </div>
         <input class="button" type="submit" value="Create" />
     </fieldset>
+
+    <style>
+        #jhtml body {
+            border: 5px solid #f00;
+        }
+    </style>
 }

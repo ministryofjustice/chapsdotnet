@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Security;
 using ChapsDotNET.Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,6 +11,7 @@ namespace ChapsDotNET.Models
         [Key]
         public int MPId { get; set; }
 
+        [DisplayName("Salutation")]
         public int? SalutationId { get; set; }
         public Salutation Salutation { get; set; } = default!;
 
@@ -28,7 +30,7 @@ namespace ChapsDotNET.Models
         [MaxLength(100)]
         public string? AddressLine3 { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(100), DisplayName("Town/City")]
         public string? Town { get; set; }
 
         [MaxLength(100)]
