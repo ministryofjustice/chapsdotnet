@@ -20,6 +20,8 @@ namespace ChapsDotNET.Models
 		[Required, MaxLength(200)]
 		public string? Message { get; set; }
 
-	}
+		public string? WarnStartString { get; set; }
+        public string? EventStartString { get; set; }
+    }
 }
 
