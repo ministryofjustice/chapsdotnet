@@ -19,21 +19,22 @@
 {
     @Html.ValidationSummary(true)
 
-    <fieldset class="form-fieldset">
-        <legend>
-            <h1>@ViewBag.Title</h1>
-        </legend>
+<fieldset class="form-fieldset">
+    <legend>
+        <h1>@ViewBag.Title</h1>
+    </legend>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Detail)
-        </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Detail)
+    </div>
 
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Detail)
-            @Html.ValidationMessageFor(model => model.Detail)
-        </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Detail)
+        @Html.ValidationMessageFor(model => model.Detail)
+    </div>
 
-        <input type="submit" value="Create" />
-    </fieldset>
+    <input type="submit" value="Create" />
+    <button class="cancel-button" type="button" onclick="location.href='/Admin/LeadSubjects/';">Cancel</button>
+</fieldset>
 
 }

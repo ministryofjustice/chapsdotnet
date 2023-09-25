@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Interfaces;
+﻿using System.Globalization;
+using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
@@ -30,21 +31,94 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
 		public ActionResult Create()
 		{
-			var model = new AlertViewModel();
+			var model = new AlertViewModel
+			{
+				WarnStartString = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+				EventStartString = DateTime.Now.ToString("dd/MM/yyyy HH:mm")
+
+			};
 			return View(model);
 		}
 
+		[HttpPost]
+		public async Task<ActionResult> Create(AlertViewModel viewModel)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					DateTime.TryParseExact(viewModel.WarnStartString!,
+					"dd/MM/yyyy HH:mm",
+					CultureInfo.InvariantCulture,
+					DateTimeStyles.None,
+					out DateTime warnStart);
+					viewModel.WarnStart = warnStart;
+
+
+					DateTime.TryParseExact(viewModel.EventStartString!,
+					"dd/MM/yyyy HH:mm",
+					CultureInfo.InvariantCulture,
+					DateTimeStyles.None,
+					out DateTime eventStart);
+					viewModel.EventStart = eventStart;
+				}
+				catch (FormatException)
+				{
+					throw new FormatException("Could not parse Alert time, incorrect format");
+				}
+                await _alertComponent.AddAlertAsync(viewModel.ToModel());
+                return RedirectToAction("Index");
+            }
+			else
+			{
+				return View(viewModel);
+			}
+            
+        }
+		
 		public async Task<IActionResult> Edit(int id)
 		{
 			var model = await _alertComponent.GetAlertAsync(id);
-			return View(model.ToViewModel());
+			var viewModel = model.ToViewModel();
+			viewModel.WarnStartString = viewModel.WarnStart.ToString("dd/MM/yyyy HH:mm");
+            viewModel.EventStartString = viewModel.EventStart.ToString("dd/MM/yyyy HH:mm");
+
+            return View(viewModel);
 		}
 
 		[HttpPost]
 		public async Task<ActionResult> Edit(AlertViewModel viewmodel)
-		{
-			await _alertComponent.UpdateAlertAsync(viewmodel.ToModel());
-			return RedirectToAction("Index");
+        {
+			if (ModelState.IsValid)
+			{
+				try
+				{
+
+					DateTime.TryParseExact(viewmodel.WarnStartString!,
+					"dd/MM/yyyy HH:mm",
+					CultureInfo.InvariantCulture,
+					DateTimeStyles.None,
+					out DateTime warnStart);
+					viewmodel.WarnStart = warnStart;
+
+					DateTime.TryParseExact(viewmodel.EventStartString!,
+					  "dd/MM/yyyy HH:mm",
+					  CultureInfo.InvariantCulture,
+					  DateTimeStyles.None,
+					  out DateTime eventStart);
+					viewmodel.EventStart = eventStart;
+				}
+				catch (FormatException)
+				{
+					throw new FormatException("Could not parse Alert time, incorrect format");
+				}
+				await _alertComponent.UpdateAlertAsync(viewmodel.ToModel());
+				return RedirectToAction("Index");
+			}
+			else
+			{ 
+				return View(viewmodel);
+			}
 		}
 	}
 }

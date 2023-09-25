@@ -110,7 +110,7 @@ namespace ChapsDotNET.Business.Components
 			{
 				Live = model.Live,
 				EventStart = model.EventStart,
-				//RaisedHours = model.RaisedHours,- not sure how this is used yet. Probably not input by the user though
+				RaisedHours = model.RaisedHours,
 				WarnStart = model.WarnStart,
 				Message = model.Message
 			};
