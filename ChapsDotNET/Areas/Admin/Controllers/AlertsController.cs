@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Components;
+using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
@@ -34,6 +35,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 			return View(model);
 		}
 
+		[HttpPost]
+		public async Task<ActionResult> Create(AlertViewModel viewModel)
+		{
+            await _alertComponent.AddAlertAsync(viewModel.ToModel());
+            return RedirectToAction("Index");
+        }
+		
 		public async Task<IActionResult> Edit(int id)
 		{
 			var model = await _alertComponent.GetAlertAsync(id);
