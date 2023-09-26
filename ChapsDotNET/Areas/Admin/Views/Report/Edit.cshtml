@@ -18,7 +18,6 @@
 
 @using (Html.BeginForm(new { @class = "form", @id = "create_report_form" }))
 {
-
     <fieldset class="form-fieldset" , style="margin-left: 50px;">
         <legend>
             <h1>@ViewBag.Title</h1>
@@ -26,34 +25,29 @@
         @Html.HiddenFor(model => model.ReportId)
         @Html.HiddenFor(model => model.Name)
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Description)
-        </div>
-        <div id="jhtml">
-            @Html.TextAreaFor(model => model.Description, new
-            {
-                @id = "short-description",
-                @class = "withCharacterCount form-control",
-                data_limit_input = "" + @Html.DisplayFor(model => model.MaxLengthShort) + "",
-                @style = "width:50%",
-                @rows = "10"
-            })<br />
-            @Html.ValidationMessageFor(model => model.Description)
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Description)
+        <span title="Mandatory field" class="required-star">*</span>
+    </div>
+    <div class="editor-field" id="jhtml">
+        @Html.TextAreaFor(model => model.Description, new
+        {
+            @id = "short-description",
+            @class = "withCharacterCount form-control",
+            data_limit_input = "" + @Html.DisplayFor(model => model.MaxLengthShort) + "",
+            @style = "width:50%",
+            @rows = "10"
+        })<br />
+        @Html.ValidationMessageFor(model => model.Description)
 
-        </div>
-
-        @*<div class="editor-field-short">
-            @Html.TextAreaFor(model => model.Description);
-            @Html.ValidationMessageFor(model => model.Description)
-        </div>*@
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.LongDescription)
-        </div>
-        <div class="editor-field-long">
-            @Html.TextAreaFor(model => model.LongDescription, new { @id = "long-description", @class = "form-control", @style = "width:50%", @rows = "10" })
-            @Html.ValidationMessageFor(model => model.LongDescription)
-        </div>
+    </div>
+    <div class="editor-label">
+        @Html.LabelFor(model => model.LongDescription)
+    </div>
+    <div class="editor-field">
+        @Html.TextAreaFor(model => model.LongDescription, new { @id = "long-description", @class = "form-control", @style = "width:50%", @rows = "10" })
+        @Html.ValidationMessageFor(model => model.LongDescription)
+    </div>
 
         <input class="createButton" type="submit" value="Save" />
         <button class="cancel-button" type="button" onclick="location.href='/Admin/Report/';">Cancel</button>

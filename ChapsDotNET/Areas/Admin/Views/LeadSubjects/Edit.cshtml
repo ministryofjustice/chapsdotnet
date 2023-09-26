@@ -26,6 +26,7 @@
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Detail)
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
 
         <div class="editor-field">
@@ -34,7 +35,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Active)
+            @Html.LabelFor(model => model.Active, new { @class = "non-required-label" })
         </div>
 
         <div class="editor-field">

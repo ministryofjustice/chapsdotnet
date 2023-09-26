@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text.RegularExpressions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
@@ -43,7 +44,19 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<ActionResult> Create(AlertViewModel viewModel)
 		{
-			if (ModelState.IsValid)
+			if(viewModel.Message != null)
+			{
+                var message = viewModel.Message!;
+                string noHtml = Regex.Replace(message, "<.*?>", String.Empty).Trim();
+
+                if (String.IsNullOrWhiteSpace(noHtml))
+                {
+                    ModelState.AddModelError("Message", "Message is required.");
+                }
+            }
+
+
+            if (ModelState.IsValid)
 			{
 				try
 				{
@@ -89,7 +102,15 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 		[HttpPost]
 		public async Task<ActionResult> Edit(AlertViewModel viewmodel)
         {
-			if (ModelState.IsValid)
+            var message = viewmodel.Message!;
+            string noHtml = Regex.Replace(message, "<.*?>", String.Empty).Trim();
+
+            if (String.IsNullOrWhiteSpace(noHtml))
+            {
+                ModelState.AddModelError("Message", "Message is required.");
+            }
+
+            if (ModelState.IsValid)
 			{
 				try
 				{

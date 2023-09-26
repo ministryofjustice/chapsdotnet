@@ -23,9 +23,17 @@
         </legend>
 
         @Html.HiddenFor(model => model.SalutationId)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Active, new { @class="non-required-label"})
+        </div>
 
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Active)
+            @Html.ValidationMessageFor(model => model.Active)
+        </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.Detail)
+            <span alt="Mandatory field" class="required-star">*</span>
         </div>
 
         <div class="editor-field">
@@ -33,14 +41,7 @@
             @Html.ValidationMessageFor(model => model.Detail)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Active)
-        </div>
 
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.Active)
-            @Html.ValidationMessageFor(model => model.Active)
-        </div>
 
         <input class="createButton" type="submit" value="Save" />
         <button class="cancel-button" type="button" onclick="location.href='/Admin/Salutations/';">Cancel</button>

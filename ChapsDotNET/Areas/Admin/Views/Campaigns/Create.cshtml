@@ -25,7 +25,8 @@
     </legend>
 
     <div class="editor-label">
-        <label for="Detail">Name</label>
+        @Html.LabelFor(model => model.Detail)
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
 
     <div class="editor-field">

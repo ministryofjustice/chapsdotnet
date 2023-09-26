@@ -25,7 +25,7 @@
         </legend>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.RtHon)
+            @Html.LabelFor(model => model.RtHon, new { @class = "non-required-label" })
         </div>
         <div class="editor-field">
             @Html.CheckBoxFor(model => model.RtHon)
@@ -33,7 +33,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.SalutationId)
+            @Html.LabelFor(model => model.SalutationId, new { @class = "non-required-label" })
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList, Model.Salutation)
@@ -41,7 +41,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.FirstNames)
+            @Html.LabelFor(model => model.FirstNames, new { @class = "non-required-label" })
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.FirstNames)
@@ -50,6 +50,7 @@
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Surname)
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Surname)
@@ -57,7 +58,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Suffix)
+            @Html.LabelFor(model => model.Suffix, new { @class = "non-required-label" })
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Suffix)
@@ -65,7 +66,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.AddressLine1)
+            @Html.LabelFor(model => model.AddressLine1, new { @class = "non-required-label" })
         </div>
 
         <div class="editor-field">
@@ -74,7 +75,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.AddressLine2)
+            @Html.LabelFor(model => model.AddressLine2, new { @class = "non-required-label" })
         </div>
 
         <div class="editor-field">
@@ -83,7 +84,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.AddressLine3)
+            @Html.LabelFor(model => model.AddressLine3, new { @class = "non-required-label" })
         </div>
 
         <div class="editor-field">
@@ -92,7 +93,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Town)
+            @Html.LabelFor(model => model.Town, new { @class = "non-required-label" })
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Town)
@@ -100,7 +101,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.County)
+            @Html.LabelFor(model => model.County, new { @class = "non-required-label" })
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.County)
@@ -108,7 +109,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Postcode)
+            @Html.LabelFor(model => model.Postcode, new { @class = "non-required-label" })
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Postcode)
@@ -116,7 +117,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Email)
+            @Html.LabelFor(model => model.Email, new { @class = "non-required-label" })
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Email)
