@@ -50,7 +50,7 @@
         @Html.HiddenFor(model => model.AlertID)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Live)
+            @Html.LabelFor(model => model.Live, new { @class="non-required-label"})
         </div>
         <div class="editor-field">
             @Html.CheckBoxFor(model => model.Live)
@@ -59,38 +59,40 @@
 
         <div class="editor-label">
             @Html.LabelFor(model => model.WarnStart)
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
         <div class="editor-field">
             @Html.TextBoxFor(model => model.WarnStartString, new { @class = "datetimepicker" })
             @Html.ValidationMessageFor(model => model.WarnStart)
         </div>
 
+
         <div class="editor-label">
             @Html.LabelFor(model => model.RaisedHours)
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.RaisedHours)
             @Html.ValidationMessageFor(model => model.RaisedHours)
         </div>
+       
 
         <div class="editor-label">
             @Html.LabelFor(model => model.EventStart)
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
         <div class="editor-field">
             @Html.TextBoxFor(model => model.EventStartString, new { @class = "datetimepicker" })
             @Html.ValidationMessageFor(model => model.EventStart)
         </div>
 
-        <div class="editor-row">
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Message)
-            </div>
-            <div class="editor-field-long" id="jhtml">
-                <div style="width: 50%; float: left;">
-                    @Html.TextAreaFor(model => model.Message, new { @id = "long-description", @class = "form-control", @style = "width:100%", @rows = "10" })
-                    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
-                </div>
-            </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Message)
+            <span title="Mandatory field" class="required-star">*</span>
+        </div>
+        <div class="editor-field" id="jhtml">
+            @Html.TextAreaFor(model => model.Message, new { @id = "long-description", @class = "form-control", @style = "width:40%", @rows = "10" })
+            @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
         </div>
         <input type="submit" value="Save" />
         <button class="cancel-button" type="button" onclick="location.href='/Admin/Alerts/';">Cancel</button>
