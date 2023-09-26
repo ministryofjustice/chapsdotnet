@@ -18,5 +18,8 @@ namespace ChapsDotNET.Models
         [Display(Name = "Private Office?")]
         public bool IsPod { get; set; }
         public bool Active { get; set; }
+        public DateTime? deactivated { get; set; }
+        public string? deactivatedBy { get; set; }
+
     }
 }

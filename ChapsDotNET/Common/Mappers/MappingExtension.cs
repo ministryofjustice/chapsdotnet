@@ -167,7 +167,10 @@ namespace ChapsDotNET.Common.Mappers
                 Email = viewModel.Email,
                 IsOgd = viewModel.IsOgd,
                 IsPod = viewModel.IsPod,
-                Name = viewModel.Name
+                Name = viewModel.Name,
+                deactivated = viewModel.deactivated,
+                deactivatedBy = viewModel.deactivatedBy
+              
             };
         }
 
@@ -181,7 +184,10 @@ namespace ChapsDotNET.Common.Mappers
                 Email = model.Email,
                 IsOgd = model.IsOgd,
                 IsPod = model.IsPod,
-                Name = model.Name
+                Name = model.Name,
+                deactivated = model.deactivated,
+                deactivatedBy = model.deactivatedBy
+
             };
         }
 

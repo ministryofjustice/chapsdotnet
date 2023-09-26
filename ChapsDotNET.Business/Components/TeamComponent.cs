@@ -53,6 +53,8 @@ namespace ChapsDotNET.Business.Components
                     Email = x.email,
                     IsOgd = x.isOGD,
                     IsPod = x.isPOD,
+                    deactivated = x.deactivated,
+                    deactivatedBy = x.deactivatedBy
                 }).ToListAsync();
 
             return new PagedResult<List<TeamModel>>
@@ -78,7 +80,10 @@ namespace ChapsDotNET.Business.Components
                     Active = x.active,
                     Email = x.email,
                     IsOgd = x.isOGD,
-                    IsPod = x.isPOD
+                    IsPod = x.isPOD,
+                    deactivated = x.deactivated,
+                    deactivatedBy = x.deactivatedBy
+             
                 }).SingleOrDefaultAsync();
 
             if (team == null)
@@ -133,8 +138,10 @@ namespace ChapsDotNET.Business.Components
             team.email= model.Email;
             team.isOGD = model.IsOgd;
             team.isPOD = model.IsPod;
+            team.deactivated = model.deactivated;
+            team.deactivatedBy = model.deactivatedBy;
 
-            _context.Teams.Update(team);
+            //_context.Teams.Update(team);
             await _context.SaveChangesAsync();
         }
     }
