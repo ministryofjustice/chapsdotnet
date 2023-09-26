@@ -1,0 +1,19 @@
+﻿@model ChapsDotNET.Models.TeamViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.TeamId)
+    @Html.HiddenFor(model => model.Email)
+    @Html.HiddenFor(model => model.Acronym)
+    @Html.HiddenFor(model => model.IsOgd)
+    @Html.HiddenFor(model => model.IsPod)
+    @Html.HiddenFor(model => model.Name)
+    @Html.HiddenFor(model => model.deactivated)
+    @Html.HiddenFor(model => model.deactivatedBy)
+
+
+    <p>Are you sure you want to deactivate team @Model.Name ?</p>
+    <input class="createButton" type="submit" value="Confirm Deactivate" />
+
+}
+
