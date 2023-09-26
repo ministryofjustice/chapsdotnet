@@ -29,6 +29,12 @@
             <th>
                 Active
             </th>
+            <th>
+                Deactivated
+            </th>
+            <th>
+                Deactivated By
+            </th>
         </tr>
     </thead>
     @foreach (var leadSubject in Model.ToList())
@@ -42,6 +48,13 @@
             <td align="center">
                 @Html.DisplayFor(x => leadSubject.Active)
             </td>
+            <td>
+                    @Html.DisplayFor(x => leadSubject.deactivated)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => leadSubject.deactivatedBy)
+            </td>
+
         </tr>
     }
 </table>

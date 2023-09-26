@@ -1,0 +1,15 @@
+﻿@model ChapsDotNET.Models.LeadSubjectViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.LeadSubjectId)
+    @Html.HiddenFor(model => model.Detail)
+    @Html.HiddenFor(model => model.Active)
+    @Html.HiddenFor(model => model.deactivated)
+    @Html.HiddenFor(model => model.deactivatedBy)
+
+
+    <p>Are you sure you want to deactivate lead subject @Model.Detail?</p>
+    <input class="createButton" type="submit" value="Confirm Deactivate" />
+
+}

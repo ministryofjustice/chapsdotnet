@@ -24,7 +24,18 @@
         <h1>@ViewBag.Title</h1>
     </legend>
     @Html.HiddenFor(model => model.TeamId)
-    @Html.HiddenFor(model => model.Active)
+  
+
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Active)
+    </div>
+    <div class="editor-field">
+        @*<span alt="Mandatory field" class="required-star">*</span>*@
+        @Html.EditorFor(model => model.Active)
+        @Html.ValidationMessageFor(model => model.Active)
+    </div>
+
 
     <div class="editor-label">
         @Html.LabelFor(model => model.Acronym)
