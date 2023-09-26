@@ -48,7 +48,9 @@ namespace ChapsDotNET.Business.Components
                 {
                     LeadSubjectId = x.LeadSubjectId,
                     Detail = x.Detail,
-                    Active = x.active
+                    Active = x.active,
+                    deactivated = x.deactivated,
+                    deactivatedBy = x.deactivatedBy
                 }).ToListAsync();
 
             return new PagedResult<List<LeadSubjectModel>>
@@ -70,7 +72,9 @@ namespace ChapsDotNET.Business.Components
                 {
                     LeadSubjectId = x.LeadSubjectId,
                     Detail = x.Detail,
-                    Active = x.active
+                    Active = x.active,
+                    deactivated = x.deactivated,
+                    deactivatedBy = x.deactivatedBy
                 }).SingleOrDefaultAsync();
 
             if (leadSubject == null)
@@ -117,6 +121,8 @@ namespace ChapsDotNET.Business.Components
 
             leadSubject.active = model.Active;
             leadSubject.Detail = model.Detail;
+            leadSubject.deactivated = model.deactivated;
+            leadSubject.deactivatedBy = model.deactivatedBy;
             await _context.SaveChangesAsync();
         }
     }

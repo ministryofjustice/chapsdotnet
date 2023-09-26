@@ -34,6 +34,9 @@ namespace ChapsDotNET.Common.Mappers
                 Detail = viewModel.Detail,
                 Active = viewModel.Active,
                 LeadSubjectId = viewModel.LeadSubjectId,
+                deactivated = viewModel.deactivated,
+                deactivatedBy = viewModel.deactivatedBy
+
             };
         }
 
@@ -44,6 +47,8 @@ namespace ChapsDotNET.Common.Mappers
                 Detail = model.Detail,
                 Active = model.Active,
                 LeadSubjectId = model.LeadSubjectId,
+                deactivated = model.deactivated,
+                deactivatedBy = model.deactivatedBy
             };
         }
 
