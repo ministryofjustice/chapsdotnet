@@ -26,6 +26,7 @@
 
     <div class="editor-label">
         <label for="Detail">Name</label>
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
 
     <div class="editor-field">
@@ -34,6 +35,7 @@
     </div>
     <div class="editor-label">
         <label for="Detail">Display Name</label>
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
 
     <div class="editor-field">
@@ -42,7 +44,7 @@
     </div>
 
     <div class="editor-label">
-        <label for="Detail">Email</label>
+        @Html.LabelFor(model => model.Email, new { @class = "non-required-label" })
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.Email)
@@ -51,6 +53,7 @@
 
     <div class="editor-label">
         <label for="Detail">Role</label>
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
 
     <div class="editor-field">
@@ -59,6 +62,7 @@
     </div>
     <div class="editor-label">
         <label for="Detail">Team</label>
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
     <div class="editor-field">
         @Html.DropDownListFor(model => model.TeamId, Model.TeamList, "Please select an office", new { @class = "required" })

@@ -31,8 +31,8 @@
 
         <div class="editor-label">
             <label for="Detail">Name</label>
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
-
         <div class="editor-field">
             @Html.EditorFor(model => model.Name)
             @Html.ValidationMessageFor(model => model.Name)
@@ -40,30 +40,33 @@
 
         <div class="editor-label">
             @Html.LabelFor(model => model.DisplayName)
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
-
         <div class="editor-field">
             @Html.EditorFor(model => model.DisplayName)
             @Html.ValidationMessageFor(model => model.DisplayName)
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Email)
-        </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email, new { @class = "non-required-label" })
+        </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email)
         </div>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Role)
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
-
         <div class="editor-field">
             @Html.DropDownListFor(model => model.RoleStrength, Model!.RoleList, "Please select a role", new { @class = "required" })
             @Html.ValidationMessageFor(model => model.RoleStrength)
         </div>
+
         <div class="editor-label">
             <label for="Detail">Team</label>
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
         <div class="editor-field">
             @Html.DropDownListFor(model => model.TeamId, Model.TeamList, "Please select an office", new { @class = "required" })

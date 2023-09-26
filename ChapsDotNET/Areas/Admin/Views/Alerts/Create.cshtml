@@ -53,14 +53,17 @@
 
     <div class="editor-label">
         @Html.LabelFor(model => model.WarnStart)
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
     <div class="editor-field">
         @Html.TextBoxFor(model => model.WarnStartString, new { @class = "datetimepicker" })
+       
         @Html.ValidationMessageFor(model => model.WarnStart)
     </div>
 
     <div class="editor-label">
         @Html.LabelFor(model => model.RaisedHours)
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
 
     <div class="editor-field">
@@ -70,14 +73,17 @@
 
     <div class="editor-label">
         @Html.LabelFor(model => model.EventStart)
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
     <div class="editor-field">
         @Html.TextBoxFor(model => model.EventStartString, new { @class = "datetimepicker" })
         @Html.ValidationMessageFor(model => model.EventStart)
     </div>
+
     <div class="editor-row">
         <div class="editor-label">
             @Html.LabelFor(model => model.Message)
+            <span title="Mandatory field" class="required-star">*</span>
         </div>
         <div class="editor-field-long" id="jhtml">
             <div style="width: 50%; float: left;">
@@ -86,6 +92,7 @@
             </div>
         </div>
     </div>
+
     <input class="button" type="submit" value="Create" />
     <button class="cancel-button" type="button" onclick="location.href='/Admin/Alerts/';">Cancel</button>
 </fieldset>

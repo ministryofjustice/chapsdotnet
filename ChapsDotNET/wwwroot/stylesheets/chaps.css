@@ -468,18 +468,17 @@ ul.recordMenu-tabs > li > a {
 /* Styles for editor and display helpers
 ----------------------------------------------------------*/
 
-/*.display-label,
-.editor-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    position: relative;
+.non-required-label {
+    padding-right: 12px;
 }
 
-.editor-field {
-    margin-bottom: 15px;
-}*/
+.editor-field, .editor-row {
+    margin-bottom: 10px;
+}
+
+
 .editor-row {
+    align-items: center;
     clear: both;
     overflow: hidden;
 }
@@ -491,6 +490,7 @@ ul.recordMenu-tabs > li > a {
     text-align:right;
     margin: 0.5em 1em 0 0;
     position: relative;
+    top: -5px;
     float:left;
     display: block;
     clear:both;
@@ -501,11 +501,18 @@ ul.recordMenu-tabs > li > a {
     color: red;
     font-size: 1em;
     padding: 2px;
-    margin: 0px;
-    height: 15px;
+    margin: 10px;
+    height: 35px;
     line-height: normal;
     padding-bottom: 1em;
+    margin-left: 220px;
 }
+
+/*.validation-message {
+    clear: both;
+    color: red;
+    padding-top: 5px;*/ /* adjust as needed */
+/*}*/
 
 .display-field {
     margin-left: 17em;
@@ -672,6 +679,13 @@ span.ok {
     border: none !important;
 }
 
+.required-star {
+    padding-left: 3px;
+    color: Red;
+    height: 14px;
+    font-size: large;
+    vertical-align: top;
+}
 
 dl#reports-list dt {
     margin-bottom: 0.5em;
