@@ -1,0 +1,7 @@
+﻿@model List<ChapsDotNET.Business.Models.AlertModel>
+
+@foreach (var alert in Model)
+{
+    <div class="alert @alert.DisplayClass"><span class="@alert.DisplayClass">@Html.Raw(alert.DisplayMessage)</span></div>
+
+}

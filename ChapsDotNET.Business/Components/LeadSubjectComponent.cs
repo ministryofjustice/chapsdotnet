@@ -37,8 +37,11 @@ namespace ChapsDotNET.Business.Components
             var count = await query.CountAsync();
 
             //Paging query
-            query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
+            if (!request.NoPaging)
+            {
+                query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
                 .Take(request.PageSize);
+            }
 
             var leadSubjectsList = await query
                 .Select(x => new LeadSubjectModel

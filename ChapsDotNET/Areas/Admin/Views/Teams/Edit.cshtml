@@ -24,42 +24,52 @@
         <h1>@ViewBag.Title</h1>
     </legend>
     @Html.HiddenFor(model => model.TeamId)
-    @*@Html.HiddenFor(model => model.Active)*@
+    @Html.HiddenFor(model => model.Active)
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Acronym)
+    </div>
     <div class="editor-field">
-        <label>Team Acronym<span alt="Mandatory field" class="required-star">*</span></label>
+        @*<span alt="Mandatory field" class="required-star">*</span>*@
         @Html.EditorFor(model => model.Acronym)
         @Html.ValidationMessageFor(model => model.Acronym)
     </div>
-    <div class="editor-field">
-        <label>Team<span alt="Mandatory field" class="required-star">*</span></label>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Name)
+    </div>
+    <div class="editor-field required-star">
+        @*<label>Team<span alt="Mandatory field" class="required-star">*</span></label>*@
         @Html.EditorFor(model => model.Name)
         @Html.ValidationMessageFor(model => model.Name)
     </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.IsOgd)
+    </div>
     <div class="editor-field">
-        <label>OGD?</label>
         @Html.EditorFor(model => model.IsOgd)
         @Html.ValidationMessageFor(model => model.IsOgd)
     </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.IsPod)
+    </div>
     <div class="editor-field">
-        <label>Private Office?</label>
         @Html.EditorFor(model => model.IsPod)
         @Html.ValidationMessageFor(model => model.IsPod)
     </div>
+
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Email)
+    </div>
     <div class="editor-field">
-        <label>Email</label>
         @Html.EditorFor(model => model.Email)
         @Html.ValidationMessageFor(model => model.Email)
     </div>
 
-    @*Add deactivate checkbox here*@
-    <div class="editor-field">
-        <label>Active</label>
-        @Html.CheckBoxFor(model => model.Active)
-        @Html.ValidationMessageFor(model => model.Active)
-    </div>
-
-
-    <input type="submit" value="Save" />
+    <input class="createButton" type="submit" value="Save" />
+    <button class="cancel-button" type="button" onclick="location.href='/Admin/Teams/';">Cancel</button>
 </fieldset>
 
 }

@@ -468,7 +468,7 @@ ul.recordMenu-tabs > li > a {
 /* Styles for editor and display helpers
 ----------------------------------------------------------*/
 
-.display-label,
+/*.display-label,
 .editor-label {
     display: block;
     font-weight: bold;
@@ -478,8 +478,34 @@ ul.recordMenu-tabs > li > a {
 
 .editor-field {
     margin-bottom: 15px;
+}*/
+.editor-row {
+    clear: both;
+    overflow: hidden;
 }
 
+.display-label,
+.editor-label {
+    width: 16em;
+    font-weight: bold;
+    text-align:right;
+    margin: 0.5em 1em 0 0;
+    position: relative;
+    float:left;
+    display: block;
+    clear:both;
+}
+
+.editor-field .field-validation-error{
+    display: block;
+    color: red;
+    font-size: 1em;
+    padding: 2px;
+    margin: 0px;
+    height: 15px;
+    line-height: normal;
+    padding-bottom: 1em;
+}
 
 .display-field {
     margin-left: 17em;

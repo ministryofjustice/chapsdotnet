@@ -27,34 +27,30 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.RtHon)
         </div>
-
         <div class="editor-field">
             @Html.CheckBoxFor(model => model.RtHon)
             @Html.ValidationMessageFor(model => model.RtHon)
         </div>
 
-        <label class="editor-label" for="salutationId">
-            Salutation
-        </label>
-
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SalutationId)
+        </div>
         <div class="editor-field">
-            @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList,  Model.Salutation)
+            @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList, Model.Salutation)
             @Html.ValidationMessageFor(model => model.SalutationId)
         </div>
 
-        <label class="editor-label" for="FirstNames">
-            First name
-        </label>
-
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FirstNames)
+        </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.FirstNames)
             @Html.ValidationMessageFor(model => model.FirstNames)
         </div>
 
-        <label class="editor-label" for="Surname">
-            Last name
-        </label>
-
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Surname)
+        </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Surname)
             @Html.ValidationMessageFor(model => model.Surname)
@@ -63,7 +59,6 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Suffix)
         </div>
-
         <div class="editor-field">
             @Html.EditorFor(model => model.Suffix)
             @Html.ValidationMessageFor(model => model.Suffix)
@@ -96,10 +91,9 @@
             @Html.ValidationMessageFor(model => model.AddressLine3)
         </div>
 
-        <label class="editor-label" for="Town">
-            Town or city
-        </label>
-
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Town)
+        </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Town)
             @Html.ValidationMessageFor(model => model.Town)
@@ -108,7 +102,6 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.County)
         </div>
-
         <div class="editor-field">
             @Html.EditorFor(model => model.County)
             @Html.ValidationMessageFor(model => model.County)
@@ -117,7 +110,6 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Postcode)
         </div>
-
         <div class="editor-field">
             @Html.EditorFor(model => model.Postcode)
             @Html.ValidationMessageFor(model => model.Postcode)
@@ -126,12 +118,12 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Email)
         </div>
-
         <div class="editor-field">
             @Html.EditorFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email)
         </div>
 
-        <input class="button" type="submit" value="Create" />
+        <input class="createButton" type="submit" value="Create" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/MPs/';">Cancel</button>
     </fieldset>
 }

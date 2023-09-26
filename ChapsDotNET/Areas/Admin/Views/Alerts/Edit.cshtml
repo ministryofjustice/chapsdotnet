@@ -1,0 +1,105 @@
+﻿@model ChapsDotNET.Models.AlertViewModel
+
+@{
+    ViewData["Title"] = "Edit an existing alert";
+}
+@section head{
+    <link href="@Url.Content("~/stylesheets/tooltip.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/stylesheets/jHtmlArea/jHtmlArea.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/stylesheets/jquery-ui-timepicker-addon.css")" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/lib/jquery-ui-timepicker-addon.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/lib/jHtmlArea-0.8.min.js")" charset="utf-8"></script>
+
+    <script type="text/javascript">console.log($);
+        console.log(jQuery);
+        var jq = $.noConflict();
+        jq(document).ready(function () {
+            jq(".datetimepicker").datetimepicker({
+                controlType: 'slider',
+                dateFormat: 'dd/mm/yy',
+                timeFormat: 'HH:mm',            
+                changeMonth: true,
+                changeYear: true,
+
+            });
+        });</script>
+}
+
+
+<div class="breadcrumbs">
+    <h6>
+        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Administration", "Index", "Admin")
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Alerts", "Index", "Alerts")
+        > Edit
+    </h6>
+</div>
+
+@using (Html.BeginForm(new { @class = "form", @id = "create_report_form" }))
+{
+    <fieldset class="form-fieldset" , style="margin-left: 50px;">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+
+        @Html.HiddenFor(model => model.AlertID)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Live)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.Live)
+            @Html.ValidationMessageFor(model => model.Live)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.WarnStart)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.WarnStartString, new { @class = "datetimepicker" })
+            @Html.ValidationMessageFor(model => model.WarnStart)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RaisedHours)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RaisedHours)
+            @Html.ValidationMessageFor(model => model.RaisedHours)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EventStart)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.EventStartString, new { @class = "datetimepicker" })
+            @Html.ValidationMessageFor(model => model.EventStart)
+        </div>
+
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Message)
+            </div>
+            <div class="editor-field-long" id="jhtml">
+                <div style="width: 50%; float: left;">
+                    @Html.TextAreaFor(model => model.Message, new { @id = "long-description", @class = "form-control", @style = "width:100%", @rows = "10" })
+                    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="Save" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/Alerts/';">Cancel</button>
+    </fieldset>
+
+    <style>
+        #jhtml body {
+            border: 5px solid #f00;
+        }
+    </style>
+}
+

@@ -52,7 +52,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<ActionResult> Edit(CampaignViewModel viewModel)
         {
             await _campaignComponent.UpdateCampaignAsync(viewModel.ToModel());
-            return RedirectToAction("index");
+            return RedirectToAction("Index");
         }
     }
 }

@@ -29,7 +29,6 @@
         <div class="editor-label">
             @Html.LabelFor(model => model.Description)
         </div>
-
         <div id="jhtml">
             @Html.TextAreaFor(model => model.Description, new
             {
@@ -40,24 +39,24 @@
                 @rows = "10"
             })<br />
             @Html.ValidationMessageFor(model => model.Description)
-            
+
         </div>
 
         @*<div class="editor-field-short">
-                @Html.TextAreaFor(model => model.Description);
-                @Html.ValidationMessageFor(model => model.Description)
-            </div>*@
+            @Html.TextAreaFor(model => model.Description);
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>*@
 
         <div class="editor-label">
             @Html.LabelFor(model => model.LongDescription)
         </div>
-
         <div class="editor-field-long">
             @Html.TextAreaFor(model => model.LongDescription, new { @id = "long-description", @class = "form-control", @style = "width:50%", @rows = "10" })
             @Html.ValidationMessageFor(model => model.LongDescription)
         </div>
 
-        <input type="submit" value="Save" />
+        <input class="createButton" type="submit" value="Save" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/Report/';">Cancel</button>
     </fieldset>
     <style>
         #jhtml body {

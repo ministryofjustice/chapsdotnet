@@ -1,0 +1,85 @@
+﻿@model List<ChapsDotNET.Business.Models.AlertModel>
+
+@{
+    ViewData["Title"] = "Alerts administration";
+}
+
+<div class="breadcrumbs">
+    <h6>
+        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        &nbsp;>&nbsp;
+        @Html.ActionLink("Administration", "Index", "Admin")
+        > Alerts
+    </h6>
+
+</div>
+
+<h1>Alerts</h1>
+
+<div class="actionLinks">
+    @Html.ActionLink("Create new Alert", "Create", "Alerts")
+</div>
+
+<table>
+    <caption class="caption">Existing Alerts</caption>
+    <thead>
+        <tr>
+            <th>
+                Alert ID
+            </th>
+            <th>
+                Live
+            </th>
+            <th>
+                Event Start
+            </th>
+            <th>
+                Raised Hours
+            </th>
+            <th>
+                Warn Start
+            </th>
+            <th>
+                Message
+            </th>
+            <th>
+                Display Message
+            </th>
+            <th>
+                Display Class
+            </th>
+        </tr>
+    </thead>
+    @foreach (var alert in Model.ToList())
+    {
+        <tr>
+            <td>
+                <a href="/Admin/Alerts/Edit/@alert.AlertID">
+                    @Html.DisplayFor(x => alert.AlertID)
+                </a>
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => alert.Live)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => alert.EventStart)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => alert.RaisedHours)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => alert.WarnStart)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => alert.Message)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => alert.DisplayMessage)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(x => alert.DisplayClass)
+            </td>
+
+        </tr>
+    }
+</table>

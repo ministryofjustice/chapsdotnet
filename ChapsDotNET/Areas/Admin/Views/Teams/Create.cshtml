@@ -24,33 +24,48 @@
         <legend>
             <h1>@ViewBag.Title</h1>
         </legend>
-        <div class="editor-field">
-            <label>Team Acronym<span alt="Mandatory field" class="required-star">*</span></label>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Acronym)
+        </div>
+        <div>
             @Html.EditorFor(model => model.Acronym)
             @Html.ValidationMessageFor(model => model.Acronym)
         </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
         <div class="editor-field">
-            <label>Team<span alt="Mandatory field" class="required-star">*</span></label>
             @Html.EditorFor(model => model.Name)
             @Html.ValidationMessageFor(model => model.Name)
         </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsOgd)
+        </div>
         <div class="editor-field">
-            <label>OGD?</label>
             @Html.EditorFor(model => model.IsOgd)
             @Html.ValidationMessageFor(model => model.IsOgd)
         </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsPod)
+        </div>
         <div class="editor-field">
-            <label>Private Office?</label>
             @Html.EditorFor(model => model.IsPod)
             @Html.ValidationMessageFor(model => model.IsPod)
         </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
         <div class="editor-field">
-            <label>Email</label>
             @Html.EditorFor(model => model.Email)
             @Html.ValidationMessageFor(model => model.Email)
         </div>
 
-        <input type="submit" value="Create" />
+        <input class="createButton" type="submit" value="Create" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/Teams/';">Cancel</button>
     </fieldset>
 
 }

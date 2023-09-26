@@ -42,7 +42,8 @@
             @Html.ValidationMessageFor(model => model.Active)
         </div>
 
-        <input type="submit" value="Save" />
+        <input class="createButton" type="submit" value="Save" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/Salutations/';">Cancel</button>
     </fieldset>
 }
 

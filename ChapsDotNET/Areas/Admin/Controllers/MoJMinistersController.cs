@@ -21,6 +21,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             var pagedResult = await _mojMinisterComponent.GetMoJMinistersAsync(new MoJMinisterRequestModel
                 {
+                    ShowActiveAndInactive = true,
                     NoPaging = true
                 }
             );

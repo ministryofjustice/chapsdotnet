@@ -240,5 +240,32 @@ namespace ChapsDotNET.Common.Mappers
             };
         }
 
+        public static AlertModel ToModel(this AlertViewModel model)
+        {
+            return new AlertModel
+            {
+                AlertID = model.AlertID,
+                Live = model.Live,
+                EventStart = model.EventStart,
+                RaisedHours = model.RaisedHours,
+                WarnStart = model.WarnStart,
+                Message = model.Message
+
+            };
+        }
+
+        public static AlertViewModel ToViewModel(this AlertModel model)
+        {
+            return new AlertViewModel
+            {
+                AlertID = model.AlertID,
+                Live = model.Live,
+                EventStart = model.EventStart,
+                RaisedHours = model.RaisedHours,
+                WarnStart = model.WarnStart,
+                Message = model.Message
+            };
+        }
+
     }
 }
