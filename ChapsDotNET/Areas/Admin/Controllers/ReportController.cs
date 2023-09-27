@@ -34,6 +34,14 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(ReportViewModel viewModel)
         {
+            var description = viewModel.Description!;
+            string noHtml = Regex.Replace(description, "<.*?>", String.Empty).Trim();
+
+            if (String.IsNullOrWhiteSpace(noHtml))
+            {
+                ModelState.AddModelError("Description", "Description is required.");
+            }
+
             if (ModelState.IsValid)
             {
                 await _reportComponent.UpdateReportAsync(viewModel.ToModel());

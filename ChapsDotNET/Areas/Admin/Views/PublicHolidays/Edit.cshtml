@@ -27,6 +27,7 @@
 
     <div class="editor-label">
         @Html.LabelFor(model => model.Date)
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
 
     <div class="editor-field">
@@ -36,11 +37,13 @@
                 @type = "date",
                 @value = ""
             })
+        <div style="clear: both;"></div>
         @Html.ValidationMessageFor(model => model.Date)
     </div>
 
     <div class="editor-label">
         @Html.LabelFor(model => model.Description)
+        <span title="Mandatory field" class="required-star">*</span>
     </div>
 
     <div class="editor-field">

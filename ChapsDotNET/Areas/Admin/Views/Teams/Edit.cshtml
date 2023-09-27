@@ -28,10 +28,9 @@
 
 
     <div class="editor-label">
-        @Html.LabelFor(model => model.Active)
+        @Html.LabelFor(model => model.Active, new { @class = "non-required-label" })
     </div>
     <div class="editor-field">
-        @*<span alt="Mandatory field" class="required-star">*</span>*@
         @Html.EditorFor(model => model.Active)
         @Html.ValidationMessageFor(model => model.Active)
     </div>
@@ -39,24 +38,25 @@
 
     <div class="editor-label">
         @Html.LabelFor(model => model.Acronym)
+        <span alt="Mandatory field" class="required-star">*</span>
     </div>
     <div class="editor-field">
-        @*<span alt="Mandatory field" class="required-star">*</span>*@
         @Html.EditorFor(model => model.Acronym)
         @Html.ValidationMessageFor(model => model.Acronym)
     </div>
 
     <div class="editor-label">
         @Html.LabelFor(model => model.Name)
+        <span alt="Mandatory field" class="required-star">*</span>
     </div>
-    <div class="editor-field required-star">
-        @*<label>Team<span alt="Mandatory field" class="required-star">*</span></label>*@
+    <div class="editor-field">
         @Html.EditorFor(model => model.Name)
         @Html.ValidationMessageFor(model => model.Name)
     </div>
 
     <div class="editor-label">
-        @Html.LabelFor(model => model.IsOgd)
+        @Html.LabelFor(model => model.IsOgd, new { @class = "non-required-label" })
+
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.IsOgd)
@@ -64,7 +64,7 @@
     </div>
 
     <div class="editor-label">
-        @Html.LabelFor(model => model.IsPod)
+        @Html.LabelFor(model => model.IsPod, new { @class = "non-required-label" })
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.IsPod)
@@ -72,7 +72,7 @@
     </div>
 
     <div class="editor-label">
-        @Html.LabelFor(model => model.Email)
+        @Html.LabelFor(model => model.Email, new { @class = "non-required-label" })
     </div>
     <div class="editor-field">
         @Html.EditorFor(model => model.Email)

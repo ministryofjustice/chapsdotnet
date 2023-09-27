@@ -16,8 +16,8 @@ namespace ChapsDotNET.Models
         public int MaxLengthShort { get; set; } = 200;
         public int MaxLengthLong { get; set; } = 1000;
 
-        [MaxLength(200), DataType(DataType.MultilineText), Display(Name="Description")]
-        public string? Description { get; set; }
+        [Required, MaxLength(200), DataType(DataType.MultilineText), Display(Name = "Description")]
+        public string Description { get; set; } = String.Empty;
 
         [MaxLength(1000), DataType(DataType.MultilineText), UIHint("TextAreaWithCountdown"),Display(Name = "Long Description")]
         public string? LongDescription { get; set; }

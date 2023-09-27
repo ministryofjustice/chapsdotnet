@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Exceptions;
+﻿using System.Text.RegularExpressions;
+using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Data.Contexts;
@@ -64,11 +65,10 @@ namespace ChapsDotNET.Business.Components
             {
                 throw new NotFoundException("Report", model.ReportId.ToString());
             }
-
             
             if (string.IsNullOrEmpty(model.Description))
             {
-                throw new ArgumentNullException(model.Description, "cannot be empty");
+                throw new ArgumentNullException(model.Description, "description field cannot be empty");
             }
 
             Report.Description = model.Description;

@@ -490,7 +490,7 @@ ul.recordMenu-tabs > li > a {
     text-align:right;
     margin: 0.5em 1em 0 0;
     position: relative;
-    top: -5px;
+    top: -4px;
     float:left;
     display: block;
     clear:both;
@@ -501,18 +501,18 @@ ul.recordMenu-tabs > li > a {
     color: red;
     font-size: 1em;
     padding: 2px;
-    margin: 10px;
-    height: 35px;
     line-height: normal;
-    padding-bottom: 1em;
     margin-left: 220px;
 }
 
-/*.validation-message {
-    clear: both;
+/*.span #Date-error {
+    display: block;
     color: red;
-    padding-top: 5px;*/ /* adjust as needed */
-/*}*/
+    font-size: 1em;
+    padding: 2px;
+    line-height: normal;
+    margin-left: 220px;
+}*/
 
 .display-field {
     margin-left: 17em;
