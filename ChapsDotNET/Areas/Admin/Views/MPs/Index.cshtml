@@ -1,74 +1,111 @@
-﻿@using ChapsDotNET.Common.Helpers
-
-@model ChapsDotNET.Business.Models.Common.PagedResult<List<ChapsDotNET.Business.Models.MPModel>>
+﻿@using ChapsDotNET.Models
+@model IndexViewModel
 
 @{
     ViewData["Title"] = "Members of Parliament administration";
 }
-
 @section head{
     <link href="@Url.Content("~/stylesheets/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
+    <script defer src="~/javascripts/MPfilter.js"></script>
 }
+<body data-mps-url="@Url.Action("GetFilteredMPs", "MPs")">
+    <script type="text/javascript">
+        var initialPaginationData = {
+            currentPage: @Model.Pagination!.CurrentPage,
+            totalPages: @Model.Pagination!.TotalPages
+        };
+        let currentPage = @Model.Pagination!.CurrentPage;
+        let sortOrder = '@Model.MPs!.sortOrder';
+    </script>
 
-<div class="breadcrumbs">
-    <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-        &nbsp;>&nbsp;
-        @Html.ActionLink("Administration", "Index", "Admin")
-        > MPs
-    </h6>
-</div>
+    @Html.AntiForgeryToken()
+    <div class="breadcrumbs">
+        <h6>
+            @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+            &nbsp;>&nbsp;
+            @Html.ActionLink("Administration", "Index", "Admin")
+            > MPs
+        </h6>
+    </div>
 
-<h1>Members of Parliament (MPs)</h1>
+    <h1>Members of Parliament (MPs)</h1>
 
-<div class="actionLinks">
-    @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
-</div>
+    <div class="actionLinks">
+        @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
+    </div>
 
-<table class="withSort">
-    <caption class="caption">Members of Parliament</caption>
-    <thead>
-        <tr>
-            <th scope="col">
-                Name
-            </th>
-            <th scope="col">
-                Address
-            </th>
-            <th scope="col">
-                Email
-            </th>
-            <th scope="col">
-                Active
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var mp in Model.Results!.ToList())
-        {
+    <table class="withSort">
+        <caption class="caption">Members of Parliament</caption>
+        <colgroup>
+            <col class="nameColumn" />
+            <col class="addressColumn" />
+            <col class="emailColumn" />
+            <col class="activeColumn" />
+        </colgroup>
+        <thead>
             <tr>
-                <td>
-                    <a href="/Admin/MPs/Edit/@mp.MPId">
-                        @Html.DisplayFor(modelItem => mp.DisplayFullName)
-                    </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => mp.DisplaySingleLineAddress)
-                </td>
-                <td>
-                    @if (!string.IsNullOrWhiteSpace(mp.Email))
-                    {
-                        @Html.DisplayFor(x => mp.Email)
-                    }
-                </td>
-                <td align="center">
-                    @Html.DisplayFor(x => mp.Active)
-                </td>
+                <th>
+                    <input type="text" id="nameFilter" placeholder="Filter Name" value="@Model.MPs.nameFilterTerm" />
+                </th>
+                <th>
+                    <input type="text" id="addressFilter" placeholder="Filter Address" />
+                </th>
+                <th>
+                    <input type="text" id="emailFilter" placeholder="Filter Name" />
+                </th>
+                <th>
+                    <input type="checkbox" id="onlyActive" /> Active?
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Email</th>
+                <th scope="col">Active</th>
+            </tr>
+        </thead>
+        <tbody id="mpListContainer">
+            @foreach (var mp in Model.MPs.Results!.ToList())
+            {
+                <tr>
+                    <td>
+                        <a href="/Admin/MPs/Edit/@mp.MPId">
+                            @Html.DisplayFor(modelItem => mp.DisplayFullName)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => mp.DisplaySingleLineAddress)
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(mp.Email))
+                        {
+                            @Html.DisplayFor(x => mp.Email)
+                        }
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(x => mp.Active)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<div class="pagination">
-    @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString() }))
-</div>
+    <div class="pagination">
+        <!-- first and previous buttons-->
+        <a href="#" id="firstButton" class="pageButton-img-first-enabled">First</a>
+        <a href="#" id="prevButton" class="pageButton-img-previous-enabled">Previous</a>
+
+        <!-- Page Numbers Container -->
+        <div id="pageLinksContainer">
+            <!-- This will be filled dynamically by JavaScript -->
+        </div>
+
+        <!-- Display Current Page and Total Pages -->
+        <span>Page </span><span id="currentPageSpan">@Model.Pagination.CurrentPage</span><span> of </span><span id="totalPagesSpan">@Model.Pagination.TotalPages</span>
+
+        <!-- Next and Last buttons -->
+        <a href="#" id="nextButton" class="pageButton-img-next-enabled">Next</a>
+        <a href="#" id="lastButton" class="pageButton-img-last-enabled">Last</a>
+
+    </div>
+</body>

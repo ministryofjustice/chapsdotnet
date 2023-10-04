@@ -2,11 +2,11 @@
 {
     public class MPRequestModel : PagedRequest
     {
-        public bool ShowActiveAndInactive { get; set; } = false;
-        public string nameFilterTerm { get; set; } = String.Empty;
-        public string addressFilterTerm { get; set; } = String.Empty;
-        public string emailFilterTerm { get; set; } = String.Empty;
-        public string? sortOrder { get; set; }
-        public bool activeFilter { get; set; } = true;
+        public bool ShowActiveAndInactive { get; set; }
+        public string? nameFilterTerm { get; set; } 
+        public string? addressFilterTerm { get; set; }
+        public string? emailFilterTerm { get; set; } 
+        public string? sortOrder { get; set; } 
+        public bool activeFilter { get; set; }
     }
 }

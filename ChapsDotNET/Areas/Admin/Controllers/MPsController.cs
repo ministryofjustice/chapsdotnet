@@ -9,6 +9,7 @@ using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Packaging.Signing;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
 {   
@@ -28,7 +29,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel {
                     PageNumber = page,
-                    PageSize = 20,
+                    PageSize = 10,
                     ShowActiveAndInactive = true,
                     nameFilterTerm = nameFilterTerm,
                     addressFilterTerm = addressFilterTerm,
@@ -44,8 +45,59 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     item.DisplayFullName = DisplayFullName(item.MPId).Result;
                 }
             }
-            return View(pagedResult);
+
+            var pagination = new PaginationInfo
+            {
+                CurrentPage = pagedResult.CurrentPage,
+                TotalItems = pagedResult.RowCount,
+                TotalPages = pagedResult.PageCount,
+                ItemsPerPage = pagedResult.PageSize
+            };
+
+            var indexVM = new IndexViewModel
+            {
+                MPs = pagedResult,
+                Pagination = pagination
+            };
+
+            return View(indexVM);
         }
+
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> GetFilteredMPs([FromBody]MPRequestModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var pagedResult = await _mpComponent.GetFilteredMPsAsync(model);
+                var response = new MPsAdminViewModel
+                {
+                    MPs = pagedResult.Results,
+                    Pagination = new PaginationInfo
+                    {
+                        CurrentPage = pagedResult.CurrentPage,
+                        TotalPages = pagedResult.PageCount,
+                        TotalItems = pagedResult.RowCount,
+                        ItemsPerPage = pagedResult.PageSize
+                    }
+                };
+
+                foreach (var item in pagedResult.Results!)
+                {
+                    if (item != null)
+                    {
+                        item.DisplayFullName = DisplayFullName(item.MPId).Result;
+                    }
+                }
+                return Json(response);
+            }
+            else
+            {
+                return View("index");
+            }
+        }
+
 
         public async Task<ActionResult> Create()
         {

@@ -50,7 +50,10 @@ namespace ChapsDotNET.Business.Components
             var count = await query.CountAsync();
 
             //Paging query
-            query = query.Skip(((request.PageNumber) - 1) * request.PageSize).Take(request.PageSize);
+            query = query
+                .OrderBy(x => x.Surname)
+                .Skip(((request.PageNumber) - 1) * request.PageSize)
+                .Take(request.PageSize);
 
             var mpsList = await query.Select(x => new MPModel
                 {
@@ -77,6 +80,76 @@ namespace ChapsDotNET.Business.Components
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
                 RowCount = count    
+            };
+        }
+
+        public async Task<PagedResult<List<MPModel>>> GetFilteredMPsAsync(MPRequestModel model)
+        {
+            var query = _context.MPs.AsQueryable();
+
+            //Filters
+            if(!string.IsNullOrEmpty(model.nameFilterTerm))
+            {
+                query = query.Where(x =>
+                x.FirstNames.Contains(model.nameFilterTerm) ||
+                x.Surname.Contains(model.nameFilterTerm));
+            }
+
+            if (!string.IsNullOrEmpty(model.addressFilterTerm))
+            {
+                query = query.Where(x =>
+                x.AddressLine1!.Contains(model.addressFilterTerm) ||
+                x.AddressLine2!.Contains(model.addressFilterTerm) ||
+                x.AddressLine3!.Contains(model.addressFilterTerm) ||
+                x.Town.Contains(model.addressFilterTerm) ||
+                x.County.Contains(model.addressFilterTerm) ||
+                x.Postcode.Contains(model.addressFilterTerm));
+            }
+
+            if (!string.IsNullOrEmpty(model.emailFilterTerm))
+            {
+                query = query.Where(x => x.Email.Contains(model.emailFilterTerm));
+            }
+
+            //query = query.Where(x => x.active == model.activeFilter);
+
+            //Sorting Todo
+
+            //count for pagination
+            int totalCount = await query.CountAsync();
+
+            //apply paging
+            query = query
+                .OrderBy(x => x.Surname)
+                .Skip((model.PageNumber - 1) * model.PageSize)
+                .Take(model.PageSize);
+
+            //project to list
+
+            var mpsList = await query.Select(x => new MPModel
+            {
+                MPId = x.MPID,
+                RtHon = x.RtHon,
+                SalutationId = x.SalutationID,
+                FirstNames = x.FirstNames,
+                Surname = x.Surname,
+                Email = x.Email,
+                Suffix = x.Suffix,
+                AddressLine1 = x.AddressLine1,
+                AddressLine2 = x.AddressLine2,
+                AddressLine3 = x.AddressLine3,
+                Town = x.Town,
+                County = x.County,
+                Postcode = x.Postcode,
+                Active = x.active,
+            }).ToListAsync();
+
+            return new PagedResult<List<MPModel>>
+            {
+                Results = mpsList,
+                CurrentPage = model.PageNumber,
+                PageSize = model.PageSize,
+                RowCount = totalCount
             };
         }
 

@@ -101,4 +101,11 @@
     <Content Remove="wwwroot\lib\i18n\" />
     <Content Remove="wwwroot\lib\flot\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Models\MPsAdminViewModel.cs">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Compile>
+  </ItemGroup>
 </Project>
