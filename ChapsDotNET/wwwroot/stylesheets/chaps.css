@@ -80,6 +80,30 @@ A {
     line-height: 2.5em;
 }
 
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.page-links {
+    display: flex;
+    padding: 0;
+    margin: 0 10px;
+}
+
+.page-links li {
+    margin: 0 5px;
+}
+
+#pageLinksContainer {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
 /* TABLES
 ----------------------------------------------------------*/
 table {

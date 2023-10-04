@@ -1,51 +1,64 @@
 ﻿$(document).ready(function () {
     var model;
     let currentPage = 1
-
+    let totalPages = initialPaginationData.totalPages;
+    var mpsUrl = $('body').data('mps-url');
     updatePaginationControls(initialPaginationData)
 
     $('body').on('input', '#nameFilter', debounce(function () {
-        var mpsUrl = $('body').data('mps-url');
-        model = {
-            PageNumber: currentPage,
-            PageSize: 10,
-            NoPaging: false,
-            ShowActiveAndInactive: !$('#onlyActive').is(':checked'),
-            nameFilterTerm: $('#nameFilter').val(),
-            addressFilterTerm: $('#addressFilter').val(),
-            emailFilterTerm: $('#emailFilter').val(),
-            sortOrder: sortOrder,
-            activeFilter: !$('#onlyActive').is(':checked')
-        }
-        console.log(model.nameFilterTerm);
+        currentPage = 1;
+        model = generateModel(currentPage)
         filterAndSortMps(model, mpsUrl);
-    }, 300));
+    }, 600));
 
 
     // pagination link click event
     $('body').on('click', '.page-link', function (e) {
         e.preventDefault(); //prevents the default link action
         currentPage = parseInt($(this).text());
-        var mpsUrl = $('body').data('mps-url');
-        model = {
-            PageNumber: currentPage,
-            PageSize: 10,
-            NoPaging: false,
-            //ShowActiveAndInactive: $('#onlyActive').is(':checked'),
-            nameFilterTerm: $('#nameFilter').val(),
-            addressFilterTerm: $('#addressFilter').val(),
-            emailFilterTerm: $('#emailFilter').val(),
-            sortOrder: sortOrder,
-            activeFilter: $('#onlyActive').is(':checked')
-        }
+        console.log(currentPage);
+        var model = generateModel(currentPage);
 
-        filterAndSortMps({ ...model, PageNumber: parseInt(pageNumber) }, mpsUrl)
+        filterAndSortMps(model, mpsUrl)
+    })
+
+    //next, previous, first, last buttons
+    $('#nextButton').click(function (e) {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            currentPage += 1;
+        } else { return; }
+
+        var model = generateModel(currentPage);
+        filterAndSortMps(model, mpsUrl)
+    })
+
+    $('#prevButton').click(function (e) {
+        e.preventDefault();
+        if (currentPage > 1) {
+            currentPage -= 1; 
+        } else { return; }
+        var model = generateModel(currentPage);
+        filterAndSortMps(model, mpsUrl);
+    })
+
+    $('#lastButton').click(function (e) {
+        e.preventDefault();
+        currentPage = totalPages;
+        var model = generateModel(currentPage);
+        filterAndSortMps(model, mpsUrl);
+    })
+
+    $('#firstButton').click(function (e) {
+        e.preventDefault();
+        currentPage = 1;
+        var model = generateModel(currentPage);
+        filterAndSortMps(model, mpsUrl);
     })
 });
 
 function filterAndSortMps(model, mpsUrl) {
     var nameFilterValue = $('#nameFilter').val();
-    console.log("name filter: " + nameFilterValue);
     var addressFilterValue = $('#addressFilter').val();
     var emailFilterValue = $('#emailFilter').val();
     var focusedElementId = $(':focus').attr('id');
@@ -57,7 +70,7 @@ function filterAndSortMps(model, mpsUrl) {
         headers: {
             __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
         },
-        contentType: "application/json;in the success:  charset=utf-8",
+        contentType: "application/json; charset=utf-8",
         dataType: 'json',
         success: function (data) {
             console.log(data);
@@ -67,8 +80,10 @@ function filterAndSortMps(model, mpsUrl) {
             $('#addressFilter').val(addressFilterValue);
             $('#emailFilter').val(emailFilterValue);
             $('#' + focusedElementId).focus();
-            updatePaginationControls(data.pagination);
 
+            totalPages = data.pagination.totalPages;
+
+            updatePaginationControls(data.pagination);
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX call failed fetching Mps. Status:", textStatus, "Error: ", errorThrown);
@@ -80,10 +95,7 @@ function filterAndSortMps(model, mpsUrl) {
 }
 
 function updatePaginationControls(paginationInfo) {
-    if (!paginationInfo) {
-        console.error("pagination info not defined!")
-        return;
-    }
+
     // display the current page and total pages
     $('#currentPageSpan').text(paginationInfo.currentPage);
     $('#totalPagesSpan').text(paginationInfo.totalPages)
@@ -126,11 +138,11 @@ function debounce(func, wait) {
 function buildMPHtmlTable(data) {
     let htmlString = "";
     data.mPs.forEach(mp => {
-    let activeCheck = mp.active ? '<input type="checkbox" checked disabled />' : '<input type="checkbox" disabled />';
+        let activeCheck = mp.active ? '<input type="checkbox" checked disabled />' : '<input type="checkbox" disabled />';
         htmlString += `
             <tr>
                 <td>
-                    <a href="/Admin/MPs/Edit/${mp.mPId}">
+                    <a href="/Admin/MPs/Edit/${mp.mpId}">
                         ${mp.displayFullName}
                     </a>
                 </td>
@@ -148,4 +160,18 @@ function buildMPHtmlTable(data) {
     });
 
     return htmlString;
+}
+
+function generateModel(pageNumber) {
+    return {
+        PageNumber: pageNumber,
+        PageSize: 10,
+        NoPaging: false,
+        ShowActiveAndInactive: !$('#onlyActive').is(':checked'),
+        nameFilterTerm: $('#nameFilter').val(),
+        addressFilterTerm: $('#addressFilter').val(),
+        emailFilterTerm: $('#emailFilter').val(),
+        sortOrder: sortOrder,
+        activeFilter: !$('#onlyActive').is(':checked')
+    }
 }
