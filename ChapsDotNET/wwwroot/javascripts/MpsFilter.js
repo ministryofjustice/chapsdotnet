@@ -1,5 +1,4 @@
-﻿'use strict';
-var totalPages;
+﻿var totalPages;
 var mpsUrl;
 
 $(document).ready(function () {
@@ -16,7 +15,7 @@ $(document).ready(function () {
 
 
     // pagination link click event
-    $('body').on('click', '.mpPageButton', function (e) {
+    $('body').on('click', '.page-link', function (e) {
         e.preventDefault(); //prevents the default link action
         currentPage = parseInt($(this).text());
         console.log(currentPage);
@@ -38,7 +37,7 @@ function filterAndSortMps(model, mpsUrl) {
     var addressFilterValue = $('#addressFilter').val();
     var emailFilterValue = $('#emailFilter').val();
     var focusedElementId = $(':focus').attr('id');
-    //console.log(model);
+    console.log(model);
     $.ajax({
         type: 'POST',
         url: mpsUrl,
@@ -49,7 +48,7 @@ function filterAndSortMps(model, mpsUrl) {
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         success: function (data) {
-            //console.log(data);
+            console.log(data);
             let html = buildMPHtmlTable(data);
             $("#mpListContainer").html(html);
             $('#nameFilter').val(nameFilterValue);
@@ -78,40 +77,48 @@ function updatePaginationControls(paginationInfo) {
 
     if (paginationInfo.currentPage >= paginationInfo.totalPages) {
         $("#nextButton")
+            .off('click')
             .addClass('pageButton-img-next-disabled')
             .removeClass('pageButton-img-next-enabled')
     } else {
         $("#nextButton")
+            .on('click', handleNextButtonClick)
             .addClass('pageButton-img-next-enabled')
             .removeClass('pageButton-img-next-disabled')
     }
 
     if (paginationInfo.currentPage <= 1) {
         $("#prevButton")
+            .off('click')
             .addClass('pageButton-img-previous-disabled')
             .removeClass('pageButton-img-previous-enabled');
     } else {
         $("#prevButton")
+            .on('click', handlePrevButtonClick)
             .addClass('pageButton-img-previous-enabled')
             .removeClass('pageButton-img-previous-disabled');
     }
 
     if (paginationInfo.currentPage === paginationInfo.totalPages) {
         $("#lastButton")
+            .off('click')
             .addClass('pageButton-img-last-disabled')
             .removeClass('pageButton-img-last-enabled')
     } else {
         $("#lastButton")
+            .on('click', handleLastButtonClick)
             .addClass('pageButton-img-last-enabled')
             .removeClass('pageButton-img-last-disabled')
     }
 
     if (paginationInfo.currentPage === 1) {
         $("#firstButton")
+            .off('click')
             .addClass('pageButton-img-first-disabled')
             .removeClass('pageButton-img-first-enabled')
     } else {
         $("#firstButton")
+            .on('click', handleFirstButtonClick)
             .addClass('pageButton-img-first-enabled')
             .removeClass('pageButton-img-first-disabled')
     }
@@ -126,10 +133,10 @@ function updatePaginationControls(paginationInfo) {
     let pageLinksHtml = '';
     for (let i = 1; i <= paginationInfo.totalPages; i++) {
         if (i === paginationInfo.currentPage) {
-            pageLinksHtml += `<span class="mpPageButton pagenumber-disabled">${i}</span>`;
+            pageLinksHtml += `<span class="current-page">${i}</span> `;
         } else {
             const url = `/GetFilteredMPs?page=${i}`;
-            pageLinksHtml += `<a href="${url}" class="mpPageButton">${i}</a>`
+            pageLinksHtml += `<a href="${url}" class="page-link">${i}</a> `
         }
     }
 
@@ -193,23 +200,16 @@ function generateModel(pageNumber) {
 }
 
 function handleNextButtonClick(e) {
-    console.log("Next button clicked!");
-    e.preventDefault
-    if ($("#nextButton").hasClass('page-button-img-next-disabled')) {
-        return;
-    }
+    e.preventDefault();
     if (currentPage < totalPages) {
         currentPage += 1;
     } else { return; }
+
     var model = generateModel(currentPage);
     filterAndSortMps(model, mpsUrl)
 }
 
 function handlePrevButtonClick(e) {
-    console.log("Previous button clicked!");
-    if ($("#nextButton").hasClass('page-button-img-previous-disabled')) {
-        return;
-    }
     e.preventDefault();
     if (currentPage > 1) {
         currentPage -= 1;
@@ -219,10 +219,6 @@ function handlePrevButtonClick(e) {
 }
 
 function handleLastButtonClick(e) {
-    console.log("Last button clicked!");
-    if ($("#nextButton").hasClass('page-button-img-last-disabled')) {
-        return;
-    }
     e.preventDefault();
     currentPage = totalPages;
     var model = generateModel(currentPage);
@@ -230,10 +226,6 @@ function handleLastButtonClick(e) {
 }
 
 function handleFirstButtonClick(e) {
-    console.log("First button clicked!");
-    if ($("#nextButton").hasClass('page-button-img-first-disabled')) {
-        return;
-    }
     e.preventDefault();
     currentPage = 1;
     var model = generateModel(currentPage);

@@ -91,21 +91,28 @@
     </table>
 
     <div class="pagination">
-        <!-- first and previous buttons-->
-        <a href="#" id="firstButton" class="pageButton-img-first-enabled"></a>
-        <a href="#" id="prevButton" class="pageButton-img-previous-enabled"></a>
-
-        <!-- Page Numbers Container -->
-        <div id="pageLinksContainer">
-            <!-- This will be filled dynamically by JavaScript -->
+        <div class="pagination-page-text">
+            <span> Page </span>
+            <span id="currentPageSpan">@Model.Pagination.CurrentPage</span>
+            <span> of </span>
+            <span id="totalPagesSpan">@Model.Pagination.TotalPages</span>
         </div>
 
-        <!-- Display Current Page and Total Pages -->
-        <span>Page </span><span id="currentPageSpan">@Model.Pagination.CurrentPage</span><span> of </span><span id="totalPagesSpan">@Model.Pagination.TotalPages</span>
 
-        <!-- Next and Last buttons -->
-        <a href="#" id="nextButton" class="pageButton-img-next-enabled"></a>
-        <a href="#" id="lastButton" class="pageButton-img-last-enabled"></a>
+        <div class="buttons-page-links">
+            <!-- first, previous buttons and page links-->
+            <a href="#" id="firstButton" class="pageButton-img-first-enabled"></a>
+            <a href="#" id="prevButton" class="pageButton-img-previous-enabled"></a>
+
+            <!-- Page Numbers Container -->
+            <div id="pageLinksContainer">
+                <!-- This will be filled dynamically by JavaScript -->
+            </div>
+
+            <!--Page text,  Next and Last buttons  -->
+            <a href="#" id="nextButton" class="pageButton-img-next-enabled"></a>
+            <a href="#" id="lastButton" class="pageButton-img-last-enabled"></a>
+        </div>
 
     </div>
 </body>
