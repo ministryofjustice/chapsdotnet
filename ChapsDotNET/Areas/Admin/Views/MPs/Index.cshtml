@@ -45,22 +45,41 @@
         <thead>
             <tr>
                 <th>
-                    <input type="text" id="nameFilter" placeholder="Filter Name" value="@Model.MPs.nameFilterTerm" />
+                    <input type="text" id="nameFilter" placeholder="Filter name" value="@Model.MPs.nameFilterTerm" />
                 </th>
                 <th>
-                    <input type="text" id="addressFilter" placeholder="Filter Address" />
+                    <input type="text" id="addressFilter" placeholder="Filter address" />
                 </th>
                 <th>
-                    <input type="text" id="emailFilter" placeholder="Filter Name" />
+                    <input type="text" id="emailFilter" placeholder="Filter email" />
                 </th>
                 <th>
-                    <input type="checkbox" id="onlyActive" /> Active?
+                    <input type="checkbox" id="onlyActive" />Active only?
                 </th>
             </tr>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Email</th>
+                <th colspan="4">
+                    <button id="clearFilters">Clear Filters</button>
+                </th>
+            </tr>
+            <tr>
+                <th scope="col">
+                    <a href="#" class="sortable" data-sort="name">Name
+                        <img src="/images/bullet_arrow_up.png" class="sort-button" />
+                    </a>
+                </th>
+                <th scope="col">
+                    <a href="#" class="sortable" data-sort="address">Address
+                        <img src="/images/bullet_arrow_up.png" class="sort-button" />
+                    </a>
+                    <span class="sortable" data-sort="address"></span>
+                </th>
+                <th scope="col">
+                    <a href="#" class="sortable" data-sort="email">
+                        Email
+                        <img src="/images/bullet_arrow_up.png" class="sort-button" />
+                    </a>
+                </th>
                 <th scope="col">Active</th>
             </tr>
         </thead>
@@ -89,6 +108,7 @@
             }
         </tbody>
     </table>
+
 
     <div class="pagination">
         <div class="pagination-page-text">

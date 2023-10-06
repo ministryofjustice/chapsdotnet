@@ -936,3 +936,15 @@ pageButton:hover {
     gap: 5px;
     flex-wrap: wrap;
 }
+
+.sort-button:hover {
+    color: Green !important;
+}
+
+.sort-button {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
+}

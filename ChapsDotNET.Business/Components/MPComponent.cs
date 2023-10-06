@@ -2,6 +2,7 @@
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,7 @@ using System.Net.NetworkInformation;
 using System.Reflection.Emit;
 using System.Text;
 using System.Xml.Linq;
+using System.Xml.XPath;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
@@ -34,7 +36,6 @@ namespace ChapsDotNET.Business.Components
         /// </summary>
         /// <param name="request"></param>
         /// <returns>A list of MP Models</returns>
-
         public async Task<PagedResult<List<MPModel>>> GetMPsAsync(MPRequestModel request)
         {
             var query = _context.MPs.AsQueryable();
@@ -83,15 +84,19 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
+        /// <summary>
+        /// This method by default returns a list of MPs filtered by terms entered
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>A list of MP Models</returns>
         public async Task<PagedResult<List<MPModel>>> GetFilteredMPsAsync(MPRequestModel model)
         {
             var query = _context.MPs.AsQueryable();
 
-            //Filters
             if(!string.IsNullOrEmpty(model.nameFilterTerm))
             {
                 query = query.Where(x =>
-                x.FirstNames.Contains(model.nameFilterTerm) ||
+                x.FirstNames != null && x.FirstNames.Contains(model.nameFilterTerm) ||
                 x.Surname.Contains(model.nameFilterTerm));
             }
 
@@ -101,31 +106,56 @@ namespace ChapsDotNET.Business.Components
                 x.AddressLine1!.Contains(model.addressFilterTerm) ||
                 x.AddressLine2!.Contains(model.addressFilterTerm) ||
                 x.AddressLine3!.Contains(model.addressFilterTerm) ||
-                x.Town.Contains(model.addressFilterTerm) ||
-                x.County.Contains(model.addressFilterTerm) ||
-                x.Postcode.Contains(model.addressFilterTerm));
+                x.Town != null && x.Town.Contains(model.addressFilterTerm) ||
+                x.County != null && x.County.Contains(model.addressFilterTerm) ||
+                x.Postcode != null && x.Postcode.Contains(model.addressFilterTerm));
             }
 
             if (!string.IsNullOrEmpty(model.emailFilterTerm))
             {
-                query = query.Where(x => x.Email.Contains(model.emailFilterTerm));
+                query = query.Where(x => x.Email != null && x.Email.Contains(model.emailFilterTerm));
             }
 
-            //query = query.Where(x => x.active == model.activeFilter);
+            if (!model.ShowActiveAndInactive)
+            {
+                query = query.Where(x => x.active == true);
+            }
 
-            //Sorting Todo
+            //Sorting
+            if(model.SortColumn =="name" && model.sortOrder == "asc")
+            {
+                query = query.OrderBy(x => x.Surname);
+            }
+            else if (model.SortColumn == "name" && model.sortOrder == "desc")
+            {
+                query = query.OrderByDescending(x => x.Surname);
+            }
+            else if(model.SortColumn == "address" && model.sortOrder == "asc")
+            {
+                query = query.OrderBy(x => x.AddressLine1);
+            }
+            else if(model.SortColumn == "address" && model.sortOrder == "desc")
+            {
+                query = query.OrderByDescending(x => x.AddressLine1);
+            }
+            else if(model.SortColumn == "email" && model.sortOrder == "asc")
+            {
+                query = query.OrderBy(x => x.Email);
+            }
+            else if(model.SortColumn == "email" && model.sortOrder == "desc")
+            {
+                query = query.OrderByDescending(x => x.Email);
+            }
 
             //count for pagination
             int totalCount = await query.CountAsync();
 
             //apply paging
             query = query
-                .OrderBy(x => x.Surname)
                 .Skip((model.PageNumber - 1) * model.PageSize)
                 .Take(model.PageSize);
 
             //project to list
-
             var mpsList = await query.Select(x => new MPModel
             {
                 MPId = x.MPID,
@@ -153,6 +183,11 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
+        /// <summary>
+        /// This method by default returns an MP by id 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>An MP Model</returns>
         public async Task<MPModel> GetMPAsync(int id)
         {
             var query = _context.MPs.AsQueryable();
@@ -186,11 +221,16 @@ namespace ChapsDotNET.Business.Components
             return mp;
         }
 
+        /// <summary>
+        /// This method by default adds an MP 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>an integer id</returns>
         public async Task<int> AddMPAsync(MPModel model)
         {
             if (string.IsNullOrEmpty(model.Surname))
             {
-                throw new ArgumentNullException("Parameter Detail cannot be empty");
+                throw new ArgumentNullException("Parameter Surname cannot be empty");
             }
 
             var mp = new MP
@@ -215,6 +255,11 @@ namespace ChapsDotNET.Business.Components
             return mp.MPID;
         }
 
+        /// <summary>
+        /// This method by default updates an MP
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>void</returns>
         public async Task UpdateMPAsync(MPModel model)
         {
             var mp = await _context.MPs.FirstOrDefaultAsync(x => x.MPID == model.MPId);

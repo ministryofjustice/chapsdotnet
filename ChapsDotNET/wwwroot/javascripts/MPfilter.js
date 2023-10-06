@@ -1,14 +1,17 @@
 ﻿'use strict';
 var totalPages;
 var mpsUrl;
+let currentSortColumn = '';
+let currentSortDirection = '';
 
 $(document).ready(function () {
+
     var model;
     totalPages = initialPaginationData.totalPages;
     mpsUrl = $('body').data('mps-url');
     updatePaginationControls(initialPaginationData)
 
-    $('body').on('input', '#nameFilter', debounce(function () {
+    $('body').on('input change', '#nameFilter, #addressFilter, #emailFilter, #onlyActive', debounce(function () {
         currentPage = 1;
         model = generateModel(currentPage)
         filterAndSortMps(model, mpsUrl);
@@ -21,7 +24,6 @@ $(document).ready(function () {
         currentPage = parseInt($(this).text());
         console.log(currentPage);
         var model = generateModel(currentPage);
-
         filterAndSortMps(model, mpsUrl)
     })
 
@@ -31,14 +33,47 @@ $(document).ready(function () {
     $('#prevButton').click(handlePrevButtonClick);
     $('#lastButton').click(handleLastButtonClick);
 
+    //Clear filters
+    $('#clearFilters').on('click', function () {
+        $('#nameFilter').val('');
+        $('#addressFilter').val('');
+        $('#emailFilter').val('');
+        $('#onlyActive').prop('checked', false);
+
+        currentPage = 1;
+        model = generateModel(currentPage);
+        filterAndSortMps(model, mpsUrl);
+    });
+
+    //sort columns
+    $('table').on('click', '.sortable', function (event) {
+        event.preventDefault();
+        const column = $(this).data('sort'); // gets the name of the clicked column
+        const newSortDirection = currentSortColumn === column ?
+            (currentSortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
+
+        //reset all sort icons
+        $('.sort-button').attr('src', '/images/bullet_arrow_up.png');
+
+        //set sort icon on clicked column
+        $(this).find('.sort-button').attr('src', newSortDirection === 'asc'
+            ? '/images/bullet_arrow_up.png' : '/images/bullet_arrow_down.png');
+        currentSortColumn = column;
+        currentSortDirection = newSortDirection;
+        console.log("Column:" + currentSortColumn);
+        console.log("Current direction: " + currentSortDirection);
+        console.log("new direction: " + newSortDirection);
+        model = generateModel(currentPage);
+        filterAndSortMps(model, mpsUrl);
+    })
 });
 
 function filterAndSortMps(model, mpsUrl) {
     var nameFilterValue = $('#nameFilter').val();
     var addressFilterValue = $('#addressFilter').val();
     var emailFilterValue = $('#emailFilter').val();
+    var activeFilterValue = $('#onlyActive').val();
     var focusedElementId = $(':focus').attr('id');
-    //console.log(model);
     $.ajax({
         type: 'POST',
         url: mpsUrl,
@@ -49,7 +84,6 @@ function filterAndSortMps(model, mpsUrl) {
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         success: function (data) {
-            //console.log(data);
             let html = buildMPHtmlTable(data);
             $("#mpListContainer").html(html);
             $('#nameFilter').val(nameFilterValue);
@@ -187,8 +221,8 @@ function generateModel(pageNumber) {
         nameFilterTerm: $('#nameFilter').val(),
         addressFilterTerm: $('#addressFilter').val(),
         emailFilterTerm: $('#emailFilter').val(),
-        sortOrder: sortOrder,
-        activeFilter: !$('#onlyActive').is(':checked')
+        sortOrder: currentSortDirection,
+        SortColumn: currentSortColumn
     }
 }
 

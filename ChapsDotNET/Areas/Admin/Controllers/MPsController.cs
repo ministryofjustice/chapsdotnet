@@ -34,7 +34,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     nameFilterTerm = nameFilterTerm,
                     addressFilterTerm = addressFilterTerm,
                     emailFilterTerm = emailFilterTerm,
-                    activeFilter = activeFilter,
                     sortOrder = sortOrder
             } );
 
