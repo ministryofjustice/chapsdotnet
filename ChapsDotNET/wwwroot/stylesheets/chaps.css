@@ -76,9 +76,7 @@ A {
     font-weight: bold;
 }
 
-.pagination a {
-    line-height: 2.5em;
-}
+
 
 /* TABLES
 ----------------------------------------------------------*/
@@ -809,59 +807,59 @@ div#accordion h3 {
 }
 
 .pageButton-img-first-disabled {
-    background: url('../images/page_first_disabled.png') no-repeat 6px center;
+    background: url('../images/page_first_disabled.png') no-repeat center center;
     display: inline-block;
     height: 16px;
-    width: 25px;
+    width: 35px;
 }
 
 .pageButton-img-previous-disabled {
-    background: url('../images/page_prev_disabled.png') no-repeat 6px center;
+    background: url('../images/page_prev_disabled.png') no-repeat center center;
     display: inline-block;
     height: 16px;
-    width: 25px;
+    width: 35px;
 }
 
 .pageButton-img-first-enabled {
-    background: url('../images/page_first_enabled.png') no-repeat 6px center;
+    background: url('../images/page_first_enabled.png') no-repeat center center;
     display: inline-block;
     height: 16px;
-    width: 25px;
+    width: 35px;
 }
 
 .pageButton-img-previous-enabled {
-    background: url('../images/page_prev_enabled.png') no-repeat 6px center;
+    background: url('../images/page_prev_enabled.png') no-repeat center center;
     display: inline-block;
     height: 16px;
-    width: 25px;
+    width: 35px;
 }
 
 .pageButton-img-next-enabled {
-    background: url('../images/page_next_enabled.png') no-repeat 6px center;
+    background: url('../images/page_next_enabled.png') no-repeat center center;
     display: inline-block;
     height: 16px;
-    width: 25px;
+    width: 35px;
 }
 
 .pageButton-img-last-enabled {
-    background: url('../images/page_last_enabled.png') no-repeat 6px center;
+    background: url('../images/page_last_enabled.png') no-repeat center center;
     display: inline-block;
     height: 16px;
-    width: 25px;
+    width: 35px;
 }
 
 .pageButton-img-next-disabled {
-    background: url('../images/page_next_disabled.png') no-repeat 6px center;
+    background: url('../images/page_next_disabled.png') no-repeat center center;
     display: inline-block;
     height: 16px;
-    width: 25px;
+    width: 35px;
 }
 
 .pageButton-img-last-disabled {
-    background: url('../images/page_last_disabled.png') no-repeat 6px center;
+    background: url('../images/page_last_disabled.png') no-repeat center center;
     display: inline-block;
     height: 16px;
-    width: 25px;
+    width: 35px;
 }
 
 .pageButton {
@@ -871,10 +869,8 @@ div#accordion h3 {
     cursor: pointer;
     color: #3399ff !important;
     text-decoration: none;
-    /* vertical-align: middle; */
     font-size: 1em !important;
     background-image: none;
-    /* border: 1px solid #ccccff !important; */
     border-radius: 2px 2px 2px 2px;
     color: #666666;
     padding: 8px 10px !important;
@@ -882,7 +878,25 @@ div#accordion h3 {
     height: 35px !important;
     width: 35px !important;
     background-color: #ffffff;
-    /* width: 40px; */
+    overflow: visible !important;
+}
+
+.mpPageButton {
+    display: inline;
+    margin: 0px !important;
+    background-color: transparent;
+    cursor: pointer;
+    color: #3399ff !important;
+    text-decoration: none;
+    font-size: 1em !important;
+    background-image: none;
+    border-radius: 2px 2px 2px 2px;
+    color: #666666;
+    padding: 4px 5px !important;
+    text-align: center !important;
+    height: 20px !important;
+    width: 20px !important;
+    background-color: #ffffff;
     overflow: visible !important;
 }
 .pagenumber-disabled {
@@ -893,4 +907,44 @@ div#accordion h3 {
 pageButton:hover {
     color: #000000 !important;
     background-color: #3399ff;
+}
+
+
+.pagination {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.pagination-page-text {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.pagination > * {
+    display: inline-flex;
+    gap: 5px;
+}
+
+.buttons-page-links {
+    display: inline-flex;
+}
+
+#pageLinksContainer {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.sort-button:hover {
+    color: Green !important;
+}
+
+.sort-button {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center;
 }

@@ -28,6 +28,13 @@ namespace ChapsDotNET.Controllers
             return View();
         }
 
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public IActionResult TestEndpoint()
+        {
+            return Json (new { message = "Test endpoint hit!" });
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -213,7 +213,7 @@ namespace ChapsDotNET.Common.Mappers
             {
                 ReportId = model.ReportId,
                 Name = model.Name,
-                Description = model.Description,
+                Description = model.Description?? string.Empty,
                 LongDescription = model.LongDescription
             };
         }
