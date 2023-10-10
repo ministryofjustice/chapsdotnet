@@ -152,6 +152,7 @@ namespace ChapsDotNET.Business.Components
 
             //apply paging
             query = query
+                .OrderBy(x => x)
                 .Skip((model.PageNumber - 1) * model.PageSize)
                 .Take(model.PageSize);
 

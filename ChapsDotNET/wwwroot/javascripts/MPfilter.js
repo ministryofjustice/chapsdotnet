@@ -22,7 +22,6 @@ $(document).ready(function () {
     $('body').on('click', '.mpPageButton', function (e) {
         e.preventDefault(); //prevents the default link action
         currentPage = parseInt($(this).text());
-        console.log(currentPage);
         var model = generateModel(currentPage);
         filterAndSortMps(model, mpsUrl)
     })
@@ -48,7 +47,7 @@ $(document).ready(function () {
     //sort columns
     $('table').on('click', '.sortable', function (event) {
         event.preventDefault();
-        const column = $(this).data('sort'); // gets the name of the clicked column
+        const column = $(this).data('sort'); 
         const newSortDirection = currentSortColumn === column ?
             (currentSortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
 
@@ -60,9 +59,6 @@ $(document).ready(function () {
             ? '/images/bullet_arrow_up.png' : '/images/bullet_arrow_down.png');
         currentSortColumn = column;
         currentSortDirection = newSortDirection;
-        console.log("Column:" + currentSortColumn);
-        console.log("Current direction: " + currentSortDirection);
-        console.log("new direction: " + newSortDirection);
         model = generateModel(currentPage);
         filterAndSortMps(model, mpsUrl);
     })
@@ -74,15 +70,16 @@ function filterAndSortMps(model, mpsUrl) {
     var emailFilterValue = $('#emailFilter').val();
     var activeFilterValue = $('#onlyActive').val();
     var focusedElementId = $(':focus').attr('id');
+  
     $.ajax({
         type: 'POST',
         url: mpsUrl,
-        data: JSON.stringify(model),
         headers: {
-            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+            "RequestVerificationToken": getToken()
         },
+        data: JSON.stringify(model),
         contentType: "application/json; charset=utf-8",
-        dataType: 'json',
+        dataType: 'JSON',
         success: function (data) {
             let html = buildMPHtmlTable(data);
             $("#mpListContainer").html(html);
@@ -227,7 +224,6 @@ function generateModel(pageNumber) {
 }
 
 function handleNextButtonClick(e) {
-    console.log("Next button clicked!");
     e.preventDefault
     if ($("#nextButton").hasClass('page-button-img-next-disabled')) {
         return;
@@ -240,7 +236,6 @@ function handleNextButtonClick(e) {
 }
 
 function handlePrevButtonClick(e) {
-    console.log("Previous button clicked!");
     if ($("#nextButton").hasClass('page-button-img-previous-disabled')) {
         return;
     }
@@ -253,7 +248,6 @@ function handlePrevButtonClick(e) {
 }
 
 function handleLastButtonClick(e) {
-    console.log("Last button clicked!");
     if ($("#nextButton").hasClass('page-button-img-last-disabled')) {
         return;
     }
@@ -264,7 +258,6 @@ function handleLastButtonClick(e) {
 }
 
 function handleFirstButtonClick(e) {
-    console.log("First button clicked!");
     if ($("#nextButton").hasClass('page-button-img-first-disabled')) {
         return;
     }

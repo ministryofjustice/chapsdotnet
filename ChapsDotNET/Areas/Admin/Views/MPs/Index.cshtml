@@ -16,9 +16,13 @@
         };
         let currentPage = @Model.Pagination!.CurrentPage;
         let sortOrder = '@Model.MPs!.sortOrder';
-    </script>
 
-    @Html.AntiForgeryToken()
+        function getToken() {
+            var token = '@Html.AntiForgeryToken()';
+            token = $(token).val();
+            return token;
+        }
+    </script>
     <div class="breadcrumbs">
         <h6>
             @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
@@ -64,12 +68,14 @@
             </tr>
             <tr>
                 <th scope="col">
-                    <a href="#" class="sortable" data-sort="name">Name
+                    <a href="#" class="sortable" data-sort="name">
+                        Name
                         <img src="/images/bullet_arrow_up.png" class="sort-button" />
                     </a>
                 </th>
                 <th scope="col">
-                    <a href="#" class="sortable" data-sort="address">Address
+                    <a href="#" class="sortable" data-sort="address">
+                        Address
                         <img src="/images/bullet_arrow_up.png" class="sort-button" />
                     </a>
                     <span class="sortable" data-sort="address"></span>

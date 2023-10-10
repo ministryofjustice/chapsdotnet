@@ -64,7 +64,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
 
         [HttpPost]
-        [IgnoreAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> GetFilteredMPs([FromBody]MPRequestModel model)
         {
             if (ModelState.IsValid)
