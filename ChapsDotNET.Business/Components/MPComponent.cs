@@ -172,6 +172,8 @@ namespace ChapsDotNET.Business.Components
                 County = x.County,
                 Postcode = x.Postcode,
                 Active = x.active,
+                DeactivatedByID = x.deactivatedByID,
+                DeactivatedOn = x.deactivatedOn
             }).ToListAsync();
 
             return new PagedResult<List<MPModel>>
