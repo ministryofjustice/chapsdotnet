@@ -1,4 +1,6 @@
-﻿@using ChapsDotNET.Models
+﻿// Index.cshtml
+
+@using ChapsDotNET.Models
 @model IndexViewModel
 
 @{
@@ -16,13 +18,9 @@
         };
         let currentPage = @Model.Pagination!.CurrentPage;
         let sortOrder = '@Model.MPs!.sortOrder';
-
-        function getToken() {
-            var token = '@Html.AntiForgeryToken()';
-            token = $(token).val();
-            return token;
-        }
     </script>
+
+    @Html.AntiForgeryToken()
     <div class="breadcrumbs">
         <h6>
             @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
@@ -34,20 +32,26 @@
 
     <h1>Members of Parliament (MPs)</h1>
 
-    <div class="actionLinks">
-        @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
-    </div>
-
     <table class="withSort">
-        <caption class="caption">Members of Parliament</caption>
         <colgroup>
             <col class="nameColumn" />
             <col class="addressColumn" />
             <col class="emailColumn" />
+            <col class="deactivatedByColumn" />
             <col class="activeColumn" />
         </colgroup>
+
         <thead>
             <tr>
+                <th class="actionLinks" colspan="3">
+                    @Html.ActionLink("Add a new member of Parliament", "Create", "MPs")
+                </th>
+                <td class="spacerData" style="display: none;">&nbsp;</td>
+                <th class="align-right" colspan="1">
+                    <input type="checkbox" id="onlyActive" checked />Active only?
+                </th>
+            </tr>
+            <tr class="filterRow">
                 <th>
                     <input type="text" id="nameFilter" placeholder="Filter name" value="@Model.MPs.nameFilterTerm" />
                 </th>
@@ -57,12 +61,9 @@
                 <th>
                     <input type="text" id="emailFilter" placeholder="Filter email" />
                 </th>
-                <th>
-                    <input type="checkbox" id="onlyActive" />Active only?
-                </th>
             </tr>
-            <tr>
-                <th colspan="4">
+            <tr class="clearFilterRow">
+                <th colspan="5">
                     <button id="clearFilters">Clear Filters</button>
                 </th>
             </tr>
@@ -86,7 +87,13 @@
                         <img src="/images/bullet_arrow_up.png" class="sort-button" />
                     </a>
                 </th>
-                <th scope="col">Active</th>
+                <th style="display: none;" id="deactivatedByUserNameDate">
+                    <a href="#" class="sortable" data-sort="deactiv">
+                        Deactivated by
+                        <img src="/images/bullet_arrow_up.png" class="sort-button" />
+                    </a>
+                </th>
+                <th scope="col" style="text-align: right;">Active</th>
             </tr>
         </thead>
         <tbody id="mpListContainer">
@@ -107,14 +114,16 @@
                             @Html.DisplayFor(x => mp.Email)
                         }
                     </td>
-                    <td align="center">
+                    <td style="display: none" class="deactivatedByUserNameDate">
+                        @Html.DisplayFor(modelItem => mp.DeactivatedDisplay)
+                    </td>
+                    <td class="align-center">
                         @Html.DisplayFor(x => mp.Active)
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
 
     <div class="pagination">
         <div class="pagination-page-text">
@@ -123,7 +132,6 @@
             <span> of </span>
             <span id="totalPagesSpan">@Model.Pagination.TotalPages</span>
         </div>
-
 
         <div class="buttons-page-links">
             <!-- first, previous buttons and page links-->
@@ -139,6 +147,5 @@
             <a href="#" id="nextButton" class="pageButton-img-next-enabled"></a>
             <a href="#" id="lastButton" class="pageButton-img-last-enabled"></a>
         </div>
-
     </div>
 </body>

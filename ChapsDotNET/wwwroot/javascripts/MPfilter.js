@@ -11,17 +11,26 @@ $(document).ready(function () {
     mpsUrl = $('body').data('mps-url');
     updatePaginationControls(initialPaginationData)
 
-    $('body').on('input change', '#nameFilter, #addressFilter, #emailFilter, #onlyActive', debounce(function () {
+    $('body').on('input change', '#nameFilter, #addressFilter, #emailFilter', debounce(function () {
         currentPage = 1;
         model = generateModel(currentPage)
         filterAndSortMps(model, mpsUrl);
     }, 600));
 
+    // Active only checkbox
+    $('#onlyActive').on('change', function () {
+        event.stopPropagation();
+        currentPage = 1;
+        model = generateModel(currentPage);
+        filterAndSortMps(model, mpsUrl);
+        toggleDeactivatedColumn();
+    });
 
     // pagination link click event
     $('body').on('click', '.mpPageButton', function (e) {
         e.preventDefault(); //prevents the default link action
         currentPage = parseInt($(this).text());
+        console.log(currentPage);
         var model = generateModel(currentPage);
         filterAndSortMps(model, mpsUrl)
     })
@@ -47,7 +56,7 @@ $(document).ready(function () {
     //sort columns
     $('table').on('click', '.sortable', function (event) {
         event.preventDefault();
-        const column = $(this).data('sort'); 
+        const column = $(this).data('sort'); // gets the name of the clicked column
         const newSortDirection = currentSortColumn === column ?
             (currentSortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
 
@@ -70,16 +79,15 @@ function filterAndSortMps(model, mpsUrl) {
     var emailFilterValue = $('#emailFilter').val();
     var activeFilterValue = $('#onlyActive').val();
     var focusedElementId = $(':focus').attr('id');
-  
     $.ajax({
         type: 'POST',
         url: mpsUrl,
-        headers: {
-            "RequestVerificationToken": getToken()
-        },
         data: JSON.stringify(model),
+        headers: {
+            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+        },
         contentType: "application/json; charset=utf-8",
-        dataType: 'JSON',
+        dataType: 'json',
         success: function (data) {
             let html = buildMPHtmlTable(data);
             $("#mpListContainer").html(html);
@@ -91,6 +99,7 @@ function filterAndSortMps(model, mpsUrl) {
             totalPages = data.pagination.totalPages;
 
             updatePaginationControls(data.pagination);
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX call failed fetching Mps. Status:", textStatus, "Error: ", errorThrown);
@@ -184,8 +193,10 @@ function debounce(func, wait) {
 
 function buildMPHtmlTable(data) {
     let htmlString = "";
+    const showDeactivated = !$('#onlyActive').prop('checked');
     data.mPs.forEach(mp => {
         let activeCheck = mp.active ? '<input type="checkbox" checked disabled />' : '<input type="checkbox" disabled />';
+        let deactivTd = showDeactivated ? (mp.deactivatedDisplay ? `<td>${mp.deactivatedDisplay}</td>` : '<td></td>') : '';
         htmlString += `
             <tr>
                 <td>
@@ -199,7 +210,8 @@ function buildMPHtmlTable(data) {
                 <td>
                     ${mp.email ? mp.email : ""}
                 </td>
-                <td align="center">
+                ${deactivTd}
+                <td class="align-right">
                     ${activeCheck}
                 </td>
             </tr>
@@ -224,6 +236,7 @@ function generateModel(pageNumber) {
 }
 
 function handleNextButtonClick(e) {
+    console.log("Next button clicked!");
     e.preventDefault
     if ($("#nextButton").hasClass('page-button-img-next-disabled')) {
         return;
@@ -236,6 +249,7 @@ function handleNextButtonClick(e) {
 }
 
 function handlePrevButtonClick(e) {
+    console.log("Previous button clicked!");
     if ($("#nextButton").hasClass('page-button-img-previous-disabled')) {
         return;
     }
@@ -248,6 +262,7 @@ function handlePrevButtonClick(e) {
 }
 
 function handleLastButtonClick(e) {
+    console.log("Last button clicked!");
     if ($("#nextButton").hasClass('page-button-img-last-disabled')) {
         return;
     }
@@ -258,6 +273,7 @@ function handleLastButtonClick(e) {
 }
 
 function handleFirstButtonClick(e) {
+    console.log("First button clicked!");
     if ($("#nextButton").hasClass('page-button-img-first-disabled')) {
         return;
     }
@@ -265,4 +281,14 @@ function handleFirstButtonClick(e) {
     currentPage = 1;
     var model = generateModel(currentPage);
     filterAndSortMps(model, mpsUrl);
+}
+
+function toggleDeactivatedColumn() {
+    if ($('#onlyActive').prop('checked')) {
+        $('.deactivatedByUserNameDate, .spacerData').hide();
+        $('#deactivatedByUserNameDate, #spacerHeader').hide();
+    } else {
+        $('.deactivatedByUserNameDate, .spacerData').show();
+        $('#deactivatedByUserNameDate, #spacerHeader').show();
+    }
 }

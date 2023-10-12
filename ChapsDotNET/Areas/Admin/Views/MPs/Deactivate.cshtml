@@ -1,0 +1,26 @@
+﻿@model ChapsDotNET.Models.MPViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.MPId)
+    @Html.HiddenFor(model => model.RtHon)
+    @Html.HiddenFor(model => model.SalutationId)
+    @Html.HiddenFor(model => model.FirstNames)
+    @Html.HiddenFor(model => model.Surname)
+    @Html.HiddenFor(model => model.Suffix)
+    @Html.HiddenFor(model => model.Email)
+    @Html.HiddenFor(model => model.Active)
+    @Html.HiddenFor(model => model.AddressLine1)
+    @Html.HiddenFor(model => model.AddressLine2)
+    @Html.HiddenFor(model => model.AddressLine3)
+    @Html.HiddenFor(model => model.Town)
+    @Html.HiddenFor(model => model.County)
+    @Html.HiddenFor(model => model.Postcode)
+    @Html.HiddenFor(model => model.DeactivatedByID)
+    @Html.HiddenFor(model => model.DeactivatedOn)
+    @Html.HiddenFor(model => model.DisplayFullName)
+
+    <p>Are you sure you want to deactivate member of parliamnet "@Model.DisplayFullName" ?</p>
+    <input class="createButton" type="submit" value="Confirm Deactivate" />
+
+}

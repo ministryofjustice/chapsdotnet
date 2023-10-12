@@ -16,26 +16,26 @@ body {
 }
 
 /* RESPONSIVE ELEMENTS   
-----------------------------------------------------------*/    
+----------------------------------------------------------*/
 
 .flex-container {
     display: flex;
     flex-wrap: wrap;
 }
 
-.flex-container > section.filters,
-.flex-container > section.mainContent {
-    margin: 15px;
-    height: min-content;
-}
+    .flex-container > section.filters,
+    .flex-container > section.mainContent {
+        margin: 15px;
+        height: min-content;
+    }
 
-.flex-container > section.filters {
-    max-width: 25%;
-}
+    .flex-container > section.filters {
+        max-width: 25%;
+    }
 
-.flex-container > section.mainContent {
-    max-width: 75%;
-}
+    .flex-container > section.mainContent {
+        max-width: 75%;
+    }
 
 /* -------------------------------------------------------*/
 
@@ -53,10 +53,10 @@ A {
     font-weight: normal;
 }
 
-.logo img {
-    margin-right: 0.75em;
-    vertical-align: bottom;
-}
+    .logo img {
+        margin-right: 0.75em;
+        vertical-align: bottom;
+    }
 
 #chaps-logo {
     float: right;
@@ -100,6 +100,14 @@ th, td {
     vertical-align: top;
 }
 
+.withSort tr.filterRow th {
+    border-bottom: none !important;
+}
+
+.withSort tr.clearFilterRow th {
+    border-top: none !important;
+}
+
 td:last-child {
     padding-right: 0;
 }
@@ -113,9 +121,9 @@ a.createButton {
     text-decoration: none;
 }
 
-a.createButton:hover {
-    color: Green !important;
-}
+    a.createButton:hover {
+        color: Green !important;
+    }
 
 table.statement {
     border: 1px solid #000;
@@ -123,24 +131,24 @@ table.statement {
     margin-left: 15em;
 }
 
-table.statement tr {
-    border: solid 1px #000;
-}
+    table.statement tr {
+        border: solid 1px #000;
+    }
 
-table.statement tr.first {
-    border-top: solid 3px #000;
-}
+        table.statement tr.first {
+            border-top: solid 3px #000;
+        }
 
-table.statement th {
-    padding: 6px 5px;
-    text-align: left;
-    background-color: #DDDDDD;
-    border: solid 1px #000;
-}
+    table.statement th {
+        padding: 6px 5px;
+        text-align: left;
+        background-color: #DDDDDD;
+        border: solid 1px #000;
+    }
 
-table.statement td {
-    border: 1px solid #000;
-}
+    table.statement td {
+        border: 1px solid #000;
+    }
 
 .passwordExpire {
     text-align: center;
@@ -162,11 +170,11 @@ dt {
     margin-right: 5px;
 }
 
-.quote blockquote {
-    border-left: thin black solid;
-    padding-left: 10px;
-    min-height: 40px;
-}
+    .quote blockquote {
+        border-left: thin black solid;
+        padding-left: 10px;
+        min-height: 40px;
+    }
 
 /* HEADINGS   
 ----------------------------------------------------------*/
@@ -231,11 +239,11 @@ fieldset {
     margin: 0;
 }
 
-fieldset.FieldsetCR {
-    border: 1px solid #ddd;
-    padding: 0 1.4em 0.7em 1.4em;
-    margin: 0 0 0 0;
-}
+    fieldset.FieldsetCR {
+        border: 1px solid #ddd;
+        padding: 0 1.4em 0.7em 1.4em;
+        margin: 0 0 0 0;
+    }
 
 legend {
     margin-bottom: 15px;
@@ -249,8 +257,7 @@ input[type="date"],
 input[type="datetime-local"],
 input[type="password"],
 input[type="text"],
-input[type="time"]
-{
+input[type="time"] {
     border: 1px solid #ccc;
     color: #444;
     font-family: Arial, Helvetica, Verdana, sans-serif;
@@ -291,7 +298,6 @@ input[type="submit"] {
 }
 
 .cancel-button {
-
     border: none !important;
     padding: 0px !important;
     margin: 0px !important;
@@ -313,7 +319,7 @@ input[type="submit"] {
 /* MISC  
 ----------------------------------------------------------*/
 
-.actionLinks, .breadcrumbs {    
+.actionLinks, .breadcrumbs {
     padding: 0.8em 0;
 }
 
@@ -350,9 +356,9 @@ input.sortButton {
     overflow: visible !important;
 }
 
-input.sortButton:hover {
-    color: Green !important;
-}
+    input.sortButton:hover {
+        color: Green !important;
+    }
 
 /*input.sortButton.asc {
     background: url('../images/bullet_arrow_up.png') no-repeat right;
@@ -383,9 +389,9 @@ input.allocateButton {
     clear: left;
 }
 
-input.allocateButton:hover {
-    color: Green !important;
-}
+    input.allocateButton:hover {
+        color: Green !important;
+    }
 
 /*input.allocateButton.returnFalse {
     background: url('../images/arrow_right.png') no-repeat left;
@@ -420,19 +426,19 @@ input[sortButton] {
     padding: 20px;
 }
 
-.validation-summary-errors ul {
-    padding: 0;
-}
+    .validation-summary-errors ul {
+        padding: 0;
+    }
 
-.validation-summary-errors li {
-    color: #f00;
-    font-size: 1.1875rem;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-weight: 400;
-    line-height: 1.3157894737;
-    list-style-type: none;
-}
+    .validation-summary-errors li {
+        color: #f00;
+        font-size: 1.1875rem;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-weight: 400;
+        line-height: 1.3157894737;
+        list-style-type: none;
+    }
 
 .validation-summary-valid {
     display: none;
@@ -447,21 +453,21 @@ ul.recordMenu-tabs {
     clear: both;
 }
 
-ul.recordMenu-tabs > li {
-    margin: .25em;
-    display: inline;
-    min-width: 200px;
-    width: 200px;
-    padding-left: 2px;
-    padding-right: 2px;
-    text-decoration: none;
-    vertical-align: middle;
-}
+    ul.recordMenu-tabs > li {
+        margin: .25em;
+        display: inline;
+        min-width: 200px;
+        width: 200px;
+        padding-left: 2px;
+        padding-right: 2px;
+        text-decoration: none;
+        vertical-align: middle;
+    }
 
-ul.recordMenu-tabs > li > a {
-    width: 200px;
-    display: inline-block;
-}
+        ul.recordMenu-tabs > li > a {
+            width: 200px;
+            display: inline-block;
+        }
 
 /* Styles for editor and display helpers
 ----------------------------------------------------------*/
@@ -485,16 +491,16 @@ ul.recordMenu-tabs > li > a {
 .editor-label {
     width: 16em;
     font-weight: bold;
-    text-align:right;
+    text-align: right;
     margin: 0.5em 1em 0 0;
     position: relative;
     top: -4px;
-    float:left;
+    float: left;
     display: block;
-    clear:both;
+    clear: both;
 }
 
-.editor-field .field-validation-error{
+.editor-field .field-validation-error {
     display: block;
     color: red;
     font-size: 1em;
@@ -524,9 +530,9 @@ ul.recordMenu-tabs > li > a {
     width: 30em;
 }
 
-.text-box.multi-line {
-    height: 6.5em;
-}
+    .text-box.multi-line {
+        height: 6.5em;
+    }
 
 .tri-state {
     width: 6em;
@@ -562,49 +568,49 @@ ul.recordMenu-tabs > li > a {
     padding: 10px;
 }
 
-.message span {
-    background: url('../images/error-sprite.gif') no-repeat scroll 0 0px;
-    display: block;
-    float: left;
-    height: 25px;
-    width: 25px;
-}
+    .message span {
+        background: url('../images/error-sprite.gif') no-repeat scroll 0 0px;
+        display: block;
+        float: left;
+        height: 25px;
+        width: 25px;
+    }
 
-.message h6 {
-    font-size: 13px;
-    margin: 0 0 1em 35px;
-    padding: 0;
-}
+    .message h6 {
+        font-size: 13px;
+        margin: 0 0 1em 35px;
+        padding: 0;
+    }
 
-.message p {
-    line-height: 1.5em;
-}
+    .message p {
+        line-height: 1.5em;
+    }
 
-.message ul {
-    margin-left: 10px;
-    padding-left: 0;
-}
+    .message ul {
+        margin-left: 10px;
+        padding-left: 0;
+    }
 
-.message li {
-    list-style-type: disc;
-    margin-left: 35px;
-}
+    .message li {
+        list-style-type: disc;
+        margin-left: 35px;
+    }
 
 .comment {
     border: 1px solid #0071B5;
 }
 
-.comment span {
-    background-position: 0 -0px;
-}
+    .comment span {
+        background-position: 0 -0px;
+    }
 
 .error {
     border: 1px solid red;
 }
 
-.error span {
-    background-position: 0 -75px;
-}
+    .error span {
+        background-position: 0 -75px;
+    }
 
 .message a {
     color: #004B91;
@@ -614,17 +620,17 @@ ul.recordMenu-tabs > li > a {
     border: 1px solid green;
 }
 
-.ok span {
-    background-position: 0 5px;
-}
+    .ok span {
+        background-position: 0 5px;
+    }
 
 .warning {
     border: 1px solid #E47911;
 }
 
-.warning span {
-    background-position: 0 -50px;
-}
+    .warning span {
+        background-position: 0 -50px;
+    }
 
 .alert {
     background: #FFFFCC none repeat scroll 0 0;
@@ -636,26 +642,26 @@ ul.recordMenu-tabs > li > a {
     -moz-border-radius: 10px;
 }
 
-.alert.comment {
-    border: 1px solid #0071B5;
-}
+    .alert.comment {
+        border: 1px solid #0071B5;
+    }
 
-.alert.error {
-    border: 1px solid red;
-}
+    .alert.error {
+        border: 1px solid red;
+    }
 
-.alert.ok {
-    border: 1px solid green;
-}
+    .alert.ok {
+        border: 1px solid green;
+    }
 
-.alert.warning {
-    border: 1px solid #E47911;
-}
+    .alert.warning {
+        border: 1px solid #E47911;
+    }
 
-.alert > span {
-    padding-left: 20px;
-    font-weight: bold;
-}
+    .alert > span {
+        padding-left: 20px;
+        font-weight: bold;
+    }
 
 span.error {
     background: url('../images/exclamation.png') no-repeat left;
@@ -710,14 +716,14 @@ dl#reports-list dd {
     text-align: left;
 }
 
-.ui-timepicker-div dl dd {
-    margin: 0 10px 10px 65px;
-}
+    .ui-timepicker-div dl dd {
+        margin: 0 10px 10px 65px;
+    }
 
-.ui-timepicker-div dl dt {
-    height: 25px;
-    margin-bottom: -25px;
-}
+    .ui-timepicker-div dl dt {
+        height: 25px;
+        margin-bottom: -25px;
+    }
 
 .ui-timepicker-div td {
     font-size: 90%;
@@ -727,9 +733,9 @@ dl#reports-list dd {
     text-align: right;
 }
 
-.ui-timepicker-rtl dl dd {
-    margin: 0 65px 10px 10px;
-}
+    .ui-timepicker-rtl dl dd {
+        margin: 0 65px 10px 10px;
+    }
 
 .ui-timepicker-rtl {
     direction: rtl;
@@ -770,14 +776,14 @@ dl#reports-list dd {
     padding-right: 20px;
 }
 
-.emailAlert.Chase {
-    background: url('../images/exclamation.png') no-repeat left;
-}
+    .emailAlert.Chase {
+        background: url('../images/exclamation.png') no-repeat left;
+    }
 
-.emailAlert A {
-    background: url('../images/email.png') no-repeat left;
-    padding-left: 18px;
-}
+    .emailAlert A {
+        background: url('../images/email.png') no-repeat left;
+        padding-left: 18px;
+    }
 
 .showData {
     background: url('../images/arrow_thin_down.gif') no-repeat left;
@@ -899,6 +905,7 @@ div#accordion h3 {
     background-color: #ffffff;
     overflow: visible !important;
 }
+
 .pagenumber-disabled {
     border: 1px solid #ccccff !important;
     color: #000000 !important;
@@ -947,4 +954,12 @@ pageButton:hover {
     display: inline-block;
     background-repeat: no-repeat;
     background-position: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.align-center {
+    text-align: center;
 }

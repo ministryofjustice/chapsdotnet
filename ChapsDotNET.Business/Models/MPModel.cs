@@ -25,6 +25,10 @@ namespace ChapsDotNET.Business.Models
         public virtual Salutation Salutation { get; set; } = default!;
         public string? DisplayFullName { get; set; }
         public string? sortOrder { get; set; }
+        public int? DeactivatedByID { get; set; }
+        public DateTime? DeactivatedOn { get; set; }
+        public string? DeactivatedDisplay { get; set; }
+
 
         //builds the address with out spaces
         public virtual List<string> populatedLines

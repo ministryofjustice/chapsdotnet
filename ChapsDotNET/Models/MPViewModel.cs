@@ -52,5 +52,7 @@ namespace ChapsDotNET.Models
         public SelectList SalutationList { get; set; } = default!;
         public string? DisplayFullName { get; set; }
         public string? sortOrder { get; set; }
+        public int? DeactivatedByID { get; set; }
+        public DateTime? DeactivatedOn { get; set; }
     }
 }

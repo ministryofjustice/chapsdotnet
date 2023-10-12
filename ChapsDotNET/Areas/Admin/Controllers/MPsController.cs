@@ -1,5 +1,4 @@
-﻿//using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
@@ -9,10 +8,12 @@ using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 using NuGet.Packaging.Signing;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
-{   
+{
     [Area("Admin")]
     public class MPsController : Controller
     {
@@ -27,21 +28,23 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(string nameFilterTerm, string addressFilterTerm, string emailFilterTerm, bool activeFilter, string sortOrder, int page = 1)
         {
-            var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel {
-                    PageNumber = page,
-                    PageSize = 10,
-                    ShowActiveAndInactive = true,
-                    nameFilterTerm = nameFilterTerm,
-                    addressFilterTerm = addressFilterTerm,
-                    emailFilterTerm = emailFilterTerm,
-                    sortOrder = sortOrder
-            } );
+            var pagedResult = await _mpComponent.GetMPsAsync(new MPRequestModel
+            {
+                PageNumber = page,
+                PageSize = 10,
+                ShowActiveAndInactive = true,
+                nameFilterTerm = nameFilterTerm,
+                addressFilterTerm = addressFilterTerm,
+                emailFilterTerm = emailFilterTerm,
+                sortOrder = sortOrder
+            });
 
             foreach (var item in pagedResult.Results!)
             {
                 if (item != null)
                 {
                     item.DisplayFullName = DisplayFullName(item.MPId).Result;
+
                 }
             }
 
@@ -64,8 +67,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> GetFilteredMPs([FromBody]MPRequestModel model)
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> GetFilteredMPs([FromBody] MPRequestModel model)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +104,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<ActionResult> Create()
         {
             var model = new MPViewModel();
-            var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel {
+            var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel
+            {
                 PageSize = 1000,
                 ShowActiveAndInactive = false
             });
@@ -111,7 +115,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 model.SalutationList = new SelectList(salutations.Results, "SalutationId", "Detail");
             }
 
-            return View(model);   
+            return View(model);
         }
 
         [HttpPost]
@@ -142,6 +146,24 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(MPViewModel viewModel)
         {
+
+            if (viewModel.Active != viewModel.Active && viewModel.Active == true)
+            {
+                TempData["viewModel"] = JsonConvert.SerializeObject(viewModel);
+                return RedirectToAction("Deactivate", viewModel);
+            }
+
+            if (viewModel.Active != viewModel.Active && viewModel.Active == false)
+            {
+                viewModel.DeactivatedOn = null;
+                viewModel.DeactivatedByID = null;
+                await _mpComponent.UpdateMPAsync(viewModel.ToModel());
+                return RedirectToAction("index");
+            }
+
+            viewModel.DeactivatedOn = viewModel.DeactivatedOn;
+            viewModel.DeactivatedByID = viewModel.DeactivatedByID;
+
             await _mpComponent.UpdateMPAsync(viewModel.ToModel());
             return RedirectToAction("index");
         }
@@ -159,7 +181,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             {
                 salutation = String.Empty;
             }
-           
+
             List<string> nameParts = new List<string>();
 
             if (mp.RtHon == true)
@@ -174,6 +196,33 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
             return string.Join(" ", nameParts.Where(s => !string.IsNullOrEmpty(s)));
 
+        }
+
+        public ActionResult Deactivate(MPViewModel viewmodel, bool x = false)
+        {
+            return View(viewmodel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Deactivate(MPViewModel viewModel)
+        {
+            viewModel.Active = false;
+            viewModel.DeactivatedOn = DateTime.Now;
+
+            //string currentUserId = _userManager.GetUserId(User);
+            //if (!string.IsNullOrEmpty(currentUserId))
+            //{
+            //    viewModel.DeactivatedByID = Int32.Parse(currentUserId);
+            //}
+            //else
+            //{
+            //    // handle null userID
+            //}
+
+
+            await _mpComponent.UpdateMPAsync(viewModel.ToModel());
+
+            return RedirectToAction("index");
         }
     }
 }
