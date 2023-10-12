@@ -1,24 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Reflection.Emit;
-using System.Text;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using ChapsDotNET.Business.Exceptions;
+﻿using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Primitives;
 
 namespace ChapsDotNET.Business.Components
 {
@@ -40,23 +26,22 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.MPs.AsQueryable();
 
-            if (!request.ShowActiveAndInactive)
-            {
-                query = query.Where(x => x.active == true);
-            }
-
-            query = query.OrderBy(x => x.Surname);
+            query = query
+                .Where(x => x.active == true)
+                .OrderBy(x => x.Surname);
 
             //Row Count
             var count = await query.CountAsync();
 
             //Paging query
             query = query
-                .OrderBy(x => x.Surname)
                 .Skip(((request.PageNumber) - 1) * request.PageSize)
                 .Take(request.PageSize);
 
-            var mpsList = await query.Select(x => new MPModel
+
+            // Get Mps.
+            var mpsList = await query
+                .Select(x => new MPModel
                 {
                     MPId = x.MPID,
                     RtHon = x.RtHon,
@@ -71,16 +56,15 @@ namespace ChapsDotNET.Business.Components
                     Town = x.Town,
                     County = x.County,
                     Postcode = x.Postcode,
-                    Active = x.active
-                }
-            ).ToListAsync();
+                    Active = x.active,
+                }).ToListAsync();
 
             return new PagedResult<List<MPModel>>
             {
                 Results = mpsList,
                 PageSize = request.PageSize,
                 CurrentPage = request.PageNumber,
-                RowCount = count    
+                RowCount = count
             };
         }
 
@@ -93,7 +77,7 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.MPs.AsQueryable();
 
-            if(!string.IsNullOrEmpty(model.nameFilterTerm))
+            if (!string.IsNullOrEmpty(model.nameFilterTerm))
             {
                 query = query.Where(x =>
                 x.FirstNames != null && x.FirstNames.Contains(model.nameFilterTerm) ||
@@ -122,30 +106,16 @@ namespace ChapsDotNET.Business.Components
             }
 
             //Sorting
-            if(model.SortColumn =="name" && model.sortOrder == "asc")
+            query = (model.SortColumn, model.sortOrder) switch
             {
-                query = query.OrderBy(x => x.Surname);
-            }
-            else if (model.SortColumn == "name" && model.sortOrder == "desc")
-            {
-                query = query.OrderByDescending(x => x.Surname);
-            }
-            else if(model.SortColumn == "address" && model.sortOrder == "asc")
-            {
-                query = query.OrderBy(x => x.AddressLine1);
-            }
-            else if(model.SortColumn == "address" && model.sortOrder == "desc")
-            {
-                query = query.OrderByDescending(x => x.AddressLine1);
-            }
-            else if(model.SortColumn == "email" && model.sortOrder == "asc")
-            {
-                query = query.OrderBy(x => x.Email);
-            }
-            else if(model.SortColumn == "email" && model.sortOrder == "desc")
-            {
-                query = query.OrderByDescending(x => x.Email);
-            }
+                ("name", "asc") => query.OrderBy(x => x.Surname),
+                ("name", "desc") => query.OrderByDescending(x => x.Surname),
+                ("address", "asc") => query.OrderBy(x => x.AddressLine1),
+                ("address", "desc") => query.OrderByDescending(x => x.AddressLine1),
+                ("email", "asc") => query.OrderBy(x => x.Email),
+                ("email", "desc") => query.OrderByDescending(x => x.Email),
+                _ => query.OrderBy(x => x.Surname)
+            };
 
             //count for pagination
             int totalCount = await query.CountAsync();
@@ -155,26 +125,37 @@ namespace ChapsDotNET.Business.Components
                 .Skip((model.PageNumber - 1) * model.PageSize)
                 .Take(model.PageSize);
 
+            // get Mps with user that deactivated them
+            var mpsWithUsers = await (from mp in query
+                                      join user in _context.Users on mp.deactivatedByID equals user.UserID into groupJoin
+                                      from subUser in groupJoin.DefaultIfEmpty()
+                                      select new
+                                      {
+                                          MP = mp,
+                                          User = subUser
+                                      }).ToListAsync();
             //project to list
-            var mpsList = await query.Select(x => new MPModel
-            {
-                MPId = x.MPID,
-                RtHon = x.RtHon,
-                SalutationId = x.SalutationID,
-                FirstNames = x.FirstNames,
-                Surname = x.Surname,
-                Email = x.Email,
-                Suffix = x.Suffix,
-                AddressLine1 = x.AddressLine1,
-                AddressLine2 = x.AddressLine2,
-                AddressLine3 = x.AddressLine3,
-                Town = x.Town,
-                County = x.County,
-                Postcode = x.Postcode,
-                Active = x.active,
-                DeactivatedByID = x.deactivatedByID,
-                DeactivatedOn = x.deactivatedOn
-            }).ToListAsync();
+            var mpsList = mpsWithUsers
+                .Select(x => new MPModel
+                {
+                    MPId = x.MP.MPID,
+                    RtHon = x.MP.RtHon,
+                    SalutationId = x.MP.SalutationID,
+                    FirstNames = x.MP.FirstNames,
+                    Surname = x.MP.Surname,
+                    Email = x.MP.Email,
+                    Suffix = x.MP.Suffix,
+                    AddressLine1 = x.MP.AddressLine1,
+                    AddressLine2 = x.MP.AddressLine2,
+                    AddressLine3 = x.MP.AddressLine3,
+                    Town = x.MP.Town,
+                    County = x.MP.County,
+                    Postcode = x.MP.Postcode,
+                    Active = x.MP.active,
+                    DeactivatedByID = x.MP.deactivatedByID,
+                    DeactivatedOn = x.MP.deactivatedOn,
+                    DeactivatedDisplay = x.User != null ? $"{x.User.DisplayName} on {x.MP.deactivatedOn:MM/dd/yyyy}" : null
+                }).ToList();
 
             return new PagedResult<List<MPModel>>
             {
@@ -196,22 +177,24 @@ namespace ChapsDotNET.Business.Components
             query = query.Where(x => x.MPID == id);
 
             var mp = await query.Select(x => new MPModel
-                {
-                    MPId = x.MPID,
-                    RtHon = x.RtHon,
-                    SalutationId = x.SalutationID,
-                    FirstNames = x.FirstNames,
-                    Surname = x.Surname,
-                    Suffix = x.Suffix,
-                    Email = x.Email,
-                    Active = x.active,
-                    AddressLine1 = x.AddressLine1,
-                    AddressLine2 = x.AddressLine2,
-                    AddressLine3 = x.AddressLine3,
-                    Town = x.Town,
-                    County = x.County,
-                    Postcode = x.Postcode
-                }).SingleOrDefaultAsync();
+            {
+                MPId = x.MPID,
+                RtHon = x.RtHon,
+                SalutationId = x.SalutationID,
+                FirstNames = x.FirstNames,
+                Surname = x.Surname,
+                Suffix = x.Suffix,
+                Email = x.Email,
+                Active = x.active,
+                AddressLine1 = x.AddressLine1,
+                AddressLine2 = x.AddressLine2,
+                AddressLine3 = x.AddressLine3,
+                Town = x.Town,
+                County = x.County,
+                Postcode = x.Postcode,
+                DeactivatedByID = x.deactivatedByID,
+                DeactivatedOn = x.deactivatedOn
+            }).SingleOrDefaultAsync();
 
             if (mp == null)
             {
@@ -249,7 +232,7 @@ namespace ChapsDotNET.Business.Components
                 County = model.County,
                 Town = model.Town,
                 Postcode = model.Postcode,
-                active = true
+                active = true,
             };
 
             await _context.MPs.AddAsync(mp);
@@ -289,6 +272,8 @@ namespace ChapsDotNET.Business.Components
             mp.Town = model.Town;
             mp.Postcode = model.Postcode;
             mp.active = model.Active;
+            mp.deactivatedByID = model.DeactivatedByID;
+            mp.deactivatedOn = model.DeactivatedOn;
 
             _context.MPs.Update(mp);
             await _context.SaveChangesAsync();
