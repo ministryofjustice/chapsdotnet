@@ -28,7 +28,7 @@ namespace ChapsDotNET.Business.Components
 
             query = query
                 .Where(x => x.active == true)
-                .OrderBy(x => x.Surname);
+                .OrderBy(x => x.Surname).ThenBy(x => x.FirstNames);
 
             //Row Count
             var count = await query.CountAsync();
@@ -108,13 +108,13 @@ namespace ChapsDotNET.Business.Components
             //Sorting
             query = (model.SortColumn, model.sortOrder) switch
             {
-                ("name", "asc") => query.OrderBy(x => x.Surname),
-                ("name", "desc") => query.OrderByDescending(x => x.Surname),
+                ("name", "asc") => query.OrderBy(x => x.Surname).ThenBy(x => x.FirstNames),
+                ("name", "desc") => query.OrderByDescending(x => x.Surname).ThenByDescending(x => x.FirstNames),
                 ("address", "asc") => query.OrderBy(x => x.AddressLine1),
                 ("address", "desc") => query.OrderByDescending(x => x.AddressLine1),
                 ("email", "asc") => query.OrderBy(x => x.Email),
                 ("email", "desc") => query.OrderByDescending(x => x.Email),
-                _ => query.OrderBy(x => x.Surname)
+                _ => query.OrderBy(x => x.Surname).ThenBy(x => x.FirstNames)
             };
 
             //count for pagination
@@ -126,14 +126,18 @@ namespace ChapsDotNET.Business.Components
                 .Take(model.PageSize);
 
             // get Mps with user that deactivated them
-            var mpsWithUsers = await (from mp in query
-                                      join user in _context.Users on mp.deactivatedByID equals user.UserID into groupJoin
-                                      from subUser in groupJoin.DefaultIfEmpty()
-                                      select new
-                                      {
-                                          MP = mp,
-                                          User = subUser
-                                      }).ToListAsync();
+            var mpsWithUsers = await
+                (from mp in query
+                    join user in _context.Users
+                    on mp.deactivatedByID equals user.UserID
+                    into groupJoin
+                        from subUser in groupJoin.DefaultIfEmpty()
+                            select new
+                            {
+                                MP = mp,
+                                User = subUser
+                            }).ToListAsync();
+
             //project to list
             var mpsList = mpsWithUsers
                 .Select(x => new MPModel

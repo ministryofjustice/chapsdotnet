@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using NuGet.Packaging.Signing;
+using Microsoft.Identity.Web.UI.Areas.MicrosoftIdentity.Pages.Account;
+using System.Net.Mail;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
 {
@@ -128,11 +130,20 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             var model = await _mpComponent.GetMPAsync(id);
+            model.DisplayFullName = await DisplayFullName(model.MPId);
+            var emailAddress = "CHAPS-Support@digital.justice.gov.uk";
+
             var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel
             {
                 PageSize = 75,
                 ShowActiveAndInactive = false
             });
+
+            if (model.Active == false)
+            {
+                var errorMessage = ($"You cannot edit '{model.DisplayFullName}' as the record has been deactivated, please  email <a href='mailto:{emailAddress}'>{emailAddress}</a> to re-activate it.");
+                return RedirectToAction("InactiveMpError", new { errorMessage });
+            }
 
             var viewModel = model.ToViewModel();
             if (salutations.Results != null)
@@ -146,6 +157,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(MPViewModel viewModel)
         {
+
+
 
             if (viewModel.Active != viewModel.Active && viewModel.Active == true)
             {
@@ -223,6 +236,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             await _mpComponent.UpdateMPAsync(viewModel.ToModel());
 
             return RedirectToAction("index");
+        }
+
+        public ActionResult InactiveMpError(string errorMessage)
+        {
+            ViewBag.ErrorMessage = errorMessage;
+
+            return View();
         }
     }
 }
