@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security;
-//using System.Xml.Linq;
 using ChapsDotNET.Data.Entities;
-//using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ChapsDotNET.Business.Models
 {

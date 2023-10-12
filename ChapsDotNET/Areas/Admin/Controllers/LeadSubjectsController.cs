@@ -43,8 +43,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-   
-
         public async Task<ActionResult> Edit(int id)
         {
             var model = await _leadSubjectComponent.GetLeadSubjectAsync(id);
@@ -77,7 +75,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return RedirectToAction("index");
         }
 
-
         public ActionResult Deactivate(LeadSubjectViewModel viewmodel, bool x = false)
         {
             return View(viewmodel);
@@ -102,20 +99,10 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     deactivatedBy = user
                 };
 
-
                 await _leadSubjectComponent.UpdateLeadSubjectAsync(subjectModel);
-
             }
 
-
             return RedirectToAction("index");
-
         }
-
-
-
-
     }
 }
-
-

@@ -1,18 +1,10 @@
-﻿using System.Linq;
-using ChapsDotNET.Business.Components;
-using ChapsDotNET.Business.Interfaces;
-using ChapsDotNET.Business.Models;
+﻿using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
-using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
-using NuGet.Packaging.Signing;
-using Microsoft.Identity.Web.UI.Areas.MicrosoftIdentity.Pages.Account;
-using System.Net.Mail;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
 {
@@ -21,11 +13,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
     {
         private readonly IMPComponent _mpComponent;
         private readonly ISalutationComponent _salutationComponent;
+        private readonly IUserComponent _userComponent;
 
-        public MPsController(IMPComponent mpComponent, ISalutationComponent salutationComponent)
+        public MPsController(IMPComponent mpComponent, ISalutationComponent salutationComponent, IUserComponent userComponent)
         {
             _mpComponent = mpComponent;
             _salutationComponent = salutationComponent;
+            _userComponent = userComponent;
         }
 
         public async Task<IActionResult> Index(string nameFilterTerm, string addressFilterTerm, string emailFilterTerm, bool activeFilter, string sortOrder, int page = 1)
@@ -67,7 +61,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             return View(indexVM);
         }
 
-
         [HttpPost]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> GetFilteredMPs([FromBody] MPRequestModel model)
@@ -102,7 +95,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             }
         }
 
-
         public async Task<ActionResult> Create()
         {
             var model = new MPViewModel();
@@ -132,7 +124,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             var model = await _mpComponent.GetMPAsync(id);
             model.DisplayFullName = await DisplayFullName(model.MPId);
             var emailAddress = "CHAPS-Support@digital.justice.gov.uk";
-
             var salutations = await _salutationComponent.GetSalutationsAsync(new SalutationRequestModel
             {
                 PageSize = 75,
@@ -157,25 +148,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(MPViewModel viewModel)
         {
+            var model = await _mpComponent.GetMPAsync(viewModel.MPId);
 
-
-
-            if (viewModel.Active != viewModel.Active && viewModel.Active == true)
+            if (viewModel.Active != model.Active && model.Active == true)
             {
                 TempData["viewModel"] = JsonConvert.SerializeObject(viewModel);
                 return RedirectToAction("Deactivate", viewModel);
             }
-
-            if (viewModel.Active != viewModel.Active && viewModel.Active == false)
-            {
-                viewModel.DeactivatedOn = null;
-                viewModel.DeactivatedByID = null;
-                await _mpComponent.UpdateMPAsync(viewModel.ToModel());
-                return RedirectToAction("index");
-            }
-
-            viewModel.DeactivatedOn = viewModel.DeactivatedOn;
-            viewModel.DeactivatedByID = viewModel.DeactivatedByID;
 
             await _mpComponent.UpdateMPAsync(viewModel.ToModel());
             return RedirectToAction("index");
@@ -211,8 +190,9 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
         }
 
-        public ActionResult Deactivate(MPViewModel viewmodel, bool x = false)
+        public async Task<ActionResult> Deactivate(MPViewModel viewmodel, bool x = false)
         {
+            viewmodel.DisplayFullName = await DisplayFullName(viewmodel.MPId);
             return View(viewmodel);
         }
 
@@ -221,17 +201,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             viewModel.Active = false;
             viewModel.DeactivatedOn = DateTime.Now;
-
-            //string currentUserId = _userManager.GetUserId(User);
-            //if (!string.IsNullOrEmpty(currentUserId))
-            //{
-            //    viewModel.DeactivatedByID = Int32.Parse(currentUserId);
-            //}
-            //else
-            //{
-            //    // handle null userID
-            //}
-
+            var user = await _userComponent.GetUserByNameAsync(User.Identity!.Name);         
+            viewModel.DeactivatedByID = user.UserId;
 
             await _mpComponent.UpdateMPAsync(viewModel.ToModel());
 

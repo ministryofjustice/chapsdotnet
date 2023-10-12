@@ -105,7 +105,6 @@ namespace ChapsDotNET.Business.Components
                 query = query.Where(x => x.active == true);
             }
 
-            //Sorting
             query = (model.SortColumn, model.sortOrder) switch
             {
                 ("name", "asc") => query.OrderBy(x => x.Surname).ThenBy(x => x.FirstNames),
@@ -114,18 +113,18 @@ namespace ChapsDotNET.Business.Components
                 ("address", "desc") => query.OrderByDescending(x => x.AddressLine1),
                 ("email", "asc") => query.OrderBy(x => x.Email),
                 ("email", "desc") => query.OrderByDescending(x => x.Email),
+                ("deactiv", "asc") => query.OrderBy(x => x.deactivatedOn),
+                ("deactiv", "desc") => query.OrderByDescending(x => x.deactivatedOn),
                 _ => query.OrderBy(x => x.Surname).ThenBy(x => x.FirstNames)
             };
 
-            //count for pagination
             int totalCount = await query.CountAsync();
 
-            //apply paging
             query = query
                 .Skip((model.PageNumber - 1) * model.PageSize)
                 .Take(model.PageSize);
 
-            // get Mps with user that deactivated them
+            // get Mps with any users that deactivated them
             var mpsWithUsers = await
                 (from mp in query
                     join user in _context.Users
@@ -138,7 +137,6 @@ namespace ChapsDotNET.Business.Components
                                 User = subUser
                             }).ToListAsync();
 
-            //project to list
             var mpsList = mpsWithUsers
                 .Select(x => new MPModel
                 {
@@ -158,7 +156,7 @@ namespace ChapsDotNET.Business.Components
                     Active = x.MP.active,
                     DeactivatedByID = x.MP.deactivatedByID,
                     DeactivatedOn = x.MP.deactivatedOn,
-                    DeactivatedDisplay = x.User != null ? $"{x.User.DisplayName} on {x.MP.deactivatedOn:MM/dd/yyyy}" : null
+                    DeactivatedDisplay = x.User != null ? $"{x.User.DisplayName} on {x.MP.deactivatedOn:dd/MM/yyyy}" : null
                 }).ToList();
 
             return new PagedResult<List<MPModel>>

@@ -20,7 +20,11 @@
     @Html.HiddenFor(model => model.DeactivatedOn)
     @Html.HiddenFor(model => model.DisplayFullName)
 
-    <p>Are you sure you want to deactivate member of parliamnet "@Model.DisplayFullName" ?</p>
+<div class="message warning" style="padding:10px;">
+    <span></span>
+    <h6>Confirm Deactivation</h6>
+    <p> Are you sure you want to deactivate member of parliament "@Model.DisplayFullName" ?</p>
     <input class="createButton" type="submit" value="Confirm Deactivate" />
-
-}
+    <button class="cancel-button" type="button" onclick="location.href= '/Admin/MPs/Edit/@Model.MPId}';">Back</button>
+</div>
+ }

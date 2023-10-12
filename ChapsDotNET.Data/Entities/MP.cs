@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-using ChapsDotNET.Data.Interfaces;
+﻿using ChapsDotNET.Data.Interfaces;
 
 namespace ChapsDotNET.Data.Entities
 {

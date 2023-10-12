@@ -96,7 +96,7 @@
         </thead>
         <tbody id="mpListContainer">
             @foreach (var mp in Model.MPs.Results!.ToList())
-            {
+             {
                 <tr>
                     <td>
                         <a href="/Admin/MPs/Edit/@mp.MPId">
@@ -119,7 +119,7 @@
                         @Html.DisplayFor(x => mp.Active)
                     </td>
                 </tr>
-            }
+             }
         </tbody>
     </table>
 
