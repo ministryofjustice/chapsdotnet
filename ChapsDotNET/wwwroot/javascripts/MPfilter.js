@@ -30,7 +30,6 @@ $(document).ready(function () {
     $('body').on('click', '.mpPageButton', function (e) {
         e.preventDefault(); //prevents the default link action
         currentPage = parseInt($(this).text());
-        console.log(currentPage);
         var model = generateModel(currentPage);
         filterAndSortMps(model, mpsUrl)
     })
@@ -97,9 +96,7 @@ function filterAndSortMps(model, mpsUrl) {
             $('#' + focusedElementId).focus();
 
             totalPages = data.pagination.totalPages;
-
             updatePaginationControls(data.pagination);
-
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX call failed fetching Mps. Status:", textStatus, "Error: ", errorThrown);
@@ -172,7 +169,6 @@ function updatePaginationControls(paginationInfo) {
             pageLinksHtml += `<a href="${url}" class="mpPageButton">${i}</a>`
         }
     }
-
     $('#pageLinksContainer').html(pageLinksHtml);
 }
 
@@ -180,12 +176,10 @@ function debounce(func, wait) {
     var timeout;
     return function () {
         var context = this, args = arguments;
-
         var later = function () {
             timeout = null;
             func.apply(context, args);
         };
-
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
@@ -236,7 +230,6 @@ function generateModel(pageNumber) {
 }
 
 function handleNextButtonClick(e) {
-    console.log("Next button clicked!");
     e.preventDefault
     if ($("#nextButton").hasClass('page-button-img-next-disabled')) {
         return;
@@ -249,7 +242,6 @@ function handleNextButtonClick(e) {
 }
 
 function handlePrevButtonClick(e) {
-    console.log("Previous button clicked!");
     if ($("#nextButton").hasClass('page-button-img-previous-disabled')) {
         return;
     }
@@ -262,7 +254,6 @@ function handlePrevButtonClick(e) {
 }
 
 function handleLastButtonClick(e) {
-    console.log("Last button clicked!");
     if ($("#nextButton").hasClass('page-button-img-last-disabled')) {
         return;
     }
@@ -273,7 +264,6 @@ function handleLastButtonClick(e) {
 }
 
 function handleFirstButtonClick(e) {
-    console.log("First button clicked!");
     if ($("#nextButton").hasClass('page-button-img-first-disabled')) {
         return;
     }
