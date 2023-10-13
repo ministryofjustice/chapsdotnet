@@ -16,7 +16,14 @@
         };
         let currentPage = @Model.Pagination!.CurrentPage;
         let sortOrder = '@Model.MPs!.sortOrder';
+
+        function getToken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+        }
     </script>
+
 
     @Html.AntiForgeryToken()
     <div class="breadcrumbs">
@@ -96,7 +103,7 @@
         </thead>
         <tbody id="mpListContainer">
             @foreach (var mp in Model.MPs.Results!.ToList())
-             {
+            {
                 <tr>
                     <td>
                         <a href="/Admin/MPs/Edit/@mp.MPId">
@@ -119,7 +126,7 @@
                         @Html.DisplayFor(x => mp.Active)
                     </td>
                 </tr>
-             }
+            }
         </tbody>
     </table>
 

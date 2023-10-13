@@ -1,4 +1,5 @@
 ﻿using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
@@ -62,7 +63,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        [IgnoreAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> GetFilteredMPs([FromBody] MPRequestModel model)
         {
             if (ModelState.IsValid)
@@ -214,6 +215,38 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             ViewBag.ErrorMessage = errorMessage;
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SetActiveTrue(int id)
+        {
+            var mp = await _mpComponent.GetMPAsync(id);
+            if (mp != null)
+            {
+                var model = new MPModel
+                {
+                    MPId = mp.MPId,
+                    RtHon = mp.RtHon,
+                    SalutationId = mp.SalutationId,
+                    FirstNames = mp.FirstNames,
+                    Surname = mp.Surname,
+                    Email = mp.Email,
+                    Suffix = mp.Suffix,
+                    AddressLine1 = mp.AddressLine1,
+                    AddressLine2 = mp.AddressLine2,
+                    AddressLine3 = mp.AddressLine3,
+                    Town = mp.Town,
+                    County = mp.County,
+                    Postcode = mp.Postcode,
+                    Active = true,
+                    DeactivatedByID = mp.DeactivatedByID,
+                    DeactivatedOn = mp.DeactivatedOn,
+                };
+
+                await _mpComponent.UpdateMPAsync(model);
+            }
+            return Json(new { success = true });
         }
     }
 }

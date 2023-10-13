@@ -1,5 +1,31 @@
 ﻿@model ChapsDotNET.Models.MPViewModel
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
 
+        function getToken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+        }
+
+    function setActiveTrue() {
+        var mpId = '@Model.MPId';
+        $.ajax({
+            url: '/Admin/MPs/SetActiveTrue',
+            type: 'POST',
+            headers: { "RequestVerificationToken": getToken() },
+            data: { id: mpId },
+            success: function (result) {
+                if (result.success) {
+                    window.location.href = '/Admin/MPs/Edit/' + mpId;
+                }
+            }
+        });
+    }
+
+
+</script>
+@Html.AntiForgeryToken()
 @using (Html.BeginForm())
 {
     @Html.HiddenFor(model => model.MPId)
@@ -20,11 +46,11 @@
     @Html.HiddenFor(model => model.DeactivatedOn)
     @Html.HiddenFor(model => model.DisplayFullName)
 
-<div class="message warning" style="padding:10px;">
-    <span></span>
-    <h6>Confirm Deactivation</h6>
-    <p> Are you sure you want to deactivate member of parliament "@Model.DisplayFullName" ?</p>
-    <input class="createButton" type="submit" value="Confirm Deactivate" />
-    <button class="cancel-button" type="button" onclick="location.href= '/Admin/MPs/Edit/@Model.MPId}';">Back</button>
-</div>
- }
+    <div class="message warning" style="padding:10px;">
+        <span></span>
+        <h6>Confirm Deactivation</h6>
+        <p> Are you sure you want to deactivate member of parliament "@Model.DisplayFullName" ?</p>
+        <input class="createButton" type="submit" value="Confirm Deactivate" />
+        <button class="cancel-button" type="button" onclick="setActiveTrue();">Back</button>
+    </div>
+}
