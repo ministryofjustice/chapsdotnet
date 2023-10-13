@@ -96,7 +96,9 @@ namespace ChapsDotNET.Common.Mappers
                 RtHon = viewModel.RtHon,
                 Suffix = viewModel.Suffix,
                 Active = viewModel.Active,
-                DisplayFullName = viewModel.DisplayFullName
+                DisplayFullName = viewModel.DisplayFullName,
+                DeactivatedByID = viewModel.DeactivatedByID,
+                DeactivatedOn = viewModel.DeactivatedOn
             };
         }
 
@@ -118,7 +120,9 @@ namespace ChapsDotNET.Common.Mappers
                 RtHon = model.RtHon,
                 Suffix = model.Suffix,
                 Active = model.Active,
-                DisplayFullName = model.DisplayFullName
+                DisplayFullName = model.DisplayFullName,
+                DeactivatedOn = model.DeactivatedOn,
+                DeactivatedByID = model.DeactivatedByID
             };
         }
 
@@ -175,7 +179,7 @@ namespace ChapsDotNET.Common.Mappers
                 Name = viewModel.Name,
                 deactivated = viewModel.deactivated,
                 deactivatedBy = viewModel.deactivatedBy
-              
+
             };
         }
 
@@ -183,9 +187,9 @@ namespace ChapsDotNET.Common.Mappers
         {
             return new TeamViewModel
             {
-                Acronym= model.Acronym,
+                Acronym = model.Acronym,
                 Active = model.Active,
-                TeamId= model.TeamId,
+                TeamId = model.TeamId,
                 Email = model.Email,
                 IsOgd = model.IsOgd,
                 IsPod = model.IsPod,
@@ -213,7 +217,7 @@ namespace ChapsDotNET.Common.Mappers
             {
                 ReportId = model.ReportId,
                 Name = model.Name,
-                Description = model.Description?? string.Empty,
+                Description = model.Description ?? string.Empty,
                 LongDescription = model.LongDescription
             };
         }
@@ -222,13 +226,13 @@ namespace ChapsDotNET.Common.Mappers
         {
             return new UserViewModel
             {
-                               
+
                 Name = model.Name,
                 DisplayName = model.DisplayName,
                 Email = model.Email,
                 RoleStrength = model.RoleStrength,
                 TeamId = model.TeamId
-                
+
             };
         }
 

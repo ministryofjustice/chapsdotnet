@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Security;
 using ChapsDotNET.Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -52,5 +51,7 @@ namespace ChapsDotNET.Models
         public SelectList SalutationList { get; set; } = default!;
         public string? DisplayFullName { get; set; }
         public string? sortOrder { get; set; }
+        public int? DeactivatedByID { get; set; }
+        public DateTime? DeactivatedOn { get; set; }
     }
 }

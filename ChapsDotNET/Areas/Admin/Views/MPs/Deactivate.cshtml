@@ -1,0 +1,30 @@
+﻿@model ChapsDotNET.Models.MPViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.MPId)
+    @Html.HiddenFor(model => model.RtHon)
+    @Html.HiddenFor(model => model.SalutationId)
+    @Html.HiddenFor(model => model.FirstNames)
+    @Html.HiddenFor(model => model.Surname)
+    @Html.HiddenFor(model => model.Suffix)
+    @Html.HiddenFor(model => model.Email)
+    @Html.HiddenFor(model => model.Active)
+    @Html.HiddenFor(model => model.AddressLine1)
+    @Html.HiddenFor(model => model.AddressLine2)
+    @Html.HiddenFor(model => model.AddressLine3)
+    @Html.HiddenFor(model => model.Town)
+    @Html.HiddenFor(model => model.County)
+    @Html.HiddenFor(model => model.Postcode)
+    @Html.HiddenFor(model => model.DeactivatedByID)
+    @Html.HiddenFor(model => model.DeactivatedOn)
+    @Html.HiddenFor(model => model.DisplayFullName)
+
+<div class="message warning" style="padding:10px;">
+    <span></span>
+    <h6>Confirm Deactivation</h6>
+    <p> Are you sure you want to deactivate member of parliament "@Model.DisplayFullName" ?</p>
+    <input class="createButton" type="submit" value="Confirm Deactivate" />
+    <button class="cancel-button" type="button" onclick="location.href= '/Admin/MPs/Edit/@Model.MPId}';">Back</button>
+</div>
+ }
