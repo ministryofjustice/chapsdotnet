@@ -84,6 +84,7 @@ namespace ChapsDotNET.Tests.Areas
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
             var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mockUserComponent = Substitute.For<IUserComponent>();
             var mockSalutation = mockSalutationComponent.GetSalutationsAsync(Arg.Any<SalutationRequestModel>()).Returns(
                 new PagedResult<List<SalutationModel>>
                 {
@@ -99,7 +100,7 @@ namespace ChapsDotNET.Tests.Areas
                 }
             );
 
-            var controller = new MPsController(mockMPComponent, mockSalutationComponent);
+            var controller = new MPsController(mockMPComponent, mockSalutationComponent, mockUserComponent);
 
             //Act
             var result = await controller.Create();
@@ -114,7 +115,8 @@ namespace ChapsDotNET.Tests.Areas
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
             var mockSalutationComponent = Substitute.For<ISalutationComponent>();
-            var controller = new MPsController(mockMPComponent, mockSalutationComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+            var controller = new MPsController(mockMPComponent, mockSalutationComponent, mockUserComponent);
             var mpViewModel = new MPViewModel()
             {
                 MPId = 1,
@@ -147,6 +149,7 @@ namespace ChapsDotNET.Tests.Areas
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
             var mockSalutationComponent = Substitute.For<ISalutationComponent>();
+            var mockUserComponent = Substitute.For<IUserComponent>();
             var mockSalutation = mockSalutationComponent.GetSalutationsAsync(Arg.Any<SalutationRequestModel>()).Returns(
                 new PagedResult<List<SalutationModel>>
                 {
@@ -162,7 +165,7 @@ namespace ChapsDotNET.Tests.Areas
                 }
             );
 
-            MPsController controller = new MPsController(mockMPComponent, mockSalutationComponent);
+            MPsController controller = new MPsController(mockMPComponent, mockSalutationComponent, mockUserComponent);
 
             mockMPComponent.GetMPAsync(1).Returns(new MPModel
             {
@@ -195,7 +198,8 @@ namespace ChapsDotNET.Tests.Areas
             //Arrange
             var mockMPComponent = Substitute.For<IMPComponent>();
             var mockSalutationComponent = Substitute.For<ISalutationComponent>();
-            var controller = new MPsController(mockMPComponent, mockSalutationComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+            var controller = new MPsController(mockMPComponent, mockSalutationComponent, mockUserComponent);
 
             //Act
             var result = await controller.Edit(new MPViewModel

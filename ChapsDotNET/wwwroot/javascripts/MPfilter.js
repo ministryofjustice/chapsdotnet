@@ -55,7 +55,7 @@ $(document).ready(function () {
     //sort columns
     $('table').on('click', '.sortable', function (event) {
         event.preventDefault();
-        const column = $(this).data('sort'); // gets the name of the clicked column
+        const column = $(this).data('sort'); 
         const newSortDirection = currentSortColumn === column ?
             (currentSortDirection === 'asc' ? 'desc' : 'asc') : 'desc';
 
@@ -83,7 +83,7 @@ function filterAndSortMps(model, mpsUrl) {
         url: mpsUrl,
         data: JSON.stringify(model),
         headers: {
-            __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+            "RequestVerificationToken": getToken()
         },
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
