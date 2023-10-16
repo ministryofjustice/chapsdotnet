@@ -1,0 +1,42 @@
+﻿@model ChapsDotNET.Models.CampaignViewModel
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+        function getToken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+        }
+
+    function setActiveTrue() {
+        var campaignId = '@Model.CampaignId';
+        $.ajax({
+            url: '/Admin/Campaigns/SetActiveTrue',
+            type: 'POST',
+            headers: { "RequestVerificationToken": getToken() },
+            data: { id: campaignId },
+            success: function (result) {
+                if (result.success) {
+                    window.location.href = '/Admin/Campaigns/Edit/' + campaignId;
+                }
+            }
+        });
+    }
+</script>
+
+@Html.AntiForgeryToken()
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.CampaignId)
+    @Html.HiddenFor(model => model.Detail)
+    @Html.HiddenFor(model => model.Active)
+
+
+    <div class="message warning" style="padding:10px;">
+        <span></span>
+        <h6>Confirm Deactivation</h6>
+        <p> Are you sure you want to deactivate campaign "@Model.Detail" ?</p>
+        <input class="createButton" type="submit" value="Confirm Deactivate" />
+        <button class="cancel-button" type="button" onclick="setActiveTrue();">Back</button>
+    </div>
+}
