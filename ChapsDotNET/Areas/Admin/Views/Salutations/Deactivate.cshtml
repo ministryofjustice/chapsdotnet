@@ -1,0 +1,43 @@
+﻿@model ChapsDotNET.Models.SalutationViewModel
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+        function getToken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+        }
+
+    function setActiveTrue() {
+        var salutationId = '@Model.SalutationId';
+        $.ajax({
+            url: '/Admin/Salutations/SetActiveTrue',
+            type: 'POST',
+            headers: { "RequestVerificationToken": getToken() },
+            data: { id: salutationId },
+            success: function (result) {
+                if (result.success) {
+                    window.location.href = '/Admin/Salutations/Edit/' + salutationId;
+                }
+            }
+        });
+    }
+
+</script>
+@Html.AntiForgeryToken()
+@using (Html.BeginForm())
+
+{
+    @Html.HiddenFor(model => model.SalutationId)
+    @Html.HiddenFor(model => model.Detail)
+    @Html.HiddenFor(model => model.Active)
+
+
+    <div class="message warning" style="padding:10px;">
+        <span></span>
+        <h6>Confirm Deactivation</h6>
+        <p> Are you sure you want to deactivate salutation "@Model.Detail" ?</p>
+        <input class="createButton" type="submit" value="Confirm Deactivate" />
+        <button class="cancel-button" type="button" onclick="setActiveTrue();">Back</button>
+    </div>
+}
