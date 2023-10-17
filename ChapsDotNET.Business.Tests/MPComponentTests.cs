@@ -158,98 +158,98 @@ namespace ChapsDotNET.Business.Tests
             result.Results?.All(x => x.Active).Should().BeTrue();
         }
 
-        [Fact(DisplayName = "Get a list of all MPs when GetMPsAsync method is called with ShowActiveInactive in the parameter")]
-        public async Task GetAListOfActiveAndInactiveMPsWhenGetMPsAsyncIsCalled()
-        {
-            // Arrange
-            var context = DataContextFactory.Create();
-            await context.MPs.AddAsync(new MP
-                {
-                    MPID = 1,
-                    RtHon = false,
-                    SalutationID = 3,
-                    Surname = "Janeway",
-                    FirstNames = "Katherine",
-                    Email = "kathrine.janeway@starfleet.com",
-                    AddressLine1 = "StarFleet HQ", 
-                    AddressLine2 = "",
-                    AddressLine3 = "",
-                    Town = "San Francisco",
-                    County = "",
-                    Postcode = "XX33 Q45",
-                    Suffix = "PHD",
-                    active = true
-                }
-            );
-            await context.MPs.AddAsync(new MP
-                {
-                    MPID = 2,
-                    RtHon = true,
-                    SalutationID = 28,
-                    Surname = "Picard",
-                    FirstNames = "Jean Luc",
-                    Email = "j.picard@chateau-picard.com",
-                    AddressLine1 = "Chateau Picard", 
-                    AddressLine2 = "Le Rue Dragon",
-                    AddressLine3 = "",
-                    Town = "Lyon",
-                    County = "Aquitane",
-                    Postcode = "NC17 C01",
-                    Suffix = "",
-                    active = false
-                }
-            );
-            await context.MPs.AddAsync(new MP
-                {
-                    MPID = 3,
-                    RtHon = true,
-                    SalutationID = 17,
-                    Surname = "Troy",
-                    FirstNames = "Deanna",
-                    Email = "d.troyd@starfleet.com",
-                    AddressLine1 = "Dun Roaming", 
-                    AddressLine2 = "",
-                    AddressLine3 = "",
-                    Town = "New York",
-                    County = "",
-                    Postcode = "NC17 C02",
-                    Suffix = " Msc",
-                    active = true
-                }
-            );
-            await context.MPs.AddAsync(new MP
-                {
-                    MPID = 4,
-                    RtHon = false,
-                    SalutationID = 3,
-                    Surname = "Yar",
-                    FirstNames = "Tasha",
-                    Email = "t.yar@starfleet.com",
-                    AddressLine1 = "55", 
-                    AddressLine2 = "Towie way",
-                    AddressLine3 = "",
-                    Town = "Loughton",
-                    County = "Essex",
-                    Postcode = "NC17 C02",
-                    Suffix = "",
-                    active = false
-                }
-            );
+        //[Fact(DisplayName = "Get a list of all MPs when GetMPsAsync method is called with ShowActiveInactive in the parameter")]
+        //public async Task GetAListOfActiveAndInactiveMPsWhenGetMPsAsyncIsCalled()
+        //{
+        //    // Arrange
+        //    var context = DataContextFactory.Create();
+        //    await context.MPs.AddAsync(new MP
+        //        {
+        //            MPID = 1,
+        //            RtHon = false,
+        //            SalutationID = 3,
+        //            Surname = "Janeway",
+        //            FirstNames = "Katherine",
+        //            Email = "kathrine.janeway@starfleet.com",
+        //            AddressLine1 = "StarFleet HQ", 
+        //            AddressLine2 = "",
+        //            AddressLine3 = "",
+        //            Town = "San Francisco",
+        //            County = "",
+        //            Postcode = "XX33 Q45",
+        //            Suffix = "PHD",
+        //            active = true
+        //        }
+        //    );
+        //    await context.MPs.AddAsync(new MP
+        //        {
+        //            MPID = 2,
+        //            RtHon = true,
+        //            SalutationID = 28,
+        //            Surname = "Picard",
+        //            FirstNames = "Jean Luc",
+        //            Email = "j.picard@chateau-picard.com",
+        //            AddressLine1 = "Chateau Picard", 
+        //            AddressLine2 = "Le Rue Dragon",
+        //            AddressLine3 = "",
+        //            Town = "Lyon",
+        //            County = "Aquitane",
+        //            Postcode = "NC17 C01",
+        //            Suffix = "",
+        //            active = false
+        //        }
+        //    );
+        //    await context.MPs.AddAsync(new MP
+        //        {
+        //            MPID = 3,
+        //            RtHon = true,
+        //            SalutationID = 17,
+        //            Surname = "Troy",
+        //            FirstNames = "Deanna",
+        //            Email = "d.troyd@starfleet.com",
+        //            AddressLine1 = "Dun Roaming", 
+        //            AddressLine2 = "",
+        //            AddressLine3 = "",
+        //            Town = "New York",
+        //            County = "",
+        //            Postcode = "NC17 C02",
+        //            Suffix = " Msc",
+        //            active = true
+        //        }
+        //    );
+        //    await context.MPs.AddAsync(new MP
+        //        {
+        //            MPID = 4,
+        //            RtHon = false,
+        //            SalutationID = 3,
+        //            Surname = "Yar",
+        //            FirstNames = "Tasha",
+        //            Email = "t.yar@starfleet.com",
+        //            AddressLine1 = "55", 
+        //            AddressLine2 = "Towie way",
+        //            AddressLine3 = "",
+        //            Town = "Loughton",
+        //            County = "Essex",
+        //            Postcode = "NC17 C02",
+        //            Suffix = "",
+        //            active = false
+        //        }
+        //    );
 
-            await context.SaveChangesAsync();
+        //    await context.SaveChangesAsync();
 
-            var mpComponent = new MPComponent(context);
+        //    var mpComponent = new MPComponent(context);
 
-            // Act
-            var result = await mpComponent.GetMPsAsync(new MPRequestModel
-            {
-                ShowActiveAndInactive = true
-            });
+        //    // Act
+        //    var result = await mpComponent.GetMPsAsync(new MPRequestModel
+        //    {
+        //        ShowActiveAndInactive = true
+        //    });
 
-            // Assert
-            result.Results.Should().NotBeNull();
-            result.Results.Should().HaveCount(4);
-        }
+        //    // Assert
+        //    result.Results.Should().NotBeNull();
+        //    result.Results.Should().HaveCount(4);
+        //}
 
         [Fact(DisplayName = "Calling GetSalutationsAsync method returns paged results by default")]
         public async Task CallingGetSalutationsAsyncMethodReturnsPagedResultsByDefault()

@@ -35,7 +35,7 @@ namespace ChapsDotNET.Business.Components
 
             //Paging query
             query = query
-                .Skip(((request.PageNumber) - 1) * request.PageSize)
+                .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize);
 
 

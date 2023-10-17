@@ -29,7 +29,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             {
                 PageNumber = page,
                 PageSize = 10,
-                ShowActiveAndInactive = true,
+                ShowActiveAndInactive = false,
                 nameFilterTerm = nameFilterTerm,
                 addressFilterTerm = addressFilterTerm,
                 emailFilterTerm = emailFilterTerm,
@@ -164,11 +164,18 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<string> DisplayFullName(int id)
         {
             var mpmodel = await _mpComponent.GetMPAsync(id);
+
+            if(mpmodel == null)
+            {
+                throw new NullReferenceException($"Error retrieving MPModel Id: {id}.");
+            }
+
             var mp = mpmodel.ToViewModel();
             string? salutation = null;
             if (mp.SalutationId != null)
             {
-                salutation = _salutationComponent.GetSalutationAsync((int)mp.SalutationId).Result.Detail;
+                var salutationResult = await _salutationComponent.GetSalutationAsync((int)mp.SalutationId);
+                salutation = salutationResult?.Detail ?? String.Empty;
             }
             else
             {

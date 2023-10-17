@@ -165,7 +165,28 @@ namespace ChapsDotNET.Tests.Areas
                 }
             );
 
-            MPsController controller = new MPsController(mockMPComponent, mockSalutationComponent, mockUserComponent);
+            var mockMpModel = new MPModel
+            {
+                MPId = 1,
+                RtHon = true,
+                SalutationId = 1,
+                Surname = "Picard",
+                FirstNames = "Jean Luc",
+                Email = "j.picard@chateau-picard.co.uk",
+                AddressLine1 = "Chateau Picard",
+                AddressLine2 = "Le Rue Dragon",
+                AddressLine3 = "",
+                Town = "Lyon",
+                County = "Aquitane",
+                Postcode = "NC17 C01",
+                Suffix = "",
+                Active = true,
+                DisplayFullName = "RtHon Lord Jean Luc Picard"
+            };
+
+            mockMPComponent.GetMPAsync(1).Returns(mockMpModel);
+
+            var controller = new MPsController(mockMPComponent, mockSalutationComponent, mockUserComponent);
 
             mockMPComponent.GetMPAsync(1).Returns(new MPModel
             {
@@ -182,7 +203,7 @@ namespace ChapsDotNET.Tests.Areas
                 County = "Aquitane",
                 Postcode = "NC17 C01",
                 Suffix = "",
-                Active = false
+                Active = true
             }); 
             
             //Act
@@ -199,6 +220,26 @@ namespace ChapsDotNET.Tests.Areas
             var mockMPComponent = Substitute.For<IMPComponent>();
             var mockSalutationComponent = Substitute.For<ISalutationComponent>();
             var mockUserComponent = Substitute.For<IUserComponent>();
+
+            var mockMPModel = new MPModel
+            {
+                MPId = 3,
+                RtHon = false,
+                SalutationId = 17,
+                Surname = "Troy",
+                FirstNames = "Deanna",
+                Email = "d.troyd@starfleet.co.uk",
+                AddressLine1 = "Dun Roaming",
+                AddressLine2 = "",
+                AddressLine3 = "",
+                Town = "New York",
+                County = "",
+                Postcode = "NC17 C02",
+                Suffix = " Msc",
+                Active = true
+            };
+            mockMPComponent.GetMPAsync(3).Returns(mockMPModel);
+
             var controller = new MPsController(mockMPComponent, mockSalutationComponent, mockUserComponent);
 
             //Act
