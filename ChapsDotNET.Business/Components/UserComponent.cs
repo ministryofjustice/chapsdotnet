@@ -21,9 +21,9 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of Users
+        /// Returns a list of Users
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="sortOrder">string?</param>
         /// <returns>A list of UserModel</returns>
         public async Task<List<UserModel>> GetUsersAsync(string? sortOrder = null)
         {
@@ -90,9 +90,9 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method adds a new user to the database
+        /// Adds a new user
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">UserModel</param>
         /// <returns>int, string</returns>
         public async Task<(int userId, string warning)> AddUserAsync(UserModel model)   
         {
@@ -134,6 +134,11 @@ namespace ChapsDotNET.Business.Components
             }
         }
 
+        /// <summary>
+        /// Checks if current user is authorised
+        /// </summary>
+        /// <param name="userEmailAddress">string?</param>
+        /// <returns>bool</returns>
         public async Task<bool> IsUserAuthorisedAsync(string? userEmailAddress)
         {
             //If User was never authenticated then we expect to get null
@@ -147,9 +152,9 @@ namespace ChapsDotNET.Business.Components
 
 
         /// <summary>
-        /// This method returns a user by email address
+        /// Returns a user by email address
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="userEmailAddress">string?</param>
         /// <returns>UserModel</returns>
         public async Task<UserModel> GetUserByNameAsync(string? userEmailAddress)
         {
@@ -175,9 +180,9 @@ namespace ChapsDotNET.Business.Components
             };
         }
         /// <summary>
-        /// This method returns a user by Name 
+        /// Returns a user by Name 
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">string?</param>
         /// <returns>UserModel</returns>
         public async Task<UserModel> GetUserByLoginNameAsync(string? name)
         {
@@ -204,9 +209,9 @@ namespace ChapsDotNET.Business.Components
             };
         }
         /// <summary>
-        /// This method returns a user by UserId 
+        /// Returns a user by UserId 
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="userId">Int</param>
         /// <returns>UserModel</returns>
         public async Task<UserModel> GetUserByIdAsync(int userId)
         {
@@ -229,10 +234,9 @@ namespace ChapsDotNET.Business.Components
             };
         }
         /// <summary>
-        /// This method update a User
+        /// Updates a User
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns>void</returns>
+        /// <param name="model">UserModel</param>
         public async Task UpdateUserAsync(UserModel model)
         {
             var user = await _context.Users.Include(x => x.Team).FirstOrDefaultAsync(x => x.UserID == model.UserId);

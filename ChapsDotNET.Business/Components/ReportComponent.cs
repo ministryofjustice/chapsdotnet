@@ -18,6 +18,10 @@ namespace ChapsDotNET.Business.Components
             _context = context;
         }
 
+        /// <summary>
+        /// Returns a list of ReportModels
+        /// </summary>
+        /// <returns>List of ReportModels</returns>
         public async Task<List<ReportModel>> GetReportsAsync()
         {
             var query = _context.Reports.AsQueryable();
@@ -31,6 +35,11 @@ namespace ChapsDotNET.Business.Components
             return reportsList;
         }
 
+        /// <summary>
+        /// Returns a Report
+        /// </summary>
+        /// <param name="id">Int</param>
+        /// <returns>A single Report</returns>
         public async Task<ReportModel> GetReportAsync(int id)
         {
             var query = _context.Reports.AsQueryable();
@@ -56,7 +65,12 @@ namespace ChapsDotNET.Business.Components
             return Report;
         }
 
-
+        /// <summary>
+        /// Updates a Report
+        /// </summary>
+        /// <param name="model">ReportModel</param>
+        /// <exception cref="NotFoundException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task UpdateReportAsync(ReportModel model)
         {
             var Report = await _context.Reports.FirstOrDefaultAsync(x => x.ReportId == model.ReportId);

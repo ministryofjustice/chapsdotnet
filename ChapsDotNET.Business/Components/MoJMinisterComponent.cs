@@ -18,10 +18,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of only active MoJ Ministers
+        /// Returns a paged list of MoJ Ministers
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A list of MoJMinisterModel</returns>
+        /// <param name="request">MoJMinisterRequestModel</param>
+        /// <returns>A paged list of MoJMinisterModels</returns>
         public async Task<PagedResult<List<MoJMinisterModel>>> GetMoJMinistersAsync(MoJMinisterRequestModel request)
         {
             var query = _context.MoJMinisters.AsQueryable();
@@ -66,6 +66,11 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
+        /// <summary>
+        /// Gets a single MoJMinister by ID
+        /// </summary>
+        /// <param name="id">Integer MoJMinisterID</param>
+        /// <returns>A single MoJministerModel</returns>
         public async Task<MoJMinisterModel> GetMoJMinisterAsync(int id)
         {
             var query = _context.MoJMinisters.AsQueryable();
@@ -97,6 +102,12 @@ namespace ChapsDotNET.Business.Components
             return mojMinister;
         }
 
+        /// <summary>
+        /// Adds a MoJMinister
+        /// </summary>
+        /// <param name="model">MoJMinisterModel</param>
+        /// <returns>Int</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<int> AddMoJMinisterAsync(MoJMinisterModel model)
         {
             if (string.IsNullOrEmpty(model.Name))
@@ -119,6 +130,12 @@ namespace ChapsDotNET.Business.Components
             return mojMinister.MoJMinisterID;
         }
 
+        /// <summary>
+        /// Updates a single MojMinister
+        /// </summary>
+        /// <param name="model">MoJMinisterModel</param>
+        /// <exception cref="NotFoundException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task UpdateMoJMinisterAsync(MoJMinisterModel model)
         {
             var mojMinister = await _context.MoJMinisters.FirstOrDefaultAsync(x => x.MoJMinisterID == model.MoJMinisterId);

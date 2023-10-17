@@ -3,6 +3,7 @@ using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
+using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -85,25 +86,12 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Deactivate(LeadSubjectViewModel viewmodel)
         {
-            var jsonModel = TempData["viewModel"] as string;
+            viewmodel.Active = false;
+            viewmodel.deactivated = DateTime.Now;
+            var user = await _userComponent.GetUserByNameAsync(User.Identity!.Name);
+            viewmodel.deactivatedBy = user.DisplayName;
 
-            if (jsonModel != null)
-            {
-                var model = JsonConvert.DeserializeObject<LeadSubjectViewModel>(jsonModel);
-                var user = await _userComponent.GetUserByNameAsync(User.Identity!.Name);
-
-
-                var subjectModel = new LeadSubjectModel
-                {
-                    LeadSubjectId = viewmodel.LeadSubjectId,
-                    Detail = viewmodel.Detail,
-                    Active = viewmodel.Active,
-                    deactivated = DateTime.Now,
-                    deactivatedBy = user.Name
-                };
-
-                await _leadSubjectComponent.UpdateLeadSubjectAsync(subjectModel);
-            }
+            await _leadSubjectComponent.UpdateLeadSubjectAsync(viewmodel.ToModel());
 
             return RedirectToAction("index");
         }

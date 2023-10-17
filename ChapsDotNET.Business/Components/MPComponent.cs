@@ -18,10 +18,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of only active MPs
+        /// Returns a list of only active MPs
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A list of MP Models</returns>
+        /// <param name="request">MPRequestModel</param>
+        /// <returns>A paged list of MPModels</returns>
         public async Task<PagedResult<List<MPModel>>> GetMPsAsync(MPRequestModel request)
         {
             var query = _context.MPs.AsQueryable();
@@ -69,10 +69,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of MPs filtered by terms entered
+        /// Returns a list of MPs filtered by terms entered
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns>A list of MP Models</returns>
+        /// <param name="model">MPRequestModel</param>
+        /// <returns>A paged list of MP Models</returns>
         public async Task<PagedResult<List<MPModel>>> GetFilteredMPsAsync(MPRequestModel model)
         {
             var query = _context.MPs.AsQueryable();
@@ -169,9 +169,9 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns an MP by id 
+        /// Returns an MPmodel by id 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Int MPID</param>
         /// <returns>An MP Model</returns>
         public async Task<MPModel> GetMPAsync(int id)
         {
@@ -209,10 +209,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default adds an MP 
+        /// Adds an MP 
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns>an integer id</returns>
+        /// <param name="model">MPModel</param>
+        /// <returns>Int</returns>
         public async Task<int> AddMPAsync(MPModel model)
         {
             if (string.IsNullOrEmpty(model.Surname))
@@ -243,10 +243,9 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default updates an MP
+        /// Updates an MP
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns>void</returns>
+        /// <param name="model">MPModel</param>
         public async Task UpdateMPAsync(MPModel model)
         {
             var mp = await _context.MPs.FirstOrDefaultAsync(x => x.MPID == model.MPId);

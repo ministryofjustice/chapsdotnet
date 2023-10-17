@@ -18,10 +18,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of only active Public Holidays
+        /// Returns a list of Public Holidays
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A list of PublicHoliday</returns>
+        /// <param name="request">PublicHolidayRequestModel</param>
+        /// <returns>A list of PublicHolidayModels</returns>
         public async Task<PagedResult<List<PublicHolidayModel>>> GetPublicHolidaysAsync(PublicHolidayRequestModel request)
         {
             var query = _context.PublicHolidays.AsQueryable();
@@ -55,6 +55,11 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
+        /// <summary>
+        /// Returns a single PublicHolidayModel
+        /// </summary>
+        /// <param name="id">Int</param>
+        /// <returns>a single PublicHolidayModel</returns>
         public async Task<PublicHolidayModel> GetPublicHolidayAsync(int id)
         {
             var query = _context.PublicHolidays.AsQueryable();
@@ -78,7 +83,13 @@ namespace ChapsDotNET.Business.Components
             return publicHoliday;
         }
 
-
+        /// <summary>
+        /// Adds a PublicHoliday
+        /// </summary>
+        /// <param name="model">PublicHolidayModel</param>
+        /// <returns>Int</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public async Task<int> AddPublicHolidayAsync(PublicHolidayModel model)
         {
             if (string.IsNullOrEmpty(model.Description))
@@ -108,7 +119,13 @@ namespace ChapsDotNET.Business.Components
             return publicHoliday.PublicHolidayID;
         }
 
-
+        /// <summary>
+        /// Updates a PublicHoliday
+        /// </summary>
+        /// <param name="model">PublicHolidayModel</param>
+        /// <exception cref="NotFoundException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public async Task UpdatePublicHolidayAsync(PublicHolidayModel model)
         {
             var publicHoliday = await _context.PublicHolidays.FirstOrDefaultAsync(x => x.PublicHolidayID == model.PublicHolidayId);
