@@ -156,7 +156,7 @@ namespace ChapsDotNET.Business.Components
                     Active = x.MP.active,
                     DeactivatedByID = x.MP.deactivatedByID,
                     DeactivatedOn = x.MP.deactivatedOn,
-                    DeactivatedDisplay = x.User != null ? $"{x.User.DisplayName} on {x.MP.deactivatedOn:dd/MM/yyyy}" : null
+                    DeactivatedDisplay = x.User != null ? $"{x.User.DisplayName} on {x.MP.deactivatedOn:dd/MM/yyyy HH:mm:ss}" : null
                 }).ToList();
 
             return new PagedResult<List<MPModel>>

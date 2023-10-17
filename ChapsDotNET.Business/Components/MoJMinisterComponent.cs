@@ -52,7 +52,9 @@ namespace ChapsDotNET.Business.Components
                     Name = x.Name,
                     Prefix = x.prefix,
                     Rank = x.Rank,
-                    Suffix = x.suffix
+                    Suffix = x.suffix,
+                    Deactivated = x.deactivated,
+                    DeactivatedBy = x.deactivatedBy
                 }).ToListAsync();
 
             return new PagedResult<List<MoJMinisterModel>>
@@ -77,7 +79,9 @@ namespace ChapsDotNET.Business.Components
                     Name = x.Name,
                     Prefix = x.prefix,
                     Rank = x.Rank,
-                    Suffix = x.suffix
+                    Suffix = x.suffix,
+                    Deactivated = x.deactivated,
+                    DeactivatedBy = x.deactivatedBy
                 }).SingleOrDefaultAsync();
 
             if (mojMinister == null)
@@ -134,6 +138,8 @@ namespace ChapsDotNET.Business.Components
             mojMinister.prefix = model.Prefix;
             mojMinister.Rank = model.Rank;
             mojMinister.suffix = model.Suffix;
+            mojMinister.deactivated = model.Deactivated;
+            mojMinister.deactivatedBy = model.DeactivatedBy;
 
             await _context.SaveChangesAsync();
         }

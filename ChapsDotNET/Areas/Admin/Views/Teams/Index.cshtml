@@ -73,7 +73,7 @@
                 @Html.DisplayFor(x => team.Active)
             </td>
             <td>
-                @Html.DisplayFor(x => team.deactivated)
+                @team.deactivated?.ToString("dd/MM/yyyy HH:mm:ss")
             </td>
             <td>
                 @Html.DisplayFor(x => team.deactivatedBy)

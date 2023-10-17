@@ -13,10 +13,12 @@ namespace ChapsDotNET.Areas.Admin.Controllers
     public class LeadSubjectsController : Controller
     {
         private readonly ILeadSubjectComponent _leadSubjectComponent;
+        private readonly IUserComponent _userComponent;
 
-        public LeadSubjectsController(ILeadSubjectComponent leadSubjectComponent)
+        public LeadSubjectsController(ILeadSubjectComponent leadSubjectComponent, IUserComponent userComponent)
         {
             _leadSubjectComponent = leadSubjectComponent;
+            _userComponent = userComponent;
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -88,7 +90,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             if (jsonModel != null)
             {
                 var model = JsonConvert.DeserializeObject<LeadSubjectViewModel>(jsonModel);
-                var user = User.Identity!.Name;
+                var user = await _userComponent.GetUserByNameAsync(User.Identity!.Name);
+
 
                 var subjectModel = new LeadSubjectModel
                 {
@@ -96,13 +99,32 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     Detail = viewmodel.Detail,
                     Active = viewmodel.Active,
                     deactivated = DateTime.Now,
-                    deactivatedBy = user
+                    deactivatedBy = user.Name
                 };
 
                 await _leadSubjectComponent.UpdateLeadSubjectAsync(subjectModel);
             }
 
             return RedirectToAction("index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SetActiveTrue(int id)
+        {
+            var leadSubject = await _leadSubjectComponent.GetLeadSubjectAsync(id);
+            if (leadSubject != null)
+            {
+                var model = new LeadSubjectModel
+                {
+                    LeadSubjectId = leadSubject.LeadSubjectId,
+                    Detail = leadSubject.Detail,
+                    Active = true
+                };
+
+                await _leadSubjectComponent.UpdateLeadSubjectAsync(model);
+            }
+            return Json(new { success = true });
         }
     }
 }

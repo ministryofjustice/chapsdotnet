@@ -8,5 +8,7 @@
         public string? Suffix { get; set; }
         public string? Rank { get; set; } 
         public bool Active { get; set; }
-    }
+        public DateTime? Deactivated { get; set; }
+        public string? DeactivatedBy { get; set; }
+    }   
 }
