@@ -19,6 +19,7 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockLeadSubjectsComponent = Substitute.For<ILeadSubjectComponent>();
+            var mockUserComponent = Substitute.For<IUserComponent>();
             mockLeadSubjectsComponent.GetLeadSubjectsAsync(Arg.Any<LeadSubjectRequestModel>()).Returns(
                 new PagedResult<List<LeadSubjectModel>>
                 {
@@ -38,7 +39,7 @@ namespace ChapsDotNET.Tests.Areas
                         }
                     }
                 });
-            var controller = new LeadSubjectsController(mockLeadSubjectsComponent);
+            var controller = new LeadSubjectsController(mockLeadSubjectsComponent, mockUserComponent);
 
             // Act
             var result = await controller.Index() as ViewResult;
@@ -56,7 +57,9 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockLeadSubjectsComponent = Substitute.For<ILeadSubjectComponent>();
-            var controller = new LeadSubjectsController(mockLeadSubjectsComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+
+            var controller = new LeadSubjectsController(mockLeadSubjectsComponent, mockUserComponent);
 
             //Act
             var result = controller.Create();
@@ -72,7 +75,9 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockLeadSubjectComponent = Substitute.For<ILeadSubjectComponent>();
-            var controller = new LeadSubjectsController(mockLeadSubjectComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+
+            var controller = new LeadSubjectsController(mockLeadSubjectComponent, mockUserComponent);
             var leadSubjectViewModel = new LeadSubjectViewModel()
             {
                 Detail = "Brexit",
@@ -96,7 +101,9 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockLeadSubjectComponent = Substitute.For<ILeadSubjectComponent>();
-            LeadSubjectsController controller = new LeadSubjectsController(mockLeadSubjectComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+
+            LeadSubjectsController controller = new LeadSubjectsController(mockLeadSubjectComponent, mockUserComponent);
             mockLeadSubjectComponent.GetLeadSubjectAsync(1).Returns(new LeadSubjectModel
             {
                 Detail = "Brexit",
@@ -117,7 +124,9 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockLeadSubjectComponent = Substitute.For<ILeadSubjectComponent>();
-            var controller = new LeadSubjectsController(mockLeadSubjectComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+
+            var controller = new LeadSubjectsController(mockLeadSubjectComponent, mockUserComponent);
 
 
             //Act

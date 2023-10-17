@@ -18,10 +18,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of only active Campaigns
+        /// This method by default returns a list of Campaigns
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A list of CampaignModel</returns>
+        /// <param name="request">CampaignRequestModel</param>
+        /// <returns>A paged list of CampaignModels</returns>
         public async Task<PagedResult<List<CampaignModel>>> GetCampaignsAsync(CampaignRequestModel request)
         {
             var query = _context.Campaigns.AsQueryable();
@@ -59,6 +59,12 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
+
+        /// <summary>
+        /// This method by default returns a Campaign by id
+        /// </summary>
+        /// <param name="id">Integer CampaigninID</param>
+        /// <returns>A single CampaignModel</returns>
         public async Task<CampaignModel> GetCampaignAsync(int id)
         {
             var query = _context.Campaigns.AsQueryable();
@@ -82,6 +88,10 @@ namespace ChapsDotNET.Business.Components
             return campaign;
         }
 
+        /// <summary>
+        /// Adds a Campaign
+        /// </summary>
+        /// <param name="model">CampaignModel</param>
         public async Task<int> AddCampaignAsync(CampaignModel model)
         {
             if (string.IsNullOrEmpty(model.Detail))
@@ -100,6 +110,10 @@ namespace ChapsDotNET.Business.Components
             return campaign.CampaignID;
         }
 
+        /// <summary>
+        /// Updates a Campaign
+        /// </summary>
+        /// <param name="model">CampaignModel</param>
         public async Task UpdateCampaignAsync(CampaignModel model)
         {
             var campaign = await _context.Campaigns.FirstOrDefaultAsync(x => x.CampaignID == model.CampaignId);

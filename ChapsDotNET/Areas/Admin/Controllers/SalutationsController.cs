@@ -1,8 +1,11 @@
+using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
 {
@@ -23,7 +26,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             {
                 PageNumber = page,
                 PageSize = 10,
-                ShowActiveAndInactive = true
+                ShowActiveAndInactive = false
             });
 
             return View(pagedResult);
@@ -51,8 +54,49 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(SalutationViewModel viewModel)
         {
+            var model = await _salutationComponent.GetSalutationAsync(viewModel.SalutationId);
+
+            if (viewModel.Active != model.Active && model.Active == true)
+            {
+                TempData["viewModel"] = JsonConvert.SerializeObject(viewModel);
+                return RedirectToAction("Deactivate", viewModel);
+            }
+
             await _salutationComponent.UpdateSalutationAsync(viewModel.ToModel());
             return RedirectToAction("index");
+        }
+
+        public ActionResult Deactivate(SalutationViewModel viewmodel, bool x = false)
+        {
+            return View(viewmodel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Deactivate(SalutationViewModel viewModel)
+        {
+            viewModel.Active = false;
+            await _salutationComponent.UpdateSalutationAsync(viewModel.ToModel());
+
+            return RedirectToAction("index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SetActiveTrue(int id)
+        {
+            var salutation = await _salutationComponent.GetSalutationAsync(id);
+            if (salutation != null)
+            {
+                var model = new SalutationModel
+                {
+                    SalutationId = salutation.SalutationId,
+                    Detail = salutation.Detail,
+                    Active = true
+                };
+
+                await _salutationComponent.UpdateSalutationAsync(model);
+             }
+            return Json(new { success = true });
         }
     }
 }

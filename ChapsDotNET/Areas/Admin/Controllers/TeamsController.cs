@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Components;
+using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
@@ -15,7 +16,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
     {
         private readonly ITeamComponent _teamComponent;
         private readonly IUserComponent _userComponent;
-        
 
         public TeamsController(ITeamComponent teamComponent, IUserComponent userComponent)
         {
@@ -91,38 +91,38 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> Deactivate(TeamViewModel viewmodel)
         {
-            var jsonModel = TempData["viewModel"] as string;
+            viewmodel.Active = false;
+            viewmodel.deactivated = DateTime.Now;
+            var user = await _userComponent.GetUserByNameAsync(User.Identity!.Name);
+            viewmodel.deactivatedBy = user.DisplayName;
 
-            if (jsonModel!= null)
-            {
-                var model = JsonConvert.DeserializeObject<TeamViewModel>(jsonModel);
-                var user = User.Identity!.Name;
-
-                var teamModel = new TeamModel
-                {
-                    TeamId = viewmodel.TeamId,
-                    Acronym = viewmodel.Acronym,
-                    Active = viewmodel.Active,
-                    Email = viewmodel.Email,
-                    IsOgd = viewmodel.IsOgd,
-                    IsPod = viewmodel.IsPod,
-                    Name = viewmodel.Name,
-                    deactivated = DateTime.Now,
-                    deactivatedBy = user
-                };
-
-
-                await _teamComponent.UpdateTeamAsync(teamModel);
-
-            }
-           
-
+            await _teamComponent.UpdateTeamAsync(viewmodel.ToModel());
             return RedirectToAction("index");
-
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SetActiveTrue(int id)
+        {
+            var team = await _teamComponent.GetTeamAsync(id);
+            if (team != null)
+            {
+                var model = new TeamModel
+                {
+                    TeamId = team.TeamId,
+                    Name = team.Name,
+                    Active = true,
+                    Acronym = team.Acronym,
+                    Email = team.Email,
+                    IsOgd = team.IsOgd,
+                    IsPod = team.IsPod,
+                    deactivated = team.deactivated,
+                    deactivatedBy = team.deactivatedBy
+                };
 
+                await _teamComponent.UpdateTeamAsync(model);
+            }
+            return Json(new { success = true });
+        }
     }
 }
-
-

@@ -19,10 +19,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of only active Salutations
+        /// Returns a list of active Salutations
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A list of SalutationModel</returns>
+        /// <param name="request">SalutationRequestModel</param>
+        /// <returns>A paged list of SalutationModels</returns>
         public async Task<PagedResult<List<SalutationModel>>> GetSalutationsAsync(SalutationRequestModel request)
         {
             var query = _context.Salutations.AsQueryable();
@@ -58,6 +58,12 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
+        /// <summary>
+        /// Returns a single SalutationModel
+        /// </summary>
+        /// <param name="id">Int</param>
+        /// <returns>A SalutationModel</returns>
+        /// <exception cref="NotFoundException"></exception>
         public async Task<SalutationModel> GetSalutationAsync(int id)
         {
             var salutation = await _context.Salutations
@@ -73,6 +79,12 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
+        /// <summary>
+        /// Adds a salutation
+        /// </summary>
+        /// <param name="model">SalutationModel</param>
+        /// <returns>Int SalutationId</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<int> AddSalutationAsync(SalutationModel model)
         {
             if (string.IsNullOrEmpty(model.Detail))
@@ -91,6 +103,12 @@ namespace ChapsDotNET.Business.Components
             return salutation.salutationID;
         }
 
+        /// <summary>
+        /// Updates a Salutation
+        /// </summary>
+        /// <param name="model">SalutationModel</param>
+        /// <exception cref="NotFoundException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task UpdateSalutationAsync(SalutationModel model)
         {
             var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);

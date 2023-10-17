@@ -30,8 +30,12 @@
                 Position
             </th>
             <th>
+                Deactivated
+            </th>
+            <th>
                 Active
             </th>
+
         </tr>
     </thead>
     @foreach (var mojminister in Model.ToList())
@@ -52,6 +56,14 @@
             </td>
             <td>
                 @Html.DisplayFor(x => mojminister.Rank)
+            </td>
+            <td>
+                @if (mojminister.Active != true)
+                 {
+                    @mojminister.Deactivated?.ToString("dd/MM/yyyy HH:mm:ss");
+                    <span>By</span>
+                    @Html.DisplayFor(x => mojminister.DeactivatedBy);
+                 }
             </td>
             <td align="center">
                 @Html.DisplayFor(x => mojminister.Active)

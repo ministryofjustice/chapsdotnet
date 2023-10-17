@@ -1,5 +1,30 @@
 ﻿@model ChapsDotNET.Models.LeadSubjectViewModel
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
 
+        function getToken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
+        }
+
+    function setActiveTrue() {
+        var lsId = '@Model.LeadSubjectId';
+        $.ajax({
+            url: '/Admin/LeadSubjects/SetActiveTrue',
+            type: 'POST',
+            headers: { "RequestVerificationToken": getToken() },
+            data: { id: lsId },
+            success: function (result) {
+                if (result.success) {
+                    window.location.href = '/Admin/LeadSubjects/Edit/' + lsId;
+                }
+            }
+        });
+    }
+</script>
+
+@Html.AntiForgeryToken()
 @using (Html.BeginForm())
 {
     @Html.HiddenFor(model => model.LeadSubjectId)
@@ -9,7 +34,11 @@
     @Html.HiddenFor(model => model.deactivatedBy)
 
 
-    <p>Are you sure you want to deactivate lead subject "@Model.Detail"?</p>
-    <input class="createButton" type="submit" value="Confirm Deactivate" />
-
+    <div class="message warning" style="padding:10px;">
+        <span></span>
+        <h6>Confirm Deactivation</h6>
+        <p> Are you sure you want to deactivate lead subject "@Model.Detail" ?</p>
+        <input class="createButton" type="submit" value="Confirm Deactivate" />
+        <button class="cancel-button" type="button" onclick="setActiveTrue();">Back</button>
+    </div>
 }

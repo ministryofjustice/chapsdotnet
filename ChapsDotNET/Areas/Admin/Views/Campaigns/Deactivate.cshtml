@@ -1,4 +1,4 @@
-﻿@model ChapsDotNET.Models.TeamViewModel
+﻿@model ChapsDotNET.Models.CampaignViewModel
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
@@ -9,15 +9,15 @@
         }
 
     function setActiveTrue() {
-        var teamId = '@Model.TeamId';
+        var campaignId = '@Model.CampaignId';
         $.ajax({
-            url: '/Admin/Teams/SetActiveTrue',
+            url: '/Admin/Campaigns/SetActiveTrue',
             type: 'POST',
             headers: { "RequestVerificationToken": getToken() },
-            data: { id: teamId },
+            data: { id: campaignId },
             success: function (result) {
                 if (result.success) {
-                    window.location.href = '/Admin/Teams/Edit/' + teamId;
+                    window.location.href = '/Admin/Campaigns/Edit/' + campaignId;
                 }
             }
         });
@@ -27,20 +27,15 @@
 @Html.AntiForgeryToken()
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(model => model.TeamId)
-    @Html.HiddenFor(model => model.Email)
-    @Html.HiddenFor(model => model.Acronym)
-    @Html.HiddenFor(model => model.IsOgd)
-    @Html.HiddenFor(model => model.IsPod)
-    @Html.HiddenFor(model => model.Name)
-    @Html.HiddenFor(model => model.deactivated)
-    @Html.HiddenFor(model => model.deactivatedBy)
+    @Html.HiddenFor(model => model.CampaignId)
+    @Html.HiddenFor(model => model.Detail)
+    @Html.HiddenFor(model => model.Active)
 
 
     <div class="message warning" style="padding:10px;">
         <span></span>
         <h6>Confirm Deactivation</h6>
-        <p> Are you sure you want to deactivate team "@Model.Name" ?</p>
+        <p> Are you sure you want to deactivate campaign "@Model.Detail" ?</p>
         <input class="createButton" type="submit" value="Confirm Deactivate" />
         <button class="cancel-button" type="button" onclick="setActiveTrue();">Back</button>
     </div>

@@ -18,10 +18,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of only active LeadSubjects
+        /// Returns a paged list of LeadSubjects
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A list of LeadSubjectModel</returns>
+        /// <param name="request">LeadSubjectRequestModel</param>
+        /// <returns>A paged list of LeadSubjectModels</returns>
         public async Task<PagedResult<List<LeadSubjectModel>>> GetLeadSubjectsAsync(LeadSubjectRequestModel request)
         {
             var query = _context.LeadSubjects.AsQueryable();
@@ -62,6 +62,11 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
+        /// <summary>
+        /// Returns a single LeadSubjectModel by id
+        /// </summary>
+        /// <param name="id">Integer LeadSubjectId</param>
+        /// <returns>a single LeadSubjectModel</returns>
         public async Task<LeadSubjectModel> GetLeadSubjectAsync(int id)
         {
             var query = _context.LeadSubjects.AsQueryable();
@@ -87,6 +92,12 @@ namespace ChapsDotNET.Business.Components
             return leadSubject;
         }
 
+        /// <summary>
+        /// Adds a Lead Subject
+        /// </summary>
+        /// <param name="model">LeadSubjectModel</param>
+        /// <returns>Int</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<int> AddLeadSubjectAsync(LeadSubjectModel model)
         {
             if (string.IsNullOrEmpty(model.Detail))
@@ -105,6 +116,12 @@ namespace ChapsDotNET.Business.Components
             return leadSubject.LeadSubjectId;
         }
 
+        /// <summary>
+        /// Updates a LeadSubject
+        /// </summary>
+        /// <param name="model">LeadSubjectModel</param>
+        /// <exception cref="NotFoundException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task UpdateLeadSubjectAsync(LeadSubjectModel model)
         {
             var leadSubject = await _context.LeadSubjects.FirstOrDefaultAsync(x => x.LeadSubjectId == model.LeadSubjectId);

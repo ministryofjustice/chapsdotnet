@@ -17,10 +17,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of only active Salutations
+        /// Returns a list of Roles
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A list of TeamsModel</returns>
+        /// <param name="request">RoleRequestModel</param>
+        /// <returns>A paged list of RoleModels</returns>
         public async Task<PagedResult<List<RoleModel>>> GetRolesAsync(RoleRequestModel request)
         {
             var query = _context.Roles.AsQueryable();

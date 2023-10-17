@@ -61,7 +61,9 @@ namespace ChapsDotNET.Common.Mappers
                 Name = viewModel.Name,
                 Prefix = viewModel.Prefix,
                 Rank = viewModel.Rank,
-                Suffix = viewModel.Suffix
+                Suffix = viewModel.Suffix,
+                Deactivated = viewModel.Deactivated,
+                DeactivatedBy = viewModel.DeactivatedBy
             };
         }
 
@@ -74,7 +76,9 @@ namespace ChapsDotNET.Common.Mappers
                 Name = model.Name,
                 Prefix = model.Prefix,
                 Rank = model.Rank,
-                Suffix = model.Suffix
+                Suffix = model.Suffix,
+                Deactivated = model.Deactivated,
+                DeactivatedBy = model.DeactivatedBy
             };
         }
 

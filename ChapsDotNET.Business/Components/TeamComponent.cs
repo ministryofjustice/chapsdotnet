@@ -18,10 +18,10 @@ namespace ChapsDotNET.Business.Components
         }
 
         /// <summary>
-        /// This method by default returns a list of only active Salutations
+        /// Returns a list of Teams
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>A list of TeamsModel</returns>
+        /// <param name="request">TeamRequestModel</param>
+        /// <returns>A list of TeamModels</returns>
         public async Task<PagedResult<List<TeamModel>>> GetTeamsAsync(TeamRequestModel request)
         {
             var query = _context.Teams.AsQueryable();
@@ -66,6 +66,11 @@ namespace ChapsDotNET.Business.Components
             };
         }
 
+        /// <summary>
+        /// Returns a single TeamModel
+        /// </summary>
+        /// <param name="id">Int</param>
+        /// <returns>TeamModel</returns>
         public async Task<TeamModel> GetTeamAsync(int id)
         {
             var query = _context.Teams.AsQueryable();
@@ -96,6 +101,12 @@ namespace ChapsDotNET.Business.Components
             return team;
         }
 
+        /// <summary>
+        /// Adds a Team
+        /// </summary>
+        /// <param name="model">TeamModel</param>
+        /// <returns>Int TeamID</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task<int> AddTeamAsync(TeamModel model)
         {
             if (string.IsNullOrEmpty(model.Name))
@@ -118,6 +129,12 @@ namespace ChapsDotNET.Business.Components
             return team.TeamID;
         }
 
+        /// <summary>
+        /// Updates a Team
+        /// </summary>
+        /// <param name="model">TeamModel</param>
+        /// <exception cref="NotFoundException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public async Task UpdateTeamAsync(TeamModel model)
         {
             var team = await _context.Teams.FirstOrDefaultAsync(x => x.TeamID == model.TeamId);

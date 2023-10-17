@@ -21,7 +21,12 @@ namespace ChapsDotNET.Business.Components
 			_context = context;
 		}
 
-		public async Task<List<AlertModel>> GetAlertsAsync(AlertRequestModel request)
+        /// <summary>
+        /// This method by default returns a list of Alerts
+        /// </summary>
+        /// <param name="request">AlertRequestModel</param>
+        /// <returns>A list of Alert Models</returns>
+        public async Task<List<AlertModel>> GetAlertsAsync(AlertRequestModel request)
 		{
 			var query = _context.Alerts.AsQueryable();
 
@@ -52,7 +57,12 @@ namespace ChapsDotNET.Business.Components
 
 		}
 
-		public async Task<AlertModel> GetAlertAsync(int id)
+        /// <summary>
+        /// This method by default returns an Alerts by ID
+        /// </summary>
+        /// <param name="id">Int id of the Alert</param>
+        /// <returns>An Alert Model</returns>
+        public async Task<AlertModel> GetAlertAsync(int id)
 		{
 			var query = _context.Alerts.AsQueryable();
 			query = query.Where(x => x.AlertID == id);
@@ -79,7 +89,12 @@ namespace ChapsDotNET.Business.Components
 			return alert;
 		}
 
-		public async Task UpdateAlertAsync(AlertModel model)
+
+        /// <summary>
+        /// This method by default returns a list of Alerts
+        /// </summary>
+        /// <param name="model">AlertModel with updated properties</param>
+        public async Task UpdateAlertAsync(AlertModel model)
 		{
 			var alert = await _context.Alerts.FirstOrDefaultAsync(x => x.AlertID == model.AlertID)
 				?? throw new NotFoundException("Alert", model.AlertID.ToString());
@@ -99,6 +114,10 @@ namespace ChapsDotNET.Business.Components
 			await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method by default adds an Alert
+		/// </summary>
+        /// <param name="model"></param>
         public async Task<int> AddAlertAsync(AlertModel model)
 		{
             if (string.IsNullOrEmpty(model.Message))
@@ -120,7 +139,11 @@ namespace ChapsDotNET.Business.Components
 			return alert.AlertID;
         }
 
-		public async Task<List<AlertModel>> GetCurrentAlertsAsync()
+
+        /// <summary>
+        /// This method by default gets a list of current Alerts
+        /// </summary>
+        public async Task<List<AlertModel>> GetCurrentAlertsAsync()
 		{
             var query = _context.Alerts.AsQueryable();
             query = query.Where(x => x.Live && x.WarnStart <= DateTime.Now);

@@ -20,5 +20,11 @@ namespace ChapsDotNET.Models
         public string? Rank { get; set; } 
 
         public bool Active { get; set; }
+
+        [DisplayFormat(DataFormatString ="{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? Deactivated { get; set; }
+
+        public string? DeactivatedBy { get; set; }
+
     }
 }

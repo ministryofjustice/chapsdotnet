@@ -20,6 +20,8 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
+            var mockUserComponent = Substitute.For<IUserComponent>();
+
             mockMoJMinisterComponent.GetMoJMinistersAsync(Arg.Any<MoJMinisterRequestModel>()).Returns(
                 new PagedResult<List<MoJMinisterModel>>
                 {
@@ -43,7 +45,7 @@ namespace ChapsDotNET.Tests.Areas
                         }
                     }
                 });
-            var controller = new MoJMinistersController(mockMoJMinisterComponent);
+            var controller = new MoJMinistersController(mockMoJMinisterComponent, mockUserComponent);
 
             // Act
             var result = await controller.Index() as ViewResult;
@@ -61,7 +63,9 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
-            var controller = new MoJMinistersController(mockMoJMinisterComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+
+            var controller = new MoJMinistersController(mockMoJMinisterComponent, mockUserComponent);
 
             //Act
             var result = controller.Create();
@@ -75,7 +79,9 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
-            var controller = new MoJMinistersController(mockMoJMinisterComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+
+            var controller = new MoJMinistersController(mockMoJMinisterComponent, mockUserComponent);
             var mojMinisterViewModel = new MoJMinisterViewModel()
             {
                 MoJMinisterId = 2,
@@ -98,7 +104,9 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
-            MoJMinistersController controller = new MoJMinistersController(mockMoJMinisterComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+
+            MoJMinistersController controller = new MoJMinistersController(mockMoJMinisterComponent, mockUserComponent);
             mockMoJMinisterComponent.GetMoJMinisterAsync(1).Returns(new MoJMinisterModel
             {
                 MoJMinisterId = 3,
@@ -120,7 +128,9 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
-            var controller = new MoJMinistersController(mockMoJMinisterComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+
+            var controller = new MoJMinistersController(mockMoJMinisterComponent, mockUserComponent);
 
             //Act
             var result = await controller.Edit(new MoJMinisterViewModel

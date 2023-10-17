@@ -120,7 +120,7 @@
                         }
                     </td>
                     <td style="display: none" class="deactivatedByUserNameDate">
-                        @Html.DisplayFor(modelItem => mp.DeactivatedOn)
+                        @mp.DeactivatedOn?.ToString("dd/MM/yyyy HH:mm:ss")
                     </td>
                     <td class="align-center">
                         @Html.DisplayFor(x => mp.Active)
