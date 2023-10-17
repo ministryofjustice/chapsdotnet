@@ -13,7 +13,9 @@ namespace ChapsDotNET.Common.Mappers
             {
                 Detail = viewModel.Detail,
                 Active = viewModel.Active,
-                CampaignId = viewModel.CampaignId
+                CampaignId = viewModel.CampaignId,
+                Deactivated = viewModel.Deactivated,
+                DeactivatedBy = viewModel.DeactivatedBy
             };
         }
 
@@ -23,7 +25,9 @@ namespace ChapsDotNET.Common.Mappers
             {
                 Detail = model.Detail,
                 Active = model.Active,
-                CampaignId = model.CampaignId
+                CampaignId = model.CampaignId,
+                Deactivated = model.Deactivated,
+                DeactivatedBy = model.DeactivatedBy
             };
         }
 

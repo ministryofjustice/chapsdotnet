@@ -13,10 +13,12 @@ namespace ChapsDotNET.Areas.Admin.Controllers
     public class CampaignsController : Controller
     {
         private readonly ICampaignComponent _campaignComponent;
+        private readonly IUserComponent _userComponent;
 
-        public CampaignsController(ICampaignComponent CampaignComponent)
+        public CampaignsController(ICampaignComponent campaignComponent, IUserComponent userComponent)
         {
-            _campaignComponent = CampaignComponent;
+            _campaignComponent = campaignComponent;
+            _userComponent = userComponent;
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -61,6 +63,17 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 return RedirectToAction("Deactivate", viewModel);
             }
 
+            if (viewModel.Active != model.Active && model.Active == false)
+            {
+                viewModel.Deactivated = null;
+                viewModel.DeactivatedBy = null;
+                await _campaignComponent.UpdateCampaignAsync(viewModel.ToModel());
+                return RedirectToAction("index");
+            }
+
+            viewModel.DeactivatedBy = model.DeactivatedBy;
+            viewModel.Deactivated = model.Deactivated;
+
             await _campaignComponent.UpdateCampaignAsync(viewModel.ToModel());
             return RedirectToAction("Index");
         }
@@ -74,6 +87,10 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<ActionResult> Deactivate(CampaignViewModel viewmodel)
         {
             viewmodel.Active = false;
+            var user = await _userComponent.GetUserByNameAsync(User.Identity!.Name);
+            viewmodel.Deactivated = DateTime.Now;
+            viewmodel.DeactivatedBy = user.DisplayName;
+
             await _campaignComponent.UpdateCampaignAsync(viewmodel.ToModel());
 
             return RedirectToAction("index");
