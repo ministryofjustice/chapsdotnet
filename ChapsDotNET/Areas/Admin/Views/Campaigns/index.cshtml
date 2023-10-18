@@ -25,10 +25,16 @@
     <thead>
         <tr>
             <th>
-                Name
+                Detail
             </th>
             <th>
                 Active
+            </th>
+            <th>
+                Deactivated
+            </th>
+            <th>
+                By
             </th>
         </tr>
     </thead>
@@ -42,6 +48,12 @@
             </td>
             <td align="center">
                 @Html.DisplayFor(x => campaign.Active)
+            </td>
+            <td>
+                @campaign.Deactivated?.ToString("dd/MM/yyyy HH:mm:ss")
+            </td>
+            <td>
+                @Html.DisplayFor(x => campaign.DeactivatedBy)
             </td>
         </tr>
     }

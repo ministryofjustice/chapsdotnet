@@ -125,7 +125,16 @@ namespace ChapsDotNET.Tests.Areas
             //Arrange
             var mockLeadSubjectComponent = Substitute.For<ILeadSubjectComponent>();
             var mockUserComponent = Substitute.For<IUserComponent>();
+            var mockModel = new LeadSubjectModel
+            {
+                LeadSubjectId = 1,
+                Active = true,
+                Detail = "Covid 19",
+                deactivated = null,
+                deactivatedBy = null
+            };
 
+            mockLeadSubjectComponent.GetLeadSubjectAsync(1).Returns(mockModel);
             var controller = new LeadSubjectsController(mockLeadSubjectComponent, mockUserComponent);
 
 
@@ -134,7 +143,9 @@ namespace ChapsDotNET.Tests.Areas
             {
                 Detail = "Brexit",
                 Active = true,
-                LeadSubjectId = 1
+                LeadSubjectId = 1,
+                deactivated = null,
+                deactivatedBy = null,
             });
 
             //Assert

@@ -7,6 +7,7 @@ using ChapsDotNET.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,6 +21,7 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockCampaignComponent = Substitute.For<ICampaignComponent>();
+            var mockUserComponent = Substitute.For<IUserComponent>();
             mockCampaignComponent.GetCampaignsAsync(Arg.Any<CampaignRequestModel>()).Returns(
                 new PagedResult<List<CampaignModel>>
                 {
@@ -39,7 +41,7 @@ namespace ChapsDotNET.Tests.Areas
                         }
                     }
                 });
-            var controller = new CampaignsController(mockCampaignComponent);
+            var controller = new CampaignsController(mockCampaignComponent, mockUserComponent);
 
             // Act
             var result = await controller.Index() as ViewResult;
@@ -57,7 +59,8 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockCampaignComponent = Substitute.For<ICampaignComponent>();
-            var controller = new CampaignsController(mockCampaignComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+            var controller = new CampaignsController(mockCampaignComponent, mockUserComponent);
 
             //Act
             var result = controller.Create();
@@ -71,7 +74,8 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockCampaignComponent = Substitute.For<ICampaignComponent>();
-            var controller = new CampaignsController(mockCampaignComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+            var controller = new CampaignsController(mockCampaignComponent, mockUserComponent);
             var campaignViewModel = new CampaignViewModel()
             {
                 Detail = "Summer 2022",
@@ -93,7 +97,8 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockCampaignComponent = Substitute.For<ICampaignComponent>();
-            CampaignsController controller = new CampaignsController(mockCampaignComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+            CampaignsController controller = new CampaignsController(mockCampaignComponent, mockUserComponent);
             mockCampaignComponent.GetCampaignAsync(1).Returns(new CampaignModel
             {
                 Detail = "Summer 2022",
@@ -114,7 +119,18 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockCampaignComponent = Substitute.For<ICampaignComponent>();
-            var controller = new CampaignsController(mockCampaignComponent);
+            var mockUserComponent = Substitute.For<IUserComponent>();
+            var mockModel = new CampaignModel
+            {
+                CampaignId = 1,
+                Active = true,
+                Detail = "Spring 2022",
+                Deactivated = null,
+                DeactivatedBy = null
+            };
+
+            mockCampaignComponent.GetCampaignAsync(1).Returns(mockModel);
+            var controller = new CampaignsController(mockCampaignComponent, mockUserComponent);
 
 
             //Act
@@ -122,7 +138,9 @@ namespace ChapsDotNET.Tests.Areas
             {
                 Detail = "Summer 2022",
                 Active = true,
-                CampaignId = 1
+                CampaignId = 1,
+                Deactivated = null,
+                DeactivatedBy = null
             });
 
             //Assert

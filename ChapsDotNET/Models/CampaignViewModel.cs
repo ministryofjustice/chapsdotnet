@@ -8,5 +8,7 @@ namespace ChapsDotNET.Models
         [Required, MaxLength(80), Display(Name = "Description")]
         public string Detail { get; set; } = string.Empty;
         public bool Active { get; set; }
+        public DateTime? Deactivated { get; set; }
+        public string? DeactivatedBy { get; set; }
     }
 }

@@ -19,6 +19,6 @@ namespace ChapsDotNET.Business.Tests.Common
             .RuleFor(x => x.County, f => f.Address.County())
             .RuleFor(x => x.Postcode, f => f.Address.ZipCode())
             .RuleFor(x => x.Suffix, f => f.Name.Suffix())
-            .RuleFor(x => x.active, f => f.Random.Bool());
+            .RuleFor(x => x.active, f => true);
 	}
 }

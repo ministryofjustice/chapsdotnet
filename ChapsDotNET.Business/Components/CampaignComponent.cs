@@ -47,7 +47,9 @@ namespace ChapsDotNET.Business.Components
                 {
                     CampaignId = x.CampaignID,
                     Detail = x.Detail,
-                    Active = x.active
+                    Active = x.active,
+                    Deactivated = x.deactivated,
+                    DeactivatedBy = x.deactivatedBy
                 }).ToListAsync();
 
             return new PagedResult<List<CampaignModel>>
@@ -75,7 +77,9 @@ namespace ChapsDotNET.Business.Components
                 {
                     CampaignId = x.CampaignID,
                     Detail = x.Detail,
-                    Active = x.active
+                    Active = x.active,
+                    Deactivated = x.deactivated,
+                    DeactivatedBy = x.deactivatedBy
                 }).SingleOrDefaultAsync();
 
             if (campaign == null)
@@ -130,6 +134,9 @@ namespace ChapsDotNET.Business.Components
 
             campaign.active = model.Active;
             campaign.Detail = model.Detail;
+            campaign.deactivated = model.Deactivated;
+            campaign.deactivatedBy = model.DeactivatedBy;
+           
             await _context.SaveChangesAsync();
         }
     }

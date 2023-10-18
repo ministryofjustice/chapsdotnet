@@ -113,6 +113,15 @@ namespace ChapsDotNET.Tests.Areas
         {
             //Arrange
             var mockSalutationsComponent = Substitute.For<ISalutationComponent>();
+
+            var mockModel = new SalutationModel
+            {
+                Detail = "Mr",
+                Active = true,
+                SalutationId = 1
+            };
+
+            mockSalutationsComponent.GetSalutationAsync(1).Returns(mockModel);
             var controller = new SalutationsController(mockSalutationsComponent);
 
             //Act

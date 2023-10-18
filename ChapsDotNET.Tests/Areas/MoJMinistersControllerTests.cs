@@ -113,7 +113,7 @@ namespace ChapsDotNET.Tests.Areas
                 Prefix = "Captain",
                 Name = "John Sheridan",
                 Suffix = "",
-                Active = false
+                Active = true
             }); 
             
             //Act
@@ -129,6 +129,16 @@ namespace ChapsDotNET.Tests.Areas
             //Arrange
             var mockMoJMinisterComponent = Substitute.For<IMoJMinisterComponent>();
             var mockUserComponent = Substitute.For<IUserComponent>();
+
+            var mockModel = new MoJMinisterModel
+            {
+                MoJMinisterId = 4,
+                Prefix = "Dr",
+                Name = "G'Kar",
+                Suffix = "The Green Knight",
+                Active = true
+            };
+            mockMoJMinisterComponent.GetMoJMinisterAsync(4).Returns(mockModel);
 
             var controller = new MoJMinistersController(mockMoJMinisterComponent, mockUserComponent);
 
