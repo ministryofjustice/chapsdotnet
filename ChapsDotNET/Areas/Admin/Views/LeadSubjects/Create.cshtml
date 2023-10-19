@@ -1,4 +1,5 @@
-﻿@model ChapsDotNET.Models.LeadSubjectViewModel
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Models.LeadSubjectViewModel
 
 @{
     ViewData["Title"] = "Add a new lead subject";
@@ -6,7 +7,7 @@
 
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         &nbsp;>&nbsp;
@@ -19,23 +20,23 @@
 {
     @Html.ValidationSummary(true)
 
-<fieldset class="form-fieldset">
-    <legend>
-        <h1>@ViewBag.Title</h1>
-    </legend>
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Detail)
-        <span title="Mandatory field" class="required-star">*</span>
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Detail)
+            <span title="Mandatory field" class="required-star">*</span>
+        </div>
 
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Detail)
-        @Html.ValidationMessageFor(model => model.Detail)
-    </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Detail)
+            @Html.ValidationMessageFor(model => model.Detail)
+        </div>
 
-    <input type="submit" value="Create" />
-    <button class="cancel-button" type="button" onclick="location.href='/Admin/LeadSubjects/';">Cancel</button>
-</fieldset>
+        <input type="submit" value="Create" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/LeadSubjects/';">Cancel</button>
+    </fieldset>
 
 }

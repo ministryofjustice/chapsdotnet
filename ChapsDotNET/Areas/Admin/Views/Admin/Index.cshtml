@@ -1,9 +1,17 @@
-﻿@{
+﻿@using ChapsDotNET.Common.Helpers
+@{
     ViewBag.Title = "Administration";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h6>@ViewBag.Title</h6>
+<div class="breadcrumbs">
+    <h6>
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
+        &nbsp;>&nbsp;
+        Administration
+    </h6>
+</div>
+
 
 <fieldset class="FieldsetCR">
     <legend>@Html.ActionLink("User management", "Index", "Users")</legend>

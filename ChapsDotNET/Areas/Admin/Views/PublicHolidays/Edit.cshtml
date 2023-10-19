@@ -1,4 +1,5 @@
-﻿@model ChapsDotNET.Models.PublicHolidayViewModel
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Models.PublicHolidayViewModel
 
 @{
     ViewData["Title"] = "Edit an existing public holiday";
@@ -6,7 +7,7 @@
 
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         &nbsp;>&nbsp;
@@ -20,39 +21,39 @@
     @Html.ValidationSummary(true)
     @Html.HiddenFor(model => model.PublicHolidayId)
 
-<fieldset class="form-fieldset">
-    <legend>
-        <h1>@ViewBag.Title</h1>
-    </legend>
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Date)
-        <span title="Mandatory field" class="required-star">*</span>
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Date)
+            <span title="Mandatory field" class="required-star">*</span>
+        </div>
 
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Date, "{0:yyyy-MM-dd}", new
-            {
-                @class = "future-date",
-                @type = "date",
-                @value = ""
-            })
-        <div style="clear: both;"></div>
-        @Html.ValidationMessageFor(model => model.Date)
-    </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Date, "{0:yyyy-MM-dd}", new
+                {
+                    @class = "future-date",
+                    @type = "date",
+                    @value = ""
+                })
+            <div style="clear: both;"></div>
+            @Html.ValidationMessageFor(model => model.Date)
+        </div>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Description)
-        <span title="Mandatory field" class="required-star">*</span>
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+            <span title="Mandatory field" class="required-star">*</span>
+        </div>
 
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Description)
-        @Html.ValidationMessageFor(model => model.Description)
-    </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
 
-    <input class="createButton" type="submit" value="Save" />
-    <button class="cancel-button" type="button" onclick="location.href='/Admin/PublicHolidays/';">Cancel</button>
+        <input class="createButton" type="submit" value="Save" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/PublicHolidays/';">Cancel</button>
 
-</fieldset>
+    </fieldset>
 }

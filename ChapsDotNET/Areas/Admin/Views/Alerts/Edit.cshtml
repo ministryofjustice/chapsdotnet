@@ -1,4 +1,5 @@
-﻿@model ChapsDotNET.Models.AlertViewModel
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Models.AlertViewModel
 
 @{
     ViewData["Title"] = "Edit an existing alert";
@@ -20,7 +21,7 @@
             jq(".datetimepicker").datetimepicker({
                 controlType: 'slider',
                 dateFormat: 'dd/mm/yy',
-                timeFormat: 'HH:mm',            
+                timeFormat: 'HH:mm',
                 changeMonth: true,
                 changeYear: true,
 
@@ -28,10 +29,9 @@
         });</script>
 }
 
-
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         &nbsp;>&nbsp;
@@ -50,7 +50,7 @@
         @Html.HiddenFor(model => model.AlertID)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Live, new { @class="non-required-label"})
+            @Html.LabelFor(model => model.Live, new { @class = "non-required-label" })
         </div>
         <div class="editor-field">
             @Html.CheckBoxFor(model => model.Live)
@@ -75,7 +75,7 @@
             @Html.EditorFor(model => model.RaisedHours)
             @Html.ValidationMessageFor(model => model.RaisedHours)
         </div>
-       
+
 
         <div class="editor-label">
             @Html.LabelFor(model => model.EventStart)
