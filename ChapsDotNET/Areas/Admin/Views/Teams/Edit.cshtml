@@ -1,4 +1,5 @@
-﻿@model ChapsDotNET.Models.TeamViewModel
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Models.TeamViewModel
 
 @{
     ViewBag.Title = "Edit team";
@@ -6,7 +7,7 @@
 
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         &nbsp;>&nbsp;
@@ -19,68 +20,68 @@
 {
     @Html.ValidationSummary(true)
 
-<fieldset class="form-fieldset">
-    <legend>
-        <h1>@ViewBag.Title</h1>
-    </legend>
-    @Html.HiddenFor(model => model.TeamId)
-  
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
+        @Html.HiddenFor(model => model.TeamId)
 
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Active, new { @class = "non-required-label" })
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Active)
-        @Html.ValidationMessageFor(model => model.Active)
-    </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Active, new { @class = "non-required-label" })
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Active)
+            @Html.ValidationMessageFor(model => model.Active)
+        </div>
 
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Acronym)
-        <span alt="Mandatory field" class="required-star">*</span>
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Acronym)
-        @Html.ValidationMessageFor(model => model.Acronym)
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Acronym)
+            <span alt="Mandatory field" class="required-star">*</span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Acronym)
+            @Html.ValidationMessageFor(model => model.Acronym)
+        </div>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Name)
-        <span alt="Mandatory field" class="required-star">*</span>
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Name)
-        @Html.ValidationMessageFor(model => model.Name)
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+            <span alt="Mandatory field" class="required-star">*</span>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.IsOgd, new { @class = "non-required-label" })
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsOgd, new { @class = "non-required-label" })
 
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.IsOgd)
-        @Html.ValidationMessageFor(model => model.IsOgd)
-    </div>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsOgd)
+            @Html.ValidationMessageFor(model => model.IsOgd)
+        </div>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.IsPod, new { @class = "non-required-label" })
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.IsPod)
-        @Html.ValidationMessageFor(model => model.IsPod)
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IsPod, new { @class = "non-required-label" })
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IsPod)
+            @Html.ValidationMessageFor(model => model.IsPod)
+        </div>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Email, new { @class = "non-required-label" })
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Email)
-        @Html.ValidationMessageFor(model => model.Email)
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email, new { @class = "non-required-label" })
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
 
-    <input class="createButton" type="submit" value="Save" />
-    <button class="cancel-button" type="button" onclick="location.href='/Admin/Teams/';">Cancel</button>
-</fieldset>
+        <input class="createButton" type="submit" value="Save" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/Teams/';">Cancel</button>
+    </fieldset>
 
 }

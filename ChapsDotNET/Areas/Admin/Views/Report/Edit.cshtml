@@ -1,4 +1,5 @@
-﻿@model ChapsDotNET.Models.ReportViewModel
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Models.ReportViewModel
 
 @{
     ViewData["Title"] = "Edit an existing report";
@@ -6,14 +7,14 @@
 
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         &nbsp;>&nbsp;
         @Html.ActionLink("Reports", "Index", "Report")
         > Edit
     </h6>
- 
+
 </div>
 
 @using (Html.BeginForm(new { @class = "form", @id = "create_report_form" }))
@@ -25,29 +26,29 @@
         @Html.HiddenFor(model => model.ReportId)
         @Html.HiddenFor(model => model.Name)
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Description)
-        <span title="Mandatory field" class="required-star">*</span>
-    </div>
-    <div class="editor-field" id="jhtml">
-        @Html.TextAreaFor(model => model.Description, new
-        {
-            @id = "short-description",
-            @class = "withCharacterCount form-control",
-            data_limit_input = "" + @Html.DisplayFor(model => model.MaxLengthShort) + "",
-            @style = "width:50%",
-            @rows = "10"
-        })<br />
-        @Html.ValidationMessageFor(model => model.Description)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Description)
+            <span title="Mandatory field" class="required-star">*</span>
+        </div>
+        <div class="editor-field" id="jhtml">
+            @Html.TextAreaFor(model => model.Description, new
+            {
+                @id = "short-description",
+                @class = "withCharacterCount form-control",
+                data_limit_input = "" + @Html.DisplayFor(model => model.MaxLengthShort) + "",
+                @style = "width:50%",
+                @rows = "10"
+            })<br />
+            @Html.ValidationMessageFor(model => model.Description)
 
-    </div>
-    <div class="editor-label">
-        @Html.LabelFor(model => model.LongDescription)
-    </div>
-    <div class="editor-field">
-        @Html.TextAreaFor(model => model.LongDescription, new { @id = "long-description", @class = "form-control", @style = "width:50%", @rows = "10" })
-        @Html.ValidationMessageFor(model => model.LongDescription)
-    </div>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LongDescription)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.LongDescription, new { @id = "long-description", @class = "form-control", @style = "width:50%", @rows = "10" })
+            @Html.ValidationMessageFor(model => model.LongDescription)
+        </div>
 
         <input class="createButton" type="submit" value="Save" />
         <button class="cancel-button" type="button" onclick="location.href='/Admin/Report/';">Cancel</button>

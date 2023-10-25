@@ -3,7 +3,7 @@
 @model ChapsDotNET.Business.Models.Common.PagedResult<List<ChapsDotNET.Business.Models.SalutationModel>>
 
 @{
-    ViewData["Title"] = "Salutations Administration";
+    ViewData["Title"] = "Salutations administration";
 }
 
 @section head{
@@ -12,7 +12,7 @@
 
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         > Salutations

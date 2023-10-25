@@ -1,4 +1,5 @@
-﻿@model ChapsDotNET.Models.SalutationViewModel
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Models.SalutationViewModel
 
 @{
     ViewData["Title"] = "Add a new salutation";
@@ -6,7 +7,7 @@
 
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         &nbsp;>&nbsp;

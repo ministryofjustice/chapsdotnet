@@ -1,12 +1,13 @@
-﻿@model List<ChapsDotNET.Business.Models.LeadSubjectModel>
+﻿@using ChapsDotNET.Common.Helpers
+@model List<ChapsDotNET.Business.Models.LeadSubjectModel>
 
 @{
-    ViewData["Title"] = "Lead Subject Administration";
+    ViewData["Title"] = "Lead subject administration";
 }
 
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         > Lead Subjects

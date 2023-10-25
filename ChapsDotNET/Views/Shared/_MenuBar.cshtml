@@ -1,25 +1,28 @@
 ﻿@using ChapsDotNET.Business.Interfaces
+@using ChapsDotNET.Common.Helpers 
 
 @inject IUserComponent UserComponent
 
 @{
     var user = await UserComponent.GetUserByNameAsync(User.Identity?.Name);
-    var currentEnvironment = Context.Request.Host.Value.ToString();
-    var environment = string.Empty;
-    if (currentEnvironment.Contains("staging"))
-    {
-        environment = "staging.";
-    }
-    else if (currentEnvironment.Contains("dev") || currentEnvironment.Contains("localhost"))
-    {
-        environment = "dev.";
-    }
-    else
-    {
-        environment = "production.";
-    }
 
-    var targetUrl = $"https://chaps.{environment}net.tp.dsd.io/Chaps_deploy";
+    var targetUrl = UrlHelpers.GetTpUrl(Context);
+    //var currentEnvironment = Context.Request.Host.Value.ToString();
+    //var environment = string.Empty;
+    //if (currentEnvironment.Contains("staging"))
+    //{
+    //    environment = "staging.";
+    //}
+    //else if (currentEnvironment.Contains("dev") || currentEnvironment.Contains("localhost"))
+    //{
+    //    environment = "dev.";
+    //}
+    //else
+    //{
+    //    environment = "production.";
+    //}
+
+    //var targetUrl = $"https://chaps.{environment}net.tp.dsd.io/Chaps_deploy";
 }
 
 <div id="MenuContainer">

@@ -1,4 +1,5 @@
-﻿@model ChapsDotNET.Models.MoJMinisterViewModel
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Models.MoJMinisterViewModel
 
 @{
     ViewData["Title"] = "Add a new MoJ Minister";
@@ -6,7 +7,7 @@
 
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         &nbsp;>&nbsp;
@@ -19,45 +20,45 @@
 {
     @Html.ValidationSummary(true)
 
-<fieldset class="form-fieldset">
-    <legend>
-        <h1>@ViewBag.Title</h1>
-    </legend>
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Prefix, new { @class = "non-required-label" })
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Prefix)
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Prefix, new { @class = "non-required-label" })
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Prefix)
+        </div>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Name)
-        <span title="Mandatory field" class="required-star">*</span>
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+            <span title="Mandatory field" class="required-star">*</span>
+        </div>
 
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Name)
-        @Html.ValidationMessageFor(model => model.Name)
-    </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Suffix, new { @class = "non-required-label" })
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Suffix, new { @class = "non-required-label" })
+        </div>
 
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Suffix)
-    </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Suffix)
+        </div>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.Rank, new { @class = "non-required-label" })
-    </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Rank, new { @class = "non-required-label" })
+        </div>
 
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Rank)
-    </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Rank)
+        </div>
 
-    <input type="submit" value="Create" />
-    <button class="cancel-button" type="button" onclick="location.href='/Admin/MOJMinisters/';">Cancel</button>
-</fieldset>
+        <input type="submit" value="Create" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/MOJMinisters/';">Cancel</button>
+    </fieldset>
 }

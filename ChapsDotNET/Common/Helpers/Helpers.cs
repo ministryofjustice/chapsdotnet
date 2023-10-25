@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Html;
 using System;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChapsDotNET.Common.Helpers
 {
@@ -28,6 +29,29 @@ namespace ChapsDotNET.Common.Helpers
             }
 
             return contentBuilder;
+        }
+    }
+
+    public static class UrlHelpers
+    {
+        public static string GetTpUrl(HttpContext context)
+        {
+            var currentEnvironment = context.Request.Host.Value.ToString();
+            string? environment;
+            if (currentEnvironment.Contains("staging"))
+            {
+                environment = "staging.";
+            }
+            else if (currentEnvironment.Contains("dev") || currentEnvironment.Contains("localhost"))
+            {
+                environment = "dev.";
+            }
+            else
+            {
+                environment = "production.";
+            }
+
+            return $"https://chaps.{environment}net.tp.dsd.io/Chaps_deploy";
         }
     }
 }

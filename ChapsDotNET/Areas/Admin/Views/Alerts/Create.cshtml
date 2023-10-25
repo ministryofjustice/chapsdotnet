@@ -1,4 +1,5 @@
-﻿@model ChapsDotNET.Models.AlertViewModel
+﻿@using ChapsDotNET.Common.Helpers
+@model ChapsDotNET.Models.AlertViewModel
 
 @{
     ViewData["Title"] = "Create a new alert";
@@ -14,9 +15,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="@Url.Content("~/lib/jquery-ui-timepicker-addon.js")"></script>
     <script type="text/javascript" src="@Url.Content("~/lib/jHtmlArea-0.8.min.js")" charset="utf-8"></script>
-     
-    <script type="text/javascript">
-        console.log($);
+
+    <script type="text/javascript">console.log($);
         console.log(jQuery);
         var jq = $.noConflict();
         jq(document).ready(function () {
@@ -33,7 +33,7 @@
 
 <div class="breadcrumbs">
     <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
         &nbsp;>&nbsp;
         @Html.ActionLink("Administration", "Index", "Admin")
         &nbsp;>&nbsp;
@@ -46,56 +46,56 @@
 {
     @Html.ValidationSummary(true)
 
-<fieldset class="form-fieldset">
-    <legend>
-        <h1>@ViewBag.Title</h1>
-    </legend>
+    <fieldset class="form-fieldset">
+        <legend>
+            <h1>@ViewBag.Title</h1>
+        </legend>
 
-    <div class="editor-label">
-        @Html.LabelFor(model => model.WarnStart)
-        <span title="Mandatory field" class="required-star">*</span>
-    </div>
-    <div class="editor-field">
-        @Html.TextBoxFor(model => model.WarnStartString, new { @class = "datetimepicker" })
-       
-        @Html.ValidationMessageFor(model => model.WarnStart)
-    </div>
-
-    <div class="editor-label">
-        @Html.LabelFor(model => model.RaisedHours)
-        <span title="Mandatory field" class="required-star">*</span>
-    </div>
-
-    <div class="editor-field">
-        @Html.EditorFor(model => model.RaisedHours)
-        @Html.ValidationMessageFor(model => model.RaisedHours)
-    </div>
-
-    <div class="editor-label">
-        @Html.LabelFor(model => model.EventStart)
-        <span title="Mandatory field" class="required-star">*</span>
-    </div>
-    <div class="editor-field">
-        @Html.TextBoxFor(model => model.EventStartString, new { @class = "datetimepicker" })
-        @Html.ValidationMessageFor(model => model.EventStart)
-    </div>
-
-    <div class="editor-row">
         <div class="editor-label">
-            @Html.LabelFor(model => model.Message)
+            @Html.LabelFor(model => model.WarnStart)
             <span title="Mandatory field" class="required-star">*</span>
         </div>
-        <div class="editor-field-long" id="jhtml">
-            <div style="width: 50%; float: left;">
-                @Html.TextAreaFor(model => model.Message, new { @id = "long-description", @class = "form-control", @style = "width:100%", @rows = "10" })
-                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.WarnStartString, new { @class = "datetimepicker" })
+
+            @Html.ValidationMessageFor(model => model.WarnStart)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RaisedHours)
+            <span title="Mandatory field" class="required-star">*</span>
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RaisedHours)
+            @Html.ValidationMessageFor(model => model.RaisedHours)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.EventStart)
+            <span title="Mandatory field" class="required-star">*</span>
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.EventStartString, new { @class = "datetimepicker" })
+            @Html.ValidationMessageFor(model => model.EventStart)
+        </div>
+
+        <div class="editor-row">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Message)
+                <span title="Mandatory field" class="required-star">*</span>
+            </div>
+            <div class="editor-field-long" id="jhtml">
+                <div style="width: 50%; float: left;">
+                    @Html.TextAreaFor(model => model.Message, new { @id = "long-description", @class = "form-control", @style = "width:100%", @rows = "10" })
+                    @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
-    </div>
 
-    <input class="button" type="submit" value="Create" />
-    <button class="cancel-button" type="button" onclick="location.href='/Admin/Alerts/';">Cancel</button>
-</fieldset>
+        <input class="button" type="submit" value="Create" />
+        <button class="cancel-button" type="button" onclick="location.href='/Admin/Alerts/';">Cancel</button>
+    </fieldset>
 
     <style>
         #jhtml body {
