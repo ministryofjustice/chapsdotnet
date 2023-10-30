@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using System.Data.SqlClient;
+using ChapsDotNET.Business.Middlewares;
 using ChapsDotNET.Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,8 +29,11 @@ myConnectionString.InitialCatalog = dbName;
 myConnectionString.DataSource = $"{rdsHostName}, {rdsPort}";
 myConnectionString.Password = rdsPassword;
 myConnectionString.UserID = rdsUserName;
+myConnectionString.TrustServerCertificate = true;
+var connectionString = myConnectionString.ToString();
 
 // Add services to the container.
+builder.Services.AddSingleton(new DatabaseSettings { ConnectionString = connectionString});
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
@@ -38,7 +42,6 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         options.Instance = builder.Configuration["Instance"];
         options.Domain = builder.Configuration["Domain"];
         options.CallbackPath = builder.Configuration["CallbackPath"];
-
     });
 
 builder.Services.AddControllersWithViews(options =>
@@ -96,6 +99,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
+app.UseMiddleware<UserIdentityMiddleware>();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
@@ -112,4 +116,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+ app.Run();
