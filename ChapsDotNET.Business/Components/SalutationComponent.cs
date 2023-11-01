@@ -1,21 +1,31 @@
 ﻿using System.Collections;
+using System.Net.Http;
+using System.Security.Claims;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Middlewares;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace ChapsDotNET.Business.Components
 {
     public class SalutationComponent : ISalutationComponent
     {
         private readonly DataContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SalutationComponent(DataContext context)
+        public SalutationComponent(DataContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -97,6 +107,7 @@ namespace ChapsDotNET.Business.Components
                 active = true,
                 Detail = model.Detail
             };
+
             await _context.Salutations.AddAsync(salutation);
             await _context.SaveChangesAsync();
 
