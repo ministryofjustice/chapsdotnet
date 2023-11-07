@@ -12,6 +12,7 @@
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <None Remove="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
     <!--<None Remove="Models\SalutationModel1cs" />-->
+    <None Remove="Middlewares\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj" />
@@ -25,4 +26,11 @@
         <Compile Include="Models\SalutationModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
   </ItemGroup>
 -->
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.9" />
+  </ItemGroup>
 </Project>

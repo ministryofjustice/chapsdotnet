@@ -1,5 +1,7 @@
+using System.Data.SqlClient;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Middlewares;
 using ChapsDotNET.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Policies.Handlers;
@@ -11,8 +13,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
-using System.Data.SqlClient;
-using ChapsDotNET.Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,8 +28,11 @@ myConnectionString.InitialCatalog = dbName;
 myConnectionString.DataSource = $"{rdsHostName}, {rdsPort}";
 myConnectionString.Password = rdsPassword;
 myConnectionString.UserID = rdsUserName;
+myConnectionString.TrustServerCertificate = true;
+var connectionString = myConnectionString.ToString();
 
 // Add services to the container.
+builder.Services.AddSingleton(new DatabaseSettings { ConnectionString = connectionString});
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
@@ -38,7 +41,6 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
         options.Instance = builder.Configuration["Instance"];
         options.Domain = builder.Configuration["Domain"];
         options.CallbackPath = builder.Configuration["CallbackPath"];
-
     });
 
 builder.Services.AddControllersWithViews(options =>
@@ -56,8 +58,8 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(myConnectionString.ConnectionString));
-
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(myConnectionString.ConnectionString),
+    ServiceLifetime.Scoped);
 builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
 builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
@@ -71,7 +73,7 @@ builder.Services.AddScoped<ITeamComponent, TeamComponent>();
 builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
-
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -96,6 +98,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
+app.UseMiddleware<UserIdentityMiddleware>();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
@@ -112,4 +115,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+ app.Run();
