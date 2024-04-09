@@ -356,6 +356,8 @@ MigrationBackup/
 # Rider ignored files
 /modules.xml
 /contentModel.xml
+/.idea
+.idea
 /.idea.ChapsDotNET.iml
 /projectSettingsUpdater.xml
 # Editor-based HTTP Client requests
