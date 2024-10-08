@@ -1,10 +1,12 @@
-﻿using ChapsDotNET.Data.Entities;
+﻿using System.Security.Claims;
+using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ChapsDotNET.Data.Enums;
-using System.Net.WebSockets;
 using Microsoft.AspNetCore.Http;
+
 
 namespace ChapsDotNET.Data.Contexts
 {
@@ -14,18 +16,20 @@ namespace ChapsDotNET.Data.Contexts
 
         public DataContext(DbContextOptions<DataContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
-            _httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         public int? CurrentUserId
         {
             get
             {
-                var userIdClaim = _httpContextAccessor?.HttpContext?.User?.FindFirst("userId");
+                var userIdClaim = _httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
+
                 if (userIdClaim != null && int.TryParse(userIdClaim.Value, out var userId))
                 {
                     return userId;
                 }
+
                 throw new InvalidOperationException("No UserId claim present in the current context");
             }
         }
@@ -49,6 +53,7 @@ namespace ChapsDotNET.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
         }
 
+       
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             ChangeTracker.DetectChanges();

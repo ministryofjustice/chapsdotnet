@@ -1,4 +1,3 @@
-using System.Data.SqlClient;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Middlewares;
@@ -11,10 +10,15 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -23,12 +27,20 @@ var rdsHostName = builder.Configuration["RDS_HOSTNAME"];
 var rdsPassword = builder.Configuration["RDS_PASSWORD"];
 var rdsPort = builder.Configuration["RDS_PORT"];
 var rdsUserName = builder.Configuration["RDS_USERNAME"];
-var myConnectionString = new SqlConnectionStringBuilder();
-myConnectionString.InitialCatalog = dbName;
+var myConnectionString = new SqlConnectionStringBuilder
+{
+    DataSource = @"ALISTAIRCUR98CF\SQLEXPRESS",
+    InitialCatalog = "chaps-dev",
+    IntegratedSecurity = true,
+    TrustServerCertificate = true
+};
+
+/*myConnectionString.InitialCatalog = dbName;
 myConnectionString.DataSource = $"{rdsHostName}, {rdsPort}";
 myConnectionString.Password = rdsPassword;
 myConnectionString.UserID = rdsUserName;
-myConnectionString.TrustServerCertificate = true;
+myConnectionString.TrustServerCertificate = true;*/
+
 var connectionString = myConnectionString.ToString();
 
 // Add services to the container.
@@ -74,6 +86,7 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddDbContext<DataContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
