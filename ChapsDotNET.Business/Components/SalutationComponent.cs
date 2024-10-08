@@ -22,10 +22,9 @@ namespace ChapsDotNET.Business.Components
         private readonly DataContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SalutationComponent(DataContext context, IHttpContextAccessor httpContextAccessor)
+        public SalutationComponent(DataContext context)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
