@@ -2,17 +2,17 @@
 using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ChapsDotNET.Data.Enums;
 using Microsoft.AspNetCore.Http;
-
 
 namespace ChapsDotNET.Data.Contexts
 {
     public class DataContext : DbContext
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public DataContext() { }
 
         public DataContext(DbContextOptions<DataContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
@@ -23,7 +23,8 @@ namespace ChapsDotNET.Data.Contexts
         {
             get
             {
-                var userIdClaim = _httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
+                var userIdClaim = _httpContextAccessor?.HttpContext?.User?.FindFirst("userId") ??
+                                  _httpContextAccessor?.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
 
                 if (userIdClaim != null && int.TryParse(userIdClaim.Value, out var userId))
                 {
