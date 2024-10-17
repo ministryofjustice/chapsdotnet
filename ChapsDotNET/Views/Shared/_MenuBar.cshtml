@@ -5,33 +5,14 @@
 
 @{
     var user = await UserComponent.GetUserByNameAsync(User.Identity?.Name);
-
-    var targetUrl = UrlHelpers.GetTpUrl(Context);
-    //var currentEnvironment = Context.Request.Host.Value.ToString();
-    //var environment = string.Empty;
-    //if (currentEnvironment.Contains("staging"))
-    //{
-    //    environment = "staging.";
-    //}
-    //else if (currentEnvironment.Contains("dev") || currentEnvironment.Contains("localhost"))
-    //{
-    //    environment = "dev.";
-    //}
-    //else
-    //{
-    //    environment = "production.";
-    //}
-
-    //var targetUrl = $"https://chaps.{environment}net.tp.dsd.io/Chaps_deploy";
 }
 
-<div id="MenuContainer">
+<div id="MenuContainer" xmlns="http://www.w3.org/1999/html">
     <ul id="menuBar">
         <li class="button" id="first"></li>
         <li class="button">
-            <a href="@targetUrl">Home</a>
-        </li>
-
+        <li class="button">@Html.ActionLink("Home", "Index", "Home", new { Area = "" }, null)</li>
+        
         @if (user.RoleStrength > 25)
         {
             <li class="leftText">Correspondence</li>
@@ -39,40 +20,41 @@
             if (user.RoleStrength > 49)
             {
                 <li class="button" style="background:none !important;">
-                    <a href="@targetUrl/Correspondent/Choose">
-                        <img alt="Add Correspondence" src="~/images/add.png">
+                    <a href="@Url.Action("Choose", "Correspondent", new { area = "" })">
+                        <img alt="Add Correspondence" src="~/images/add.png" />
                     </a>
                 </li>
             }
 
             <li class="button">
-                <a href="@targetUrl/Correspondence">
+                <a href="@Url.Action("Index", "Correspondence", new {area = ""})">
                     <img alt="List Correspondence" src="~/images/page_white_stack.png">
                 </a>
             </li>
+            
             <li class="button">
-                <a href="@targetUrl/Correspondent">Correspondents</a>
+                <a href="@Url.Action("Index", "Correspondent", new {area = ""})">Correspondents</a>
             </li>
 
             if (user.RoleStrength > 25)
             {
                 <li class="button">
-                    <a href="@targetUrl/Search">Search</a>
+                    <a href="@Url.Action("Index", "Search", new {area =""})">Search</a>
                 </li>
                 <li class="button">
-                    <a href="@targetUrl/SearchChase">Search Chase</a>
+                    <a href="@Url.Action("Indedx", "SearchChase", new {area =""})">Search Chase</a>
                 </li>
 
                 if (user.RoleStrength > 49)
                 {
                     <li class="button">
-                        <a href="@targetUrl/Reports">Reports</a>
+                        <a href="@Url.Action("Index", "Reports", new {area =""})">Reports</a>
                     </li>
 
                     if (user.RoleStrength > 74)
                     {
                         <li class="button">
-                            <a href="@targetUrl/Admin">Admin</a>
+                            <a href="@Url.Action("Index", "Admin", new {area =""})">Admin</a>
                         </li>
                     }
                 }
@@ -81,13 +63,15 @@
             <li class="text">
                 Connected as <strong>@User.Identity?.Name</strong> (@user.TeamAcronym)
             </li>
+            
             <li class="helpButton">
-                <a href="@targetUrl/FAQ">
-                    <img alt="Help" src="~/images/help.png">
+                <a href="@Url.Action("Index", "FAQ", new {area =""})">  
+                    <img alt="Help" src="~/images/help.png"/>
                 </a>
             </li>
+                
             <li class="text">
-                <form action="@targetUrl/Search/QuickSearch" autocomplete="off" method="post" title="Quick search for references (theirs and ours)" novalidate="novalidate">
+                <form action="Search/QuickSearch" autocomplete="off" method="post" title="Quick search for references (theirs and ours)" novalidate="novalidate">
                     <input name="__RequestVerificationToken" type="hidden" value="TBOT9ffnzm38vm4kV3jSewgiXZPC9cml4l1HBGtkj5kwdEbR6zIXPwazfzlSIRCO88-acTTavgz9l2JiKuxBQk2u87jlW5YQYf8d0cMonWAYTYdQ8hlTMSENnU20pbwtOZ_myKZ_lbV_BdXjR1ZYtA2">
                     <input accesskey="S" id="searchRecord" name="searchRecord" style="width: 75px;" type="text" value="">
                     <input alt="Search for record" type="image" value="Search" src="~/images/view.png">
@@ -97,7 +81,7 @@
         else
         {
             <li class="helpButton">
-                <a href="@targetUrl/FAQ">
+                <a href="@Url.Action("Index", "FAQ", new {area =""})">
                     <img alt="Help" src="~/images/help.png">
                 </a>
             </li>
