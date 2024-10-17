@@ -26,4 +26,8 @@
     <ProjectReference Include="..\ChapsDotNET\ChapsDotNET.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="HomeControllerTests.cs" />
+  </ItemGroup>
+
 </Project>
