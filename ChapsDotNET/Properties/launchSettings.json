@@ -10,6 +10,7 @@
   "profiles": {
     "ChapsDotNET": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7226;http://localhost:5226",
       "environmentVariables": {

@@ -4,13 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="breadcrumbs">
-    <h6>
-        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
-        &nbsp;>&nbsp;
-        Administration
+<div class="breadcrumbs" style="display: flex; align-items: center; gap: 0.5em;">
+    <h6 style="display: flex; align-items: center; margin: 0;">
+        <legend style="display: inline; margin: 0;">
+            @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        </legend>
+        &nbsp;>&nbsp; Administration
     </h6>
 </div>
+
 
 
 <fieldset class="FieldsetCR">

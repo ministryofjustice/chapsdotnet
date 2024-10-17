@@ -1,3 +1,5 @@
+using System.Configuration.Provider;
+using System.Net;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Middlewares;
@@ -13,15 +15,32 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Yarp.ReverseProxy.Forwarder;
+using Yarp.ReverseProxy.Transforms;
 
-var builder = WebApplication.CreateBuilder(args);
+var options = new WebApplicationOptions
+{
+    EnvironmentName = "Development"
+};
+
+var builder = WebApplication.CreateBuilder(options);
+
 if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddUserSecrets<Program>();
 }
+var clientId = builder.Configuration["ClientId"];
+if (string.IsNullOrEmpty(clientId))
+{
+    throw new ArgumentNullException("ClientId missing from configuration. Check user secrets.");
+}
+
+builder.Logging.AddConsole();
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 var dbName = builder.Configuration["DB_NAME"];
 var rdsHostName = builder.Configuration["RDS_HOSTNAME"];
 var rdsPassword = builder.Configuration["RDS_PASSWORD"];
@@ -48,7 +67,7 @@ builder.Services.AddSingleton(new DatabaseSettings { ConnectionString = connecti
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
-        options.ClientId = builder.Configuration["ClientId"];
+        options.ClientId = clientId;
         options.TenantId = builder.Configuration["TenantId"];
         options.Instance = builder.Configuration["Instance"];
         options.Domain = builder.Configuration["Domain"];
@@ -86,8 +105,26 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddDbContext<DataContext>();
+builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+builder.Services.AddHttpForwarder();
+//builder.WebHost.UseUrls("https://localhost:7226", "http://localhost:5226");
 var app = builder.Build();
+Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}");
+
+var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
+
+// custom httpClient to force HTTP/1.1 for old CHAPS
+var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
+{
+    AllowAutoRedirect = false,
+    AutomaticDecompression = DecompressionMethods.None,
+    UseCookies = false,
+    SslOptions = new System.Net.Security.SslClientAuthenticationOptions
+    {
+        RemoteCertificateValidationCallback =
+            (sender, cert, chain, sslPolicyErrors) => true // // Only use this in development!
+    }
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -114,18 +151,41 @@ app.UseAuthentication();
 app.UseMiddleware<UserIdentityMiddleware>();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
+
+
+// configure proxy routes 
+app.MapReverseProxy(proxyPipeline =>
 {
-    endpoints.MapControllers().RequireAuthorization("IsAuthorisedUser");
+    proxyPipeline.Run(async (context) =>
+    {
+        var destinationPrefix = "https://localhost:44300";
+        var tf = HttpTransformer.Default;
+        var requestOptions = new ForwarderRequestConfig
+        {
+            Version = HttpVersion.Version11, // CHAPS requires we use http/1.1
+            VersionPolicy = HttpVersionPolicy.RequestVersionExact // don't negotiate for a different version
+        };
+
+        var error = await forwarder.SendAsync(context, destinationPrefix, httpClient, requestOptions, HttpTransformer.Default,
+            context.RequestAborted);
+        if (error != ForwarderError.None)
+        {
+            // handle proxying errors
+            context.Response.StatusCode = 502;
+        }
+    });
 });
 
 app.MapAreaControllerRoute(
     name: "ChapsServices",
     areaName: "Admin",
-    pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
-
+    pattern: "Admin/{controller=Admin}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
- app.Run();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers().RequireAuthorization("IsAuthorisedUser");
+});
+app.Run();

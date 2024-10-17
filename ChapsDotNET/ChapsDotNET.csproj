@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="3.2.1" />
     <PackageReference Include="Microsoft.Identity.Web.UI" Version="3.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Metadata" Version="8.0.8" />
+    <PackageReference Include="Yarp.ReverseProxy" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +54,9 @@
     <None Remove="Views\Shared\Components\" />
     <None Remove="Views\Shared\Components\DisplayAlerts\" />
     <None Remove="ViewComponents\" />
+    <None Remove="Areas\Admin\Data\**" />
+    <None Remove="Areas\Admin\Models\**" />
+    <None Remove="Views\Home\**" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
@@ -63,8 +67,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Views\Account\" />
     <Folder Include="Policies\" />
     <Folder Include="Policies\Requirements\" />
@@ -105,6 +107,10 @@
     <Content Remove="wwwroot\javascripts\search\" />
     <Content Remove="wwwroot\lib\i18n\" />
     <Content Remove="wwwroot\lib\flot\" />
+    <Content Remove="Areas\Admin\Data\**" />
+    <Content Remove="Areas\Admin\Models\**" />
+    <Content Remove="Views\Home\Index.cshtml" />
+    <Content Remove="Views\Home\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Models\MPsAdminViewModel.cs">
@@ -112,5 +118,17 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Compile>
+    <Compile Remove="Areas\Admin\Data\**" />
+    <Compile Remove="Areas\Admin\Models\**" />
+    <Compile Remove="Views\Home\**" />
+    <Compile Remove="Controllers\HomeController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Areas\Admin\Data\**" />
+    <EmbeddedResource Remove="Areas\Admin\Models\**" />
+    <EmbeddedResource Remove="Views\Home\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
   </ItemGroup>
 </Project>
