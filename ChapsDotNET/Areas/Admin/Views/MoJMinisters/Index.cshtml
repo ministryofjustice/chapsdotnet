@@ -7,9 +7,8 @@
 
 <div class="breadcrumbs">
     <h6>
-        <a href="@UrlHelpers.GetTpUrl(Context)">Home</a>
-        &nbsp;>&nbsp;
-        @Html.ActionLink("Administration", "Index", "Admin")
+        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
+        &nbsp;>&nbsp;@Html.ActionLink("Administration", "Index", "Admin")
         > MoJ Ministers
     </h6>
 </div>

@@ -77,7 +77,7 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-});
+}).AddRazorRuntimeCompilation();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -107,7 +107,6 @@ builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 builder.Services.AddHttpForwarder();
-//builder.WebHost.UseUrls("https://localhost:7226", "http://localhost:5226");
 var app = builder.Build();
 Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}");
 
@@ -150,8 +149,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseMiddleware<UserIdentityMiddleware>();
 app.UseAuthorization();
-
-
 
 // configure proxy routes 
 app.MapReverseProxy(proxyPipeline =>
