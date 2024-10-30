@@ -1,4 +1,3 @@
-using System.Configuration.Provider;
 using System.Net;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
@@ -16,14 +15,14 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
-using Yarp.ReverseProxy.Transforms;
 
 var options = new WebApplicationOptions
 {
-    EnvironmentName = "Development"
+    // EnvironmentName = "Development"
 };
 
 var builder = WebApplication.CreateBuilder(options);
+builder.Configuration.AddEnvironmentVariables();
 
 if (builder.Environment.IsDevelopment())
 {
@@ -46,19 +45,36 @@ var rdsHostName = builder.Configuration["RDS_HOSTNAME"];
 var rdsPassword = builder.Configuration["RDS_PASSWORD"];
 var rdsPort = builder.Configuration["RDS_PORT"];
 var rdsUserName = builder.Configuration["RDS_USERNAME"];
-var myConnectionString = new SqlConnectionStringBuilder
-{
-    DataSource = @"ALISTAIRCUR98CF\SQLEXPRESS",
-    InitialCatalog = "chaps-dev",
-    IntegratedSecurity = true,
-    TrustServerCertificate = true
-};
 
-/*myConnectionString.InitialCatalog = dbName;
-myConnectionString.DataSource = $"{rdsHostName}, {rdsPort}";
-myConnectionString.Password = rdsPassword;
-myConnectionString.UserID = rdsUserName;
-myConnectionString.TrustServerCertificate = true;*/
+SqlConnectionStringBuilder myConnectionString;
+if (!string.IsNullOrEmpty(dbName) &&
+    !string.IsNullOrEmpty(rdsHostName) &&
+    !string.IsNullOrEmpty(rdsPassword) &&
+    !string.IsNullOrEmpty(rdsPort) &&
+    !string.IsNullOrEmpty(rdsUserName))
+{
+    // production config
+    myConnectionString = new SqlConnectionStringBuilder
+    {
+        DataSource = $"{rdsHostName}, {rdsPort}",
+        InitialCatalog = dbName,
+        UserID = rdsUserName,
+        Password = rdsPassword,
+        TrustServerCertificate = true,
+        MultipleActiveResultSets = true
+    };
+}
+else
+{
+    // development config 
+    myConnectionString = new SqlConnectionStringBuilder
+    {
+        DataSource = @"ALISTAIRCUR98CF\SQLEXPRESS",
+        InitialCatalog = "chaps-dev",
+        IntegratedSecurity = true,
+        TrustServerCertificate = true
+    };
+}
 
 var connectionString = myConnectionString.ToString();
 
@@ -89,7 +105,8 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(myConnectionString.ConnectionString),
+builder.Services.AddDbContext<DataContext>(options => 
+        options.UseSqlServer(myConnectionString.ConnectionString),
     ServiceLifetime.Scoped);
 builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
@@ -121,7 +138,7 @@ var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
     SslOptions = new System.Net.Security.SslClientAuthenticationOptions
     {
         RemoteCertificateValidationCallback =
-            (sender, cert, chain, sslPolicyErrors) => true // // Only use this in development!
+            (sender, cert, chain, sslPolicyErrors) => true // Only use this in development!
     }
 });
 
@@ -134,7 +151,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 // This code below, ending at line 'app.UseForwardedHeaders(forwardedHeaderOptions);' is required to redirect to https.
-
 var forwardedHeaderOptions = new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -181,8 +197,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers().RequireAuthorization("IsAuthorisedUser");
-});
+app.MapControllers().RequireAuthorization("IsAuthorisedUser");
+
 app.Run();
