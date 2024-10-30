@@ -76,6 +76,19 @@ else
     };
 }
 
+// custom httpClient to force HTTP/1.1 for old CHAPS
+var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
+{
+    AllowAutoRedirect = false,
+    AutomaticDecompression = DecompressionMethods.None,
+    UseCookies = false,
+    SslOptions = new System.Net.Security.SslClientAuthenticationOptions
+    {
+        // RemoteCertificateValidationCallback =
+        // (sender, cert, chain, sslPolicyErrors) => true // Only use this in development!
+    }
+});
+
 var connectionString = myConnectionString.ToString();
 
 // Add services to the container.
@@ -124,23 +137,13 @@ builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 builder.Services.AddHttpForwarder();
+builder.Services.AddSingleton(httpClient);
+
 var app = builder.Build();
+
 Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}");
 
 var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
-
-// custom httpClient to force HTTP/1.1 for old CHAPS
-var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
-{
-    AllowAutoRedirect = false,
-    AutomaticDecompression = DecompressionMethods.None,
-    UseCookies = false,
-    SslOptions = new System.Net.Security.SslClientAuthenticationOptions
-    {
-        RemoteCertificateValidationCallback =
-            (sender, cert, chain, sslPolicyErrors) => true // Only use this in development!
-    }
-});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
