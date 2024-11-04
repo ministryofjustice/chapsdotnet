@@ -28,7 +28,7 @@ if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddUserSecrets<Program>();
 }
-var clientId = builder.Configuration["ClientId"];
+var clientId = builder.Configuration["CLIENT_ID"];
 if (string.IsNullOrEmpty(clientId))
 {
     throw new ArgumentNullException("ClientId missing from configuration. Check user secrets.");
