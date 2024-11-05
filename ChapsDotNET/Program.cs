@@ -27,24 +27,12 @@ var loggerFactory = LoggerFactory.Create(logging =>
     logging.AddConsole();
 });
 var logger = loggerFactory.CreateLogger<Program>();
-var instance = builder.Configuration["Instance"];
-logger.LogInformation($"Instance value : {instance}");
-if (string.IsNullOrEmpty(instance))
-{
-    throw new ArgumentNullException("Instance is missing from config");
-}
-
 
 builder.Configuration.AddEnvironmentVariables();
 
 if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddUserSecrets<Program>();
-}
-var clientId = builder.Configuration["CLIENT_ID"];
-if (string.IsNullOrEmpty(clientId) && !builder.Environment.IsDevelopment())
-{
-    throw new ArgumentNullException("ClientId missing from configuration. Check user secrets.");
 }
 
 builder.Logging.ClearProviders();
@@ -60,16 +48,6 @@ var rdsHostName = builder.Configuration["RDS_HOSTNAME"];
 var rdsPassword = builder.Configuration["RDS_PASSWORD"];
 var rdsPort = builder.Configuration["RDS_PORT"] ?? "1433";
 var rdsUserName = builder.Configuration["RDS_USERNAME"];
-
-
-string redactedpw = rdsPassword != null && rdsPassword.Length > 2
-    ? $"{rdsPassword[0]}*******{rdsPassword[^1]}"
-    : "No RDS password set";
-logger.LogInformation($"DB_NAME: {dbName}");
-logger.LogInformation($"RDS_HOSTNAME: {rdsHostName}");
-logger.LogInformation($"RDS_PASSWORD: {redactedpw}");
-logger.LogInformation($"RDS_PORT: {rdsPort}");
-logger.LogInformation($"RDS_USERNAME: {rdsUserName}");
 
 SqlConnectionStringBuilder myConnectionString;
 if (!string.IsNullOrEmpty(dbName) &&
@@ -101,8 +79,6 @@ else
     };
 }
 
-logger.LogInformation($"Connection String :{myConnectionString}");
-
 // custom httpClient to force HTTP/1.1 for old CHAPS
 var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
 {
@@ -118,13 +94,12 @@ var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
 
 var connectionString = myConnectionString.ToString();
 
-
 // Add services to the container.
 builder.Services.AddSingleton(new DatabaseSettings { ConnectionString = connectionString});
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
-        options.ClientId = clientId;
+        options.ClientId = builder.Configuration["CLIENT_ID"];;
         options.TenantId = builder.Configuration["TenantId"];
         options.Instance = builder.Configuration["Instance"];
         options.Domain = builder.Configuration["Domain"];
