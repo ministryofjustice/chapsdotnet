@@ -138,6 +138,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -201,5 +202,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllers().RequireAuthorization("IsAuthorisedUser");
+app.MapHealthChecks("/health");
 
 app.Run();
