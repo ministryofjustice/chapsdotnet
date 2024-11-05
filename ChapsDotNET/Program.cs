@@ -29,7 +29,7 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddUserSecrets<Program>();
 }
 var clientId = builder.Configuration["CLIENT_ID"];
-if (string.IsNullOrEmpty(clientId))
+if (string.IsNullOrEmpty(clientId) && !builder.Environment.IsDevelopment())
 {
     throw new ArgumentNullException("ClientId missing from configuration. Check user secrets.");
 }
@@ -139,6 +139,10 @@ builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSecti
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
+builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
+{
+    policy.RequireAssertion(context => true);
+});
 
 var app = builder.Build();
 
