@@ -61,6 +61,16 @@ var rdsPassword = builder.Configuration["RDS_PASSWORD"];
 var rdsPort = builder.Configuration["RDS_PORT"];
 var rdsUserName = builder.Configuration["RDS_USERNAME"];
 
+
+string redactedpw = rdsPassword != null && rdsPassword.Length > 2
+    ? $"{rdsPassword[0]}*******{rdsPassword[^1]}"
+    : "No RDS password set";
+logger.LogInformation($"DB_NAME: {dbName}");
+logger.LogInformation($"RDS_HOSTNAME: {rdsHostName}");
+logger.LogInformation($"RDS_PASSWORD: {redactedpw}");
+logger.LogInformation($"RDS_PORT: {rdsPort}");
+logger.LogInformation($"RDS_USERNAME: {rdsUserName}");
+
 SqlConnectionStringBuilder myConnectionString;
 if (!string.IsNullOrEmpty(dbName) &&
     !string.IsNullOrEmpty(rdsHostName) &&
@@ -71,7 +81,7 @@ if (!string.IsNullOrEmpty(dbName) &&
     // production config
     myConnectionString = new SqlConnectionStringBuilder
     {
-        DataSource = $"{rdsHostName}, {rdsPort}",
+        DataSource = $"{rdsHostName},{rdsPort}",
         InitialCatalog = dbName,
         UserID = rdsUserName,
         Password = rdsPassword,
