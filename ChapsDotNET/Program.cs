@@ -22,6 +22,19 @@ var options = new WebApplicationOptions
 };
 
 var builder = WebApplication.CreateBuilder(options);
+var loggerFactory = LoggerFactory.Create(logging =>
+{
+    logging.AddConsole();
+});
+var logger = loggerFactory.CreateLogger<Program>();
+var instance = builder.Configuration["Instance"];
+logger.LogInformation($"Instance value : {instance}");
+if (string.IsNullOrEmpty(instance))
+{
+    throw new ArgumentNullException("Instance is missing from config");
+}
+
+
 builder.Configuration.AddEnvironmentVariables();
 
 if (builder.Environment.IsDevelopment())
@@ -91,6 +104,7 @@ var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
 
 var connectionString = myConnectionString.ToString();
 
+
 // Add services to the container.
 builder.Services.AddSingleton(new DatabaseSettings { ConnectionString = connectionString});
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
@@ -145,6 +159,7 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 });
 
 var app = builder.Build();
+
 
 Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}");
 
