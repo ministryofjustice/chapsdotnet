@@ -47,8 +47,10 @@ if (string.IsNullOrEmpty(clientId) && !builder.Environment.IsDevelopment())
     throw new ArgumentNullException("ClientId missing from configuration. Check user secrets.");
 }
 
+builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.SetMinimumLevel(LogLevel.Debug);
+builder.Logging.AddFilter("Microsoft.Data.SqlClient", LogLevel.Debug);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -88,6 +90,8 @@ else
         TrustServerCertificate = true
     };
 }
+
+logger.LogInformation($"Connection String :{myConnectionString}");
 
 // custom httpClient to force HTTP/1.1 for old CHAPS
 var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
