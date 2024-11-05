@@ -58,7 +58,7 @@ builder.Services.AddControllersWithViews();
 var dbName = builder.Configuration["DB_NAME"];
 var rdsHostName = builder.Configuration["RDS_HOSTNAME"];
 var rdsPassword = builder.Configuration["RDS_PASSWORD"];
-var rdsPort = builder.Configuration["RDS_PORT"];
+var rdsPort = builder.Configuration["RDS_PORT"] ?? "1433";
 var rdsUserName = builder.Configuration["RDS_USERNAME"];
 
 
