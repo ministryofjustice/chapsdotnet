@@ -183,7 +183,7 @@ app.MapReverseProxy(proxyPipeline =>
 {
     proxyPipeline.Run(async (context) =>
     {
-        var destinationPrefix = "http://10.26.49.202:80";
+        var destinationPrefix = "http://chaps-service.cdpt-chaps-ecs-cluster.local:80";
         var tf = HttpTransformer.Default;
         var requestOptions = new ForwarderRequestConfig
         {
