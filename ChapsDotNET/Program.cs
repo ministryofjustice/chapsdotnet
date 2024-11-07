@@ -181,22 +181,48 @@ app.UseAuthorization();
 // configure proxy routes 
 app.MapReverseProxy(proxyPipeline =>
 {
-    proxyPipeline.Run(async (context) =>
+    proxyPipeline.Use(async (context, next) =>
     {
-        var destinationPrefix = "http://chaps-service.cdpt-chaps-ecs-cluster.local:80";
+        Console.WriteLine("Request Headers:");
+        foreach (var header in context.Request.Headers)
+        {
+            Console.WriteLine($"{header.Key}: {header.Value}");
+        }
+
+        await next.Invoke();
+
+        Console.WriteLine("Response Headers:");
+        foreach (var header in context.Response.Headers)
+        {
+            Console.WriteLine($"{header.Key}: {header.Value}");
+        }
+    });
+    
+    proxyPipeline.Run(async (context) =>
+    {    
+        var destinationPrefix = "http://chaps-service:80";
         var tf = HttpTransformer.Default;
         var requestOptions = new ForwarderRequestConfig
         {
             Version = HttpVersion.Version11, // CHAPS requires we use http/1.1
             VersionPolicy = HttpVersionPolicy.RequestVersionExact // don't negotiate for a different version
         };
-
-        var error = await forwarder.SendAsync(context, destinationPrefix, httpClient, requestOptions, HttpTransformer.Default,
-            context.RequestAborted);
-        if (error != ForwarderError.None)
+        try
         {
-            // handle proxying errors
-            context.Response.StatusCode = 502;
+            var error = await forwarder.SendAsync(context, destinationPrefix, httpClient, requestOptions,
+                HttpTransformer.Default,
+                context.RequestAborted);
+            if (error != ForwarderError.None)
+            {
+                Console.WriteLine($"Forwarding error: {error}");
+                context.Response.StatusCode = 502;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception during forwarding: {ex.Message}");
+            Console.WriteLine(ex.StackTrace);
+            context.Response.StatusCode = 500;
         }
     });
 });
