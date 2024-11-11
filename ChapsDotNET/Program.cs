@@ -22,6 +22,18 @@ var options = new WebApplicationOptions
 };
 
 var builder = WebApplication.CreateBuilder(options);
+
+var chapsDns = Environment.GetEnvironmentVariable("CHAPS_DNS");
+if (string.IsNullOrEmpty(chapsDns))
+{
+    throw new InvalidOperationException("CHAPS_DNS environment variable is not set.");
+}
+Console.WriteLine($"CHAPS_DNS set: {chapsDns}");
+
+var reverseProxySection = builder.Configuration.GetSection("ReverseProxy");
+reverseProxySection.GetSection("Clusters:framework_481_Cluster:Destinations:framework481_app:Address")
+        .Value = $"https://{chapsDns}:80/";
+
 var loggerFactory = LoggerFactory.Create(logging =>
 {
     logging.AddConsole();
@@ -138,7 +150,8 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(reverseProxySection);
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
@@ -203,7 +216,7 @@ app.MapReverseProxy(proxyPipeline =>
     
     proxyPipeline.Run(async (context) =>
     {    
-        var destinationPrefix = "http://${CHAPS_DNS}:80/";
+        var destinationPrefix = "http://${chapsDns}:80/";
         var tf = HttpTransformer.Default;
         var requestOptions = new ForwarderRequestConfig
         {
