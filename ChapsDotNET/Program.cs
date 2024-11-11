@@ -32,7 +32,7 @@ Console.WriteLine($"CHAPS_DNS set: {chapsDns}");
 
 var reverseProxySection = builder.Configuration.GetSection("ReverseProxy");
 reverseProxySection.GetSection("Clusters:framework_481_Cluster:Destinations:framework481_app:Address")
-        .Value = $"https://{chapsDns}:80/";
+        .Value = $"http://{chapsDns}:80/";
 
 var loggerFactory = LoggerFactory.Create(logging =>
 {
@@ -216,7 +216,7 @@ app.MapReverseProxy(proxyPipeline =>
     
     proxyPipeline.Run(async (context) =>
     {    
-        var destinationPrefix = "http://${chapsDns}:80/";
+        var destinationPrefix = $"http://{chapsDns}:80/";
         var tf = HttpTransformer.Default;
         var requestOptions = new ForwarderRequestConfig
         {
