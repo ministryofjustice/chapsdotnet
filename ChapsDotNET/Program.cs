@@ -183,6 +183,9 @@ app.MapReverseProxy(proxyPipeline =>
 {
     proxyPipeline.Use(async (context, next) =>
     {
+        var chapsDns = Environment.GetEnvironmentVariable("CHAPS_DNS");
+        Console.WriteLine($"Routing to CHAPS service at {chapsDns}");
+        
         Console.WriteLine("Request Headers:");
         foreach (var header in context.Request.Headers)
         {
@@ -200,7 +203,7 @@ app.MapReverseProxy(proxyPipeline =>
     
     proxyPipeline.Run(async (context) =>
     {    
-        var destinationPrefix = "http://chaps-service:80";
+        var destinationPrefix = "http://${CHAPS_DNS}:80/";
         var tf = HttpTransformer.Default;
         var requestOptions = new ForwarderRequestConfig
         {
