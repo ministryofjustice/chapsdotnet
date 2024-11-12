@@ -35,6 +35,17 @@ Console.WriteLine($"CHAPS_DNS set: {chapsDns}. Destination prefix: {destinationP
 var reverseProxySection = builder.Configuration.GetSection("ReverseProxy");
 reverseProxySection.GetSection("Clusters:framework_481_Cluster:Destinations:framework481_app:Address")
         .Value = destinationPrefix;
+// debug connection to CHAPS:
+try
+{
+    using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
+    var response = await client.GetAsync($"{destinationPrefix}");
+    Console.WriteLine(response.IsSuccessStatusCode ? "Connected to CHAPS" : "Failed to connect to CHAPS");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Initial connectivity test failed: {ex.Message}");
+}
 
 var loggerFactory = LoggerFactory.Create(logging =>
 {
