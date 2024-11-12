@@ -38,7 +38,17 @@ reverseProxySection.GetSection("Clusters:framework_481_Cluster:Destinations:fram
 // debug connection to CHAPS:
 try
 {
-    using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
+    var hostEntry = await Dns.GetHostEntryAsync(chapsDns);
+    Console.WriteLine($"Resolved {chapsDns} to {string.Join(", ", hostEntry.AddressList.Select(a => a.ToString()))}");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"DNS Resolution failed for {chapsDns}: {ex.Message}");
+}
+
+try
+{
+    using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
     var response = await client.GetAsync($"{destinationPrefix}");
     Console.WriteLine(response.IsSuccessStatusCode ? "Connected to CHAPS" : "Failed to connect to CHAPS");
 }
