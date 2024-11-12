@@ -22,17 +22,19 @@ var options = new WebApplicationOptions
 };
 
 var builder = WebApplication.CreateBuilder(options);
-
 var chapsDns = Environment.GetEnvironmentVariable("CHAPS_DNS");
+
 if (string.IsNullOrEmpty(chapsDns))
 {
     throw new InvalidOperationException("CHAPS_DNS environment variable is not set.");
 }
-Console.WriteLine($"CHAPS_DNS set: {chapsDns}");
+
+var destinationPrefix = $"http://{chapsDns}:80/";
+Console.WriteLine($"CHAPS_DNS set: {chapsDns}. Destination prefix: {destinationPrefix}");
 
 var reverseProxySection = builder.Configuration.GetSection("ReverseProxy");
 reverseProxySection.GetSection("Clusters:framework_481_Cluster:Destinations:framework481_app:Address")
-        .Value = $"http://{chapsDns}:80/";
+        .Value = destinationPrefix;
 
 var loggerFactory = LoggerFactory.Create(logging =>
 {
@@ -194,30 +196,8 @@ app.UseAuthorization();
 // configure proxy routes 
 app.MapReverseProxy(proxyPipeline =>
 {
-    proxyPipeline.Use(async (context, next) =>
-    {
-        var chapsDns = Environment.GetEnvironmentVariable("CHAPS_DNS");
-        Console.WriteLine($"Routing to CHAPS service at {chapsDns}");
-        
-        Console.WriteLine("Request Headers:");
-        foreach (var header in context.Request.Headers)
-        {
-            Console.WriteLine($"{header.Key}: {header.Value}");
-        }
-
-        await next.Invoke();
-
-        Console.WriteLine("Response Headers:");
-        foreach (var header in context.Response.Headers)
-        {
-            Console.WriteLine($"{header.Key}: {header.Value}");
-        }
-    });
-    
     proxyPipeline.Run(async (context) =>
     {    
-        var destinationPrefix = $"http://{chapsDns}:80/";
-        var tf = HttpTransformer.Default;
         var requestOptions = new ForwarderRequestConfig
         {
             Version = HttpVersion.Version11, // CHAPS requires we use http/1.1
