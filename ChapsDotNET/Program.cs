@@ -16,85 +16,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
 
-var options = new WebApplicationOptions
-{
-    // EnvironmentName = "Development"
-};
 
-var builder = WebApplication.CreateBuilder(options);
-var chapsDns = Environment.GetEnvironmentVariable("CHAPS_DNS");
 
-if (string.IsNullOrEmpty(chapsDns))
-{
-    throw new InvalidOperationException("CHAPS_DNS environment variable is not set.");
-}
-Console.WriteLine($"Starting debug for CHAPS_DNS: {chapsDns}");
-var hostEntry = await Dns.GetHostEntryAsync(chapsDns);
-var destinationIp = hostEntry.AddressList.FirstOrDefault()?.ToString();
-var destinationPrefix = $"http://{destinationIp}:80/";
-
-Console.WriteLine($"CHAPS_DNS set: {chapsDns}. Destination prefix: {destinationPrefix}");
-var dnsStart = DateTime.UtcNow;
-try
-{
-    var dnsEnd = DateTime.UtcNow;
-    var dnsDuration = dnsEnd - dnsStart;
-    Console.WriteLine($"DNS resolved {chapsDns} to {string.Join(", ", hostEntry.AddressList.Select(a => a.ToString()))} in {dnsDuration.TotalMilliseconds} ms");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"DNS Resolution failed for {chapsDns}: {ex.Message}");
-}
-
-try
-{
-    using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
-    Console.WriteLine($"Starting HTTP request to {destinationPrefix} at {DateTime.UtcNow}");
-    var httpStart = DateTime.UtcNow;
-    var response = await client.GetAsync($"{destinationPrefix}");
-    var httpEnd = DateTime.UtcNow;
-    var httpDuration = httpEnd - httpStart;
-    Console.WriteLine(response.IsSuccessStatusCode
-        ? $"Connected to CHAPS in {httpDuration.TotalMilliseconds} ms"
-        : $"Failed to connect to CHAPS. Status code: {response.StatusCode}");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Initial connectivity test failed: {ex.Message}");
-}
-
-var reverseProxySection = builder.Configuration.GetSection("ReverseProxy");
-reverseProxySection.GetSection("Clusters:framework_481_Cluster:Destinations:framework481_app:Address")
-        .Value = destinationPrefix;
-// debug connection to CHAPS:
-try
-{
-    
-    Console.WriteLine($"Resolved {chapsDns} to {string.Join(", ", hostEntry.AddressList.Select(a => a.ToString()))}");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"DNS Resolution failed for {chapsDns}: {ex.Message}");
-}
-
-try
-{
-    using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
-    var response = await client.GetAsync($"{destinationPrefix}");
-    if(response.IsSuccessStatusCode)
-    {
-        Console.WriteLine("Connected to CHAPS");
-    }
-    else
-    {
-        Console.WriteLine($"Failed to connect to CHAPS. Status code: {response.StatusCode}");
-    }
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Initial connectivity test failed: {ex.Message}");
-}
-
+var builder = WebApplication.CreateBuilder();
+/
 var loggerFactory = LoggerFactory.Create(logging =>
 {
     logging.AddConsole();
@@ -211,8 +136,7 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddReverseProxy()
-    .LoadFromConfig(reverseProxySection);
+builder.Services.AddReverseProxy();
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
@@ -253,6 +177,7 @@ app.UseMiddleware<UserIdentityMiddleware>();
 app.UseAuthorization();
 
 // configure proxy routes 
+var destinationPrefix = "http://localhost:8181/";
 app.MapReverseProxy(proxyPipeline =>
 {
     proxyPipeline.Run(async (context) =>
