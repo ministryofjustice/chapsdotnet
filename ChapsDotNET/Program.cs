@@ -29,7 +29,10 @@ if (string.IsNullOrEmpty(chapsDns))
     throw new InvalidOperationException("CHAPS_DNS environment variable is not set.");
 }
 
-var destinationPrefix = $"http://{chapsDns}:80/";
+var hostEntry = await Dns.GetHostEntryAsync(chapsDns);
+var destinationIp = hostEntry.AddressList.FirstOrDefault()?.ToString();
+var destinationPrefix = $"http://{destinationIp}:80/";
+
 Console.WriteLine($"CHAPS_DNS set: {chapsDns}. Destination prefix: {destinationPrefix}");
 
 var reverseProxySection = builder.Configuration.GetSection("ReverseProxy");
@@ -38,7 +41,7 @@ reverseProxySection.GetSection("Clusters:framework_481_Cluster:Destinations:fram
 // debug connection to CHAPS:
 try
 {
-    var hostEntry = await Dns.GetHostEntryAsync(chapsDns);
+    
     Console.WriteLine($"Resolved {chapsDns} to {string.Join(", ", hostEntry.AddressList.Select(a => a.ToString()))}");
 }
 catch (Exception ex)
