@@ -19,7 +19,6 @@ using Yarp.ReverseProxy.Forwarder;
 
 
 var builder = WebApplication.CreateBuilder();
-/
 var loggerFactory = LoggerFactory.Create(logging =>
 {
     logging.AddConsole();
