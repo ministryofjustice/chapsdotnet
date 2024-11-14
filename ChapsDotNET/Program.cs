@@ -23,7 +23,7 @@ var loggerFactory = LoggerFactory.Create(logging =>
     logging.AddConsole();
 });
 var logger = loggerFactory.CreateLogger<Program>();
-var chapsLocal = "https://chaps-container:8181/";
+var chapsLocal = "http://chaps-container:8181/";
 builder.Configuration.AddEnvironmentVariables();
 
 if (builder.Environment.IsDevelopment())
