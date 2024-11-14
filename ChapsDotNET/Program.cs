@@ -17,21 +17,21 @@ using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
 
 
-
 var builder = WebApplication.CreateBuilder();
 var loggerFactory = LoggerFactory.Create(logging =>
 {
     logging.AddConsole();
 });
 var logger = loggerFactory.CreateLogger<Program>();
-
+var chapsLocal = "http://localhost:8181/";
 builder.Configuration.AddEnvironmentVariables();
 
 if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddUserSecrets<Program>();
+    chapsLocal = "https://localhost:44300/";
 }
-
+Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, ChapsLocal: {chapsLocal}");
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.SetMinimumLevel(LogLevel.Debug);
@@ -135,7 +135,7 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddReverseProxy();
+builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
@@ -145,10 +145,6 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 });
 
 var app = builder.Build();
-
-
-Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}");
-
 var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
 
 // Configure the HTTP request pipeline.
@@ -176,7 +172,6 @@ app.UseMiddleware<UserIdentityMiddleware>();
 app.UseAuthorization();
 
 // configure proxy routes 
-var destinationPrefix = "http://localhost:8181/";
 app.MapReverseProxy(proxyPipeline =>
 {
     proxyPipeline.Run(async (context) =>
@@ -188,7 +183,7 @@ app.MapReverseProxy(proxyPipeline =>
         };
         try
         {
-            var error = await forwarder.SendAsync(context, destinationPrefix, httpClient, requestOptions,
+            var error = await forwarder.SendAsync(context, chapsLocal, httpClient, requestOptions,
                 HttpTransformer.Default,
                 context.RequestAborted);
             if (error != ForwarderError.None)
