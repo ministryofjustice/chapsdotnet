@@ -116,6 +116,11 @@ builder.Services.AddAuthorization(options =>
     {
         isAuthorizedUserPolicy.Requirements.Add(new IsAuthorisedUserRequirement());
     });
+
+    options.AddPolicy("bypassOpenId", policy =>
+    {
+        policy.RequireAssertion(_ => true);
+    });
 });
 
 builder.Services.AddDbContext<DataContext>(options => 
