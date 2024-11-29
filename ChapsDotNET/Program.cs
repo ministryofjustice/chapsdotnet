@@ -27,7 +27,6 @@ var loggerFactory = LoggerFactory.Create(logging =>
 });
 var logger = loggerFactory.CreateLogger<Program>();
 IConfigurationRoot dynamicConfig;
-//var chapsLocal = "http://chaps-container:80/";
 var dynamicProxy = new DynamicProxy();
 var ipAddress = string.Empty;
 var chapsLocal = string.Empty;

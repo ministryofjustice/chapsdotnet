@@ -8,7 +8,12 @@ namespace ChapsDotNET.Common
         {
             // Get ECS metadata endpoint
             var metadataEndpoint = Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI_V4");
-            Console.WriteLine($"Metadata Endpoint: {metadataEndpoint}");
+           
+            if (!metadataEndpoint.StartsWith("http://169.254.170.2/v4/"))
+            {
+                throw new InvalidOperationException($"Unexpected metadata endpoint format: {metadataEndpoint}");
+            }
+            
             string? ipAddress = string.Empty;
             if (string.IsNullOrEmpty(metadataEndpoint))
             {
@@ -26,6 +31,7 @@ namespace ChapsDotNET.Common
                 try
                 {
                     {
+                        Console.WriteLine($"Attempting to fetch metadata from: {metadataEndpoint}");
                         var response = await client.GetStringAsync(metadataEndpoint);
                         Console.WriteLine($"Metadata: {response}");
                         var metadata = JsonDocument.Parse(response);
