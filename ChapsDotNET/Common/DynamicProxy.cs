@@ -12,7 +12,8 @@ namespace ChapsDotNET.Common
         public async Task<string> GetContainerIpAddressAsync()
         {
             // Get ECS metadata endpoint
-            var metadataEndpoint = Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI");
+            var metadataEndpoint = Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI_V4");
+            Console.WriteLine($"Metadata Endpoint: {metadataEndpoint}");
 
             if (string.IsNullOrEmpty(metadataEndpoint))
             {
@@ -23,16 +24,26 @@ namespace ChapsDotNET.Common
             string? ipAddress;
 
             // Fetch metadata from ECS
-            using (var client = new HttpClient())
+            try
             {
-                var response = await client.GetStringAsync(metadataEndpoint);
-                var metadata = JsonDocument.Parse(response);
-                Console.WriteLine($"Metadata: {metadata}");
+                using (var client = new HttpClient())
+                {
+                    var response = await client.GetStringAsync(metadataEndpoint);
+                    var metadata = JsonDocument.Parse(response);
+                    Console.WriteLine($"Metadata: {metadata}");
 
-                ipAddress = metadata.RootElement
-                    .GetProperty("Networks")[0]
-                    .GetProperty("IPv4Addresses")[0]
-                    .GetString();
+                    ipAddress = metadata.RootElement
+                        .GetProperty("Networks")[0]
+                        .GetProperty("IPv4Addresses")[0]
+                        .GetString();
+                
+                    Console.WriteLine($"IP address: {ipAddress}");
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"Failed to retrieve metadata: {ex.Message}");
+                throw;
             }
 
             if (string.IsNullOrEmpty(ipAddress))
