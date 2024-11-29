@@ -56,9 +56,11 @@ else
 {
     try
     {
-        var ipAddressTask = dynamicProxy.GetContainerIpAddressAsync();
-        ipAddressTask.Wait();
-        ipAddress = ipAddressTask.Result;
+        ipAddress = await dynamicProxy.GetContainerIpAddressAsync();
+        if (string.IsNullOrEmpty(ipAddress))
+        {
+            throw new InvalidOperationException("Failed to retrieve a valid IP address.");
+        }
         chapsLocal = $@"http://{ipAddress}:80/";
         
         var configData = new Dictionary<string, string?>
