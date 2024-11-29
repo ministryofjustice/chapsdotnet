@@ -12,10 +12,11 @@ namespace ChapsDotNET.Common
         public async Task<string> GetContainerIpAddressAsync()
         {
             // Get ECS metadata endpoint
-            var metadataEndpoint = Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI_V4");
+            var metadataEndpoint = Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI");
 
             if (string.IsNullOrEmpty(metadataEndpoint))
             {
+                Console.WriteLine("Metadata endpoint is not available.");
                 throw new InvalidOperationException("Metadata endpoint is not available.");
             }
 
@@ -26,6 +27,7 @@ namespace ChapsDotNET.Common
             {
                 var response = await client.GetStringAsync(metadataEndpoint);
                 var metadata = JsonDocument.Parse(response);
+                Console.WriteLine($"Metadata: {metadata}");
 
                 ipAddress = metadata.RootElement
                     .GetProperty("Networks")[0]
@@ -37,7 +39,7 @@ namespace ChapsDotNET.Common
             {
                 throw new InvalidOperationException("Could not determine IP address from metadata.");
             }
-
+            Console.WriteLine($"IP address: {ipAddress}");
             return ipAddress;
 
         }

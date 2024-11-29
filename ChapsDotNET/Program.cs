@@ -25,17 +25,26 @@ var loggerFactory = LoggerFactory.Create(logging =>
     logging.AddConsole();
 });
 var logger = loggerFactory.CreateLogger<Program>();
-
+IConfigurationRoot dynamicConfig;
 //var chapsLocal = "http://chaps-container:80/";
 var dynamicProxy = new DynamicProxy();
 var ipAddress = string.Empty;
 var chapsLocal = string.Empty;
+var configData = new Dictionary<string, string?>();
+
 builder.Configuration.AddEnvironmentVariables();
 
 if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddUserSecrets<Program>();
     chapsLocal = "https://localhost:44300/";
+    
+    configData = new Dictionary<string, string?>
+    {
+        ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] =
+            chapsLocal
+    };
+    Console.WriteLine($"setting config data for chapsLocal: {chapsLocal}");
 }
 else
 {
@@ -45,6 +54,13 @@ else
         ipAddressTask.Wait();
         ipAddress = ipAddressTask.Result;
         chapsLocal = $@"http://{ipAddress}:80/";
+        
+        configData = new Dictionary<string, string?>
+        {
+            ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] =
+                chapsLocal
+        };
+        Console.WriteLine($"setting config data for chapsLocal: {chapsLocal}");
     }
     catch (Exception ex)
     {
@@ -53,15 +69,14 @@ else
     }
 }
 
-var configData = new Dictionary<string, string>
-{
-    ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] =
-        $@"http://{ipAddress}:80/"
-};
-
-var dynamicConfig = new ConfigurationBuilder()
+dynamicConfig = new ConfigurationBuilder()
     .AddInMemoryCollection(configData)
     .Build();
+
+foreach (var item in configData)
+{
+    Console.WriteLine($"configData Key: {item.Key}, Value: {item.Value}");
+}
 
 Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, Chaps container adddress: {chapsLocal}");
 
@@ -219,6 +234,9 @@ app.MapReverseProxy(proxyPipeline =>
             Version = HttpVersion.Version11, // CHAPS requires we use http/1.1
             VersionPolicy = HttpVersionPolicy.RequestVersionExact // don't negotiate for a different version
         };
+        
+        Console.WriteLine($"Proxying request for: {context.Request.Path}");
+        
         try
         {
             var error = await forwarder.SendAsync(context, chapsLocal, httpClient, requestOptions,
