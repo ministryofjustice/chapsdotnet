@@ -31,9 +31,10 @@ IConfigurationRoot dynamicConfig;
 var dynamicProxy = new DynamicProxy();
 var ipAddress = string.Empty;
 var chapsLocal = string.Empty;
-var configData = new Dictionary<string, string?>();
+//var configData = new Dictionary<string, string?>();
 
 builder.Configuration.AddEnvironmentVariables();
+builder.Configuration.AddUserSecrets<Program>();
 
 foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
 {
@@ -42,15 +43,15 @@ foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
 
 if (builder.Environment.IsDevelopment())
 {
-    builder.Configuration.AddUserSecrets<Program>();
     chapsLocal = "https://localhost:44300/";
-    
-    configData = new Dictionary<string, string?>
+    var configData = new Dictionary<string, string?>
     {
-        ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] =
-            chapsLocal
+        ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] = chapsLocal
     };
-    Console.WriteLine($"setting config data for chapsLocal: {chapsLocal}");
+    dynamicConfig = new ConfigurationBuilder()
+        .AddInMemoryCollection(configData)
+        .Build();
+    Console.WriteLine($"Development Mode: Using local address {chapsLocal}");
 }
 else
 {
@@ -61,27 +62,26 @@ else
         ipAddress = ipAddressTask.Result;
         chapsLocal = $@"http://{ipAddress}:80/";
         
-        configData = new Dictionary<string, string?>
+        var configData = new Dictionary<string, string?>
         {
             ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] =
                 chapsLocal
         };
         Console.WriteLine($"setting config data for chapsLocal: {chapsLocal}");
+        dynamicConfig = new ConfigurationBuilder()
+            .AddInMemoryCollection(configData)
+            .Build();
+        
+        foreach (var item in configData)
+        {
+            Console.WriteLine($"configData Key: {item.Key}, Value: {item.Value}");
+        }
     }
     catch (Exception ex)
     {
         Console.WriteLine($"Error getting container IP address: {ex.Message}");
         throw new InvalidOperationException($"Failed to retrieve container IP address: {ex.Message}");
     }
-}
-
-dynamicConfig = new ConfigurationBuilder()
-    .AddInMemoryCollection(configData)
-    .Build();
-
-foreach (var item in configData)
-{
-    Console.WriteLine($"configData Key: {item.Key}, Value: {item.Value}");
 }
 
 Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, Chaps container adddress: {chapsLocal}");
@@ -204,7 +204,6 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 });
 
 var app = builder.Build();
-var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -233,7 +232,8 @@ app.UseAuthorization();
 // configure proxy routes 
 app.MapReverseProxy(proxyPipeline =>
 {
-    proxyPipeline.Run(async (context) =>
+    var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
+    proxyPipeline.Run(async context =>
     {    
         var requestOptions = new ForwarderRequestConfig
         {

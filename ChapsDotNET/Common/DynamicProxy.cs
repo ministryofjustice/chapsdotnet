@@ -10,42 +10,47 @@ namespace ChapsDotNET.Common
             var metadataEndpoint = Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI_V4");
             Console.WriteLine($"Metadata Endpoint: {metadataEndpoint}");
             string? ipAddress = string.Empty;
-            if (!string.IsNullOrEmpty(metadataEndpoint))
+            if (string.IsNullOrEmpty(metadataEndpoint))
             {
+                if (string.IsNullOrEmpty(metadataEndpoint))
+                {
+                    throw new InvalidOperationException("Metadata endpoint is not available.");
+                }
+            }
 
-                // Fetch metadata from ECS
+            Console.WriteLine($"Metadata Endpoint: {metadataEndpoint}");
+
+            // Fetch metadata from ECS
+            using (var client = new HttpClient())
+            {
                 try
                 {
-                    using (var client = new HttpClient())
                     {
                         var response = await client.GetStringAsync(metadataEndpoint);
+                        Console.WriteLine($"Metadata: {response}");
                         var metadata = JsonDocument.Parse(response);
-                        Console.WriteLine($"Metadata: {metadata}");
 
                         ipAddress = metadata.RootElement
                             .GetProperty("Networks")[0]
                             .GetProperty("IPv4Addresses")[0]
                             .GetString();
 
-                        if (!string.IsNullOrEmpty(ipAddress))
+                        if (string.IsNullOrEmpty(ipAddress))
                         {
-                            Console.WriteLine($"IP address: {ipAddress}");
-                            return ipAddress;
+                            throw new InvalidOperationException("Metadata endpoint is not available.");
+
                         }
+
+                        Console.WriteLine($"Extracted IP address: {ipAddress}");
+                        return ipAddress;
                     }
                 }
-                catch (HttpRequestException ex)
+                catch (Exception ex)
                 {
-                    Console.WriteLine($"Failed to retrieve metadata: {ex.Message}");
+                    Console.WriteLine($"Error fetching metadata: {ex.Message}");
+                    throw;
                 }
             }
-            else
-            {
-                Console.WriteLine("Metadata endpoint is not available.");
-                throw new InvalidOperationException("Metadata endpoint is not available.");
-            }
-    
-            return ipAddress;
         }
     }
 }
