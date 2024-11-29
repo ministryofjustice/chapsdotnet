@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Net;
 using System.Text.Json;
 using ChapsDotNET.Business.Components;
@@ -33,6 +34,11 @@ var chapsLocal = string.Empty;
 var configData = new Dictionary<string, string?>();
 
 builder.Configuration.AddEnvironmentVariables();
+
+foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
+{
+    Console.WriteLine($"EnvVar: {envVar.Key} = {envVar.Value}");
+}
 
 if (builder.Environment.IsDevelopment())
 {
