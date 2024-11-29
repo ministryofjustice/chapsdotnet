@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.Json;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Middlewares;
@@ -18,12 +19,17 @@ using Yarp.ReverseProxy.Forwarder;
 
 
 var builder = WebApplication.CreateBuilder();
+
 var loggerFactory = LoggerFactory.Create(logging =>
 {
     logging.AddConsole();
 });
 var logger = loggerFactory.CreateLogger<Program>();
-var chapsLocal = "http://localhost:80/";
+
+//var chapsLocal = "http://chaps-container:80/";
+var dynamicProxy = new DynamicProxy();
+var ipAddress = string.Empty;
+var chapsLocal = string.Empty;
 builder.Configuration.AddEnvironmentVariables();
 
 if (builder.Environment.IsDevelopment())
@@ -31,7 +37,34 @@ if (builder.Environment.IsDevelopment())
     builder.Configuration.AddUserSecrets<Program>();
     chapsLocal = "https://localhost:44300/";
 }
-Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, ChapsLocal: {chapsLocal}");
+else
+{
+    try
+    {
+        var ipAddressTask = dynamicProxy.GetContainerIpAddressAsync();
+        ipAddressTask.Wait();
+        ipAddress = ipAddressTask.Result;
+        chapsLocal = $@"http://{ipAddress}:80/";
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error getting container IP address: {ex.Message}");
+        throw new InvalidOperationException($"Failed to retrieve container IP address: {ex.Message}");
+    }
+}
+
+var configData = new Dictionary<string, string>
+{
+    ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] =
+        $@"http://{ipAddress}:80/"
+};
+
+var dynamicConfig = new ConfigurationBuilder()
+    .AddInMemoryCollection(configData)
+    .Build();
+
+Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, Chaps container adddress: {chapsLocal}");
+
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.SetMinimumLevel(LogLevel.Debug);
@@ -140,7 +173,7 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+builder.Services.AddReverseProxy().LoadFromConfig(dynamicConfig.GetSection("ReverseProxy"));
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
