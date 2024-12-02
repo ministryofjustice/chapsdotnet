@@ -7,19 +7,13 @@ namespace ChapsDotNET.Common
         public async Task<string> GetContainerIpAddressAsync()
         {
             // Get ECS metadata endpoint
-            var metadataEndpoint = "http://169.254.170.2/v4/a7199647-384e-40b9-a81a-dd17d6f7e2d8"; //Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI_V4");
+            var metadataEndpoint = Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI_V4");
             if (string.IsNullOrEmpty(metadataEndpoint))
             {
                 throw new InvalidOperationException("Metadata endpoint is not available.");
             }
-           
-            // if (!metadataEndpoint.StartsWith("http://169.254.170.2/v3") &&
-            //     !metadataEndpoint.StartsWith("http://169.254.170.2/v4"))
-            // {
-            //     throw new InvalidOperationException($"Unexpected metadata endpoint format: {metadataEndpoint}");
-            // }
             
-            string? ipAddress = string.Empty;
+            string ipAddress = "";
 
             Console.WriteLine($"Metadata Endpoint: {metadataEndpoint}");
 
@@ -32,33 +26,48 @@ namespace ChapsDotNET.Common
                     Console.WriteLine($"HttpClient BaseAddress: {client.BaseAddress}");
                     Console.WriteLine($"HttpClient DefaultRequestHeaders: {string.Join(", ", client.DefaultRequestHeaders)}");
 
-                    var response = await client.GetAsync(metadataEndpoint);
-                    
-                    Console.WriteLine($"Response Status Code: {response.StatusCode}");
-                    Console.WriteLine($"Response Headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}"))}");
+                    await Task.Delay(5000); // 5-second delay to allow the container to start up
 
-                    response.EnsureSuccessStatusCode();
-                    
-                    var content = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Response Content: {content}");
-                    
-                    var metadata = JsonDocument.Parse(content);
-                    
-
-                    if (!metadata.RootElement.TryGetProperty("Networks", out var networks))
+                    for (int i = 0; i < 3; i++)
                     {
-                        throw new InvalidOperationException("Metadata does not contain 'Networks'.");
-                    }
-                    
-                    ipAddress = networks[0].GetProperty("IPv4Addresses")[0].GetString();
-                    
-                    if (string.IsNullOrEmpty(ipAddress))
-                    {
-                        throw new InvalidOperationException("Failed to retrieve valid IP address from metadata.");
-                    }
+                        try
+                        {
+                            var response = await client.GetAsync(metadataEndpoint);
+                            Console.WriteLine(
+                                $"Response Headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}"))}");
+                            Console.WriteLine($"Response Status Code: {response.StatusCode}");
+                            response.EnsureSuccessStatusCode();
 
-                    Console.WriteLine($"Extracted IP address: {ipAddress}");
-                    return ipAddress;
+                            var content = await response.Content.ReadAsStringAsync();
+                            Console.WriteLine($"Response Content: {content}");
+
+                            var metadata = JsonDocument.Parse(content);
+
+                            if (!metadata.RootElement.TryGetProperty("Networks", out var networks))
+                            {
+                                throw new InvalidOperationException("Metadata does not contain 'Networks'.");
+                            }
+
+                            ipAddress = networks[0].GetProperty("IPv4Addresses")[0].GetString();
+
+                            if (string.IsNullOrEmpty(ipAddress))
+                            {
+                                throw new InvalidOperationException(
+                                    "Failed to retrieve valid IP address from metadata.");
+                            }
+
+                            Console.WriteLine($"Extracted IP address: {ipAddress}");
+                            return ipAddress;
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Attempt {i + 1}: Failed to fetch metadata: {ex.Message}");
+                            
+                            await Task.Delay(3000); // Wait 4 seconds before retrying
+                        }
+                    }
+                    ipAddress = "http//:localhost:80:";
                 }
                 catch (Exception ex)
                 {
@@ -66,6 +75,8 @@ namespace ChapsDotNET.Common
                     throw;
                 }
             }
+
+            return ipAddress;
         }
     }
 }
