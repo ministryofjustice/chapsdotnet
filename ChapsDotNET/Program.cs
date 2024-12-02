@@ -26,7 +26,12 @@ var loggerFactory = LoggerFactory.Create(logging =>
 });
 var logger = loggerFactory.CreateLogger<Program>();
 IConfigurationRoot dynamicConfig;
-builder.Services.AddHttpClient<DynamicProxy>();
+builder.Services.AddHttpClient<DynamicProxy>()
+    .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+    {
+        AutomaticDecompression = DecompressionMethods.None
+    });
+
 var ipAddress = string.Empty;
 var chapsLocal = string.Empty;
 
@@ -51,15 +56,16 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
+    var dynamicProxy = builder.Services.BuildServiceProvider().GetRequiredService<DynamicProxy>();
     try
     {
-        var dynamicProxy = new DynamicProxy(new HttpClient());
-        
         ipAddress = await dynamicProxy.GetContainerIpAddressAsync();
         if (string.IsNullOrEmpty(ipAddress))
         {
             throw new InvalidOperationException("Failed to retrieve a valid IP address.");
         }
+        Console.WriteLine($"Retrieved chaps-container ip : {ipAddress}");
+        
         chapsLocal = $@"http://{ipAddress}:80/";
         
         var configData = new Dictionary<string, string?>

@@ -1,15 +1,17 @@
+using System.Net;
 using System.Text.Json;
 
 namespace ChapsDotNET.Common
 {
     public class DynamicProxy
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient;        
         
         public DynamicProxy(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
+
         public async Task<string> GetContainerIpAddressAsync()
         {
             // Get ECS metadata endpoint
