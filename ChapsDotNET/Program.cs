@@ -31,6 +31,7 @@ builder.Services.AddHttpClient<DynamicProxy>()
     {
         AutomaticDecompression = DecompressionMethods.None
     });
+builder.Logging.AddFilter("HttpClient", LogLevel.Trace);
 
 var ipAddress = string.Empty;
 var chapsLocal = string.Empty;
