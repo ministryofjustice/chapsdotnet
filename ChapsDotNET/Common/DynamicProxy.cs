@@ -13,10 +13,11 @@ namespace ChapsDotNET.Common
                 throw new InvalidOperationException("Metadata endpoint is not available.");
             }
            
-            if (!metadataEndpoint.StartsWith("http://169.254.170.2/v4/"))
-            {
-                throw new InvalidOperationException($"Unexpected metadata endpoint format: {metadataEndpoint}");
-            }
+            // if (!metadataEndpoint.StartsWith("http://169.254.170.2/v3") &&
+            //     !metadataEndpoint.StartsWith("http://169.254.170.2/v4"))
+            // {
+            //     throw new InvalidOperationException($"Unexpected metadata endpoint format: {metadataEndpoint}");
+            // }
             
             string? ipAddress = string.Empty;
 
