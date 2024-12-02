@@ -195,7 +195,11 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddReverseProxy().LoadFromConfig(dynamicConfig.GetSection("ReverseProxy"));
+
+builder.Services.AddReverseProxy().LoadFromConfig(builder.Environment.IsDevelopment()
+    ? builder.Configuration.GetSection("ReverseProxy")
+    : dynamicConfig.GetSection("ReverseProxy"));
+
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
