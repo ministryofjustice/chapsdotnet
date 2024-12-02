@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
 
-
 var builder = WebApplication.CreateBuilder();
 
 var loggerFactory = LoggerFactory.Create(logging =>
@@ -54,10 +53,9 @@ else
 {
     try
     {
-        var defaultConfig = new ConfigurationBuilder()
-            .AddInMemoryCollection(new Dictionary<string, string?>())
-            .Build();
-
+        var dynamicProxy = new DynamicProxy(new HttpClient());
+        
+        ipAddress = await dynamicProxy.GetContainerIpAddressAsync();
         if (string.IsNullOrEmpty(ipAddress))
         {
             throw new InvalidOperationException("Failed to retrieve a valid IP address.");
@@ -69,7 +67,9 @@ else
             ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] =
                 chapsLocal
         };
+        
         Console.WriteLine($"setting config data for chapsLocal: {chapsLocal}");
+        
         dynamicConfig = new ConfigurationBuilder()
             .AddInMemoryCollection(configData)
             .Build();
@@ -87,6 +87,7 @@ else
             ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] =
                 chapsLocal
         };
+        
         dynamicConfig = new ConfigurationBuilder()
             .AddInMemoryCollection(fallbackConfigData)
             .Build();
