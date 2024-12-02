@@ -27,12 +27,10 @@ namespace ChapsDotNET.Common
             
             string ipAddress = "";
 
-            Console.WriteLine($"Metadata Endpoint: {metadataEndpoint}");
-
             // Fetch metadata from ECS
             try
             {
-                Console.WriteLine($"Attempting to fetch metadata from: {metadataEndpoint}");
+                Console.WriteLine($"Attempting to fetch metadata from: {taskMetadataEndpoint}");
                 Console.WriteLine($"HttpClient BaseAddress: {_httpClient.BaseAddress}");
                 Console.WriteLine($"HttpClient DefaultRequestHeaders: {string.Join(", ", _httpClient.DefaultRequestHeaders)}");
 
@@ -42,8 +40,8 @@ namespace ChapsDotNET.Common
                 {
                     try
                     {
-                        Console.WriteLine($"Attempting to fetch metadata from: {metadataEndpoint} (Attempt {i + 1})");
-                        var response = await _httpClient.GetAsync(metadataEndpoint);
+                        Console.WriteLine($"Attempting to fetch metadata from: {taskMetadataEndpoint} (Attempt {i + 1})");
+                        var response = await _httpClient.GetAsync(taskMetadataEndpoint);
                         Console.WriteLine(
                             $"Response Headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}"))}");
                         Console.WriteLine($"Response Status Code: {response.StatusCode}");
@@ -60,10 +58,12 @@ namespace ChapsDotNET.Common
                         {
                             var containerName = container.GetProperty("Name").GetString();
                             if (containerName != "chaps-container") continue;
-                            ipAddress = container.GetProperty("Networks")[0].GetProperty("IPv4Addresses")[0]
+                            ipAddress = container
+                                .GetProperty("Networks")[0]
+                                .GetProperty("IPv4Addresses")[0]
                                 .GetString();
 
-                            if (string.IsNullOrEmpty(ipAddress))
+                            if (!string.IsNullOrEmpty(ipAddress))
                             {
                                 Console.WriteLine($"Found IP for {containerName} : {ipAddress}");
                                 return ipAddress;
