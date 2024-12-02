@@ -208,18 +208,7 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-var proxyConfig = builder.Environment.IsDevelopment()
-    ? builder.Configuration.GetSection("ReverseProxy")
-    : dynamicConfig.GetSection("ReverseProxy");
-if (proxyConfig != null)
-{
-    builder.Services.AddReverseProxy()
-        .LoadFromConfig(proxyConfig);
-}else
-{
-    Console.WriteLine("No proxy config found.");
-    throw new InvalidOperationException("Failed to load ReverseProxy configuration.");
-}
+builder.Services.AddReverseProxy().LoadFromConfig(dynamicConfig.GetSection("ReverseProxy"));
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
