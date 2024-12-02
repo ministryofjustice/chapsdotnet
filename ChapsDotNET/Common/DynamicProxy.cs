@@ -14,6 +14,8 @@ namespace ChapsDotNET.Common
         {
             // Get ECS metadata endpoint
             var metadataEndpoint = Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI");
+            Console.WriteLine($"ECS_CONTAINER_METADATA_URI: {Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI")}");
+            Console.WriteLine($"ECS_CONTAINER_METADATA_URI_V4: {Environment.GetEnvironmentVariable("ECS_CONTAINER_METADATA_URI_V4")}");
             if (string.IsNullOrEmpty(metadataEndpoint))
             {
                 throw new InvalidOperationException("Metadata endpoint is not available.");
@@ -38,6 +40,7 @@ namespace ChapsDotNET.Common
                 {
                     try
                     {
+                        Console.WriteLine($"Attempting to fetch metadata from: {metadataEndpoint} (Attempt {i + 1})");
                         var response = await _httpClient.GetAsync(metadataEndpoint);
                         Console.WriteLine(
                             $"Response Headers: {string.Join(", ", response.Headers.Select(h => $"{h.Key}: {string.Join(", ", h.Value)}"))}");
@@ -48,6 +51,8 @@ namespace ChapsDotNET.Common
                         Console.WriteLine($"Response Content: {content}");
 
                         var metadata = JsonDocument.Parse(content);
+                        Console.WriteLine($"metadata {metadata}");
+
 
                         foreach (var container in metadata.RootElement.GetProperty("Containers").EnumerateArray())
                         {
@@ -66,15 +71,15 @@ namespace ChapsDotNET.Common
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Attempt {i + 1}: Failed to fetch metadata: {ex.Message}");
-                        await Task.Delay(3000); // Wait 4 seconds before retrying
+                        await Task.Delay(2000 * (i + 1)); //exponential backoff
                     }
                 }
-                ipAddress = "http//:localhost:80";
+                ipAddress = "localhost";
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to fetch metadata: {ex.Message}");
-                ipAddress = "http//:localhost:80";
+                ipAddress = "localhost";
             }
 
             return ipAddress;
