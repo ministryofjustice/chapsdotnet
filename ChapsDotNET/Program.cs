@@ -56,6 +56,12 @@ else
 {
     try
     {
+        var defaultConfig = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>())
+            .Build();
+
+        dynamicConfig = defaultConfig;
+        
         ipAddress = await dynamicProxy.GetContainerIpAddressAsync();
         if (string.IsNullOrEmpty(ipAddress))
         {
@@ -81,7 +87,14 @@ else
     catch (Exception ex)
     {
         Console.WriteLine($"Error getting container IP address: {ex.Message}");
-        throw new InvalidOperationException($"Failed to retrieve container IP address: {ex.Message}");
+        var fallbackConfigData = new Dictionary<string, string?>
+        {
+            ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] =
+                chapsLocal
+        };
+        dynamicConfig = new ConfigurationBuilder()
+            .AddInMemoryCollection(fallbackConfigData)
+            .Build();
     }
 }
 
@@ -195,11 +208,18 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Environment.IsDevelopment()
+var proxyConfig = builder.Environment.IsDevelopment()
     ? builder.Configuration.GetSection("ReverseProxy")
-    : dynamicConfig.GetSection("ReverseProxy"));
-
+    : dynamicConfig.GetSection("ReverseProxy");
+if (proxyConfig != null)
+{
+    builder.Services.AddReverseProxy()
+        .LoadFromConfig(proxyConfig);
+}else
+{
+    Console.WriteLine("No proxy config found.");
+    throw new InvalidOperationException("Failed to load ReverseProxy configuration.");
+}
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
