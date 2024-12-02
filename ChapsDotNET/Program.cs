@@ -27,10 +27,9 @@ var loggerFactory = LoggerFactory.Create(logging =>
 });
 var logger = loggerFactory.CreateLogger<Program>();
 IConfigurationRoot dynamicConfig;
-var dynamicProxy = new DynamicProxy();
+builder.Services.AddHttpClient<DynamicProxy>();
 var ipAddress = string.Empty;
 var chapsLocal = string.Empty;
-//var configData = new Dictionary<string, string?>();
 
 builder.Configuration.AddEnvironmentVariables();
 builder.Configuration.AddUserSecrets<Program>();
@@ -39,7 +38,6 @@ foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
 {
     Console.WriteLine($"EnvVar: {envVar.Key} = {envVar.Value}");
 }
-
 if (builder.Environment.IsDevelopment())
 {
     chapsLocal = "https://localhost:44300/";
@@ -60,9 +58,6 @@ else
             .AddInMemoryCollection(new Dictionary<string, string?>())
             .Build();
 
-        dynamicConfig = defaultConfig;
-        
-        ipAddress = await dynamicProxy.GetContainerIpAddressAsync();
         if (string.IsNullOrEmpty(ipAddress))
         {
             throw new InvalidOperationException("Failed to retrieve a valid IP address.");
@@ -107,6 +102,7 @@ builder.Logging.AddFilter("Microsoft.Data.SqlClient", LogLevel.Debug);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient<DynamicProxy>();
 
 var dbName = builder.Configuration["DB_NAME"];
 var rdsHostName = builder.Configuration["RDS_HOSTNAME"];
@@ -208,7 +204,12 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddReverseProxy().LoadFromConfig(dynamicConfig.GetSection("ReverseProxy"));
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Environment.IsDevelopment()
+        ? builder.Configuration.GetSection("ReverseProxy")
+        : dynamicConfig?.GetSection("ReverseProxy") ?? new ConfigurationBuilder().Build().GetSection("ReverseProxy"));
+
+
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
