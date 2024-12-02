@@ -15,8 +15,10 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Console;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
+
 
 var builder = WebApplication.CreateBuilder();
 
@@ -31,7 +33,8 @@ builder.Services.AddHttpClient<DynamicProxy>()
     {
         AutomaticDecompression = DecompressionMethods.None
     });
-builder.Logging.AddFilter("HttpClient", LogLevel.Trace);
+
+builder.Logging.AddFilter("HttpClient", LogLevel.Information);
 
 var ipAddress = string.Empty;
 var chapsLocal = string.Empty;
@@ -244,6 +247,7 @@ var forwardedHeaderOptions = new ForwardedHeadersOptions
 forwardedHeaderOptions.KnownNetworks.Clear();
 forwardedHeaderOptions.KnownProxies.Clear();
 
+
 app.UseForwardedHeaders(forwardedHeaderOptions);
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -268,7 +272,7 @@ app.MapReverseProxy(proxyPipeline =>
         
         try
         {
-            var error = await forwarder.SendAsync(context, chapsLocal, httpClient, requestOptions,
+            var error = await forwarder.SendAsync(context, $"http://{ipAddress}:80/", httpClient, requestOptions,
                 HttpTransformer.Default,
                 context.RequestAborted);
             if (error != ForwarderError.None)
