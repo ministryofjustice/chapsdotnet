@@ -124,8 +124,8 @@ builder.Services.AddDataProtection()
     .PersistKeysToAwsS3(builder.Services.BuildServiceProvider().GetRequiredService<IAmazonS3>(), 
         new S3XmlRepositoryConfig
         {
-            Bucket = "chapsdotnet-data-protection-keys",
-            KeyPrefix = "keys-directory/"
+            Bucket = Environment.GetEnvironmentVariable("AWS_S3_BUCKET"),
+            KeyPrefix = Environment.GetEnvironmentVariable("DATA_PROTECTION_BUCKET_PREFIX")
         }).SetApplicationName("chaps");
 
 var dbName = builder.Configuration["DB_NAME"];
