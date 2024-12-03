@@ -48,7 +48,7 @@ foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
 }
 if (builder.Environment.IsDevelopment())
 {
-    chapsLocal = "https://localhost:44300/";
+    chapsLocal = "http://localhost:4599/";
     var configData = new Dictionary<string, string?>
     {
         ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] = chapsLocal
@@ -272,7 +272,7 @@ app.MapReverseProxy(proxyPipeline =>
         
         try
         {
-            var error = await forwarder.SendAsync(context, $"http://{ipAddress}:80/", httpClient, requestOptions,
+            var error = await forwarder.SendAsync(context, chapsLocal, httpClient, requestOptions,
                 HttpTransformer.Default,
                 context.RequestAborted);
             if (error != ForwarderError.None)
