@@ -18,6 +18,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
+using Amazon.S3;
+using AspNetCore.DataProtection.Aws.S3;
+using Microsoft.AspNetCore.DataProtection;
+using DataProtectionBuilderExtensions = AspNetCore.DataProtection.Aws.S3.DataProtectionBuilderExtensions;
 
 
 var builder = WebApplication.CreateBuilder();
@@ -114,6 +118,15 @@ builder.Logging.AddFilter("Microsoft.Data.SqlClient", LogLevel.Debug);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<DynamicProxy>();
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+builder.Services.AddAWSService<IAmazonS3>();
+builder.Services.AddDataProtection()
+    .PersistKeysToAwsS3(builder.Services.BuildServiceProvider().GetRequiredService<IAmazonS3>(), 
+        new S3XmlRepositoryConfig
+        {
+            Bucket = "chapsdotnet-data-protection-keys",
+            KeyPrefix = "keys-directory/"
+        }).SetApplicationName("chaps");
 
 var dbName = builder.Configuration["DB_NAME"];
 var rdsHostName = builder.Configuration["RDS_HOSTNAME"];
@@ -228,6 +241,7 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 {
     policy.RequireAssertion(context => true);
 });
+
 
 var app = builder.Build();
 
