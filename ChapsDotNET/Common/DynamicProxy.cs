@@ -34,7 +34,7 @@ namespace ChapsDotNET.Common
                 Console.WriteLine($"HttpClient BaseAddress: {_httpClient.BaseAddress}");
                 Console.WriteLine($"HttpClient DefaultRequestHeaders: {string.Join(", ", _httpClient.DefaultRequestHeaders)}");
 
-                await Task.Delay(5000); 
+                await Task.Delay(20000); 
 
                 for (int i = 0; i < 3; i++)
                 {
@@ -73,7 +73,7 @@ namespace ChapsDotNET.Common
                     catch (Exception ex)
                     {
                         Console.WriteLine($"Attempt {i + 1}: Failed to fetch metadata: {ex.Message}");
-                        await Task.Delay(2000 * (i + 1)); //exponential backoff
+                        await Task.Delay(4000 * (i + 1)); //exponential backoff
                     }
                 }
                 ipAddress = "localhost";
