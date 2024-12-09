@@ -17,6 +17,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
+using Yarp.ReverseProxy.Transforms;
 
 
 var builder = WebApplication.CreateBuilder();
@@ -184,11 +185,6 @@ builder.Services.AddAuthorization(options =>
     {
         isAuthorizedUserPolicy.Requirements.Add(new IsAuthorisedUserRequirement());
     });
-
-    options.AddPolicy("bypassOpenId", policy =>
-    {
-        policy.RequireAssertion(_ => true);
-    });
 });
 
 builder.Services.AddDbContext<DataContext>(options => 
@@ -211,15 +207,10 @@ builder.Services.AddHttpContextAccessor();
 var proxyConfig = builder.Environment.IsDevelopment()
     ? builder.Configuration.GetSection("ReverseProxy")
     : dynamicConfig.GetSection("ReverseProxy");
-if (proxyConfig != null)
-{
-    builder.Services.AddReverseProxy()
-        .LoadFromConfig(proxyConfig);
-}else
-{
-    Console.WriteLine("No proxy config found.");
-    throw new InvalidOperationException("Failed to load ReverseProxy configuration.");
-}
+
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(proxyConfig);
+           
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
@@ -258,8 +249,34 @@ app.UseAuthorization();
 app.MapReverseProxy(proxyPipeline =>
 {
     var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
+    
     proxyPipeline.Run(async context =>
-    {    
+    {
+        // Add the transformed headers to the proxy request
+        if (context.User.Identity!.IsAuthenticated)
+        {
+            var userName = context.User.Identity.Name;
+            var roleStrengthClaim = context.User.FindFirst("RoleStrength");
+            
+            context.Request.Headers.Add("X-User-Name", userName);
+            Console.WriteLine($"X-User-Name set: {userName}");
+          
+            if (roleStrengthClaim != null)
+            {
+                var roleStrength = roleStrengthClaim.Value;
+                context.Request.Headers.Add("X-User-RoleStrength", roleStrength);
+                Console.WriteLine($"X-User-RoleStrength added: {roleStrength}");
+            }
+            
+            await Task.CompletedTask;
+        };
+        
+        Console.WriteLine($"Forwarding request with headers: ");
+        foreach (var header in context.Request.Headers)
+        {
+            Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+        }
+      
         var requestOptions = new ForwarderRequestConfig
         {
             Version = HttpVersion.Version11, // CHAPS requires we use http/1.1
@@ -273,6 +290,7 @@ app.MapReverseProxy(proxyPipeline =>
             var error = await forwarder.SendAsync(context, chapsLocal, httpClient, requestOptions,
                 HttpTransformer.Default,
                 context.RequestAborted);
+            
             if (error != ForwarderError.None)
             {
                 Console.WriteLine($"Forwarding error: {error}");
