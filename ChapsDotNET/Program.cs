@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Configuration;
 using System.Net;
 using System.Text.Json;
 using ChapsDotNET.Business.Components;
@@ -208,8 +209,8 @@ builder.Services.AddHttpContextAccessor();
 //     ? builder.Configuration.GetSection("ReverseProxy")
 //     : dynamicConfig.GetSection("ReverseProxy");
 
-builder.Services.AddReverseProxy();
-    // .LoadFromConfig(proxyConfig);
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
            
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
