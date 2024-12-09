@@ -28,7 +28,7 @@ var loggerFactory = LoggerFactory.Create(logging =>
 });
 var logger = loggerFactory.CreateLogger<Program>();
 IConfigurationRoot dynamicConfig;
-var dynamicProxy = new DynamicProxy();
+var dynamicProxy = new DynamicProxy(new HttpClient());
 var ipAddress = string.Empty;
 var chapsLocal = string.Empty;
 //var configData = new Dictionary<string, string?>();
