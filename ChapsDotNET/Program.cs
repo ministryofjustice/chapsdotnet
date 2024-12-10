@@ -42,9 +42,14 @@ foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
     Console.WriteLine($"EnvVar: {envVar.Key} = {envVar.Value}");
 }
 
-// if (builder.Environment.IsDevelopment())
-// {
-//     chapsLocal = "https://localhost:44300/";
+if (builder.Environment.IsDevelopment())
+{
+    chapsLocal = "https://localhost:44300/";
+}
+else
+{
+    chapsLocal = "http://localhost:80";
+}
 //     var configData = new Dictionary<string, string?>
 //     {
 //         ["ReverseProxy:Clusters:framework_481_Cluster:Destinations:framework481_app:Address"] = chapsLocal
