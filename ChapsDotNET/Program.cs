@@ -35,7 +35,7 @@ builder.Configuration.AddUserSecrets<Program>();
 //     Console.WriteLine($"EnvVar: {envVar.Key} = {envVar.Value}");
 // }
 
-chapsLocal = builder.Environment.IsDevelopment() ? "https://localhost:44300/" : "http://localhost:80";
+chapsLocal = builder.Environment.IsDevelopment() ? "https://localhost:44300/" : "http://localhost:80/";
 
 Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, Chaps container address: {chapsLocal}");
 
@@ -152,17 +152,7 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 
 var app = builder.Build();
 
-app.UseStaticFiles();   //new StaticFileOptions
-// {
-//     FileProvider = new PhysicalFileProvider(
-//         Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "chaps-content")),
-//     RequestPath = "/content",
-//    OnPrepareResponse = ctx =>
-//     {
-//         ctx.Context.Response.Headers.CacheControl = "public, max-age=3600"; 
-//     }
-// });
-
+app.UseStaticFiles();   
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -213,26 +203,30 @@ app.MapReverseProxy(proxyPipeline =>
     
     proxyPipeline.Run(async context =>
     {
-        // Add the transformed headers to the proxy request
-        if (context.User.Identity!.IsAuthenticated)
+        //exclude static files from being forwarded  //
+        
+        if (!context.Request.Path.StartsWithSegments("/Content") ||
+            !context.Request.Path.StartsWithSegments("/Scripts"))
         {
-            var userName = context.User.Identity.Name;
-            var roleStrengthClaim = context.User.FindFirst("RoleStrength");
-            if (!context.Request.Headers.ContainsKey("X-User-Name"))
+            if (context.User.Identity!.IsAuthenticated)
             {
-                context.Request.Headers.Add("X-User-Name", userName ?? "Anonymous");
-            }
-            
-            if (roleStrengthClaim != null)
-            {
-                var roleStrength = roleStrengthClaim.Value;
-                if (!context.Request.Headers.ContainsKey("X-User-RoleStrength"))
+                var userName = context.User.Identity.Name;
+                var roleStrengthClaim = context.User.FindFirst("RoleStrength");
+                if (!context.Request.Headers.ContainsKey("X-User-Name"))
                 {
-                    context.Request.Headers.Add("X-User-RoleStrength", roleStrength);
+                    context.Request.Headers.Add("X-User-Name", userName ?? "Anonymous");
                 }
+
+                if (roleStrengthClaim != null)
+                {
+                    var roleStrength = roleStrengthClaim.Value;
+                    if (!context.Request.Headers.ContainsKey("X-User-RoleStrength"))
+                    {
+                        context.Request.Headers.Add("X-User-RoleStrength", roleStrength);
+                    }
+                }
+
             }
-            
-            await Task.CompletedTask;
         };
     
         var requestOptions = new ForwarderRequestConfig
