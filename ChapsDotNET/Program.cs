@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Configuration;
 using System.Net;
-using System.Text.Json;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Middlewares;
@@ -16,9 +14,9 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
-using Yarp.ReverseProxy.Transforms;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -32,19 +30,12 @@ var chapsLocal = string.Empty;
 builder.Configuration.AddEnvironmentVariables();
 builder.Configuration.AddUserSecrets<Program>();
 
-foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
-{
-    Console.WriteLine($"EnvVar: {envVar.Key} = {envVar.Value}");
-}
+// foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
+// {
+//     Console.WriteLine($"EnvVar: {envVar.Key} = {envVar.Value}");
+// }
 
-if (builder.Environment.IsDevelopment())
-{
-    chapsLocal = "https://localhost:44300/";
-}
-else
-{
-    chapsLocal = "http://localhost:80";
-}
+chapsLocal = builder.Environment.IsDevelopment() ? "https://localhost:44300/" : "http://localhost:80";
 
 Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, Chaps container address: {chapsLocal}");
 
@@ -92,7 +83,7 @@ else
     };
 }
 
-// custom httpClient to force HTTP/1.1 for old CHAPS
+// custom httpClient to force HTTP/1.1 for CHAPS
 var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
 {
     AllowAutoRedirect = false,
@@ -114,7 +105,7 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     {
         options.ClientId = builder.Configuration["CLIENT_ID"];;
         options.TenantId = builder.Configuration["TenantId"];
-        options.Instance = builder.Configuration["Instance"];
+        options.Instance = builder.Configuration["Instance"]!;
         options.Domain = builder.Configuration["Domain"];
         options.CallbackPath = builder.Configuration["CallbackPath"];
     });
@@ -126,8 +117,6 @@ builder.Services.AddControllersWithViews(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    // By default, all incoming requests will be authorized according to the default policy.
-    //options.FallbackPolicy = options.DefaultPolicy; // debug
     options.AddPolicy("IsAuthorisedUser", isAuthorizedUserPolicy =>
     {
         isAuthorizedUserPolicy.Requirements.Add(new IsAuthorisedUserRequirement());
@@ -163,6 +152,18 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 
 var app = builder.Build();
 
+app.UseStaticFiles();   //new StaticFileOptions
+// {
+//     FileProvider = new PhysicalFileProvider(
+//         Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "chaps-content")),
+//     RequestPath = "/content",
+//    OnPrepareResponse = ctx =>
+//     {
+//         ctx.Context.Response.Headers.CacheControl = "public, max-age=3600"; 
+//     }
+// });
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -181,9 +182,24 @@ forwardedHeaderOptions.KnownProxies.Clear();
 
 app.UseForwardedHeaders(forwardedHeaderOptions);
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
+
+// Handle authentication when chaps application starts
+app.Use(async (context, next) =>
+{
+    if (!context.User.Identity.IsAuthenticated && 
+        !context.Request.Path.StartsWithSegments("/Admin"))
+    {
+        await context.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties
+        {
+            RedirectUri = context.Request.Path
+        });
+        return;
+    }
+    await next();
+});
+
 app.UseMiddleware<UserIdentityMiddleware>();
 app.UseAuthorization();
 
@@ -199,41 +215,41 @@ app.MapReverseProxy(proxyPipeline =>
         {
             var userName = context.User.Identity.Name;
             var roleStrengthClaim = context.User.FindFirst("RoleStrength");
+            if (!context.Request.Headers.ContainsKey("X-User-Name"))
+            {
+                context.Request.Headers.Add("X-User-Name", userName ?? "Anonymous");
+            }
             
-            context.Request.Headers.Add("X-User-Name", userName);
-            Console.WriteLine($"X-User-Name set: {userName}");
-          
             if (roleStrengthClaim != null)
             {
                 var roleStrength = roleStrengthClaim.Value;
-                context.Request.Headers.Add("X-User-RoleStrength", roleStrength);
-                Console.WriteLine($"X-User-RoleStrength added: {roleStrength}");
+                if (!context.Request.Headers.ContainsKey("X-User-RoleStrength"))
+                {
+                    context.Request.Headers.Add("X-User-RoleStrength", roleStrength);
+                }
             }
             
             await Task.CompletedTask;
         };
-        
-        Console.WriteLine($"Forwarding request with headers: ");
-        foreach (var header in context.Request.Headers)
-        {
-            Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
-        }
-      
+    
         var requestOptions = new ForwarderRequestConfig
         {
+            ActivityTimeout = TimeSpan.FromMinutes(10),
             Version = HttpVersion.Version11, // CHAPS requires we use http/1.1
             VersionPolicy = HttpVersionPolicy.RequestVersionExact // don't negotiate for a different version
         };
-        
-        Console.WriteLine($"Proxying request for: {context.Request.Path}");
         
         try
         {
             var error = await forwarder.SendAsync(context, chapsLocal, httpClient, requestOptions,
                 HttpTransformer.Default,
                 context.RequestAborted);
-            
-            if (error != ForwarderError.None)
+            if (error == ForwarderError.RequestTimedOut)
+            {
+                context.Response.StatusCode = 504;
+                    await context.Response.WriteAsync("Request timed out.");
+            }
+            else if (error != ForwarderError.None)
             {
                 Console.WriteLine($"Forwarding error: {error}");
                 context.Response.StatusCode = 502;
@@ -241,9 +257,17 @@ app.MapReverseProxy(proxyPipeline =>
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Exception during forwarding: {ex.Message}");
-            Console.WriteLine(ex.StackTrace);
-            context.Response.StatusCode = 500;
+
+            if (!context.Response.HasStarted)
+            {
+                context.Response.StatusCode = 500;
+                await context.Response.WriteAsync("An internal server error occurred.");
+            }
+
+            else
+            {
+                Console.WriteLine($"Cannon modify Status code, Response already started: {ex.Message}");
+            }
         }
     });
 });
