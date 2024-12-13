@@ -199,12 +199,9 @@ app.UseAuthorization();
 // configure proxy routes 
 app.MapReverseProxy(proxyPipeline =>
 {
-    var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
-    
     proxyPipeline.Run(async context =>
     {
         //exclude static files from being forwarded  //
-        
         if (!context.Request.Path.StartsWithSegments("/Content") ||
             !context.Request.Path.StartsWithSegments("/Scripts"))
         {
@@ -225,10 +222,11 @@ app.MapReverseProxy(proxyPipeline =>
                         context.Request.Headers.Add("X-User-RoleStrength", roleStrength);
                     }
                 }
-
             }
-        };
-    
+        }
+        
+        var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
+        
         var requestOptions = new ForwarderRequestConfig
         {
             ActivityTimeout = TimeSpan.FromMinutes(10),
