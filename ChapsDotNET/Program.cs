@@ -188,14 +188,17 @@ app.UseAuthentication();
 // Handle authentication when chaps application starts
 app.Use(async (context, next) =>
 {
-    if (!context.User.Identity.IsAuthenticated && 
-        !context.Request.Path.StartsWithSegments("/Admin"))
+    if (context.User.Identity != null)
     {
-        await context.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties
+        if (!context.User.Identity.IsAuthenticated &&
+            !context.Request.Path.StartsWithSegments("/Admin"))
         {
-            RedirectUri = context.Request.Path
-        });
-        return;
+            await context.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties
+            {
+                RedirectUri = context.Request.Path
+            });
+            return;
+        }
     }
     await next();
 });

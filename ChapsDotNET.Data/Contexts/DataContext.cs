@@ -10,7 +10,7 @@ namespace ChapsDotNET.Data.Contexts
 {
     public class DataContext : DbContext
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor? _httpContextAccessor;
 
         public DataContext() { }
 
