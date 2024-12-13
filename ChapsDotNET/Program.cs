@@ -43,7 +43,7 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    chapsLocal = "http://localhost:80";
+    chapsLocal = "http://localhost:80/";
 }
 
 Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, Chaps container address: {chapsLocal}");
@@ -162,7 +162,7 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 });
 
 var app = builder.Build();
-
+app.UseStaticFiles();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -181,9 +181,27 @@ forwardedHeaderOptions.KnownProxies.Clear();
 
 app.UseForwardedHeaders(forwardedHeaderOptions);
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
 app.UseRouting();
 app.UseAuthentication();
+
+app.Use(async (context, next) =>
+{
+    if (context.User.Identity != null)
+    {
+        if (!context.User.Identity.IsAuthenticated &&
+            !context.Request.Path.StartsWithSegments("/Admin"))
+        {
+            await context.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties
+            {
+                RedirectUri = context.Request.Path
+            });
+            return;
+        }
+    }
+    await next();
+});
+
 app.UseMiddleware<UserIdentityMiddleware>();
 app.UseAuthorization();
 
@@ -221,6 +239,7 @@ app.MapReverseProxy(proxyPipeline =>
       
         var requestOptions = new ForwarderRequestConfig
         {
+            ActivityTimeout = TimeSpan.FromMinutes(10),
             Version = HttpVersion.Version11, // CHAPS requires we use http/1.1
             VersionPolicy = HttpVersionPolicy.RequestVersionExact // don't negotiate for a different version
         };
