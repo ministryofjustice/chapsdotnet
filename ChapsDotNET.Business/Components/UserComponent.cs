@@ -1,13 +1,9 @@
-﻿using System.Net;
-using ChapsDotNET.Business.Exceptions;
+﻿using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
-using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace ChapsDotNET.Business.Components
 {

@@ -1,5 +1,4 @@
 ﻿using ChapsDotNET.Areas.Admin.Controllers;
-using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
@@ -7,7 +6,6 @@ using ChapsDotNET.Models;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;

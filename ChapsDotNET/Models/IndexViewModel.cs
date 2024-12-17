@@ -1,6 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-using ChapsDotNET.Business.Models;
+﻿using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 
 public class IndexViewModel

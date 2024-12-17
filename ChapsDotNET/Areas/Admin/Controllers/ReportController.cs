@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using ChapsDotNET.Business.Interfaces;
-using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;

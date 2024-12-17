@@ -1,31 +1,16 @@
-﻿using System.Collections;
-using System.Net.Http;
-using System.Security.Claims;
-using ChapsDotNET.Business.Exceptions;
+﻿using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
-using ChapsDotNET.Business.Middlewares;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace ChapsDotNET.Business.Components
 {
-    public class SalutationComponent : ISalutationComponent
+    public class SalutationComponent(DataContext context) : ISalutationComponent
     {
-        private readonly DataContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public SalutationComponent(DataContext context)
-        {
-            _context = context;
-        }
+        //private readonly IHttpContextAccessor? _httpContextAccessor;
 
         /// <summary>
         /// Returns a list of active Salutations
@@ -34,7 +19,7 @@ namespace ChapsDotNET.Business.Components
         /// <returns>A paged list of SalutationModels</returns>
         public async Task<PagedResult<List<SalutationModel>>> GetSalutationsAsync(SalutationRequestModel request)
         {
-            var query = _context.Salutations.AsQueryable();
+            var query = context.Salutations.AsQueryable();
 
             if (!request.ShowActiveAndInactive)
             {
@@ -75,7 +60,7 @@ namespace ChapsDotNET.Business.Components
         /// <exception cref="NotFoundException"></exception>
         public async Task<SalutationModel> GetSalutationAsync(int id)
         {
-            var salutation = await _context.Salutations
+            var salutation = await context.Salutations
                 .FirstOrDefaultAsync(x => x.salutationID == id);
 
             if (salutation == null) throw new NotFoundException("Salutation", id.ToString());
@@ -107,8 +92,8 @@ namespace ChapsDotNET.Business.Components
                 Detail = model.Detail
             };
 
-            await _context.Salutations.AddAsync(salutation);
-            await _context.SaveChangesAsync();
+            await context.Salutations.AddAsync(salutation);
+            await context.SaveChangesAsync();
 
             return salutation.salutationID;
         }
@@ -121,7 +106,7 @@ namespace ChapsDotNET.Business.Components
         /// <exception cref="ArgumentNullException"></exception>
         public async Task UpdateSalutationAsync(SalutationModel model)
         {
-            var salutation = await _context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
+            var salutation = await context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
 
             if (salutation == null)
             {
@@ -135,7 +120,7 @@ namespace ChapsDotNET.Business.Components
 
             salutation.active = model.Active;
             salutation.Detail = model.Detail;
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
     }
 }

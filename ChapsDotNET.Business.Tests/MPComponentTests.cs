@@ -1,16 +1,11 @@
-﻿using Bogus;
-using ChapsDotNET.Business.Components;
+﻿using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Business.Tests.Common;
 using ChapsDotNET.Data.Entities;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using System;
-using System.Diagnostics.Metrics;
-using System.Dynamic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 

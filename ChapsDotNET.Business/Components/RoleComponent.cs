@@ -1,5 +1,4 @@
-﻿using System;
-using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;

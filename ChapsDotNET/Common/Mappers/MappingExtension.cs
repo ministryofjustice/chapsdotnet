@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using ChapsDotNET.Business.Models;
-using ChapsDotNET.Data.Entities;
+﻿using ChapsDotNET.Business.Models;
 using ChapsDotNET.Models;
 
 namespace ChapsDotNET.Common.Mappers

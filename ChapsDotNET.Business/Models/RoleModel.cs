@@ -1,5 +1,4 @@
-﻿using System;
-namespace ChapsDotNET.Business.Models
+﻿namespace ChapsDotNET.Business.Models
 {
 	public class RoleModel
 	{

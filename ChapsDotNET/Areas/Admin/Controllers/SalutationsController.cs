@@ -1,14 +1,10 @@
-using System.Security.Claims;
-using ChapsDotNET.Business.Components;
+
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
-using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Newtonsoft.Json;
 
 namespace ChapsDotNET.Areas.Admin.Controllers

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Configuration;
 using System.Net;
-using System.Text.Json;
 using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Middlewares;
@@ -18,7 +15,6 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
-using Yarp.ReverseProxy.Transforms;
 
 var builder = WebApplication.CreateBuilder();
 
@@ -32,10 +28,10 @@ var chapsLocal = string.Empty;
 builder.Configuration.AddEnvironmentVariables();
 builder.Configuration.AddUserSecrets<Program>();
 
-foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
-{
-    Console.WriteLine($"EnvVar: {envVar.Key} = {envVar.Value}");
-}
+// foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
+// {
+//     Console.WriteLine($"EnvVar: {envVar.Key} = {envVar.Value}");
+// }
 
 if (builder.Environment.IsDevelopment())
 {
@@ -98,11 +94,7 @@ var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
     AllowAutoRedirect = false,
     AutomaticDecompression = DecompressionMethods.None,
     UseCookies = false,
-    SslOptions = new System.Net.Security.SslClientAuthenticationOptions
-    {
-        // RemoteCertificateValidationCallback =
-        // (sender, cert, chain, sslPolicyErrors) => true // Only use this in development!
-    }
+    SslOptions = new System.Net.Security.SslClientAuthenticationOptions()
 });
 
 var connectionString = myConnectionString.ToString();
@@ -112,9 +104,9 @@ builder.Services.AddSingleton(new DatabaseSettings { ConnectionString = connecti
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
-        options.ClientId = builder.Configuration["CLIENT_ID"];;
+        options.ClientId = builder.Configuration["CLIENT_ID"];
         options.TenantId = builder.Configuration["TenantId"];
-        options.Instance = builder.Configuration["Instance"];
+        options.Instance = builder.Configuration["Instance"]!;
         options.Domain = builder.Configuration["Domain"];
         options.CallbackPath = builder.Configuration["CallbackPath"];
     });
@@ -127,7 +119,6 @@ builder.Services.AddControllersWithViews(options =>
 builder.Services.AddAuthorization(options =>
 {
     // By default, all incoming requests will be authorized according to the default policy.
-    //options.FallbackPolicy = options.DefaultPolicy; // debug
     options.AddPolicy("IsAuthorisedUser", isAuthorizedUserPolicy =>
     {
         isAuthorizedUserPolicy.Requirements.Add(new IsAuthorisedUserRequirement());
@@ -135,8 +126,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddDbContext<DataContext>(options => 
-        options.UseSqlServer(myConnectionString.ConnectionString),
-    ServiceLifetime.Scoped);
+        options.UseSqlServer(myConnectionString.ConnectionString));
 builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
 builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
@@ -187,17 +177,13 @@ app.UseAuthentication();
 
 app.Use(async (context, next) =>
 {
-    if (context.User.Identity != null)
+    if (context.User.Identity is { IsAuthenticated: false })
     {
-        if (!context.User.Identity.IsAuthenticated &&
-            !context.Request.Path.StartsWithSegments("/Admin"))
+        await context.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties
         {
-            await context.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties
-            {
-                RedirectUri = context.Request.Path
-            });
-            return;
-        }
+            RedirectUri = context.Request.Path
+        });
+        return;
     }
     await next();
 });
@@ -219,23 +205,23 @@ app.MapReverseProxy(proxyPipeline =>
             var roleStrengthClaim = context.User.FindFirst("RoleStrength");
             
             context.Request.Headers.Add("X-User-Name", userName);
-            Console.WriteLine($"X-User-Name set: {userName}");
+            //Console.WriteLine($"X-User-Name set: {userName}");
           
             if (roleStrengthClaim != null)
             {
                 var roleStrength = roleStrengthClaim.Value;
                 context.Request.Headers.Add("X-User-RoleStrength", roleStrength);
-                Console.WriteLine($"X-User-RoleStrength added: {roleStrength}");
+                //Console.WriteLine($"X-User-RoleStrength added: {roleStrength}");
             }
             
             await Task.CompletedTask;
-        };
-        
-        Console.WriteLine($"Forwarding request with headers: ");
-        foreach (var header in context.Request.Headers)
-        {
-            Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
         }
+        
+        // Console.WriteLine($"Forwarding request with headers: ");
+        // foreach (var header in context.Request.Headers)
+        // {
+        //     Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+        // }
       
         var requestOptions = new ForwarderRequestConfig
         {

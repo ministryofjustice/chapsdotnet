@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.AccessControl;
-using ChapsDotNET.Data.Interfaces;
+﻿using ChapsDotNET.Data.Interfaces;
 
 namespace ChapsDotNET.Data.Entities
 {

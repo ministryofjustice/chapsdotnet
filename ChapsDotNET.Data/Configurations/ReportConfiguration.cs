@@ -1,5 +1,4 @@
-﻿using System;
-using ChapsDotNET.Data.Entities;
+﻿using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

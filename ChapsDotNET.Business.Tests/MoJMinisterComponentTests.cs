@@ -1,5 +1,4 @@
-﻿using Bogus.DataSets;
-using ChapsDotNET.Business.Components;
+﻿using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Business.Tests.Common;

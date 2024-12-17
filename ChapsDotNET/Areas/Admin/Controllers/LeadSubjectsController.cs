@@ -1,9 +1,7 @@
-﻿using ChapsDotNET.Business.Components;
-using ChapsDotNET.Business.Interfaces;
+﻿using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
-using ChapsDotNET.Data.Entities;
 using ChapsDotNET.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

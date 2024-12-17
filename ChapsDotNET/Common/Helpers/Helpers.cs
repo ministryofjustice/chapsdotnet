@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
-using System;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
 
 namespace ChapsDotNET.Common.Helpers
 {

@@ -1,6 +1,4 @@
-﻿using ChapsDotNET.Data.Entities;
-
-namespace ChapsDotNET.Business.Models
+﻿namespace ChapsDotNET.Business.Models
 {
     public class UserModel
     {
