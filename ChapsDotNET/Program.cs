@@ -89,7 +89,7 @@ else
 }
 
 // custom httpClient to force HTTP/1.1 for old CHAPS
-var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
+var httpClient = new HttpMessageInvoker(new SocketsHttpHandler
 {
     AllowAutoRedirect = false,
     AutomaticDecompression = DecompressionMethods.None,
@@ -204,13 +204,13 @@ app.MapReverseProxy(proxyPipeline =>
             var userName = context.User.Identity.Name;
             var roleStrengthClaim = context.User.FindFirst("RoleStrength");
             
-            context.Request.Headers.Add("X-User-Name", userName);
+            context.Request.Headers.Append("X-User-Name", userName);
             //Console.WriteLine($"X-User-Name set: {userName}");
           
             if (roleStrengthClaim != null)
             {
                 var roleStrength = roleStrengthClaim.Value;
-                context.Request.Headers.Add("X-User-RoleStrength", roleStrength);
+                context.Request.Headers.Append("X-User-RoleStrength", roleStrength);
                 //Console.WriteLine($"X-User-RoleStrength added: {roleStrength}");
             }
             
