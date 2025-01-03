@@ -57,6 +57,7 @@ namespace ChapsDotNET.Data.Contexts
        
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            //ChangeTracker.AutoDetectChangesEnabled = true;
             ChangeTracker.DetectChanges();
 
             var changeSet = ChangeTracker.Entries<IAuditable>()
