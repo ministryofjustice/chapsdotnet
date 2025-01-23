@@ -9,6 +9,7 @@ using ChapsDotNET.Policies.Requirements;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -153,6 +154,11 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 
 var app = builder.Build();
 app.UseStaticFiles();
+app.UseWhen(
+    context => !context.Request.Path.StartsWithSegments("/dotnet-health"),
+    b => b.UseAuthentication().UseAuthorization()
+);
+app.UseHealthChecks("/dotnet-health");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -253,7 +259,6 @@ app.MapReverseProxy(proxyPipeline =>
     });
 });
 
-app.UseHealthChecks("/dotnet-health"); 
 app.MapAreaControllerRoute(
     name: "ChapsServices",
     areaName: "Admin",
