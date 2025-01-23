@@ -253,6 +253,7 @@ app.MapReverseProxy(proxyPipeline =>
     });
 });
 
+app.UseHealthChecks("/dotnet-health"); 
 app.MapAreaControllerRoute(
     name: "ChapsServices",
     areaName: "Admin",
