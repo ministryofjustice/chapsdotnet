@@ -262,6 +262,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllers().RequireAuthorization("IsAuthorisedUser");
-app.MapHealthChecks("/health").WithMetadata(new AllowAnonymousAttribute());
 
 app.Run();
