@@ -82,8 +82,8 @@ else
     // development config 
     myConnectionString = new SqlConnectionStringBuilder
     {
-        DataSource = @"ALISTAIRCUR98CF\SQLEXPRESS",
-        InitialCatalog = "chaps-dev",
+        DataSource = @"ERMINTRUDE\SQLEXPRESS",
+        InitialCatalog = "Chaps",
         IntegratedSecurity = true,
         TrustServerCertificate = true
     };
