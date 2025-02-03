@@ -20,12 +20,13 @@
 
 @await Html.PartialAsync("_LookupAdminList")
 
+<fieldset class="FieldsetCR">
+    <legend>@Html.ActionLink("Email Templates", "Index", "emailTemplates")</legend>
+    <div>Allows admin users to maintain email templates.</div>
+</fieldset>
+
 @if (Convert.ToInt32(this.User.FindFirst("RoleStrength").Value) == (int)ChapsDotNET.Data.Enums.AccessLevel.Admin)
 {
-    <fieldset class="FieldsetCR">
-        <legend>@Html.ActionLink("Email Templates", "Index", "emailTemplates")</legend>
-        <div>Allows admin users to maintain email templates.</div>
-    </fieldset>
 
     <fieldset class="FieldsetCR">
         <legend>@Html.ActionLink("Alerts", "Index", "Alerts")</legend>
