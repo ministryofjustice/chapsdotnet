@@ -82,8 +82,8 @@ else
     // development config 
     myConnectionString = new SqlConnectionStringBuilder
     {
-        DataSource = @"ERMINTRUDE\SQLEXPRESS",
-        InitialCatalog = "Chaps",
+        DataSource = @rdsHostName,
+        InitialCatalog = dbName,
         IntegratedSecurity = true,
         TrustServerCertificate = true
     };
