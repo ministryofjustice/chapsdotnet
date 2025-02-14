@@ -1,8 +1,7 @@
 #MenuContainer {
     background: url('../images/nav_right_corner_bottom.gif') #000 no-repeat right bottom;
     clear: both;
-    font: Tahoma,Verdana,Arial;
-    font-size: 0.9em;
+    font: 0.9em Tahoma,Verdana,Arial;
     height: 40px;
     margin-top: 0.5em;
     min-width: 800px;

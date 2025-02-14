@@ -82,7 +82,7 @@ else
     // development config 
     myConnectionString = new SqlConnectionStringBuilder
     {
-        DataSource = @rdsHostName,
+        DataSource = rdsHostName,
         InitialCatalog = dbName,
         IntegratedSecurity = true,
         TrustServerCertificate = true
