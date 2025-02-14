@@ -1,11 +1,8 @@
-﻿using System.Text.RegularExpressions;
-using ChapsDotNET.Business.Exceptions;
+﻿using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Data.Contexts;
-using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ChapsDotNET.Business.Components
 {

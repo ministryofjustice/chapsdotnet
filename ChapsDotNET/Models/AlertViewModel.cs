@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Tracing;
-using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ChapsDotNET.Models
 {

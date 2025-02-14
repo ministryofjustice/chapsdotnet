@@ -1,7 +1,4 @@
-﻿using System;
-using ChapsDotNET.Business.Interfaces;
-using System.Linq;
-using ChapsDotNET.Business.Models.Common;
+﻿using ChapsDotNET.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ChapsDotNET.Business.Components

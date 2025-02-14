@@ -246,7 +246,9 @@ fieldset {
     }
 
 legend {
-    margin-bottom: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: inline;
 }
 
 textarea {

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ChapsDotNET.Business.Models;
 
 namespace ChapsDotNET.Models
 {

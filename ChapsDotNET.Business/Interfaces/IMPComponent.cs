@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using ChapsDotNET.Business.Models;
+﻿using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ChapsDotNET.Business.Interfaces
 {

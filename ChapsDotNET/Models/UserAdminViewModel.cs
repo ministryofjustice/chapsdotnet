@@ -1,5 +1,4 @@
-﻿using System;
-using ChapsDotNET.Business.Models;
+﻿using ChapsDotNET.Business.Models;
 
 namespace ChapsDotNET.Models
 {

@@ -9,6 +9,7 @@ using ChapsDotNET.Policies.Requirements;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -16,22 +17,34 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Yarp.ReverseProxy.Forwarder;
 
-
 var builder = WebApplication.CreateBuilder();
+
 var loggerFactory = LoggerFactory.Create(logging =>
 {
     logging.AddConsole();
 });
-var logger = loggerFactory.CreateLogger<Program>();
-var chapsLocal = "http://localhost:80/";
+
+var chapsLocal = string.Empty;
+
 builder.Configuration.AddEnvironmentVariables();
+builder.Configuration.AddUserSecrets<Program>();
+
+// foreach (DictionaryEntry envVar in Environment.GetEnvironmentVariables())
+// {
+//     Console.WriteLine($"EnvVar: {envVar.Key} = {envVar.Value}");
+// }
 
 if (builder.Environment.IsDevelopment())
 {
-    builder.Configuration.AddUserSecrets<Program>();
     chapsLocal = "https://localhost:44300/";
 }
-Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, ChapsLocal: {chapsLocal}");
+else
+{
+    chapsLocal = "http://localhost:80/";
+}
+
+Console.WriteLine($"Current Env: {builder.Environment.EnvironmentName}, Chaps container address: {chapsLocal}");
+
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.SetMinimumLevel(LogLevel.Debug);
@@ -69,24 +82,20 @@ else
     // development config 
     myConnectionString = new SqlConnectionStringBuilder
     {
-        DataSource = @"ALISTAIRCUR98CF\SQLEXPRESS",
-        InitialCatalog = "chaps-dev",
+        DataSource = rdsHostName,
+        InitialCatalog = dbName,
         IntegratedSecurity = true,
         TrustServerCertificate = true
     };
 }
 
 // custom httpClient to force HTTP/1.1 for old CHAPS
-var httpClient = new HttpMessageInvoker(new SocketsHttpHandler()
+var httpClient = new HttpMessageInvoker(new SocketsHttpHandler
 {
     AllowAutoRedirect = false,
     AutomaticDecompression = DecompressionMethods.None,
     UseCookies = false,
-    SslOptions = new System.Net.Security.SslClientAuthenticationOptions
-    {
-        // RemoteCertificateValidationCallback =
-        // (sender, cert, chain, sslPolicyErrors) => true // Only use this in development!
-    }
+    SslOptions = new System.Net.Security.SslClientAuthenticationOptions()
 });
 
 var connectionString = myConnectionString.ToString();
@@ -96,9 +105,9 @@ builder.Services.AddSingleton(new DatabaseSettings { ConnectionString = connecti
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
-        options.ClientId = builder.Configuration["CLIENT_ID"];;
+        options.ClientId = builder.Configuration["CLIENT_ID"];
         options.TenantId = builder.Configuration["TenantId"];
-        options.Instance = builder.Configuration["Instance"];
+        options.Instance = builder.Configuration["Instance"]!;
         options.Domain = builder.Configuration["Domain"];
         options.CallbackPath = builder.Configuration["CallbackPath"];
     });
@@ -111,7 +120,6 @@ builder.Services.AddControllersWithViews(options =>
 builder.Services.AddAuthorization(options =>
 {
     // By default, all incoming requests will be authorized according to the default policy.
-    options.FallbackPolicy = options.DefaultPolicy;
     options.AddPolicy("IsAuthorisedUser", isAuthorizedUserPolicy =>
     {
         isAuthorizedUserPolicy.Requirements.Add(new IsAuthorisedUserRequirement());
@@ -119,8 +127,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddDbContext<DataContext>(options => 
-        options.UseSqlServer(myConnectionString.ConnectionString),
-    ServiceLifetime.Scoped);
+        options.UseSqlServer(myConnectionString.ConnectionString));
 builder.Services.AddScoped<IAuthorizationHandler, IsAuthorisedUserHandler>();
 builder.Services.AddScoped<ICampaignComponent, CampaignComponent>();
 builder.Services.AddScoped<IClaimsTransformation, AddRolesClaimsTransformation>();
@@ -135,7 +142,8 @@ builder.Services.AddScoped<IUserComponent, UserComponent>();
 builder.Services.AddScoped<IRoleComponent, RoleComponent>();
 builder.Services.AddScoped<IAlertComponent, AlertComponent>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 builder.Services.AddHttpForwarder();
 builder.Services.AddSingleton(httpClient);
 builder.Services.AddHealthChecks();
@@ -145,8 +153,12 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 });
 
 var app = builder.Build();
-var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
-
+app.UseStaticFiles();
+app.UseWhen(
+    context => !context.Request.Path.StartsWithSegments("/dotnet-health"),
+    b => b.UseAuthentication().UseAuthorization()
+);
+app.UseHealthChecks("/dotnet-health");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -165,27 +177,73 @@ forwardedHeaderOptions.KnownProxies.Clear();
 
 app.UseForwardedHeaders(forwardedHeaderOptions);
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+
 app.UseRouting();
 app.UseAuthentication();
+
+app.Use(async (context, next) =>
+{
+    if (context.User.Identity is { IsAuthenticated: false })
+    {
+        await context.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, new AuthenticationProperties
+        {
+            RedirectUri = context.Request.Path
+        });
+        return;
+    }
+    await next();
+});
+
 app.UseMiddleware<UserIdentityMiddleware>();
 app.UseAuthorization();
 
 // configure proxy routes 
 app.MapReverseProxy(proxyPipeline =>
 {
-    proxyPipeline.Run(async (context) =>
-    {    
+    var forwarder = app.Services.GetRequiredService<IHttpForwarder>();
+    
+    proxyPipeline.Run(async context =>
+    {
+        // Add the transformed headers to the proxy request
+        if (context.User.Identity!.IsAuthenticated)
+        {
+            var userName = context.User.Identity.Name;
+            var roleStrengthClaim = context.User.FindFirst("RoleStrength");
+            
+            context.Request.Headers.Append("X-User-Name", userName);
+            //Console.WriteLine($"X-User-Name set: {userName}");
+          
+            if (roleStrengthClaim != null)
+            {
+                var roleStrength = roleStrengthClaim.Value;
+                context.Request.Headers.Append("X-User-RoleStrength", roleStrength);
+                //Console.WriteLine($"X-User-RoleStrength added: {roleStrength}");
+            }
+            
+            await Task.CompletedTask;
+        }
+        
+        // Console.WriteLine($"Forwarding request with headers: ");
+        // foreach (var header in context.Request.Headers)
+        // {
+        //     Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+        // }
+      
         var requestOptions = new ForwarderRequestConfig
         {
+            ActivityTimeout = TimeSpan.FromMinutes(10),
             Version = HttpVersion.Version11, // CHAPS requires we use http/1.1
             VersionPolicy = HttpVersionPolicy.RequestVersionExact // don't negotiate for a different version
         };
+        
+        Console.WriteLine($"Proxying request for: {context.Request.Path}");
+        
         try
         {
             var error = await forwarder.SendAsync(context, chapsLocal, httpClient, requestOptions,
                 HttpTransformer.Default,
                 context.RequestAborted);
+            
             if (error != ForwarderError.None)
             {
                 Console.WriteLine($"Forwarding error: {error}");
@@ -210,6 +268,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllers().RequireAuthorization("IsAuthorisedUser");
-app.MapHealthChecks("/health").WithMetadata(new AllowAnonymousAttribute());
 
 app.Run();

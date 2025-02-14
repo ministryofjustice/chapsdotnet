@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using ChapsDotNET.Business.Models;
-using ChapsDotNET.Business.Models.Common;
+﻿using ChapsDotNET.Business.Models;
 
 namespace ChapsDotNET.Business.Interfaces
 {

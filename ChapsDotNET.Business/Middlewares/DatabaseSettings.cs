@@ -1,5 +1,4 @@
-﻿using System;
-namespace ChapsDotNET.Business.Middlewares
+﻿namespace ChapsDotNET.Business.Middlewares
 {
 	public class DatabaseSettings
 	{

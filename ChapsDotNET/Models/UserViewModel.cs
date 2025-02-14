@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using ChapsDotNET.Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

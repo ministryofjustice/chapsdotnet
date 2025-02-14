@@ -10,7 +10,7 @@ namespace ChapsDotNET.Data.Contexts
 {
     public class DataContext : DbContext
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor? _httpContextAccessor;
 
         public DataContext() { }
 
@@ -57,6 +57,7 @@ namespace ChapsDotNET.Data.Contexts
        
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            //ChangeTracker.AutoDetectChangesEnabled = true;
             ChangeTracker.DetectChanges();
 
             var changeSet = ChangeTracker.Entries<IAuditable>()

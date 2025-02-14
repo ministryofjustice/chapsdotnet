@@ -1,5 +1,4 @@
-﻿using System;
-namespace ChapsDotNET.Data.Enums
+﻿namespace ChapsDotNET.Data.Enums
 {
 	public enum Actions
 	{

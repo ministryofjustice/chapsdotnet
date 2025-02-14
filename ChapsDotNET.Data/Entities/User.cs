@@ -1,6 +1,8 @@
-﻿namespace ChapsDotNET.Data.Entities;
+﻿using ChapsDotNET.Data.Interfaces;
 
-public class User
+namespace ChapsDotNET.Data.Entities;
+
+public class User : IAuditable
 {
     public int UserID { get; set; }
     public string Name { get; set; } = string.Empty;

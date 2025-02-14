@@ -1,5 +1,4 @@
-﻿using System;
-using Bogus;
+﻿using Bogus;
 using ChapsDotNET.Data.Entities;
 
 namespace ChapsDotNET.Business.Tests.Common

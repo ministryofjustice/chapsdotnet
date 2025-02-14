@@ -35,8 +35,8 @@
             @{
                 string logo = "";
                 string svrName = "";
-                switch (svrName)
-                @*switch (System.Configuration.ConfigurationManager.AppSettings["CurServer"])*@
+
+                switch (Environment.GetEnvironmentVariable("CurServer"))
                 {
                     case "PRODUCTION":
                         logo = "";
@@ -76,10 +76,8 @@
         <script type="text/javascript" src="~/javascripts/chaps.js"></script>
         <script type="text/javascript">
                 $(document).ready(function () {
-                    @*var ServerName = "@(System.Configuration.ConfigurationManager.AppSettings["CurServer"])";*@
-
-                    var ServerName = "";
-                    if (ServerName != "PRODUCTION") {
+                    var ServerName = Environment.GetEnvironmentVariable("CurServer") ?? "DEFAULT_VALUE";
+                    if (ServerName !== "PRODUCTION") {
                         $('#menuBar li, #menuBar li.leftText, #MenuContainer, .helpButton').css('background-color', '#1d73e8');
                         $('#first').css('background-image', 'url("@Url.Content("~/images/blue_nav_left_corner_bottom.gif")")');
                         $('#MenuContainer').css('background-image', 'url("@Url.Content("~/images/blue_nav_right_corner_bottom.gif")")');

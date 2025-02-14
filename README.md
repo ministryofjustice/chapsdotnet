@@ -14,7 +14,7 @@ The upgrade is using the "Strangler Fig Pattern", but will encompase the entire 
 
 #Development Requirements
 
-Use the latest version of Visual Studio for the mac.
+Use the latest version of Visual Studio for the mac or PC.
 
 #Secrets
 To run the application semi-locally (note that we are using a non-local database, connecting to a SQL Server in RDS) you need to set up the following secrets on your dev machine
@@ -34,3 +34,13 @@ Use the command:
 $ dotnet user-secrets set "key_name" 'value'
 
 The above secret key-value pairs are stored in LastPass - shortly to be somewhere else
+
+IF running locally on PC:
+To connect to a local database : (Note that these steps are the same as for the Chaps project - you don't need to perform them again if they are already in place)
+
+Open **SQL Server Management Studio**.
+Right click on Your local db server for the chaps database and select Properties.
+On the **Name** property sheet under General there is the name for your database server - usualy something like "machinename\SQLEXPRESS" if you are running SQLExpress.
+Open the **Edit System Variables** Dialog on your PC, and add a new variable called RDS_HOSTNAME and add the full name, such as, "machinename\SQLEXPRESS" of your database server you just retrieved.
+In **SQL Server Management Studio** find the name of the instance of the database you restored previously.
+In the **Edit System Variables** Dialog on your PC create a new variable called DB_NAME and enter the name of the database instance.

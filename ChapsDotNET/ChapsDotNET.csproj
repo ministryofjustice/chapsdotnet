@@ -124,6 +124,8 @@
     <Compile Remove="Areas\Admin\Models\**" />
     <Compile Remove="Views\Home\**" />
     <Compile Remove="Controllers\HomeController.cs" />
+    <Compile Remove="Common\DynamicProxy.cs" />
+    <Compile Remove="Common\FindContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Areas\Admin\Data\**" />

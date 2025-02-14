@@ -1,8 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
-using System.ComponentModel;
-using ChapsDotNET.Common.Helpers;
-
 
 namespace ChapsDotNET.Models
 {
