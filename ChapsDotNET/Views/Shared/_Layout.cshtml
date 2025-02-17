@@ -76,7 +76,7 @@
         <script type="text/javascript" src="~/javascripts/chaps.js"></script>
         <script type="text/javascript">
                 $(document).ready(function () {
-                    var ServerName = Environment.GetEnvironmentVariable("CurServer") ?? "DEFAULT_VALUE";
+                    var ServerName = "@(Environment.GetEnvironmentVariable("CurServer") ?? "DEFAULT_VALUE")";
                     if (ServerName !== "PRODUCTION") {
                         $('#menuBar li, #menuBar li.leftText, #MenuContainer, .helpButton').css('background-color', '#1d73e8');
                         $('#first').css('background-image', 'url("@Url.Content("~/images/blue_nav_left_corner_bottom.gif")")');
