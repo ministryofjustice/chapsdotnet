@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ChapsDotNET.Data.Enums;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ChapsDotNET.Data.Contexts
 {
@@ -135,7 +136,8 @@ namespace ChapsDotNET.Data.Contexts
                 Date = DateTime.Now,
                 UserId = (int)CurrentUserId!,
                 ObjectPrimaryKey = Convert.ToInt32(primaryKeyValue),
-                Object = primaryKeyProperty.DeclaringEntityType.DisplayName().ToString(),
+                //Object = primaryKeyProperty.DeclaringEntityType.DisplayName().ToString(), ** warning CS0618 ** 
+                Object = ((IEntityType)primaryKeyProperty.DeclaringType).DisplayName(),
                 ActionId = (int)action
             };
 

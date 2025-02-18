@@ -25,13 +25,10 @@
     <div>Allows admin users to maintain email templates.</div>
 </fieldset>
 
-@if (Convert.ToInt32(this.User.FindFirst("RoleStrength").Value) == (int)ChapsDotNET.Data.Enums.AccessLevel.Admin)
+@if (Convert.ToInt32(this.User.FindFirst("RoleStrength")?.Value ?? "0") == (int)ChapsDotNET.Data.Enums.AccessLevel.Admin)
 {
-
     <fieldset class="FieldsetCR">
         <legend>@Html.ActionLink("Alerts", "Index", "Alerts")</legend>
         <div>Allows admin users to maintain alerts, e.g. All users must be logged off by 4pm.</div>
     </fieldset>
-
-
 }
