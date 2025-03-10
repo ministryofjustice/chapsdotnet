@@ -34,7 +34,7 @@
         <div>
             @{
                 string logo = "";
-                string svrName = "";
+                <!-- string svrName = ""; Causing build warning "Never used"-->
 
                 switch (Environment.GetEnvironmentVariable("CurServer"))
                 {

@@ -38,6 +38,7 @@ namespace ChapsDotNET.Data.Contexts
         public DbSet<Campaign> Campaigns => Set<Campaign>();
         public DbSet<CorrespondenceType> CorrespondenceTypes => Set<CorrespondenceType>();
         public DbSet<CorrespondenceTypesByTeam> CorrespondenceTypesByTeams => Set<CorrespondenceTypesByTeam>();
+        public DbSet<EmailTemplate> EmailTemplates => Set<EmailTemplate>();
         public DbSet<LeadSubject> LeadSubjects => Set<LeadSubject>();
         public DbSet<MoJMinister> MoJMinisters => Set<MoJMinister>();
         public DbSet<MP> MPs => Set<MP>();
