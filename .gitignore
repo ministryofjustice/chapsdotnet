@@ -365,3 +365,7 @@ MigrationBackup/
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# Frontend (built by npm)
+**/wwwroot/dist
+**/Frontend/node_modules
+**/Frontend/assets
