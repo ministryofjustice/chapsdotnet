@@ -3,6 +3,7 @@ using ChapsDotNET.Business.Components;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Middlewares;
 using ChapsDotNET.Common;
+using ChapsDotNET.Common.Helpers;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Policies.Handlers;
 using ChapsDotNET.Policies.Requirements;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
@@ -51,7 +53,14 @@ builder.Logging.SetMinimumLevel(LogLevel.Debug);
 builder.Logging.AddFilter("Microsoft.Data.SqlClient", LogLevel.Debug);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new LayoutNameFilter());
+}).AddRazorOptions(options =>
+{
+    options.AreaViewLocationFormats.Add("/Frontend/Base/_{0}" + RazorViewEngine.ViewExtension);
+    options.AreaViewLocationFormats.Add("/Frontend/Components/{0}/_{0}" + RazorViewEngine.ViewExtension);
+});
 
 var dbName = builder.Configuration["DB_NAME"];
 var rdsHostName = builder.Configuration["RDS_HOSTNAME"];

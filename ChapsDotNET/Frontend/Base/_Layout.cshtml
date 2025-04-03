@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html lang="en-gb" class="govuk-template">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/dist/main.bundle.css")" />
+    <!-- Google Tag Manager -->
+    <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','GTM-M3QK9DW');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body class="govuk-template__body">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M3QK9DW"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Alert logic -->
+    <partial name="Header" />
+    <partial name="PrimaryNavigation" />
+    <partial name="IdentityBar" />
+    <div class="govuk-width-container">
+        <main class="govuk-main-wrapper" id="main-content">
+            @RenderBody()
+        </main>
+    </div>
+    <partial name="Footer" />
+
+    <script type="text/javascript" src="~/lib/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-ui-1.13.1.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/lib/jHtmlArea-0.8.min.js"></script>
+    <script type="text/javascript" src="~/javascripts/chaps.js"></script>
+    <script type="text/javascript" src="~/dist/main.bundle.js" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var ServerName = "@(Environment.GetEnvironmentVariable("CurServer") ?? "DEFAULT_VALUE")";
+            if (ServerName !== "PRODUCTION") {
+                $('#menuBar li, #menuBar li.leftText, #MenuContainer, .helpButton').css('background-color', '#1d73e8');
+                $('#first').css('background-image', 'url("@Url.Content("~/images/blue_nav_left_corner_bottom.gif")")');
+                $('#MenuContainer').css('background-image', 'url("@Url.Content("~/images/blue_nav_right_corner_bottom.gif")")');
+            }
+        });
+    </script>
+</body>
+</html>

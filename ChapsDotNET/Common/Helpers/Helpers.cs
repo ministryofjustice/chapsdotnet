@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ChapsDotNET.Common.Helpers
 {
@@ -49,6 +51,32 @@ namespace ChapsDotNET.Common.Helpers
             }
 
             return $"https://chaps.{environment}net.tp.dsd.io/Chaps_deploy";
+        }
+    }
+
+    public class LayoutNameFilter : IActionFilter
+    {
+        /// <summary>
+        /// Gets an array of strings representing Areas which have been updated to use the new frontend components.
+        /// We can remove this and switch the _Layout.cshtml files once all Areas have been updated.
+        /// </summary>
+        public string[] UpdatedPageControllers { get; } = [
+            "Users",
+        ];
+        /// <inheritdoc/>
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
+            _ = context.RouteData.Values.TryGetValue("controller", out object? controllerName);
+            if (context.Result is ViewResult result && controllerName != null)
+            {
+                result.ViewData["LayoutName"] = Array.IndexOf(this.UpdatedPageControllers, controllerName.ToString()) > -1 ? "~/Frontend/Base/_Layout.cshtml" : "_Layout";
+            }
+
+        }
+        /// <inheritdoc/>
+        public void OnActionExecuting(ActionExecutingContext context)
+        {
+            // Inherits from IActionFilter
         }
     }
 }
