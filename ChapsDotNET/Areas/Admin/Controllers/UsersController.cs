@@ -66,7 +66,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             }
             else
             {
-                return RedirectToAction("Edit", "Users", new { status = AlertModel.AlertTypes.error, action = "created", result.warning });
+                return RedirectToAction("Edit", "Users", new { result.userId, status = AlertModel.AlertTypes.error, action = "created", result.warning });
             }
         }
 

@@ -41,13 +41,13 @@
     // Alert data
     AlertModel? alertModel = null;
 
-    if (!(ViewContext.HttpContext.Request.Query["status"].FirstOrDefault() != null))
+    if ((ViewContext.HttpContext.Request.Query["status"].FirstOrDefault() != null))
     {
         var request = ViewContext.HttpContext.Request.Query;
         string? status = request["status"].FirstOrDefault();
         string? action = request["action"].FirstOrDefault();
         string? username = WebUtility.HtmlDecode(request["user"].FirstOrDefault());
-        string? warning = request["warning"].FirstOrDefault();
+        string? warning = WebUtility.HtmlDecode(request["warning"].FirstOrDefault());
 
         switch (status)
         {
@@ -110,28 +110,29 @@
     @foreach (var user in users)
     {
         var row = new Row
-                {
-                    RowContent = [
+            {
+                RowContent = [
                     new BodyCell {Content = user.Name!, Url = $"/Admin/Users/Edit/{@user.UserId}"},
-            new BodyCell {Content = user.DisplayName!},
-            new BodyCell {Content = user.Team != null ? user.Team : "Not set" },
-            new BodyCell {Content = user.Role != null ? user.Role : "Not set"},
-            new BodyCell {Content = user.Email!},
-            new BodyCell {Content = user.LastActive.Humanize()}]
-                };
+                    new BodyCell {Content = user.DisplayName!},
+                    new BodyCell {Content = user.Team != null ? user.Team : "Not set" },
+                    new BodyCell {Content = user.Role != null ? user.Role : "Not set"},
+                    new BodyCell {Content = user.Email != null ? user.Email : "Not set"},
+                    new BodyCell {Content = user.LastActive.Humanize()}]
+            };
         rows.Add(row);
     }
+
     var tableModel = new TableModel { Caption = "All Users", HeaderData = headers, BodyData = rows, ResultsTotal = totalItems.ToString(), ResultsFrom = resultsFrom, ResultsTo = resultsTo };
 
     // Pagination
     var paginationModel = new PaginationModel { PageSize = pageSize, CurrentPage = currentPage, TotalCount = totalItems};
 }
 
-@if(alertModel != null)
-{
-   <partial name="Alert" model="alertModel"/>
-}
 <partial name="Breadcrumbs" model="breadcrumbsModel" />
+@if (alertModel != null)
+{
+    <partial name="Alert" model="alertModel" />
+}
 <partial name="Heading"  model="headingModel"/>
 <partial name="Table" model="tableModel"/>
 <partial name="Pagination" model="paginationModel" />
