@@ -8,6 +8,29 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
+  <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
+	<!-- Ensure Node.js is installed -->
+	<Exec WorkingDirectory="Frontend" Command="node --version" ContinueOnError="true">
+		<Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+	</Exec>
+	<Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+	<!-- In development, the dist files won't exist on the first run or when cloning to a different machine, so rebuild them if not already present. -->
+	<Message Importance="high" Text="Performing first-run Webpack build..." />
+	<Exec WorkingDirectory="Frontend" Command="npm run watch" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+	<Exec WorkingDirectory="Frontend" Command="npm install" />
+	<Exec WorkingDirectory="Frontend" Command="npm run build" />
+	<ItemGroup>
+		<DistFiles Include="wwwroot\dist\**" />
+		<ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+			<RelativePath>%(DistFiles.Identity)</RelativePath>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</ResolvedFileToPublish>
+	</ItemGroup>
+  </Target>
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
@@ -88,7 +111,6 @@
     <Folder Include="Areas\Admin\Views\MoJMinisters\" />
     <Folder Include="Areas\Admin\Views\Campaigns\" />
     <Folder Include="Areas\Admin\Views\LeadSubjects\" />
-    <Folder Include="Views\Shared\EditorTemplates\" />
     <Folder Include="Areas\Admin\Views\Admin\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Admin\Views\Users\" />

@@ -58,7 +58,8 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new LayoutNameFilter());
 }).AddRazorOptions(options =>
 {
-    options.AreaViewLocationFormats.Add("/Frontend/Base/_{0}" + RazorViewEngine.ViewExtension);
+    // Make the templates in the Frontend folder visible to Razor
+    options.AreaViewLocationFormats.Add("/Frontend/_{0}" + RazorViewEngine.ViewExtension);
     options.AreaViewLocationFormats.Add("/Frontend/Components/{0}/_{0}" + RazorViewEngine.ViewExtension);
 });
 

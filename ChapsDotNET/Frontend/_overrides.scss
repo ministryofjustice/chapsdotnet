@@ -1,0 +1,19 @@
+@forward "@moj-design-system/settings/measurements" with ( $moj-page-width: 1366px );
+// Width of main container
+$govuk-page-width: 1366px;
+$govuk-breakpoints: ( mobile: 320px, tablet: 641px, desktop: 769px );
+
+// Colours
+$govuk-text-colour: #0b0c0c;
+$govuk-secondary-text-colour: #505a5f;
+$govuk-link-colour: #1d70b8;
+$govuk-link-hover-colour: #003078;
+$govuk-link-visited-colour: #4c2c92;
+$govuk-link-active-colour: #0b0c0c;
+$govuk-border-colour: #b1b4b6;
+$govuk-input-border-colour: #0b0c0c;
+$govuk-focus-colour: #ffdd00;
+$govuk-focus-text-colour: #0b0c0c;
+$govuk-error-colour: #d4351c;
+$govuk-success-colour: #00703c;
+$govuk-brand-colour: #1d70b8;

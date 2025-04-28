@@ -18,6 +18,7 @@ module.exports = {
             'node_modules': path.resolve(__dirname, 'node_modules'),
             '@govuk-design-system': path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk'),
             '@moj-design-system': path.resolve(__dirname, 'node_modules/@ministryofjustice/frontend/moj'),
+            '@style-overrides': path.resolve(__dirname, '_overrides.scss')
         }
     },
     module: {
