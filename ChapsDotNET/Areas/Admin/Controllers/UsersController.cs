@@ -1,4 +1,5 @@
 ﻿using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Frontend.Components.Alert;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
 using ChapsDotNET.Models;
@@ -60,11 +61,12 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
             if (result.warning == "Success")
             {
-                return RedirectToAction("Index");
+                var user = await _userComponent.GetUserByIdAsync(result.userId);
+                return RedirectToAction("Index", new {status = AlertModel.AlertTypes.success, action = "created", user = user.Name });
             }
             else
             {
-                return RedirectToAction("Edit", "Users", new { userId = result.userId, warning=result.warning });
+                return RedirectToAction("Edit", "Users", new { status = AlertModel.AlertTypes.error, action = "created", result.warning });
             }
         }
 
@@ -100,12 +102,13 @@ namespace ChapsDotNET.Areas.Admin.Controllers
 
         [HttpPost]
         [Route("Admin/Users/Edit/{userId:int}")]
-        public async Task<IActionResult> Edit(UserViewModel model)
+        public async Task<IActionResult> Edit(UserViewModel model, int userId)
         {
    
             await _userComponent.UpdateUserAsync(model.ToModel());
+            var user = await _userComponent.GetUserByIdAsync(userId);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new {status = AlertModel.AlertTypes.success, action = "updated", user = user.Name });
         }
     }
 }

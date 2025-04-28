@@ -1,9 +1,15 @@
 ﻿@model ChapsDotNET.Models.UserAdminViewModel
-@using ChapsDotNET.Common.Helpers
-@{
-    ViewData["Title"] = "User administration";
 
-}
+@using ChapsDotNET.Common.Helpers
+@using ChapsDotNET.Frontend.Components.Alert
+@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Heading
+@using ChapsDotNET.Frontend.Components.Button
+@using ChapsDotNET.Frontend.Components.Table
+@using ChapsDotNET.Frontend.Components.Pagination
+@using Humanizer
+@using System.Net
+
 @functions {
     string ToggleSortOrder(string currentSortOrder, string column)
     {
@@ -13,86 +19,119 @@
         }
         return column;
     }
-}
 
-@section head{
-    <script src="/lib/jquery-3.6.0.min.js" type="text/javascript" defer></script>
-    <script src="/javascripts/jquery.timeago.js" type="text/javascript" defer></script>
-    <script defer>
-        document.addEventListener("DOMContentLoaded", function (event) {
-                if (window.jQuery) {
-                $("abbr.timeago").timeago();
-                }
-            });</script>
-}
-<div class="breadcrumbs">
-    <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-        &nbsp;>&nbsp;@Html.ActionLink("Administration", "Index", "Admin")
-        > Users
-    </h6>
-
-</div>
-
-<h1>Users</h1>
-
-<div class="actionLinks">
-    @Html.ActionLink("Create new user", "Create", "Users")
-</div>
-
-<table>
-    <caption class="caption">Existing Users </caption>
-    <thead>
-        <tr>
-            <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "UserLogin") })">User Login</a>
-            </th>
-            <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Display_name") })">Display Name</a>
-            </th>
-            <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Team") })">Team</a>
-            </th>
-            <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Access_Level") })">Access Level</a>
-            </th>
-            <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "email") })">email</a>
-            </th>
-            <th>
-                <a href="@Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Last_Active") })">Last Active</a>
-            </th>
-        </tr>
-    </thead>
-    @foreach (var user in Model.Users!)
+    SortOptions GetSort(string currentSortOrder, string column)
     {
-        <tr>
-            <td>
-                <a href="/Admin/Users/Edit/@user.UserId">
-                    @Html.DisplayFor(x => user.Name)
-                </a>
-            </td>
-            <td>
-                @Html.DisplayFor(x => user.DisplayName)
-            </td>
-            <td>
-                @if (user.Team != null)
-                {
-                    @Html.DisplayFor(x => user.Team)
-                }
-            </td>
-            <td>
-                @if (user.Role != null)
-                {
-                    @Html.DisplayFor(x => user.Role)
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(x => user.Email)
-            </td>
-            <td>
-                @Html.Timeago(user.LastActive)
-            </td>
-        </tr>
+        if (currentSortOrder == column)
+        {
+            return SortOptions.ascending;
+        }
+        else if (currentSortOrder == $"{column}_desc")
+        {
+            return SortOptions.descending;
+        }
+        return SortOptions.none;   
     }
-</table>
+}
+
+@{
+    // Initialise page data
+    ViewData["Title"] = "User administration";
+
+    // Alert data
+    AlertModel? alertModel = null;
+
+    if (!(ViewContext.HttpContext.Request.Query["status"].FirstOrDefault() != null))
+    {
+        var request = ViewContext.HttpContext.Request.Query;
+        string? status = request["status"].FirstOrDefault();
+        string? action = request["action"].FirstOrDefault();
+        string? username = WebUtility.HtmlDecode(request["user"].FirstOrDefault());
+        string? warning = request["warning"].FirstOrDefault();
+
+        switch (status)
+        {
+            case "success":
+                alertModel = new AlertModel 
+                { 
+                    Summary = $"User {action} successfully", 
+                    Content = $"User {username} {action} successfully", 
+                    Type = AlertModel.AlertTypes.success
+                };
+                break;
+            case "error":
+                alertModel = new AlertModel
+                        {
+                            Summary = $"User not {action}",
+                            Content = $"{warning}",
+                            Type = AlertModel.AlertTypes.error
+                        };
+                break;
+        }
+        
+    }
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})!},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})!},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
+
+    // Heading
+    var headingModel = new HeadingModel { Title = "Users", Button = new ButtonModel { Element = ButtonModel.ValidElementTypes.anchor, Type = ButtonModel.ValidButtonStyles.secondary, Label = "Create a new user", Url = Url.Action("Create", "Users", new { area = "Admin" }) } };
+
+    // Table
+    //// Table headers
+    List<HeaderCell> headers = [
+        new HeaderCell { Content = "User Login", Sort = GetSort(Model.SortOrder!, "UserLogin"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "UserLogin") }), Scope = RowScopes.col},
+        new HeaderCell { Content = "Display Name", Sort = GetSort(Model.SortOrder!, "Display_name"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Display_name") }), Scope = RowScopes.col},
+        new HeaderCell { Content = "Team", Sort = GetSort(Model.SortOrder!, "Team"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Team") }), Scope = RowScopes.col},
+        new HeaderCell { Content = "Access Level",Sort = GetSort(Model.SortOrder!, "Access_Level"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Access_Level") }), Scope = RowScopes.col},
+        new HeaderCell { Content = "Email",Sort = GetSort(Model.SortOrder!, "email"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "email") }), Scope = RowScopes.col},
+        new HeaderCell { Content = "Last Active",Sort = GetSort(Model.SortOrder!, "Last_Active"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Last_Active") }), Scope = RowScopes.col}
+    ];
+
+    // Pagination data
+    int pageSize = 25;
+    int currentPage = 1;
+
+    if (!(ViewContext.HttpContext.Request.Query["page"].Count < 1))
+    {
+        int.TryParse(ViewContext.HttpContext.Request.Query["page"].FirstOrDefault(), out currentPage);
+    }
+    int totalItems = Model.Users!.Count;
+    var users = PaginationModel.GetPagedResults(Model.Users!, pageSize, currentPage - 1);
+    var resultsFrom = PaginationModel.GetResultsFrom(currentPage, pageSize).ToString();
+    var resultsTo = PaginationModel.GetResultsTo(currentPage, pageSize, users.Count).ToString();
+
+    //// Table body
+    var rows = new List<Row>();
+
+    @foreach (var user in users)
+    {
+        var row = new Row
+                {
+                    RowContent = [
+                    new BodyCell {Content = user.Name!, Url = $"/Admin/Users/Edit/{@user.UserId}"},
+            new BodyCell {Content = user.DisplayName!},
+            new BodyCell {Content = user.Team != null ? user.Team : "Not set" },
+            new BodyCell {Content = user.Role != null ? user.Role : "Not set"},
+            new BodyCell {Content = user.Email!},
+            new BodyCell {Content = user.LastActive.Humanize()}]
+                };
+        rows.Add(row);
+    }
+    var tableModel = new TableModel { Caption = "All Users", HeaderData = headers, BodyData = rows, ResultsTotal = totalItems.ToString(), ResultsFrom = resultsFrom, ResultsTo = resultsTo };
+
+    // Pagination
+    var paginationModel = new PaginationModel { PageSize = pageSize, CurrentPage = currentPage, TotalCount = totalItems};
+}
+
+@if(alertModel != null)
+{
+   <partial name="Alert" model="alertModel"/>
+}
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+<partial name="Heading"  model="headingModel"/>
+<partial name="Table" model="tableModel"/>
+<partial name="Pagination" model="paginationModel" />

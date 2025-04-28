@@ -1,0 +1,10 @@
+@import "@govuk-design-system/components/pagination/pagination";
+
+.chaps-pagination {
+    justify-content: center;
+    &__arrows {
+        &--hidden {
+            display: none;
+        }
+    }
+}
