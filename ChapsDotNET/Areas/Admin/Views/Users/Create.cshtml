@@ -51,4 +51,4 @@
     <partial name="Alert" model="alertModel" />
 }
 <!-- Page content -->
-@Html.EditorFor(m => m, "User/UserForm", new {Legend = ViewData["Title"], LegendIsPageTitle = true})
+@Html.EditorFor(m => m, "User/UserForm", new {Legend = ViewData["Title"], LegendIsPageTitle = true, SubmitLabel = "Create"})

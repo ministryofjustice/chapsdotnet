@@ -5,7 +5,8 @@
 @using ChapsDotNET.Frontend.Components.Button;
 
 @{
-    var primaryButtonModel = new ButtonModel { Label = "Create", Element = ButtonModel.ValidElementTypes.input, Type = ButtonModel.ValidButtonStyles.primary, InputType = ButtonModel.ValidButtonTypes.submit };
+    var submitLabel = ViewData["SubmitLabel"]?.ToString() ?? "Submit";
+    var primaryButtonModel = new ButtonModel { Label = submitLabel, Element = ButtonModel.ValidElementTypes.input, Type = ButtonModel.ValidButtonStyles.primary, InputType = ButtonModel.ValidButtonTypes.submit };
     var secondaryButtonModel = new ButtonModel { Label = "Cancel", Element = ButtonModel.ValidElementTypes.anchor, Type = ButtonModel.ValidButtonStyles.secondary, Url = Url.Action("Index", "Users", new { area = "Admin" }) };
 
     var legendIsPageTitle = (bool?)ViewData["LegendIsPageTitle"];
