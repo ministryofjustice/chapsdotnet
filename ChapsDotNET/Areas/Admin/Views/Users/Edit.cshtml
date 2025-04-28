@@ -1,77 +1,55 @@
 ﻿@model ChapsDotNET.Models.UserViewModel
 
+@using ChapsDotNET.Common.Helpers
+@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Heading
+@using ChapsDotNET.Frontend.Components.Button
+@using ChapsDotNET.Frontend.Components.Alert
+@using System.Net
+
 @{
+    // Initialise page data
     ViewData["Title"] = "Edit an existing user";
-}
 
-<div class="breadcrumbs">
-    <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-        &nbsp;>&nbsp;@Html.ActionLink("Administration", "Index", "Admin")
-        &nbsp;>&nbsp;@Html.ActionLink("Users", "Index", "Users")
-        > Edit
-    </h6>
-</div>
+    // Alert data
+    AlertModel? alertModel = null;
 
-@using (Html.BeginForm())
-{
-    <fieldset class="form-fieldset">
-        <legend>
-            <h1>@ViewBag.Title</h1>
-        </legend>
-        @if (Model != null && !string.IsNullOrEmpty(Model.Warning))
+    if ((ViewContext.HttpContext.Request.Query["status"].FirstOrDefault() != null))
+    {
+        var request = ViewContext.HttpContext.Request.Query;
+        string? status = request["status"].FirstOrDefault();
+        string? action = request["action"].FirstOrDefault();
+        string? warning = WebUtility.HtmlDecode(request["warning"].FirstOrDefault());
+
+        // Currently this can only show an error as success redirects to the Index
+        switch (status)
         {
-            <div style="color:red; margin-bottom:10px">
-                @Html.DisplayFor(model => model.Warning)
-                &nbsp;
-            </div>
+            case "error":
+                alertModel = new AlertModel
+                        {
+                            Summary = $"User not {action}",
+                            Content = $"{warning}",
+                            Type = AlertModel.AlertTypes.error
+                        };
+                break;
         }
+    }
 
-        <div class="editor-label">
-            <label for="Detail">Name</label>
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DisplayName)
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DisplayName)
-            @Html.ValidationMessageFor(model => model.DisplayName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Email, new { @class = "non-required-label" })
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Role)
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.RoleStrength, Model!.RoleList, "Please select a role", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.RoleStrength)
-        </div>
-
-        <div class="editor-label">
-            <label for="Detail">Team</label>
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.TeamId, Model.TeamList, "Please select an office", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.TeamId)
-        </div>
-        <input type="submit" value="Save" />
-        <button class="cancel-button" type="button" onclick="location.href='/Admin/users/';">Cancel</button>
-    </fieldset>
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})},
+                new BreadcrumbModel { Label = "Users", Url = Url.Action("Index", "Users", new {area ="Admin"})},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
 }
 
+<!-- Header -->
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+<!-- Alert -->
+@if (alertModel != null)
+{
+    <partial name="Alert" model="alertModel" />
+}
+<!-- Page content -->
+@Html.EditorFor(m => m, "User/UserForm", new { Legend = ViewData["Title"], LegendIsPageTitle = true })
