@@ -1,0 +1,12 @@
+@model ChapsDotNET.Frontend.Components.Breadcrumbs.BreadcrumbsModel
+
+<nav class="govuk-breadcrumbs" aria-label="Breadcrumb">
+    <ol class="govuk-breadcrumbs__list">
+        @foreach (var link in Model.Links)
+        {
+            <li class="govuk-breadcrumbs__list-item">
+                <a class="govuk-breadcrumbs__link" href="@link.Url">@link.Label</a>
+            </li>
+        }
+    </ol>
+</nav>
