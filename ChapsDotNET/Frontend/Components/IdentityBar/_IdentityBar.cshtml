@@ -1,19 +1,14 @@
+@using ChapsDotNET.Business.Interfaces
+@inject IUserComponent UserComponent
+
+@{
+    var user = await UserComponent.GetUserByNameAsync(User.Identity?.Name);
+}
+
 <div class="moj-identity-bar">
     <div class="moj-identity-bar__container">
         <div class="moj-identity-bar__details">
-            <span class="moj-identity-bar__title"><b>First</b> and <b>Second</b></span>
-        </div>
-        <div class="moj-identity-bar__actions">
-            <div class="moj-identity-bar__menu">
-                <div class="moj-button-menu" data-module="moj-button-menu" data-button-classes="govuk-button--secondary" data-align-menu="right">
-                    <a href="#" role="button" draggable="false" class="govuk-button moj-button-menu__item govuk-button--secondary" data-module="govuk-button">
-                        Secondary action
-                    </a>
-                    <a href="#" role="button" draggable="false" class="govuk-button moj-button-menu__item govuk-button--secondary" data-module="govuk-button">
-                        Tertiary action
-                    </a>
-                </div>
-            </div>
+            <span class="moj-identity-bar__title">Connected as <b>@User.Identity?.Name</b> (@user.TeamAcronym)</span>
         </div>
     </div>
 </div>

@@ -1,3 +1,11 @@
+@using Microsoft.AspNetCore.Http.Extensions;
+@using ChapsDotNET.Business.Interfaces;
+
+@{
+    string? home = Url.Action("Index", "Home", new { area = "" });
+    string moj = "https://intranet.justice.gov.uk/"; // Unsure what the most useful org. link would be?
+}
+
 <header class="moj-header" role="banner">
     <div class="moj-header__container">
         <div class="moj-header__logo">
@@ -31,8 +39,8 @@
                 <image src="/assets/images/moj-logotype-crest-2024.png" xlink:href="" class="moj-header__logotype-crest-fallback-image" width="40" height="40"></image>
 
             </svg>
-            <a class="moj-header__link moj-header__link--organisation-name" href="#">Ministry of Justice</a>
-            <a class="moj-header__link moj-header__link--service-name" href="#">CHAPS</a>
+            <a class="moj-header__link moj-header__link--organisation-name" href="@moj">Ministry of Justice</a>
+            <a class="moj-header__link moj-header__link--service-name" href="@home">CHAPS</a>
         </div>
     </div>
 </header>

@@ -1,1 +1,3 @@
+@use "@style-overrides" as *;
 @forward "@moj-design-system/components/header/_header.scss";
+@forward "@moj-design-system/components/search/_search.scss";
