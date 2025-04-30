@@ -1,6 +1,7 @@
 ﻿using ChapsDotNET.Business.Exceptions;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
+using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Data.Contexts;
 using ChapsDotNET.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +21,12 @@ namespace ChapsDotNET.Business.Components
         /// Returns a list of Users
         /// </summary>
         /// <param name="sortOrder">string?</param>
-        /// <returns>A list of UserModel</returns>
-        public async Task<List<UserModel>> GetUsersAsync(string? sortOrder = null)
+        /// <returns>A paged list of UserModel</returns>
+        public async Task<PagedResult<List<UserModel>>> GetUsersAsync(UserRequestModel request)
         {
             var query = _context.Users.Include(u => u.Team).Include(u => u.Role).AsQueryable();
 
-            switch (sortOrder)
+            switch (request.SortOrder)
             {
                 case "UserLogin":
                     query = query.OrderBy(x => x.Name);
@@ -68,6 +69,13 @@ namespace ChapsDotNET.Business.Components
                     break;
             }
 
+            // Row Count
+            var count = await query.CountAsync();
+
+            //Paging query
+            query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
+                .Take(request.PageSize);
+
             var UserList = await query
                 .Select(x => new UserModel
                 {
@@ -82,7 +90,13 @@ namespace ChapsDotNET.Business.Components
                     Role = x.Role != null? x.Role.Detail : string.Empty
                 }).ToListAsync();
 
-            return UserList;
+            return new PagedResult<List<UserModel>>
+            {
+                Results = UserList,
+                PageSize = request.PageSize,
+                CurrentPage = request.PageNumber,
+                RowCount = count
+            };
         }
 
         /// <summary>
@@ -100,11 +114,11 @@ namespace ChapsDotNET.Business.Components
             string condensedNewUserName = model.Name.Replace(" ", "").ToLower();
             string duplicateError = "The user you are trying to create already exists. Please amend the existing user details below instead";
 
-            var users = await GetUsersAsync("");
+            var users = await GetUsersAsync(new UserRequestModel { NoPaging = true});
 
-            bool nameAndDisplayNameMatches =  users.Any(x => x.Name!.Equals(model.Name, StringComparison.OrdinalIgnoreCase) && x.DisplayName!.Equals(model.DisplayName, StringComparison.OrdinalIgnoreCase));
+            bool nameAndDisplayNameMatches =  users.Results!.Any(x => x.Name!.Equals(model.Name, StringComparison.OrdinalIgnoreCase) && x.DisplayName!.Equals(model.DisplayName, StringComparison.OrdinalIgnoreCase));
 
-            bool loginNameOnlyMatch = users.Any(x => x.Name!.Equals(model.Name, StringComparison.OrdinalIgnoreCase)
+            bool loginNameOnlyMatch = users.Results!.Any(x => x.Name!.Equals(model.Name, StringComparison.OrdinalIgnoreCase)
             && !x.DisplayName!.Equals(model.DisplayName, StringComparison.OrdinalIgnoreCase));
 
 

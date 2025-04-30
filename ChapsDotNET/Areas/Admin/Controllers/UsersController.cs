@@ -23,13 +23,29 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _rolecomponent = rolecomponent;
         }
 
-        public async Task<IActionResult> Index(string sortOrder)
+        public async Task<IActionResult> Index(string sortOrder, string? page)
         {
-            var model = new UserAdminViewModel();
-            model.SortOrder = sortOrder;
-
-            var users = await _userComponent.GetUsersAsync(sortOrder);
+            int pageSize = 25;
+            int currentPage = 1;
+            if (page != null) { _ = int.TryParse(page, out currentPage); }
+            var model = new UserAdminViewModel { SortOrder = sortOrder };
+            AlertModel? alert = null;
+            if (TempData["alertStatus"] != null && TempData["alertContent"] != null && TempData["alertSummary"] != null)
+            {
+               alert = new AlertModel { 
+                   Type = AlertModel.GetAlertTypeFromStatus(TempData["alertStatus"] as string),
+                   Content = TempData["alertContent"] as string, 
+                   Summary = TempData["alertSummary"] as string
+               };
+            }
+            var users = await _userComponent.GetUsersAsync(new UserRequestModel
+            {
+                PageNumber = currentPage,
+                PageSize = pageSize,
+                SortOrder = sortOrder,
+            });
             model.Users = users;
+            model.Alert = alert;
             return View(model);
         }
 
@@ -58,15 +74,22 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         public async Task<IActionResult> Create(UserViewModel model)
         {
             var result = await _userComponent.AddUserAsync(model.ToModel());
+            var user = await _userComponent.GetUserByIdAsync(result.userId);
 
             if (result.warning == "Success")
             {
-                var user = await _userComponent.GetUserByIdAsync(result.userId);
-                return RedirectToAction("Index", new {status = AlertModel.AlertTypes.success, action = "created", user = user.Name });
+                TempData["alertContent"] = $"User {user.Name} created successfully";
+                TempData["alertSummary"] = $"User created successfully";
+                TempData["alertStatus"] = "success";
+
+                return RedirectToAction("Index");
             }
             else
             {
-                return RedirectToAction("Edit", "Users", new { result.userId, status = AlertModel.AlertTypes.error, action = "created", result.warning });
+                TempData["alertContent"] = result.warning;
+                TempData["alertSummary"] = $"Unable to create user";
+                TempData["alertStatus"] = "error";
+                return RedirectToAction("Edit", "Users", new { result.userId });
             }
         }
 
@@ -107,8 +130,10 @@ namespace ChapsDotNET.Areas.Admin.Controllers
    
             await _userComponent.UpdateUserAsync(model.ToModel());
             var user = await _userComponent.GetUserByIdAsync(userId);
-
-            return RedirectToAction("Index", new {status = AlertModel.AlertTypes.success, action = "updated", user = user.Name });
+            TempData["alertContent"] = $"User {user.Name} updated successfully";
+            TempData["alertSummary"] = $"User updated successfully";
+            TempData["alertStatus"] = "success";
+            return RedirectToAction("Index");
         }
     }
 }

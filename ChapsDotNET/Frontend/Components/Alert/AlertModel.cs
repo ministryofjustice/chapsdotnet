@@ -1,9 +1,20 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace ChapsDotNET.Frontend.Components.Alert
 {
     public class AlertModel
     {
+        public static AlertTypes GetAlertTypeFromStatus(string status)
+        {
+            return status switch
+            {
+                "success" => AlertTypes.success,
+                "error" => AlertTypes.error,
+                "warning" => AlertTypes.warning,
+                _ => AlertTypes.information,
+            };
+        }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public enum AlertTypes
         {
@@ -17,6 +28,6 @@ namespace ChapsDotNET.Frontend.Components.Alert
         // Used in aria-label
         public required string Summary { get; set; }
         public required string Content { get; set; }
-        public AlertTypes Type { get; set; } = AlertTypes.information;
+        public required AlertTypes Type { get; set; }
     }
 }

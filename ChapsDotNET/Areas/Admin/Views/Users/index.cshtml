@@ -38,38 +38,18 @@
     // Initialise page data
     ViewData["Title"] = "User administration";
 
+    // Results data
+    var results = Model.Users!.Results;
+    var resultsFrom = PaginationModel.GetResultsFrom(Model.Users!.CurrentPage, Model.Users.PageSize).ToString();
+    var resultsTo = PaginationModel.GetResultsTo(Model.Users!.CurrentPage, Model.Users.PageSize, results!.Count).ToString();
+    var resultsTotal = Model.Users.RowCount;
+    var currentPage = Model.Users.CurrentPage;
+    var pageSize = Model.Users.PageSize;
+    var pageCount = Model.Users.PageCount;
+
     // Alert data
-    AlertModel? alertModel = null;
+    AlertModel? alertModel = Model.Alert;
 
-    if ((ViewContext.HttpContext.Request.Query["status"].FirstOrDefault() != null))
-    {
-        var request = ViewContext.HttpContext.Request.Query;
-        string? status = request["status"].FirstOrDefault();
-        string? action = request["action"].FirstOrDefault();
-        string? username = WebUtility.HtmlDecode(request["user"].FirstOrDefault());
-        string? warning = WebUtility.HtmlDecode(request["warning"].FirstOrDefault());
-
-        switch (status)
-        {
-            case "success":
-                alertModel = new AlertModel 
-                { 
-                    Summary = $"User {action} successfully", 
-                    Content = $"User {username} {action} successfully", 
-                    Type = AlertModel.AlertTypes.success
-                };
-                break;
-            case "error":
-                alertModel = new AlertModel
-                        {
-                            Summary = $"User not {action}",
-                            Content = $"{warning}",
-                            Type = AlertModel.AlertTypes.error
-                        };
-                break;
-        }
-        
-    }
     // Breadcrumbs
     List<BreadcrumbModel> breadcrumbs = [
                 new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})!},
@@ -91,23 +71,10 @@
         new HeaderCell { Content = "Last Active",Sort = GetSort(Model.SortOrder!, "Last_Active"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Last_Active") }), Scope = RowScopes.col}
     ];
 
-    // Pagination data
-    int pageSize = 25;
-    int currentPage = 1;
-
-    if (!(ViewContext.HttpContext.Request.Query["page"].Count < 1))
-    {
-        int.TryParse(ViewContext.HttpContext.Request.Query["page"].FirstOrDefault(), out currentPage);
-    }
-    int totalItems = Model.Users!.Count;
-    var users = PaginationModel.GetPagedResults(Model.Users!, pageSize, currentPage - 1);
-    var resultsFrom = PaginationModel.GetResultsFrom(currentPage, pageSize).ToString();
-    var resultsTo = PaginationModel.GetResultsTo(currentPage, pageSize, users.Count).ToString();
-
     //// Table body
     var rows = new List<Row>();
 
-    @foreach (var user in users)
+    @foreach (var user in results!)
     {
         var row = new Row
             {
@@ -121,11 +88,10 @@
             };
         rows.Add(row);
     }
-
-    var tableModel = new TableModel { Caption = "All Users", HeaderData = headers, BodyData = rows, ResultsTotal = totalItems.ToString(), ResultsFrom = resultsFrom, ResultsTo = resultsTo };
+    var tableModel = new TableModel { Caption = "All Users", HeaderData = headers, BodyData = rows, ResultsTotal = resultsTotal.ToString(), ResultsFrom = resultsFrom, ResultsTo = resultsTo };
 
     // Pagination
-    var paginationModel = new PaginationModel { PageSize = pageSize, CurrentPage = currentPage, TotalCount = totalItems};
+    var paginationModel = new PaginationModel { PageSize = pageSize, CurrentPage = currentPage, TotalCount = resultsTotal, PageCount = pageCount};
 }
 
 <partial name="Breadcrumbs" model="breadcrumbsModel" />
