@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ChapsDotNET.Data.Entities;
+using ChapsDotNET.Frontend.Components.Alert;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ChapsDotNET.Models
@@ -8,7 +9,8 @@ namespace ChapsDotNET.Models
     {
         [Key]
         public int UserId { get; set; }
-        [Required(ErrorMessage = "Enter a name"), MaxLength(50)]
+        // Name has been re-labelled as Email as it must be a valid email address for authentication.
+        [Required(ErrorMessage = "Enter an email address"), MaxLength(50), RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-‌​]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Enter an email address in the correct format, like name@example.com")]
         public string? Name { get; set; }
         [Required(ErrorMessage = "Enter a display name"), MaxLength(50)]
         public string? DisplayName { get; set; }
@@ -27,8 +29,7 @@ namespace ChapsDotNET.Models
 
         public SelectList? TeamList { get; set; }
         public SelectList? RoleList { get; set; }
-
-        public string? Warning { get; set; }
+        public AlertModel? Alert { get; set; }
 
     }
 }

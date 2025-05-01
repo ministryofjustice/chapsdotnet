@@ -12,28 +12,7 @@
     ViewData["Title"] = "Edit an existing user";
 
     // Alert data
-    AlertModel? alertModel = null;
-
-    if ((ViewContext.HttpContext.Request.Query["status"].FirstOrDefault() != null))
-    {
-        var request = ViewContext.HttpContext.Request.Query;
-        string? status = request["status"].FirstOrDefault();
-        string? action = request["action"].FirstOrDefault();
-        string? warning = WebUtility.HtmlDecode(request["warning"].FirstOrDefault());
-
-        // Currently this can only show an error as success redirects to the Index
-        switch (status)
-        {
-            case "error":
-                alertModel = new AlertModel
-                        {
-                            Summary = $"User not {action}",
-                            Content = $"{warning}",
-                            Type = AlertModel.AlertTypes.error
-                        };
-                break;
-        }
-    }
+    AlertModel? alertModel = Model.Alert;
 
     // Breadcrumbs
     List<BreadcrumbModel> breadcrumbs = [

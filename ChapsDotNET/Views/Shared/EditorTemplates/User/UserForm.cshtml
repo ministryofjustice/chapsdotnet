@@ -27,17 +27,15 @@
             }
         </legend>
         <!-- Name -->
+        @* Name is re-labelled to Email here as Name must be an valid email address for authentication *@
         <div class="govuk-form-group">
                 <div class="chaps-form__label-wrapper">
-                @Html.LabelFor(m => m.Name, "Name", new { @for = "user-name", @class = "govuk-label" })
+                @Html.LabelFor(m => m.Name, "Email", new { @for = "user-email", @class = "govuk-label" })
             </div>
-            <div id="user-name-hint'" class="govuk-hint">
-                Name must be 50 characters or less
-            </div>
-            <p id="user-name-error-wrapper" class="govuk-error-message">
+            <p id="user-email-error-wrapper" class="govuk-error-message">
                 @Html.ValidationMessageFor(m => m.Name)
             </p>
-            @Html.TextBoxFor(m => m.Name, new { @id = "user-name", @name = "user-name", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "user-name-hint user-name-error-wrapper" })
+                @Html.TextBoxFor(m => m.Name, new { @id = "user-email", @name = "user-email", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "user-email-error-wrapper" })
         </div>
         <!-- Display name-->
         <div class="govuk-form-group">
@@ -57,24 +55,6 @@
                      @name = "user-display-name",
                      @class = "govuk-input govuk-!-width-one-third",
                      @aria_describedby = "user-display-name-hint user-display-name-error-wrapper" 
-                }
-            )
-        </div>
-        <!-- Email -->
-        <div class="govuk-form-group">
-            <div class="chaps-form__label-wrapper">
-                @Html.LabelFor(m => m.Email, "Email", new { @for = "user-email", @class = "govuk-label" })
-                    <span class="govuk-label govuk-label--optional">&nbsp;(Optional)</span>
-            </div>
-                <p id="user-email-error-wrapper" class="govuk-error-message">
-                    @Html.ValidationMessageFor(model => model.Email)
-            </p>         
-            @Html.TextBoxFor(m => m.Email, new
-                {
-                    @id = "user-email",
-                    @name = "user-email",
-                    @class = "govuk-input govuk-!-width-one-third",
-                    @aria_describedby = "user-email-error-wrapper"
                 }
             )
         </div>

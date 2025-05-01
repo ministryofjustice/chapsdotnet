@@ -73,8 +73,11 @@ namespace ChapsDotNET.Business.Components
             var count = await query.CountAsync();
 
             //Paging query
-            query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
-                .Take(request.PageSize);
+            if (!request.NoPaging)
+            {
+                query = query.Skip(((request.PageNumber) - 1) * request.PageSize)
+                    .Take(request.PageSize);
+            }
 
             var UserList = await query
                 .Select(x => new UserModel
@@ -112,15 +115,17 @@ namespace ChapsDotNET.Business.Components
             }
 
             string condensedNewUserName = model.Name.Replace(" ", "").ToLower();
-            string duplicateError = "The user you are trying to create already exists. Please amend the existing user details below instead";
+            string duplicateError = "The user you are trying to create already exists. Please amend the existing user details below instead.";
 
-            var users = await GetUsersAsync(new UserRequestModel { NoPaging = true});
+            var users = await GetUsersAsync(new UserRequestModel
+            {
+                NoPaging = true
+            });
 
             bool nameAndDisplayNameMatches =  users.Results!.Any(x => x.Name!.Equals(model.Name, StringComparison.OrdinalIgnoreCase) && x.DisplayName!.Equals(model.DisplayName, StringComparison.OrdinalIgnoreCase));
 
             bool loginNameOnlyMatch = users.Results!.Any(x => x.Name!.Equals(model.Name, StringComparison.OrdinalIgnoreCase)
             && !x.DisplayName!.Equals(model.DisplayName, StringComparison.OrdinalIgnoreCase));
-
 
             if (nameAndDisplayNameMatches || loginNameOnlyMatch)
             {
