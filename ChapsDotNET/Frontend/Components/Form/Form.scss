@@ -1,22 +1,31 @@
 @import "@govuk-design-system/components/select/select";
 @import "@govuk-design-system/components/input/input";
+@import "@govuk-design-system/components/checkboxes/checkboxes";
 
 
 .chaps-form {
     .govuk-error-message {
         margin-bottom: 0;
     }
+
     .field-validation-error {
         display: inline-block;
         margin-bottom: 15px;
     }
+
     &__label-wrapper {
         display: flex;
     }
+
     &__pre-error {
         &--hidden {
             display: none;
         }
+    }
 
+    .govuk-checkboxes__input:checked + .chaps-form__label-wrapper {
+        label::after {
+            opacity: 1;
+        }
     }
 }

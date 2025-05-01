@@ -1,69 +1,71 @@
-﻿@using ChapsDotNET.Common.Helpers
-
-@model ChapsDotNET.Business.Models.Common.PagedResult<List<ChapsDotNET.Business.Models.SalutationModel>>
+﻿@model ChapsDotNET.Models.SalutationsAdminViewModel
+@using ChapsDotNET.Common.Helpers
+@using ChapsDotNET.Frontend.Components.Alert
+@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Button
+@using ChapsDotNET.Frontend.Components.Heading
+@using ChapsDotNET.Frontend.Components.Pagination
+@using ChapsDotNET.Frontend.Components.Table
 
 @{
     ViewData["Title"] = "Salutations administration";
-}
 
-@section head{
-    <link href="@Url.Content("~/stylesheets/newPagedListButtons.css")" rel="stylesheet" type="text/css" media="screen" />
-}
+    // Results data
+    var data = Model.Salutations!;
+    var results = data.Results;
+    var resultsTotal = data.RowCount;
+    var currentPage = data.CurrentPage;
+    var pageSize = data.PageSize;
+    var pageCount = data.PageCount;
+    var resultsFrom = PaginationModel.GetResultsFrom(currentPage, pageSize).ToString();
+    var resultsTo = PaginationModel.GetResultsTo(currentPage, pageSize, results!.Count).ToString();
 
-@*<div class="breadcrumbs" style="display: flex; align-items: center; gap: 0.5em;">
-    <h6 style="display: flex; align-items: center; margin: 0;">
-        <legend style="display: inline; margin: 0;">
-            @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-        </legend>
-        &nbsp;>&nbsp; Salutations
-    </h6>
-</div>*@
+    // Alert data
+    AlertModel? alertModel = Model.Alert;
 
-<div class="breadcrumbs">
-    <h6>
-         @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-        &nbsp;>&nbsp;
-         @Html.ActionLink("Administration", "Index", "Admin" )
-        &nbsp;>&nbsp; Salutations
-    </h6>
-</div>
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})!},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})!},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
 
-<h1>Salutations</h1>
+    // Heading
+    var headingModel = new HeadingModel { Title = "Salutations", Button = new ButtonModel { Element = ButtonModel.ValidElementTypes.anchor, Type = ButtonModel.ValidButtonStyles.secondary, Label = "Create a new salutation", Url = Url.Action("Create", "Salutations", new { area = "Admin" }) } };
 
-<div class="actionLinks">
-    @Html.ActionLink("Create new Salutation", "Create", "Salutations")
-</div>
+    // Table
+    //// Table headers
+    List<HeaderCell> headers = [
+        new HeaderCell { Content = "Title",  Scope = RowScopes.col},
+        new HeaderCell { Content = "Status", Scope = RowScopes.col},
+    ];
 
-<table>
-    <caption class="caption">Existing salutations</caption>
-    <thead>
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                Active
-            </th>
-        </tr>
-    </thead>
-    @if (Model.Results != null)
+    //// Table body
+    var rows = new List<Row>();
+
+    @foreach (var salutation in results)
     {
-        @foreach (var salutation in Model.Results.ToList())
-        {
-            <tr>
-                <td>
-                    <a href="/Admin/Salutations/Edit/@salutation.SalutationId">
-                        @Html.DisplayFor(x => salutation.Detail)
-                    </a>
-                </td>
-                <td align="center">
-                    @Html.DisplayFor(x => salutation.Active)
-                </td>
-            </tr>
-        }
+        var row = new Row
+                {
+                    RowContent = [
+                        new BodyCell {Content = salutation.Detail!, Url = $"/Admin/Salutations/Edit/{salutation.SalutationId}"},
+                        new BodyCell {Content = salutation.Active ? "Active" : "Deactivated", TagColour = salutation.Active ? TagColours.blue : TagColours.grey }
+                    ]
+                };
+        rows.Add(row);
     }
-</table>
 
-<div>
-    @Html.PageLinks(@Model, x => Url.Action("Index", new { page = x.ToString() }))
-</div>
+    var tableModel = new TableModel { Caption = "Existing salutations", HeaderData = headers, BodyData = rows, ResultsTotal = resultsTotal.ToString(), ResultsFrom = resultsFrom, ResultsTo = resultsTo };
+
+    // Pagination
+    var paginationModel = new PaginationModel { PageSize = pageSize, CurrentPage = currentPage, TotalCount = resultsTotal, PageCount = pageCount };
+}
+
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+@if (alertModel != null)
+{
+    <partial name="Alert" model="alertModel" />
+}
+<partial name="Heading" model="headingModel" />
+<partial name="Table" model="tableModel" />
+<partial name="Pagination" model="paginationModel" />

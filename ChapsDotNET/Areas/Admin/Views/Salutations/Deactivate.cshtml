@@ -1,43 +1,37 @@
 ﻿@model ChapsDotNET.Models.SalutationViewModel
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
+@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Alert
+@using ChapsDotNET.Frontend.Components.Button
+@{
+    // Initialise page data
 
-        function getToken() {
-        var token = '@Html.AntiForgeryToken()';
-        token = $(token).val();
-        return token;
-        }
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})},
+                new BreadcrumbModel { Label = "Users", Url = Url.Action("Index", "Salutations", new {area ="Admin"})},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
 
-    function setActiveTrue() {
-        var salutationId = '@Model.SalutationId';
-        $.ajax({
-            url: '/Admin/Salutations/SetActiveTrue',
-            type: 'POST',
-            headers: { "RequestVerificationToken": getToken() },
-            data: { id: salutationId },
-            success: function (result) {
-                if (result.success) {
-                    window.location.href = '/Admin/Salutations/Edit/' + salutationId;
-                }
-            }
-        });
-    }
+    var primaryButtonModel = new ButtonModel { Label = "Yes I'm sure - deactivate this salutation", Element = ButtonModel.ValidElementTypes.input, Type = ButtonModel.ValidButtonStyles.warning, InputType = ButtonModel.ValidButtonTypes.submit };
+    var secondaryButtonModel = new ButtonModel { Label = "Cancel", Element = ButtonModel.ValidElementTypes.anchor, Type = ButtonModel.ValidButtonStyles.secondary, Url = Url.Action("Index", "Users", new { area = "Admin" }) };
+    var salutationName = Model.Detail;
+}
 
-</script>
-@Html.AntiForgeryToken()
+<!-- Header -->
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+
+<!-- Page content -->
 @using (Html.BeginForm())
-
 {
-    @Html.HiddenFor(model => model.SalutationId)
-    @Html.HiddenFor(model => model.Detail)
-    @Html.HiddenFor(model => model.Active)
-
-
-    <div class="message warning" style="padding:10px;">
-        <span></span>
-        <h6>Confirm Deactivation</h6>
-        <p> Are you sure you want to deactivate salutation "@Model.Detail" ?</p>
-        <input class="createButton" type="submit" value="Confirm Deactivate" />
-        <button class="cancel-button" type="button" onclick="setActiveTrue();">Back</button>
+    <div class="chaps-form">
+        <h1 class="govuk-heading-l">
+            Confirm deactivation
+        </h1>
+        <p class="govuk-body">Are you sure you want to deactivate salutation <strong>@salutationName</strong>?</p>
+        <div class="govuk-button-group">
+            <partial name="Button" model="@primaryButtonModel" />
+            <partial name="Button" model="@secondaryButtonModel" />
+        </div>
     </div>
 }

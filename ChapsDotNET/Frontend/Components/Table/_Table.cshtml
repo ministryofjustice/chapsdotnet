@@ -52,7 +52,7 @@
                                     <path d="M13.7344 12.0781L10.9609 17.6211L8.1875 12.0781H13.7344Z" fill="currentColor"></path>
                                 </svg>
                             }
-                            </a>
+                        </a>
                     }
                     else {
                         @headerCell.Content
@@ -68,10 +68,14 @@
                 @foreach (BodyCell cell in row.RowContent)
                 {
                     <td class="govuk-table__cell">
-                    @if (cell.Url != null)
-                    {
-                        <a class="govuk-link" href="@cell.Url">@cell.Content</a>
-                    }
+                        @if (cell.Url != null)
+                        {
+                            <a class="govuk-link" href="@cell.Url">@cell.Content</a>
+                        }
+                        else if (cell.TagColour != null)
+                        {
+                            <span class="@($"govuk-tag govuk-tag--{cell.TagColour}")">@cell.Content</span>
+                        }
                     else
                     {
                         @cell.Content

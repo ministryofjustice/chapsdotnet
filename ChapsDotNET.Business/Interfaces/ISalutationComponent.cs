@@ -8,7 +8,7 @@ namespace ChapsDotNET.Business.Interfaces
         Task<PagedResult<List<SalutationModel>>> GetSalutationsAsync(SalutationRequestModel request);
         Task<SalutationModel> GetSalutationAsync(int id);
         Task<int> AddSalutationAsync(SalutationModel model);
-        Task UpdateSalutationAsync(SalutationModel model);
+        Task<SalutationModel> UpdateSalutationAsync(SalutationModel model);
         
     }
 }

@@ -15,6 +15,19 @@ namespace ChapsDotNET.Frontend.Components.Table
         ascending,
         descending
     }
+
+    public enum TagColours
+    {
+        grey,
+        green,
+        turquoise,
+        blue,
+        purple,
+        pink,
+        red,
+        orange,
+        yellow
+    }
     public class TableModel
     {
         public required List<HeaderCell> HeaderData { get; set; }
@@ -44,6 +57,7 @@ namespace ChapsDotNET.Frontend.Components.Table
     {
         public required string Content { get; set; }
         public string? Url { get; set; }
+        public TagColours? TagColour { get; set; }
     }
     public class Row
     {

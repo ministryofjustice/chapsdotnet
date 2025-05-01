@@ -1,41 +1,21 @@
 ﻿@model ChapsDotNET.Models.SalutationViewModel
+@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Alert
 
 @{
+    // Initialise page data
     ViewData["Title"] = "Add a new salutation";
+
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})},
+                new BreadcrumbModel { Label = "Users", Url = Url.Action("Index", "Salutations", new {area ="Admin"})},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
 }
 
-<div class="breadcrumbs">
-    <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-        &nbsp;>&nbsp;
-        @Html.ActionLink("Administration", "Index", "Admin")
-        &nbsp;>&nbsp;
-        @Html.ActionLink("Salutations", "Index", "Salutations")
-        > Create
-    </h6>
-</div>
-
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true)
-
-    <fieldset class="form-fieldset">
-        <legend>
-            <h1>@ViewBag.Title</h1>
-        </legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Detail)
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Detail)
-            @Html.ValidationMessageFor(model => model.Detail)
-        </div>
-
-        <input class="createButton" type="submit" value="Create" />
-        <button class="cancel-button" type="button" onclick="location.href='/Admin/Salutations/';">Cancel</button>
-    </fieldset>
-
-}
+<!-- Header -->
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+<!-- Page content -->
+@Html.EditorFor(m => m, "Salutation/SalutationForm", new {Legend = ViewData["Title"], LegendIsPageTitle = true, SubmitLabel = "Create"})
