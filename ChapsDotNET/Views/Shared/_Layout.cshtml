@@ -57,8 +57,9 @@
             <div id="footer">
                 <p>
                     @*This site is supported by @System.Configuration.ConfigurationManager.AppSettings["supportTeam"]. Contact us at <b><a href="mailto:@System.Configuration.ConfigurationManager.AppSettings["supportEmail"]?subject=Support%20request&body=Please%20describe%20the%20problem%20%0D%0A%0D%0A%0D%0A%0D%0A%0D%0ASystem%20Data:%0D%0AUser:@User.Identity.Name%0D%0AURL:@Request.Url.AbsoluteUri" target="_top">CHAPS-Support@digital.justice.gov.uk</a></b> if you experience a problem with it.*@
-                    This site is supported by the Central Digital Product Team.  Contact us at <a class="bold-text" href="mailto:CHAPS-Support@digital.justice.gov.uk">CHAPS-Support@digital.justice.gov.uk</a> if you experience a problem with it.
-                </p>
+                    @*This site is supported by the Central Digital Product Team.  Contact us at <a class="bold-text" href="mailto:CHAPS-Support@digital.justice.gov.uk">CHAPS-Support@digital.justice.gov.uk</a> if you experience a problem with it.*@
+                This site is supported by the Central Digital Product Team.  Contact us in <a class="bold-text" href="@Environment.GetEnvironmentVariable("SUPPORT_CHANNEL_LINK")">@Environment.GetEnvironmentVariable("SUPPORT_CHANNEL_LINK_NAME")</a> if you experience a problem with it.
+            </p>
             </div>
         </div>
 
