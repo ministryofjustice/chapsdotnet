@@ -1,0 +1,27 @@
+@use "@style-overrides" as *;
+@forward "@moj-design-system/components/sortable-table/_sortable-table.scss";
+@import "node_modules/govuk-frontend/dist/govuk/components/table/table";
+
+.chaps-table {
+    &__caption-content {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    &__results {
+        font-weight: normal;
+
+        span {
+            font-weight: bold;
+        }
+    }
+
+    &__header-link {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+    }
+}

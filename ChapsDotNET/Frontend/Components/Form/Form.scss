@@ -1,0 +1,22 @@
+@import "@govuk-design-system/components/select/select";
+@import "@govuk-design-system/components/input/input";
+
+
+.chaps-form {
+    .govuk-error-message {
+        margin-bottom: 0;
+    }
+    .field-validation-error {
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+    &__label-wrapper {
+        display: flex;
+    }
+    &__pre-error {
+        &--hidden {
+            display: none;
+        }
+
+    }
+}

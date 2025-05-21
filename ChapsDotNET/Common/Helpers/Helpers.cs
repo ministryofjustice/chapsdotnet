@@ -69,7 +69,7 @@ namespace ChapsDotNET.Common.Helpers
             _ = context.RouteData.Values.TryGetValue("controller", out object? controllerName);
             if (context.Result is ViewResult result && controllerName != null)
             {
-                result.ViewData["LayoutName"] = Array.IndexOf(this.UpdatedPageControllers, controllerName.ToString()) > -1 ? "~/Frontend/Base/_Layout.cshtml" : "_Layout";
+                result.ViewData["LayoutName"] = Array.IndexOf(this.UpdatedPageControllers, controllerName.ToString()) > -1 ? "~/Frontend/_Layout.cshtml" : "_Layout";
             }
 
         }
@@ -80,5 +80,3 @@ namespace ChapsDotNET.Common.Helpers
         }
     }
 }
-
-
