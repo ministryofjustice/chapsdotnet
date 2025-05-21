@@ -104,7 +104,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 Email = user.Email,
                 RoleStrength = user.RoleStrength,
                 TeamId= user.TeamId,
-                Warning = warning
             };
 
             var roles = await _rolecomponent.GetRolesAsync(new RoleRequestModel
@@ -117,9 +116,19 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 ShowActiveAndInactive = true,
                 NoPaging = true
             });
+            AlertModel? alert = null;
+            if (TempData["alertStatus"] != null && TempData["alertContent"] != null && TempData["alertSummary"] != null)
+            {
+                alert = new AlertModel
+                {
+                    Type = AlertModel.GetAlertTypeFromStatus(TempData["alertStatus"] as string),
+                    Content = TempData["alertContent"] as string,
+                    Summary = TempData["alertSummary"] as string
+                };
+            }
             model.TeamList = new SelectList(teams.Results, "TeamId", "Name");
             model.RoleList = new SelectList(roles.Results, "RoleStrength", "Detail");
-           
+            model.Alert = alert;
             return View(model);
         }
 

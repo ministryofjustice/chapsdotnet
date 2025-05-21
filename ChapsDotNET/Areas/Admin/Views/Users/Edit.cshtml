@@ -1,77 +1,34 @@
 ﻿@model ChapsDotNET.Models.UserViewModel
 
+@using ChapsDotNET.Common.Helpers
+@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Heading
+@using ChapsDotNET.Frontend.Components.Button
+@using ChapsDotNET.Frontend.Components.Alert
+@using System.Net
+
 @{
+    // Initialise page data
     ViewData["Title"] = "Edit an existing user";
+
+    // Alert data
+    AlertModel? alertModel = Model.Alert;
+
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})},
+                new BreadcrumbModel { Label = "Users", Url = Url.Action("Index", "Users", new {area ="Admin"})},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
 }
 
-<div class="breadcrumbs">
-    <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-        &nbsp;>&nbsp;@Html.ActionLink("Administration", "Index", "Admin")
-        &nbsp;>&nbsp;@Html.ActionLink("Users", "Index", "Users")
-        > Edit
-    </h6>
-</div>
-
-@using (Html.BeginForm())
+<!-- Header -->
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+<!-- Alert -->
+@if (alertModel != null)
 {
-    <fieldset class="form-fieldset">
-        <legend>
-            <h1>@ViewBag.Title</h1>
-        </legend>
-        @if (Model != null && !string.IsNullOrEmpty(Model.Warning))
-        {
-            <div style="color:red; margin-bottom:10px">
-                @Html.DisplayFor(model => model.Warning)
-                &nbsp;
-            </div>
-        }
-
-        <div class="editor-label">
-            <label for="Detail">Name</label>
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DisplayName)
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DisplayName)
-            @Html.ValidationMessageFor(model => model.DisplayName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Email, new { @class = "non-required-label" })
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Email)
-            @Html.ValidationMessageFor(model => model.Email)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Role)
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.RoleStrength, Model!.RoleList, "Please select a role", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.RoleStrength)
-        </div>
-
-        <div class="editor-label">
-            <label for="Detail">Team</label>
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-        <div class="editor-field">
-            @Html.DropDownListFor(model => model.TeamId, Model.TeamList, "Please select an office", new { @class = "required" })
-            @Html.ValidationMessageFor(model => model.TeamId)
-        </div>
-        <input type="submit" value="Save" />
-        <button class="cancel-button" type="button" onclick="location.href='/Admin/users/';">Cancel</button>
-    </fieldset>
+    <partial name="Alert" model="alertModel" />
 }
-
+<!-- Page content -->
+@Html.EditorFor(m => m, "User/UserForm", new { Legend = ViewData["Title"], LegendIsPageTitle = true, SubmitLabel = "Update"})
