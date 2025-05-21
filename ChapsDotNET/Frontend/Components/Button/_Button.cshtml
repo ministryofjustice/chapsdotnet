@@ -1,0 +1,19 @@
+@model ChapsDotNET.Frontend.Components.Button.ButtonModel
+@using ChapsDotNET.Frontend.Components.Button;
+
+@switch(Model.Element)
+{
+    case ButtonModel.ValidElementTypes.anchor:
+        <a class="govuk-button govuk-button--@Model.Type" href="@Model.Url" role="button" draggable="false" data-module="govuk-button">
+            @Model.Label
+        </a>
+        break;
+    case ButtonModel.ValidElementTypes.input:
+        <input type="@Model.InputType" role="button" class="govuk-button govuk-button--@Model.Type" data-module="govuk-button" value="@Model.Label">
+        break;
+    default:
+        <button type="@Model.InputType" class="govuk-button govuk-button--@Model.Type" data-module="govuk-button">
+            @Model.Label
+        </button>
+        break;
+}

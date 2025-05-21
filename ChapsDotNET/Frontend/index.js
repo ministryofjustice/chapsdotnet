@@ -3,7 +3,6 @@ import './base.scss';
 
 // Atoms (basic building blocks)
 import './Components/Button/Button.js';
-import './Components/Link/Link.js';
 // Molecules (simple groups of UI elements functioning together as a unit)
 import './Components/Alert/Alert.js';
 import './Components/Breadcrumbs/Breadcrumbs.js';

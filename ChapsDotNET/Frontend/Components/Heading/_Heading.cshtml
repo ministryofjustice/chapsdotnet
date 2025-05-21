@@ -1,0 +1,13 @@
+@model ChapsDotNET.Frontend.Components.Heading.HeadingModel;
+
+<div class="moj-page-header-actions">
+    <div class="moj-page-header-actions__title">
+        <h1 class="govuk-heading-xl">@Model.Title</h1>
+    </div>
+    @if (Model.Button != null)
+    {
+        <div class="moj-page-header-actions__actions">
+            <partial name="Button" model="@Model.Button"/>
+        </div>
+    }
+</div>
