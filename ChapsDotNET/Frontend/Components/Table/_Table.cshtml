@@ -1,0 +1,84 @@
+@model ChapsDotNET.Frontend.Components.Table.TableModel
+@using ChapsDotNET.Frontend.Components.Table
+
+<table class="govuk-table chaps-table">
+    <caption class="govuk-table__caption chaps-table__caption">
+        <div class="chaps-table__caption-content">
+            @if (Model.CaptionIsPageTitle == true)
+            {
+                <h1 class="govuk-fieldset__heading">
+                    @Model.Caption
+                </h1>
+            }
+            else
+            {
+                <h2 class="govuk-fieldset__heading">
+                    @Model.Caption
+                </h2>
+            }
+            @if (Model.ResultsFrom != null && Model.ResultsTo != null && Model.ResultsTotal != null)
+            {
+                <div class="chaps-table__results">
+                    Showing <span class="chaps-table__results-number">@Model.ResultsFrom</span> to <span class="chaps-table__results-number">@Model.ResultsTo</span> of @Model.ResultsTotal results
+                </div>
+            }
+        </div>
+    </caption>
+    <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            @foreach (HeaderCell headerCell in Model.HeaderData)
+            {
+                <th scope="@headerCell.Scope" class="govuk-table__header" aria-sort="@headerCell.Sort">
+                    @if (headerCell.Url != null)
+                    {
+                        <a class="govuk-link govuk-link--no-visited-state chaps-table__header-link" href="@headerCell.Url">
+                            @headerCell.Content
+                            @if (@headerCell.Sort == SortOptions.ascending)
+                            {
+                                <svg width="22" height="22" focusable="false" aria-hidden="true" role="img" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.5625 15.5L11 6.63125L15.4375 15.5H6.5625Z" fill="currentColor"></path>
+                                </svg>
+                            }
+                            else if (@headerCell.Sort == SortOptions.descending)
+                            {
+                                <svg width="22" height="22" focusable="false" aria-hidden="true" role="img" vviewbox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15.4375 7L11 15.8687L6.5625 7L15.4375 7Z" fill="currentColor"></path>
+                                </svg>
+                            }
+                            else
+                            {
+                                <svg width="22" height="22" focusable="false" aria-hidden="true" role="img" vviewbox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.1875 9.5L10.9609 3.95703L13.7344 9.5H8.1875Z" fill="currentColor"></path>
+                                    <path d="M13.7344 12.0781L10.9609 17.6211L8.1875 12.0781H13.7344Z" fill="currentColor"></path>
+                                </svg>
+                            }
+                            </a>
+                    }
+                    else {
+                        @headerCell.Content
+                    }
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        @foreach (Row row in Model.BodyData)
+        {
+            <tr class="govuk-table__row">
+                @foreach (BodyCell cell in row.RowContent)
+                {
+                    <td class="govuk-table__cell">
+                    @if (cell.Url != null)
+                    {
+                        <a class="govuk-link" href="@cell.Url">@cell.Content</a>
+                    }
+                    else
+                    {
+                        @cell.Content
+                    }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
