@@ -1,0 +1,32 @@
+@use "@style-overrides" as *;
+@forward "@moj-design-system/components/primary-navigation/_primary-navigation.scss";
+
+.chaps-primary-navigation {
+    &__help-button {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        &:before {
+            content: "";
+            width:0.15rem;
+            height: 2rem;
+            position: absolute;
+            background-color: $govuk-border-colour;
+            left: -0.6rem;
+        }
+        a {
+            display: flex;
+            position: relative;
+            align-items: center;
+
+            svg {
+                position: absolute;
+                left: 0;
+            }
+
+            span {
+                margin-left: 2rem;
+            }
+        }
+    }
+}
