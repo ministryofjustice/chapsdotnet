@@ -16,6 +16,11 @@
 }
 
 @{
+    // Don't show the pager if there's only one page
+    if (Model.PageCount <= 1)
+    {
+        return;
+    }
     // Get the starting range for the page numbers
     // Ensures that there's always a maxium of 2 numbers visible either side of the current page, with any others represented by ellipsis (...)
     int rangeStart = Model.CurrentPage - 2 < 1 ? 1 : Model.CurrentPage - 2;  

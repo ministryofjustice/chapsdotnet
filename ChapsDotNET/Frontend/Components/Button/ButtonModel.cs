@@ -8,7 +8,8 @@ namespace ChapsDotNET.Frontend.Components.Button
         public enum ValidButtonStyles
         {
             primary,
-            secondary
+            secondary,
+            warning
         }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public enum ValidElementTypes

@@ -1,5 +1,6 @@
 @use "@style-overrides" as *;
 @forward "@moj-design-system/components/sortable-table/_sortable-table.scss";
+@import "node_modules/govuk-frontend/dist/govuk/components/tag/tag";
 @import "node_modules/govuk-frontend/dist/govuk/components/table/table";
 
 .chaps-table {

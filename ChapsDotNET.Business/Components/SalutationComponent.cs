@@ -104,7 +104,7 @@ namespace ChapsDotNET.Business.Components
         /// <param name="model">SalutationModel</param>
         /// <exception cref="NotFoundException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public async Task UpdateSalutationAsync(SalutationModel model)
+        public async Task<SalutationModel> UpdateSalutationAsync(SalutationModel model)
         {
             var salutation = await context.Salutations.FirstOrDefaultAsync(x => x.salutationID == model.SalutationId);
 
@@ -121,6 +121,8 @@ namespace ChapsDotNET.Business.Components
             salutation.active = model.Active;
             salutation.Detail = model.Detail;
             await context.SaveChangesAsync();
+
+            return model;
         }
     }
 }

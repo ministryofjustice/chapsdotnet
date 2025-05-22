@@ -62,6 +62,7 @@ namespace ChapsDotNET.Common.Helpers
         /// </summary>
         public string[] UpdatedPageControllers { get; } = [
             "Users",
+            "Salutations"
         ];
         /// <inheritdoc/>
         public void OnActionExecuted(ActionExecutedContext context)
