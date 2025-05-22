@@ -12,6 +12,9 @@ module.exports = {
         filename: "[name].bundle.js",
         publicPath: '/dist/',
     },
+    watchOptions: {
+        ignored: /assets/,
+    },
     resolve: {
         modules: [path.resolve(__dirname, '/node_modules/')],
         alias: {
@@ -32,7 +35,26 @@ module.exports = {
             },
             {
                 test: /\.s?css$/i,
-                use: [MiniCssExtractPlugin.loader, { loader: 'css-loader', options: { url: true, sourceMap: true } }, 'postcss-loader', 'sass-loader']
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader', options: {
+                            url: true,
+                            sourceMap: true
+                        }
+                    },
+                    'postcss-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            implementation: require("sass"),
+                            sassOptions: {
+                                quietDeps: true,
+                                silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import'],
+                            }
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(jpg|png|svg|gif)$/,
