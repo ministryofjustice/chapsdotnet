@@ -1,6 +1,6 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require("filemanager-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
@@ -42,14 +42,18 @@ module.exports = {
     },
 
     plugins: [
+        new CopyPlugin({
+            events: {
+                onStart: {
+                    copy: [
+                        { source: path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets'), destination: path.resolve(__dirname, "assets") },
+                    ]
+                }
+            }
+        }),
         new MiniCssExtractPlugin({
             filename: "[name].bundle.css",
             ignoreOrder: false
-        }),
-        new CopyPlugin({
-            patterns: [
-                { from: path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets'), to: path.resolve(__dirname, "assets") },
-            ],
         }),
         new CleanWebpackPlugin(),
     ]
