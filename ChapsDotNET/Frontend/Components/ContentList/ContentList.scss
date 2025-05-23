@@ -1,0 +1,37 @@
+// Custom as there's no equivalent on the Gov UK or MoJ design systems
+// Based on https://components.publishing.service.gov.uk/component-guide/contents_list
+
+.chaps-content-list {
+    &__list {
+        > li {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    &__group-list {
+        list-style-type: none;
+    }
+
+    &__group-heading {
+        margin-bottom: 1rem;
+    }
+
+    &__subgroup {
+        display: flex;
+
+        &:before {
+            content: "\2014";
+            margin-right: 10px;
+        }
+    }
+
+    &__link-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__link-description {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}

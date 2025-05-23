@@ -1,0 +1,38 @@
+@model ChapsDotNET.Frontend.Components.ContentList.ContentListModel
+@using ChapsDotNET.Frontend.Components.ContentList
+
+<nav class="chaps-content-list" aria-labelledby="@Model.Id">
+    @if (Model.ShowHeading)
+    {
+        <h1 class="chaps-content-list__heading govuk-heading-l" id="@Model.Id">@Model.Heading</h1>
+    }
+    else
+    {
+        <p class="govuk-visually-hidden" id="@Model.Id">@Model.Heading</p>
+    }
+
+    <ul class="chaps-content-list__list govuk-list">
+        @foreach (ContentGroupModel group in Model.ContentGroups)
+        {
+            <li class="chaps-content-list__group">
+                <h2 class="chaps-content-list__group-heading govuk-heading-m">@group.Heading</h2>
+                <ul class="chaps-content-list__group-list govuk-list">
+                    @foreach (ContentLinkModel link in group.Links)
+                    {
+                        <li class="chaps-content-list__subgroup">
+                            <div class="chaps-content-list__link-wrapper">
+                                <a class="chaps-content-list__link govuk-link" href="@link.Url">@link.Label</a>
+                                @if (link.Description != null)
+                                {
+                                    <p class="chaps-content-list__link-description">
+                                        @link.Description
+                                    </p>
+                                }
+                            </div>
+                        </li>
+                    }
+                 </ul>
+            </li>
+        }
+    </ul>
+</nav>
