@@ -1,0 +1,19 @@
+@use "@style-overrides" as *;
+@forward "@moj-design-system/objects/_filter-layout.scss";
+@forward "@moj-design-system/components/filter/_filter.scss";
+
+.chaps-filter-layout {
+    &__scrollable-pane {
+        position: relative;
+        padding-top: 52px;
+    }
+    .moj-js-hidden {
+        display: none;
+    }
+    .chaps-table__caption {
+        // This is a little bit hacky, but prevents the caption from being scrollable whilst keeping the semantic relationshop to the table.
+        position:absolute;
+        width: 100%;
+        top: 0;
+    }
+}
