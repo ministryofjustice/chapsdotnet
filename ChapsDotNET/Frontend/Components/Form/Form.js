@@ -31,12 +31,14 @@ export default function () {
     const formGroups = form.querySelectorAll(".govuk-form-group");
 
     formGroups.forEach((group) => {
-        const errorPlaceholder = group.querySelector(".field-validation-valid");
-        if (errorPlaceholder) {
-            observer.observe(errorPlaceholder, {
-                attributes: true,
-                attributeFilter: ['class']
-            });
+        const errorPlaceholders = group.querySelectorAll(".field-validation-valid");
+        if (errorPlaceholders) {
+            errorPlaceholders.forEach((placeholder) => {
+                observer.observe(placeholder, {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+            })
         }
     });
 }

@@ -1,56 +1,38 @@
 ﻿@model ChapsDotNET.Models.PublicHolidayViewModel
+@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Alert
 
 @{
+    // Initialise page data
     ViewData["Title"] = "Edit an existing public holiday";
-}
 
-<div class="breadcrumbs">
-    <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-        &nbsp;>&nbsp;@Html.ActionLink("Administration", "Index", "Admin")
-        &nbsp;>&nbsp;@Html.ActionLink("Public Holidays", "Index", "PublicHolidays")
-        > Edit
-    </h6>
-</div>
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})},
+                new BreadcrumbModel { Label = "Public Holidays", Url = Url.Action("Index", "PublicHolidays", new {area ="Admin"})},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
 
-@using (Html.BeginForm())
-{
-    @Html.ValidationSummary(true)
-    @Html.HiddenFor(model => model.PublicHolidayId)
-
-    <fieldset class="form-fieldset">
-        <legend>
-            <h1>@ViewBag.Title</h1>
-        </legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Date)
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Date, "{0:yyyy-MM-dd}", new
+    // Alert
+    AlertModel? alertModel = null;
+    if (TempData["alertStatus"] != null || TempData["alertContent"] != null || TempData["alertSummary"] != null)
+    {
+        alertModel = new AlertModel
                 {
-                    @class = "future-date",
-                    @type = "date",
-                    @value = ""
-                })
-            <div style="clear: both;"></div>
-            @Html.ValidationMessageFor(model => model.Date)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Description)
-            <span title="Mandatory field" class="required-star">*</span>
-        </div>
-
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Description)
-            @Html.ValidationMessageFor(model => model.Description)
-        </div>
-
-        <input class="createButton" type="submit" value="Save" />
-        <button class="cancel-button" type="button" onclick="location.href='/Admin/PublicHolidays/';">Cancel</button>
-
-    </fieldset>
+                    Type = AlertModel.GetAlertTypeFromStatus(TempData["alertStatus"] as string),
+                    Content = TempData["alertContent"] as string,
+                    Summary = TempData["alertSummary"] as string
+                };
+    }
 }
+
+<!-- Header -->
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+<!-- Alert -->
+@if (alertModel != null)
+{
+    <partial name="Alert" model="alertModel" />
+}
+<!-- Page content -->
+@Html.EditorFor(m => m, "PublicHoliday/PublicHolidayForm", new { Legend = ViewData["Title"], LegendIsPageTitle = true, SubmitLabel = "Update" })

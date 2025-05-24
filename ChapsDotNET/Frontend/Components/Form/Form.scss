@@ -1,6 +1,7 @@
 @import "@govuk-design-system/components/select/select";
 @import "@govuk-design-system/components/input/input";
 @import "@govuk-design-system/components/checkboxes/checkboxes";
+@import "@govuk-design-system/components/date-input/date-input";
 
 
 .chaps-form {
@@ -9,7 +10,7 @@
     }
 
     .field-validation-error {
-        display: inline-block;
+        display: block;
         margin-bottom: 15px;
     }
 

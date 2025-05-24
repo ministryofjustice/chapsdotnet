@@ -67,15 +67,15 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             };
 
         }
-        public ListFilterModel GetListFilter(PagedResult<List<T>> resultsData, TableModel tableModel, List<IFormFieldModel> filters, string resetUrl, List<SelectedFilter>? selectedFilters = null)
+        public ListFilterModel GetListFilter(PagedResult<List<T>> resultsData, TableModel tableModel, List<IFormFieldModel>? filters = null, string? resetUrl = null, List<SelectedFilter>? selectedFilters = null)
         {
             return new ListFilterModel
             {
                 Table = tableModel,
-                Filters = filters,
+                Filters = filters != null ? filters : null,
                 SelectedFilters = selectedFilters?.Count > 0 ? selectedFilters : null,
                 Pagination = GetPagination(resultsData),
-                ResetUrl = resetUrl,
+                ResetUrl = resetUrl != null ? resetUrl : null,
             };
         }
     }
