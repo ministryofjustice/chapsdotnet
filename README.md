@@ -14,7 +14,8 @@ The upgrade is using the "Strangler Fig Pattern", but will encompase the entire 
 
 #Development Requirements
 
-Use the latest version of Visual Studio for the mac or PC.
+- Use the latest version of Visual Studio for the mac or PC.
+- Node.js v22 https://nodejs.org/en/download (see `Frontend/README.md` for more information).
 
 #Secrets
 To run the application semi-locally (note that we are using a non-local database, connecting to a SQL Server in RDS) you need to set up the following secrets on your dev machine

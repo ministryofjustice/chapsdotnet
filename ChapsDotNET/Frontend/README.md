@@ -2,6 +2,16 @@
 
 ## Quickstart
 
+Requirements:
+
+- Node.js v22 https://nodejs.org/en/download
+
+Once you've installed Node.js build the project as normal. 
+
+If the frontend isn't updating try opening the site in a private browsing window as it may be cached.
+
+If that doesn't work, `cd` into the `Frontend` directory and run `npm run watch`. This will watch for any changes to the frontend files and rebuild the `dist` folder.
+
 ### Using an existing component
 
 Simple components that don't take any parameters, such as the Primary Navigation can simply be added to a Razor view like this:
