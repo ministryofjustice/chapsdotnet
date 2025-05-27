@@ -1,34 +1,76 @@
-﻿@using ChapsDotNET.Common.Helpers
+﻿@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Heading
+@using ChapsDotNET.Frontend.Components.ContentList
+
 @{
-    ViewBag.Title = "Administration";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Administration";
+
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})!},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
+
+    // Heading
+    var headingModel = new HeadingModel { Title = "Administration" };
+
+    // Table of contents
+    var contentGroups = new List<ContentGroupModel>();
+    //// Users
+    var userGroup = new ContentGroupModel
+    {
+        Heading = "Users",
+        Links = [
+            new ContentLinkModel {Label = "User management", Url = Url.Action("Index", "Users")!, Description = "Allows managers and admins to add, update and block named users."}
+        ],
+    };
+    contentGroups.Add(userGroup);
+
+    //// Drop-downs
+    var dropdownGroup = new ContentGroupModel
+            {
+                Heading = "Drop-downs",
+                Description = "Edit content that appears in drop-downs across the website",
+                Links = [
+                    new ContentLinkModel {Label = "Salutations", Url = Url.Action("Index", "Salutations")!, Description = "Add, edit or delete salutations (Mr, Mrs etc.)." },
+                    new ContentLinkModel {Label = "Holidays", Url = Url.Action("Index", "PublicHolidays")!, Description = "Add, edit or delete public holidays."},
+                    new ContentLinkModel {Label = "MPs", Url = Url.Action("Index", "MPs")!, Description = "Add, edit or delete MPs."},
+                    new ContentLinkModel {Label = "Teams", Url = Url.Action("Index", "Teams")!, Description = "Add, edit or delete teams."},
+                    new ContentLinkModel {Label = "Lead Subjects", Url = Url.Action("Index", "LeadSubjects")!, Description = "Add, edit or delete lead subjects."},
+                    new ContentLinkModel {Label = "Campaigns", Url = Url.Action("Index", "Campaigns")!, Description = "Add, edit or delete campaigns."},
+                    new ContentLinkModel {Label = "MoJ Ministers", Url = Url.Action("Index", "MOJMinisters")!, Description = "Add, edit or delete current MoJ ministers."},
+                    new ContentLinkModel {Label = "Reports", Url = Url.Action("Index", "Report")!, Description = "Edit report descriptions."},
+                ],
+            };
+    contentGroups.Add(dropdownGroup);
+
+    //// Email
+    var emailGroup = new ContentGroupModel
+            {
+                Heading = "Email",
+                Description = "Allows admin users to maintain email templates.",
+                Links = [
+                    new ContentLinkModel {Label = "Templates", Url = Url.Action("Index", "emailTemplates")!, Description = "Allows admin users to maintain email templates."}
+                ],
+            };
+    contentGroups.Add(emailGroup);
+
+    //// Alerts
+    if (Convert.ToInt32(this.User.FindFirst("RoleStrength")?.Value ?? "0") == (int)ChapsDotNET.Data.Enums.AccessLevel.Admin)
+    {
+        var alertGroup = new ContentGroupModel
+                {
+                    Heading = "Alerts",
+                    Links = [
+                        new ContentLinkModel {Label = "Alert management", Url = Url.Action("Index", "Alerts")!, Description = "Allows admin users to maintain alerts, e.g. \"All users must be logged off by 4pm\"."}
+                    ],
+                };
+        contentGroups.Add(alertGroup);
+    }
+
+    var contentModel = new ContentListModel { Id = "admin-nav", Heading = "Administration", ContentGroups = contentGroups };
 }
 
-<div class="breadcrumbs">
-    <h6>
-        @Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)
-        &nbsp;>&nbsp; Administration
-    </h6>
-</div>
-
-
-
-<fieldset class="FieldsetCR">
-    <legend>@Html.ActionLink("User management", "Index", "Users")</legend>
-    <p>Allows managers and admins to add, update and block named users</p>
-</fieldset>
-
-@await Html.PartialAsync("_LookupAdminList")
-
-<fieldset class="FieldsetCR">
-    <legend>@Html.ActionLink("Email Templates", "Index", "emailTemplates")</legend>
-    <div>Allows admin users to maintain email templates.</div>
-</fieldset>
-
-@if (Convert.ToInt32(this.User.FindFirst("RoleStrength")?.Value ?? "0") == (int)ChapsDotNET.Data.Enums.AccessLevel.Admin)
-{
-    <fieldset class="FieldsetCR">
-        <legend>@Html.ActionLink("Alerts", "Index", "Alerts")</legend>
-        <div>Allows admin users to maintain alerts, e.g. All users must be logged off by 4pm.</div>
-    </fieldset>
-}
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+<partial name="Heading" model="headingModel" />
+<partial name="ContentList" model="contentModel" />
