@@ -105,16 +105,16 @@ namespace ChapsDotNET.Business.Components
                 query = query.Where(x => x.active == true);
             }
 
-            query = (model.SortColumn, model.sortOrder) switch
+            query = (model.sortOrder) switch
             {
-                ("name", "asc") => query.OrderBy(x => x.Surname).ThenBy(x => x.FirstNames),
-                ("name", "desc") => query.OrderByDescending(x => x.Surname).ThenByDescending(x => x.FirstNames),
-                ("address", "asc") => query.OrderBy(x => x.AddressLine1),
-                ("address", "desc") => query.OrderByDescending(x => x.AddressLine1),
-                ("email", "asc") => query.OrderBy(x => x.Email),
-                ("email", "desc") => query.OrderByDescending(x => x.Email),
-                ("deactiv", "asc") => query.OrderBy(x => x.deactivatedOn),
-                ("deactiv", "desc") => query.OrderByDescending(x => x.deactivatedOn),
+                ("name") => query.OrderBy(x => x.Surname).ThenBy(x => x.FirstNames),
+                ("name_desc") => query.OrderByDescending(x => x.Surname).ThenByDescending(x => x.FirstNames),
+                ("address") => query.OrderBy(x => x.AddressLine1),
+                ("address_desc") => query.OrderByDescending(x => x.AddressLine1),
+                ("email") => query.OrderBy(x => x.Email),
+                ("email_desc") => query.OrderByDescending(x => x.Email),
+                ("deactiv") => query.OrderBy(x => x.deactivatedOn),
+                ("deactiv_desc") => query.OrderByDescending(x => x.deactivatedOn),
                 _ => query.OrderBy(x => x.Surname).ThenBy(x => x.FirstNames)
             };
 

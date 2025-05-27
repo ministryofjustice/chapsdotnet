@@ -1,0 +1,178 @@
+﻿@model MPViewModel
+
+@using Microsoft.AspNetCore.Http.Extensions;
+@using ChapsDotNET.Business.Interfaces
+@using ChapsDotNET.Frontend.Components.Button;
+
+@{
+    var submitLabel = ViewData["SubmitLabel"]?.ToString() ?? "Submit";
+    var primaryButtonModel = new ButtonModel { Label = submitLabel, Element = ButtonModel.ValidElementTypes.input, Type = ButtonModel.ValidButtonStyles.primary, InputType = ButtonModel.ValidButtonTypes.submit };
+    var secondaryButtonModel = new ButtonModel { Label = "Cancel", Element = ButtonModel.ValidElementTypes.anchor, Type = ButtonModel.ValidButtonStyles.secondary, Url = Url.Action("Index", "MPs", new { area = "Admin" }) };
+
+    var legendIsPageTitle = (bool?)ViewData["LegendIsPageTitle"];
+}
+
+@using (Html.BeginForm())
+{
+    <div class="chaps-form">
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                @if (legendIsPageTitle == true)
+                {
+                    <h1 class="govuk-fieldset__heading">@ViewData["Legend"]</h1>
+                } 
+                else
+                {
+                    <h2 class="govuk-fieldset__heading">@ViewData["Legend"]</h2>
+                }
+            </legend>
+            @Html.HiddenFor(m => m.MPId)
+            <!-- RtHon-->
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        @Html.CheckBoxFor(m => m.RtHon, new { @id = "mp-rthon", @class = "govuk-checkboxes__input", @aria_describedby = "mp-rthon-error-wrapper" })
+                        <div class="chaps-form__label-wrapper">
+                            @Html.LabelFor(m => m.RtHon, "RtHon", new { @for = "mp-rthon", @class = "govuk-label govuk-checkboxes__label" })
+                        </div>
+                        <p id="mp-rthon-error-wrapper" class="govuk-error-message">
+                            @Html.ValidationMessageFor(m => m.RtHon)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Salutation -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.SalutationId, "Salutation", new { @for = "mp-salutation", @class = "govuk-label" })
+                </div>
+                <p id="mp-salutation-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(model => model.SalutationId)
+                </p>
+                @Html.DropDownListFor(m => m.SalutationId, Model.SalutationList, "Please select a salutation", new { @id = "mp-salutation", @class = "govuk-select", @aria_describedby = "mp-salutation-error-wrapper" })
+            </div>
+            <!-- First name(s) -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.FirstNames, "First name(s) (Optional)", new { @for = "mp-name", @class = "govuk-label" })
+                </div>
+                <p id="mp-name-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.FirstNames)
+                </p>
+                @Html.TextBoxFor(m => m.FirstNames, new { @id = "mp-name", @name = "mp-name", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-name-error-wrapper" })
+            </div>
+            <!-- Surname -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.Surname, "Surname", new { @for = "mp-surname", @class = "govuk-label" })
+                </div>
+                <p id="mp-surname-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.Surname)
+                </p>
+                @Html.TextBoxFor(m => m.Surname, new { @id = "mp-surname", @name = "mp-surname", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-surname-error-wrapper" })
+            </div>
+            <!-- Suffix -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.Suffix, "Suffix (Optional)", new { @for = "mp-suffix", @class = "govuk-label" })
+                </div>
+                <p id="mp-suffix-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.Suffix)
+                </p>
+                @Html.TextBoxFor(m => m.Suffix, new { @id = "mp-suffix", @name = "mp-suffix", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-suffix-error-wrapper" })
+            </div>
+            <!-- Address line 1 -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.AddressLine1, "Address line 1 (Optional)", new { @for = "mp-address-line-1", @class = "govuk-label" })
+                </div>
+                <p id="mp-address-line-1-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.AddressLine1)
+                </p>
+                @Html.TextBoxFor(m => m.AddressLine1, new { @id = "mp-address-line-1", @name = "mp-address-line-1", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-address-line-1-error-wrapper" })
+            </div>
+            <!-- Address line 2 -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.AddressLine2, "Address line 2 (Optional)", new { @for = "mp-address-line-2", @class = "govuk-label" })
+                </div>
+                <p id="mp-address-line-2-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.AddressLine2)
+                </p>
+                @Html.TextBoxFor(m => m.AddressLine2, new { @id = "mp-address-line-2", @name = "mp-address-line-2", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-address-line-2-error-wrapper" })
+            </div>
+            <!-- Address line 3 -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.AddressLine3, "Address line 3 (Optional)", new { @for = "mp-address-line-3", @class = "govuk-label" })
+                </div>
+                <p id="mp-address-line-3-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.AddressLine3)
+                </p>
+                @Html.TextBoxFor(m => m.AddressLine3, new { @id = "mp-address-line-3", @name = "mp-address-line-3", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-address-line-3-error-wrapper" })
+            </div>
+            <!-- Town/City -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.Town, "Town/City (Optional)", new { @for = "mp-town", @class = "govuk-label" })
+                </div>
+                <p id="mp-town-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.Town)
+                </p>
+                @Html.TextBoxFor(m => m.Town, new { @id = "mp-town", @name = "mp-town", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-town-error-wrapper" })
+            </div>
+            <!-- County -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.County, "County (Optional)", new { @for = "mp-county", @class = "govuk-label" })
+                </div>
+                <p id="mp-county-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.County)
+                </p>
+                @Html.TextBoxFor(m => m.County, new { @id = "mp-county", @name = "mp-county", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-county-error-wrapper" })
+            </div>
+            <!-- Postcode -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.Postcode, "Postcode (Optional)", new { @for = "mp-postcode", @class = "govuk-label" })
+                </div>
+                <p id="mp-postcode-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.Postcode)
+                </p>
+                @Html.TextBoxFor(m => m.Postcode, new { @id = "mp-postcode", @name = "mp-postcode", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-postcode-error-wrapper" })
+            </div>
+            <!-- Email -->
+            <div class="govuk-form-group">
+                <div class="chaps-form__label-wrapper">
+                    @Html.LabelFor(m => m.Email, "Email (Optional)", new { @for = "mp-email", @class = "govuk-label" })
+                </div>
+                <p id="mp-email-error-wrapper" class="govuk-error-message">
+                    @Html.ValidationMessageFor(m => m.Email)
+                </p>
+                @Html.TextBoxFor(m => m.Email, new { @id = "mp-email", @name = "mp-email", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "mp-email-error-wrapper" })
+            </div>
+
+            @if (submitLabel == "Update")
+            {
+                <!-- Status -->
+                <div class="govuk-form-group">
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            @Html.CheckBoxFor(m => m.Active, new { @class = "govuk-checkboxes__input", @aria_describedby = "mp-is-active-error-wrapper" })
+                            <div class="chaps-form__label-wrapper">
+                                @Html.LabelFor(m => m.Active, "Active", new { @class = "govuk-label govuk-checkboxes__label" })
+                            </div>
+                            <p id="mp-is-active-error-wrapper" class="govuk-error-message">
+                                @Html.ValidationMessageFor(m => m.Active)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </fieldset>
+    <div class="govuk-button-group">
+        <partial name="Button" model="@primaryButtonModel" />
+        <partial name="Button" model="@secondaryButtonModel" />
+    </div>
+    </div>
+}

@@ -1,6 +1,34 @@
-﻿<div class="message warning" style="padding:10px;">
-    <span></span>
-    <h6>Inactive MP</h6>
-    <p>@Html.Raw(ViewBag.errorMessage)</p>
-    <button class="cancel-button" type="button" onclick="location.href='/Admin/MPs/';">Back</button>
-</div>
+﻿@model ChapsDotNET.Models.MPViewModel
+@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Alert
+@using ChapsDotNET.Frontend.Components.Button
+@{
+    // Initialise page data
+    ViewData["Title"] = "Edit an existing Member of Parliament";
+
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})},
+                new BreadcrumbModel { Label = "MPs", Url = Url.Action("Index", "MPs", new {area ="Admin"})},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
+    var buttonModel = new ButtonModel { Label = "Back", Element = ButtonModel.ValidElementTypes.anchor, Type = ButtonModel.ValidButtonStyles.secondary, InputType = ButtonModel.ValidButtonTypes.reset, Url = Url.Action("Index", "MPs", new { area = "Admin" }) };
+}
+
+<!-- Header -->
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+
+<!-- Page content -->
+@using (Html.BeginForm())
+{
+    <div class="chaps-form">
+        <h1 class="govuk-heading-l">
+            Edit an existing Member of Parliament
+        </h1>
+        <p class="govuk-body">@Html.Raw(ViewBag.errorMessage)</p>
+        <div class="govuk-button-group">
+            <partial name="Button" model="@buttonModel" />
+        </div>
+    </div>
+}

@@ -1,55 +1,38 @@
 ﻿@model ChapsDotNET.Models.MPViewModel
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
+@using ChapsDotNET.Frontend.Components.Breadcrumbs
+@using ChapsDotNET.Frontend.Components.Alert
+@using ChapsDotNET.Frontend.Components.Button
+@{
+    // Initialise page data
+    ViewData["Title"] = "Deactivate a Member of Parliament";
 
-        function getToken() {
-        var token = '@Html.AntiForgeryToken()';
-        token = $(token).val();
-        return token;
-        }
+    // Breadcrumbs
+    List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})},
+                new BreadcrumbModel { Label = "MPs", Url = Url.Action("Index", "MPs", new {area ="Admin"})},
+    ];
+    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
 
-    function setActiveTrue() {
-        var mpId = '@Model.MPId';
-        $.ajax({
-            url: '/Admin/MPs/SetActiveTrue',
-            type: 'POST',
-            headers: { "RequestVerificationToken": getToken() },
-            data: { id: mpId },
-            success: function (result) {
-                if (result.success) {
-                    window.location.href = '/Admin/MPs/Edit/' + mpId;
-                }
-            }
-        });
-    }
-</script>
+    var primaryButtonModel = new ButtonModel { Label = "Yes I'm sure - deactivate this MP", Element = ButtonModel.ValidElementTypes.input, Type = ButtonModel.ValidButtonStyles.warning, InputType = ButtonModel.ValidButtonTypes.submit };
+    var secondaryButtonModel = new ButtonModel { Label = "Cancel", Element = ButtonModel.ValidElementTypes.anchor, Type = ButtonModel.ValidButtonStyles.secondary, Url = Url.Action("Index", "MPs", new { area = "Admin" }) };
+    var mpName = Model.DisplayFullName;
+}
 
-@Html.AntiForgeryToken()
+<!-- Header -->
+<partial name="Breadcrumbs" model="breadcrumbsModel" />
+
+<!-- Page content -->
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(model => model.MPId)
-    @Html.HiddenFor(model => model.RtHon)
-    @Html.HiddenFor(model => model.SalutationId)
-    @Html.HiddenFor(model => model.FirstNames)
-    @Html.HiddenFor(model => model.Surname)
-    @Html.HiddenFor(model => model.Suffix)
-    @Html.HiddenFor(model => model.Email)
-    @Html.HiddenFor(model => model.Active)
-    @Html.HiddenFor(model => model.AddressLine1)
-    @Html.HiddenFor(model => model.AddressLine2)
-    @Html.HiddenFor(model => model.AddressLine3)
-    @Html.HiddenFor(model => model.Town)
-    @Html.HiddenFor(model => model.County)
-    @Html.HiddenFor(model => model.Postcode)
-    @Html.HiddenFor(model => model.DeactivatedByID)
-    @Html.HiddenFor(model => model.DeactivatedOn)
-    @Html.HiddenFor(model => model.DisplayFullName)
-
-    <div class="message warning" style="padding:10px;">
-        <span></span>
-        <h6>Confirm Deactivation</h6>
-        <p> Are you sure you want to deactivate member of parliament "@Model.DisplayFullName" ?</p>
-        <input class="createButton" type="submit" value="Confirm Deactivate" />
-        <button class="cancel-button" type="button" onclick="setActiveTrue();">Back</button>
+    <div class="chaps-form">
+        <h1 class="govuk-heading-l">
+            Confirm deactivation
+        </h1>
+        <p class="govuk-body">Are you sure you want to deactivate member of parliament <strong>@mpName</strong>?</p>
+        <div class="govuk-button-group">
+            <partial name="Button" model="@primaryButtonModel" />
+            <partial name="Button" model="@secondaryButtonModel" />
+        </div>
     </div>
 }

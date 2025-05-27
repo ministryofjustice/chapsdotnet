@@ -17,7 +17,9 @@ import './Components/Pagination/Pagination.js';
 import './Components/PrimaryNavigation/PrimaryNavigation.js';
 import './Components/Table/Table.js';
 import form from './Components/Form/Form.js';
+import listFilter from './Components/ListFilter/ListFilter.js';
 
 addEventListener('DOMContentLoaded', () => {
     form();
+    listFilter();
 });

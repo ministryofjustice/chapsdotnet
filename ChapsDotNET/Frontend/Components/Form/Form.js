@@ -32,9 +32,11 @@ export default function () {
 
     formGroups.forEach((group) => {
         const errorPlaceholder = group.querySelector(".field-validation-valid");
-        observer.observe(errorPlaceholder, {
-            attributes: true,
-            attributeFilter: ['class']
-        });
+        if (errorPlaceholder) {
+            observer.observe(errorPlaceholder, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        }
     });
 }

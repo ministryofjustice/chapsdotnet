@@ -1,0 +1,22 @@
+@model ChapsDotNET.Frontend.Components.Checkbox.CheckboxModel
+
+@{
+    string hintId = $"{Model.Id}-hint-wrapper";
+}
+
+<div class="govuk-form-group">
+    @if (Model.Hint != null)
+    {
+        <div id="@hintId" class="govuk-hint">
+            @Model.Hint
+        </div>
+    }
+    <div class="govuk-checkboxes">
+        <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" checked="@Model.Checked" id="@Model.Id" name="@Model.Id" type="checkbox" value="@Model.Id">
+            <label class="govuk-label govuk-checkboxes__label" for="@Model.Id">
+                @Model.Label
+            </label>
+        </div>
+    </div>
+</div>

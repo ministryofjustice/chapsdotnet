@@ -1,9 +1,13 @@
-﻿using ChapsDotNET.Business.Models;
-using ChapsDotNET.Business.Models.Common;
+﻿using ChapsDotNET.Frontend.Components.Alert;
+using ChapsDotNET.Frontend.Components.Breadcrumbs;
+using ChapsDotNET.Frontend.Components.Heading;
+using ChapsDotNET.Frontend.Components.ListFilter;
 
 public class IndexViewModel
 {
-    public PagedResult<List<MPModel>>? MPs { get; set; }
-    public PaginationInfo? Pagination { get; set; }
+    public AlertModel? Alert { get; set; }
+    public required BreadcrumbsModel Breadcrumbs { get; set; }
+    public required HeadingModel Heading { get; set; }
+    public required ListFilterModel ListFilter { get; set; }
 }
 

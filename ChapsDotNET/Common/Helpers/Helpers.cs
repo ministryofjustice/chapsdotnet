@@ -63,6 +63,7 @@ namespace ChapsDotNET.Common.Helpers
         public string[] UpdatedPageControllers { get; } = [
             "Users",
             "Salutations",
+            "MPs",
             "Admin"
         ];
         /// <inheritdoc/>
