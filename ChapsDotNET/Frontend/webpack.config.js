@@ -65,11 +65,18 @@ module.exports = {
 
     plugins: [
         new CopyPlugin({
+            runTasksInSeries: false,
             events: {
                 onStart: {
+                    mkdir: [
+                        path.resolve(__dirname, "assets"),
+                        path.resolve(__dirname, "assets/fonts"),
+                        path.resolve(__dirname, "assets/images"),
+                    ],
                     copy: [
-                        { source: path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets'), destination: path.resolve(__dirname, "assets") },
-                        { source: path.resolve(__dirname, 'node_modules/@ministryofjustice/frontend/moj/assets/images'), destination: path.resolve(__dirname, "assets/images") },
+                        { source: path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets/fonts'), destination: path.resolve(__dirname, "assets/fonts"), options: { overwrite: false } },
+                        { source: path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets/images'), destination: path.resolve(__dirname, "assets/images"), options: { overwrite: false } },
+                        { source: path.resolve(__dirname, 'node_modules/@ministryofjustice/frontend/moj/assets/images'), destination: path.resolve(__dirname, "assets/images"), options: { overwrite: false } },
                     ]
                 }
             }
