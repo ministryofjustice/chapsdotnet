@@ -69,6 +69,7 @@ module.exports = {
                 onStart: {
                     copy: [
                         { source: path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets'), destination: path.resolve(__dirname, "assets") },
+                        { source: path.resolve(__dirname, 'node_modules/@ministryofjustice/frontend/moj/assets/images'), destination: path.resolve(__dirname, "assets/images") },
                     ]
                 }
             }
