@@ -77,13 +77,6 @@ module.exports = {
             filename: "[name].bundle.css",
             ignoreOrder: false
         }),
-
-        new CopyPlugin({
-            patterns: [
-                { from: path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets'), to: path.resolve(__dirname, "assets") },
-                { from: path.resolve(__dirname, 'node_modules/@ministryofjustice/frontend/moj/assets/images'), to: path.resolve(__dirname, "assets/images") },
-            ],
-        }),
         new CleanWebpackPlugin(),
     ]
 };
