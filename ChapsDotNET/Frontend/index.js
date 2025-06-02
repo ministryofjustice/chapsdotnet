@@ -6,6 +6,7 @@ import './Components/Button/Button.js';
 // Molecules (simple groups of UI elements functioning together as a unit)
 import './Components/Alert/Alert.js';
 import './Components/Breadcrumbs/Breadcrumbs.js';
+import './Components/ContentList/ContentList.js';
 import './Components/Heading/Heading.js';
 import './Components/IdentityBar/IdentityBar.js';
 import './Components/SkipLink/SkipLink.js';
