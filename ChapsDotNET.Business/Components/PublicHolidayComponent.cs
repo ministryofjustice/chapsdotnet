@@ -126,7 +126,7 @@ namespace ChapsDotNET.Business.Components
         /// <exception cref="NotFoundException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public async Task UpdatePublicHolidayAsync(PublicHolidayModel model)
+        public async Task<int> UpdatePublicHolidayAsync(PublicHolidayModel model)
         {
             var publicHoliday = await _context.PublicHolidays.FirstOrDefaultAsync(x => x.PublicHolidayID == model.PublicHolidayId);
 
@@ -158,6 +158,7 @@ namespace ChapsDotNET.Business.Components
             publicHoliday.Description = model.Description;
 
             await _context.SaveChangesAsync();
+            return publicHoliday.PublicHolidayID;
         }
     }
 }

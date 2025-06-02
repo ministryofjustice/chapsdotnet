@@ -7,12 +7,12 @@ namespace ChapsDotNET.Frontend.Components.ListFilter
     public class ListFilterModel
     {
         public string? Heading { get; set; }
-        public required List<IFormFieldModel> Filters { get; set; }
+        public List<IFormFieldModel>? Filters { get; set; }
         public List<SelectedFilter>? SelectedFilters { get; set; }
         public required TableModel Table { get; set; }
         public PaginationModel? Pagination { get; set; }
         public bool PanelIsOpen { get; set; }
-        public required string ResetUrl { get; set; }
+        public string? ResetUrl { get; set; }
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]

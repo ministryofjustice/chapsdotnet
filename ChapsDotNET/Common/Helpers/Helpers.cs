@@ -64,7 +64,9 @@ namespace ChapsDotNET.Common.Helpers
             "Users",
             "Salutations",
             "MPs",
+            "PublicHolidays",
             "Admin"
+
         ];
         /// <inheritdoc/>
         public void OnActionExecuted(ActionExecutedContext context)
