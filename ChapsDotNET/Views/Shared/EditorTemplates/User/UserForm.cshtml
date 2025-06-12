@@ -27,10 +27,10 @@
             }
         </legend>
         <!-- Name -->
-        @* Name is re-labelled to Email here as Name must be an valid email address for authentication *@
+        @* Name is re-labelled to User Login here as User Login must be an valid email address for authentication *@
         <div class="govuk-form-group">
                 <div class="chaps-form__label-wrapper">
-                @Html.LabelFor(m => m.Name, "Email", new { @for = "user-email", @class = "govuk-label" })
+                @Html.LabelFor(m => m.Name, "User Login", new { @for = "user-email", @class = "govuk-label" })
             </div>
             <p id="user-email-error-wrapper" class="govuk-error-message">
                 @Html.ValidationMessageFor(m => m.Name)
@@ -58,6 +58,16 @@
                 }
             )
         </div>
+        <!-- email -->
+        <div class="govuk-form-group">
+            <div class="chaps-form__label-wrapper">
+                @Html.LabelFor(m => m.Email, "Email", new { @for = "user-email", @class = "govuk-label" })
+            </div>
+            <p id="user-email-error-wrapper" class="govuk-error-message">
+                @Html.ValidationMessageFor(m => m.Email)
+            </p>
+            @Html.TextBoxFor(m => m.Email, new { @id = "user-email", @name = "user-email", @class = "govuk-input govuk-!-width-one-third", @aria_describedby = "user-email-error-wrapper" })
+        </div>
         <!-- Role -->
         <div class="govuk-form-group">
                 <div class="chaps-form__label-wrapper">
@@ -66,7 +76,7 @@
                 <p id="user-role-error-wrapper" class="govuk-error-message">
                 @Html.ValidationMessageFor(model => model.RoleStrength)
             </p>
-            @Html.DropDownListFor(m => m.RoleStrength, Model.RoleList, "Please select an office", new { @id = "user-role", @class = "govuk-select", @aria_describedby = "user-role-error-wrapper" })
+            @Html.DropDownListFor(m => m.RoleStrength, Model.RoleList, "Please select a role", new { @id = "user-role", @class = "govuk-select", @aria_describedby = "user-role-error-wrapper" })
         </div>
         <!-- Team -->
         <div class="govuk-form-group">
@@ -76,7 +86,7 @@
                 <p id="user-team-error-wrapper" class="govuk-error-message">
                 @Html.ValidationMessageFor(model => model.TeamId)
             </p>
-            @Html.DropDownListFor(m => m.TeamId, Model.TeamList, "Please select an office", new { @id = "user-team", @class = "govuk-select", @aria_describedby = "user-team-error-wrapper" })
+            @Html.DropDownListFor(m => m.TeamId, Model.TeamList, "Please select a team", new { @id = "user-team", @class = "govuk-select", @aria_describedby = "user-team-error-wrapper" })
         </div>
     </fieldset>
     <div class="govuk-button-group">
