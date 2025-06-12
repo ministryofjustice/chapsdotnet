@@ -10,7 +10,7 @@ namespace ChapsDotNET.Models
         [Key]
         public int UserId { get; set; }
         // Name has been re-labelled as Email as it must be a valid email address for authentication.
-        [Required(ErrorMessage = "Enter an email address"), MaxLength(50), RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-‌​]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Enter an email address in the correct format, like name@example.com")]
+        [Required(ErrorMessage = "Enter a User Login"), MaxLength(50), RegularExpression(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-‌​]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$", ErrorMessage = "Enter a User Login in the correct format, like name@example.com")]
         public string? Name { get; set; }
         [Required(ErrorMessage = "Enter a display name"), MaxLength(50)]
         public string? DisplayName { get; set; }
