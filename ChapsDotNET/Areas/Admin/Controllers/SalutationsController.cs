@@ -57,7 +57,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
         {
             int id = await _salutationComponent.AddSalutationAsync(viewModel.ToModel());
             SalutationModel salutation = await _salutationComponent.GetSalutationAsync(id);
-            if (salutation.Detail != null)
+            if (salutation != null && salutation.Detail != null)
             {
                 TempData["alertContent"] = $"Salutation {salutation.Detail} created successfully";
                 TempData["alertSummary"] = $"Salutation created successfully";
