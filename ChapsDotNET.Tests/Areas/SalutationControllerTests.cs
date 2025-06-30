@@ -113,6 +113,14 @@ namespace ChapsDotNET.Tests.Areas
                 SalutationId = 1
             });
 
+            var httpContext = new DefaultHttpContext();
+            var mockTempData = Substitute.For<ITempDataProvider>();
+            var tempData = new TempDataDictionary(httpContext, mockTempData)
+            {
+                ["alertContent"] = "YourValue"
+            };
+            controller.TempData = tempData;
+
             //Act
             var result = await controller.Edit(1);
 
