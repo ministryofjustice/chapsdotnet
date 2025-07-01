@@ -44,6 +44,14 @@ namespace ChapsDotNET.Tests.Areas
                 });
             var controller = new SalutationsController(mockSalutationsComponent);
 
+            var httpContext = new DefaultHttpContext();
+            var mockTempData = Substitute.For<ITempDataProvider>();
+            var tempData = new TempDataDictionary(httpContext, mockTempData)
+            {
+                ["alertContent"] = "YourValue"
+            };
+            controller.TempData = tempData;
+
             // Act
             var result = await controller.Index() as ViewResult;
             var resultCount = result?.Model as List<SalutationModel>;
@@ -143,6 +151,16 @@ namespace ChapsDotNET.Tests.Areas
 
             mockSalutationsComponent.GetSalutationAsync(1).Returns(mockModel);
             var controller = new SalutationsController(mockSalutationsComponent);
+
+            mockSalutationsComponent.UpdateSalutationAsync(Arg.Any<SalutationModel>()).Returns(mockModel);
+
+            var httpContext = new DefaultHttpContext();
+            var mockTempData = Substitute.For<ITempDataProvider>();
+            var tempData = new TempDataDictionary(httpContext, mockTempData)
+            {
+                ["alertContent"] = "YourValue"
+            };
+            controller.TempData = tempData;
 
             //Act
             var result = await controller.Edit(new SalutationViewModel

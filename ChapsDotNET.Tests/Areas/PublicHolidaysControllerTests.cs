@@ -2,9 +2,14 @@
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
+using ChapsDotNET.Common.Mappers;
+using ChapsDotNET.Frontend.Components.Breadcrumbs;
 using ChapsDotNET.Models;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -40,6 +45,42 @@ namespace ChapsDotNET.Tests.Areas
                     }
                 });
             var controller = new PublicHolidaysController(mockPublicHolidayComponent);
+
+            var urlHelper = Substitute.For<IUrlHelper>();
+
+            urlHelper.Action(Arg.Is<UrlActionContext>(
+                ctx => ctx.Controller == "Home" && ctx.Action == "Index"))
+                .Returns("/Home/Index");
+
+            urlHelper.Action(Arg.Is<UrlActionContext>(
+                ctx => ctx.Controller == "Admin" && ctx.Action == "Index"))
+                .Returns("/Admin/Index");
+
+            var breadcrumbs = new List<BreadcrumbModel>
+        {
+            new BreadcrumbModel
+            {
+                Label = "Home",
+                Url = urlHelper.Action(new UrlActionContext
+                {
+                    Action = "Index",
+                    Controller = "Home",
+                    Values = new { area = "" }
+                })!
+            },
+            new BreadcrumbModel
+            {
+                Label = "Admin",
+                Url = urlHelper.Action(new UrlActionContext
+                {
+                    Action = "Index",
+                    Controller = "Admin",
+                    Values = new { area = "" }
+                })!
+            }
+        };
+
+
 
             // Act
             var result = await controller.Index() as ViewResult;
@@ -81,6 +122,17 @@ namespace ChapsDotNET.Tests.Areas
                 PublicHolidayId = 1
             };
 
+            var httpContext = new DefaultHttpContext();
+            var mockTempData = Substitute.For<ITempDataProvider>();
+            var tempData = new TempDataDictionary(httpContext, mockTempData)
+            {
+                ["alertContent"] = "YourValue"
+            };
+            controller.TempData = tempData;
+
+            mockPublicHolidayComponent.AddPublicHolidayAsync(Arg.Any<PublicHolidayModel>()).Returns(1);
+            mockPublicHolidayComponent.GetPublicHolidayAsync(1).Returns(publicHolidayViewModel.ToModel());
+
             //Act
             var result = await controller.Create(publicHolidayViewModel);
 
@@ -120,6 +172,23 @@ namespace ChapsDotNET.Tests.Areas
             var mockPublicHolidayComponent = Substitute.For<IPublicHolidayComponent>();
             var controller = new PublicHolidaysController(mockPublicHolidayComponent);
 
+            var httpContext = new DefaultHttpContext();
+            var mockTempData = Substitute.For<ITempDataProvider>();
+            var tempData = new TempDataDictionary(httpContext, mockTempData)
+            {
+                ["alertContent"] = "YourValue"
+            };
+            controller.TempData = tempData;
+
+            var publicHolidayViewModel = new PublicHolidayViewModel()
+            {
+                Date = new DateTime(2022, 08, 31),
+                Description = "August Bank Holiday",
+                PublicHolidayId = 1
+            };
+
+            mockPublicHolidayComponent.UpdatePublicHolidayAsync(Arg.Any<PublicHolidayModel>()).Returns(1);
+            mockPublicHolidayComponent.GetPublicHolidayAsync(1).Returns(publicHolidayViewModel.ToModel());
 
             //Act
             var result = await controller.Edit(new PublicHolidayViewModel
