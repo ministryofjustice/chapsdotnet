@@ -1,4 +1,5 @@
-﻿using ChapsDotNET.Areas.Admin.Controllers;
+﻿using Azure;
+using ChapsDotNET.Areas.Admin.Controllers;
 using ChapsDotNET.Business.Interfaces;
 using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
@@ -10,11 +11,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Yarp.ReverseProxy.Configuration;
 //        PublicHoliday
 namespace ChapsDotNET.Tests.Areas
 {
@@ -46,41 +51,25 @@ namespace ChapsDotNET.Tests.Areas
                 });
             var controller = new PublicHolidaysController(mockPublicHolidayComponent);
 
+
+            //Mock Bookmarks Url.Action
             var urlHelper = Substitute.For<IUrlHelper>();
+            urlHelper.Action(Arg.Any<UrlActionContext>())
+                     .Returns(callInfo =>
+                     {
+                         var _callInfo = callInfo.Arg<UrlActionContext>();
+                         return $"/{_callInfo.Controller}/{_callInfo.Action}";
+                     });
+            controller.Url = urlHelper;
 
-            urlHelper.Action(Arg.Is<UrlActionContext>(
-                ctx => ctx.Controller == "Home" && ctx.Action == "Index"))
-                .Returns("/Home/Index");
-
-            urlHelper.Action(Arg.Is<UrlActionContext>(
-                ctx => ctx.Controller == "Admin" && ctx.Action == "Index"))
-                .Returns("/Admin/Index");
-
-            var breadcrumbs = new List<BreadcrumbModel>
-        {
-            new BreadcrumbModel
+            //Mock Alerts
+            var httpContext = new DefaultHttpContext();
+            var mockTempData = Substitute.For<ITempDataProvider>();
+            var tempData = new TempDataDictionary(httpContext, mockTempData)
             {
-                Label = "Home",
-                Url = urlHelper.Action(new UrlActionContext
-                {
-                    Action = "Index",
-                    Controller = "Home",
-                    Values = new { area = "" }
-                })!
-            },
-            new BreadcrumbModel
-            {
-                Label = "Admin",
-                Url = urlHelper.Action(new UrlActionContext
-                {
-                    Action = "Index",
-                    Controller = "Admin",
-                    Values = new { area = "" }
-                })!
-            }
-        };
-
-
+                ["alertContent"] = "YourValue"
+            };
+            controller.TempData = tempData;
 
             // Act
             var result = await controller.Index() as ViewResult;
