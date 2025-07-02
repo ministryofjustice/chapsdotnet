@@ -4,7 +4,9 @@ using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Models;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using NSubstitute;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -134,6 +136,34 @@ namespace ChapsDotNET.Tests.Areas
                 Active = true
             };
 
+            mockMPComponent.AddMPAsync(Arg.Any<MPModel>()).Returns(1);
+            mockMPComponent.GetMPAsync(1).Returns(new MPModel
+            {
+                MPId = 1,
+                RtHon = true,
+                SalutationId = 1,
+                Surname = "Picard",
+                FirstNames = "Jean Luc",
+                Email = "j.picard@chateau-picard.com",
+                AddressLine1 = "Chateau Picard",
+                AddressLine2 = "Le Rue Dragon",
+                AddressLine3 = "",
+                Town = "Lyon",
+                County = "Aquitane",
+                Postcode = "NC17 C01",
+                Suffix = "",
+                Active = true
+            });
+
+            var httpContext = new DefaultHttpContext();
+            var mockTempData = Substitute.For<ITempDataProvider>();
+            var tempData = new TempDataDictionary(httpContext, mockTempData)
+            {
+                ["alertContent"] = "YourValue"
+            };
+            controller.TempData = tempData;
+
+
             //Act
             var result = await controller.Create(mpViewModel);
 
@@ -203,8 +233,16 @@ namespace ChapsDotNET.Tests.Areas
                 Postcode = "NC17 C01",
                 Suffix = "",
                 Active = true
-            }); 
-            
+            });
+
+            var httpContext = new DefaultHttpContext();
+            var mockTempData = Substitute.For<ITempDataProvider>();
+            var tempData = new TempDataDictionary(httpContext, mockTempData)
+            {
+                ["alertContent"] = "YourValue"
+            };
+            controller.TempData = tempData;
+
             //Act
             var result = await controller.Edit(1);
 
@@ -240,6 +278,15 @@ namespace ChapsDotNET.Tests.Areas
             mockMPComponent.GetMPAsync(3).Returns(mockMPModel);
 
             var controller = new MPsController(mockMPComponent, mockSalutationComponent, mockUserComponent);
+
+            var httpContext = new DefaultHttpContext();
+            var mockTempData = Substitute.For<ITempDataProvider>();
+            var tempData = new TempDataDictionary(httpContext, mockTempData)
+            {
+                ["alertContent"] = "YourValue"
+            };
+            controller.TempData = tempData;
+
 
             //Act
             var result = await controller.Edit(new MPViewModel
