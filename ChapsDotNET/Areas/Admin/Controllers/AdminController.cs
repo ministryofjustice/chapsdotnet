@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Chaps.Areas.Admin.Controllers
+namespace ChapsDotNET.Areas.Admin.Controllers
 {
     ////[ChapsRedirect]
     //[AuthorizeRedirect(MinimumRequiredAccessLevel = AccessLevel.Manager)]

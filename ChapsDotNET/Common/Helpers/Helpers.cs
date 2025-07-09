@@ -65,7 +65,8 @@ namespace ChapsDotNET.Common.Helpers
             "Salutations",
             "MPs",
             "PublicHolidays",
-            "Admin"
+            "Admin",
+            "Home"
 
         ];
         /// <inheritdoc/>
