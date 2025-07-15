@@ -40,7 +40,24 @@
 
             </svg>
             <a class="moj-header__link moj-header__link--organisation-name" href="@moj">Ministry of Justice</a>
-            <a class="moj-header__link moj-header__link--service-name" href="@home">CHAPS</a>
+            
+            @if ((Environment.GetEnvironmentVariable("CurServer") ?? "DEFAULT_VALUE") != "PRODUCTION")
+            {
+
+@* Commented out pending test of production logic.
+                <style>
+                    .moj-header {
+                        background-color: #005ea5; 
+                    }
+                </style>
+                <a class="moj-header__link moj-header__link--service-name" href="@home">CHAPS (Training)</a>
+ *@                <a class="moj-header__link moj-header__link--service-name" href="@home">CHAPS.</a>
+
+            }
+            else
+                {
+                   <a class="moj-header__link moj-header__link--service-name" href="@home">CHAPS</a>
+            }
         </div>
     </div>
 </header>
