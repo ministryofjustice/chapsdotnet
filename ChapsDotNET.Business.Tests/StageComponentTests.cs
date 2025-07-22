@@ -23,8 +23,7 @@ namespace ChapsDotNET.Business.Tests
             await context.Stages.AddAsync(new Stage
             {
                 StageID = 1,
-                Detail = "Mr",
-                active = true
+                Name = "Awaiting Allocation"
             });
             await context.SaveChangesAsync();
 
@@ -36,9 +35,9 @@ namespace ChapsDotNET.Business.Tests
             // Assert
             result.Results.Should().NotBeNull();
             result.Results.Should().HaveCount(1);
-            result.Results?.First().Detail.Should().Be("Mr");
+            result.Results?.First().Name.Should().Be("Awating Allocation");
             result.Results?.First().StageId.Should().Be(1);
-            result.Results?.First().Active.Should().BeTrue();
+            
         }
 
 
