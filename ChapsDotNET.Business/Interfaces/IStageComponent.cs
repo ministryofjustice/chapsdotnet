@@ -1,0 +1,12 @@
+﻿using ChapsDotNET.Business.Models;
+using ChapsDotNET.Business.Models.Common;
+
+namespace ChapsDotNET.Business.Interfaces
+{
+    public interface IStageComponent
+    {
+
+        Task<StageModel> GetStageAsync(int id);
+
+    }
+}

@@ -45,6 +45,7 @@ namespace ChapsDotNET.Data.Contexts
         public DbSet<PublicHoliday> PublicHolidays => Set<PublicHoliday>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<Salutation> Salutations => Set<Salutation>();
+        public DbSet<Stage> Stages => Set<Stage>();
         public DbSet<Team> Teams => Set<Team>();
         public DbSet<User> Users => Set<User>();
         public DbSet<Report> Reports => Set<Report>();

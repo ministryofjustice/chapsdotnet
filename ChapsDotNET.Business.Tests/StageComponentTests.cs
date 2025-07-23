@@ -15,35 +15,7 @@ namespace ChapsDotNET.Business.Tests
     public class StageComponentTests
 
     {
-        [Fact(DisplayName = "Get a list of Stages when GetStagesAsync is called")]
-        public async Task GetAListOfStagesWhenGetStagesAsyncIsCalled()
-        {
-            // Arrange
-            var context = DataContextFactory.Create();
-            await context.Stages.AddAsync(new Stage
-            {
-                StageID = 1,
-                Name = "Awaiting Allocation"
-            });
-            await context.SaveChangesAsync();
-
-            var StageComponent = new StageComponent(context);
-
-            // Act
-            var result = await StageComponent.GetStagesAsync(new StageRequestModel());
-
-            // Assert
-            result.Results.Should().NotBeNull();
-            result.Results.Should().HaveCount(1);
-            result.Results?.First().Name.Should().Be("Awating Allocation");
-            result.Results?.First().StageId.Should().Be(1);
-            
-        }
-
-
-
-
-
+    
         [Fact(DisplayName = "Get a specific Stage")]
         public async Task GetStageAsync()
         {
@@ -66,14 +38,13 @@ namespace ChapsDotNET.Business.Tests
             var StageComponent = new StageComponent(context);
 
             // Act
-            var result = await StageComponent.GetStageAsync(53);
+            var result = await StageComponent.GetStageAsync(11);
 
             // Assert
             result.Should().NotBeNull();
 
             result.Name.Should().Be("Closed");
-            result.StageId.Should().Be(11);
-            result.Active.Should().BeTrue();
+            result.StageID.Should().Be(11);
 
 
         }
@@ -86,15 +57,14 @@ namespace ChapsDotNET.Business.Tests
             await context.Stages.AddAsync(new Stage
             {
                 StageID = 2,
-                Detail = "Mrs",
-                active = true
+                Name = "Await"
+
             });
 
             await context.Stages.AddAsync(new Stage
             {
                 StageID = 54,
-                Detail = "Ms",
-                active = true
+                Name = "Closed"
             });
 
             await context.SaveChangesAsync();
