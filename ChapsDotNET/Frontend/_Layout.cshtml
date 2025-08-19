@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/dist/main.bundle.css")" />
     <!-- Google Tag Manager -->
@@ -28,6 +28,7 @@
     <partial name="Header" />
     <partial name="PrimaryNavigation" />
     <partial name="IdentityBar" />
+    
     <div class="govuk-width-container">
         <main class="govuk-main-wrapper" id="main-content">
             @RenderBody()
