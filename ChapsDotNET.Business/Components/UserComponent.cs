@@ -26,6 +26,14 @@ namespace ChapsDotNET.Business.Components
         {
             var query = _context.Users.Include(u => u.Team).Include(u => u.Role).AsQueryable();
 
+            if (!string.IsNullOrEmpty(request.DisplayNameFilterTerm))
+            {
+                query = query.Where(x =>
+                x.DisplayName != null && x.DisplayName.Contains(request.DisplayNameFilterTerm));
+            }
+
+
+
             switch (request.SortOrder)
             {
                 case "UserLogin":
