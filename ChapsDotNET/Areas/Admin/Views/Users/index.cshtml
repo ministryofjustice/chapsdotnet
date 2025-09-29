@@ -1,4 +1,4 @@
-﻿@model ChapsDotNET.Models.UserAdminViewModel
+﻿@* @model ChapsDotNET.Models.UserAdminViewModel
 
 @using ChapsDotNET.Common.Helpers
 @using ChapsDotNET.Frontend.Components.Alert
@@ -102,3 +102,18 @@
 <partial name="Heading"  model="headingModel"/>
 <partial name="Table" model="tableModel"/>
 <partial name="Pagination" model="paginationModel" />
+ *@
+@model IndexViewModel
+@using ChapsDotNET.Frontend.Components.Pagination
+
+@{
+    ViewData["Title"] = "Users administration";
+}
+
+<partial name="Breadcrumbs" model="Model.Breadcrumbs" />
+@if (Model.Alert != null)
+{
+    <partial name="Alert" model="Model.Alert" />
+}
+<partial name="Heading" model="Model.Heading" />
+<partial name="ListFilter" model="Model.ListFilter" />
