@@ -93,8 +93,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             List<HeaderCell> headers = [
                 new HeaderCell { Content = "User Login", Sort = GetSort(sortOrder, "UserLogin"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "UserLogin") }), Scope = RowScopes.col},
                 new HeaderCell { Content = "Display Name", Sort = GetSort(sortOrder, "Display_name"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Display_name") }), Scope = RowScopes.col},
-              //             new HeaderCell { Content = "Team", Sort = GetSort(sortOrder, "Team"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Team") }), Scope = RowScopes.col},
-              //             new HeaderCell { Content = "Role", Sort = GetSort(sortOrder, "Role"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Role") }), Scope = RowScopes.col},
+                new HeaderCell { Content = "Team", Sort = GetSort(sortOrder, "Team"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Team") }), Scope = RowScopes.col},
+                new HeaderCell { Content = "Role", Sort = GetSort(sortOrder, "Role"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Role") }), Scope = RowScopes.col},
                 new HeaderCell { Content = "Email", Sort = GetSort(sortOrder, "email"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "email") }), Scope = RowScopes.col},
                 new HeaderCell { Content = "Active",Sort = GetSort(sortOrder, "Last_Active"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Last_Active") }), Scope = RowScopes.col},
             ];
@@ -109,8 +109,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                     RowContent = [
                         new BodyCell {Content = user.Name  != null ? user.Name : "Not set", Url = $"/Admin/Users/Edit/{user.UserId}"},
                         new BodyCell {Content = user.DisplayName != null ? user.DisplayName : "Not set"},
-                        // Team
-                        // AccessLevel
+                        new BodyCell {Content = user.Team != null ? user.Team : "Not set"},
+                        new BodyCell {Content = user.Role != null ? user.Role : "Not set"},
                         new BodyCell {Content = user.Email != null ? user.Email : "Not set" },
                         new BodyCell {Content = user.LastActive != null ?  user.LastActive.Humanize() : "Never" }
                     ]
