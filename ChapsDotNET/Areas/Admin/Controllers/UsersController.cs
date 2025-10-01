@@ -34,34 +34,6 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _rolecomponent = rolecomponent;
         }
 
-        //public async Task<IActionResult> Index(string sortOrder, string? page)
-        //{
-        //    int pageSize = 25;
-        //    int currentPage = 1;
-        //    if (page != null) { _ = int.TryParse(page, out currentPage); }
-        //    var model = new UserAdminViewModel { SortOrder = sortOrder };
-        //    AlertModel? alert = null;
-        //    if (TempData["alertStatus"] != null && TempData["alertContent"] != null && TempData["alertSummary"] != null)
-        //    {
-        //       alert = new AlertModel { 
-        //           Type = AlertModel.GetAlertTypeFromStatus(TempData["alertStatus"] as string),
-        //           Content = TempData["alertContent"] as string, 
-        //           Summary = TempData["alertSummary"] as string
-        //       };
-        //    }
-        //    var users = await _userComponent.GetUsersAsync(new UserRequestModel
-        //    {
-        //        PageNumber = currentPage,
-        //        PageSize = pageSize,
-        //        SortOrder = sortOrder,
-        //    });
-        //    model.Users = users;
-        //    model.Alert = alert;
-        //    return View(model);
-        //}
-
-
-        // NEW VERSION
         public async Task<IActionResult> Index(string DisplayNameFilterTerm, int AccessLevelFilterTerm, string activeFilter, string sortOrder, int page = 1)
         {
             var resultsData = await _userComponent.GetUsersAsync(new UserRequestModel
