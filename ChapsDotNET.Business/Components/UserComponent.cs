@@ -31,10 +31,10 @@ namespace ChapsDotNET.Business.Components
                 query = query.Where(x =>
                 x.DisplayName != null && x.DisplayName.Contains(request.DisplayNameFilterTerm));
             }
-            if ((request.AccessLevelFilterTerm).HasValue && (request.AccessLevelFilterTerm) > 0)
+            if (!string.IsNullOrEmpty(request.RoleLevelFilterTerm))
             {
                 query = query.Where(x =>
-                x.RoleStrength.Equals(request.AccessLevelFilterTerm));
+                x.Role.Detail != null && x.Role.Detail.Contains(request.RoleLevelFilterTerm));
             }
 
             switch (request.SortOrder)

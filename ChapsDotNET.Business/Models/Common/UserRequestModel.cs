@@ -4,7 +4,7 @@
     {
         public bool ShowActiveAndInactive { get; set; } = false;
         public string? DisplayNameFilterTerm { get; set; }
-        public int? AccessLevelFilterTerm { get; set; }
+        public string? RoleLevelFilterTerm { get; set; }
         public string? SortOrder { get; set; }
     }
 }

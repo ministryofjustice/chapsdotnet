@@ -34,7 +34,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _rolecomponent = rolecomponent;
         }
 
-        public async Task<IActionResult> Index(string DisplayNameFilterTerm, int AccessLevelFilterTerm, string activeFilter, string sortOrder, int page = 1)
+        public async Task<IActionResult> Index(string DisplayNameFilterTerm, string RoleLevelFilterTerm, string activeFilter, string sortOrder, int page = 1)
         {
             var resultsData = await _userComponent.GetUsersAsync(new UserRequestModel
             {
@@ -42,7 +42,7 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 PageSize = 10,
                 ShowActiveAndInactive = activeFilter != null ? true : false,
                 DisplayNameFilterTerm = DisplayNameFilterTerm,
-                AccessLevelFilterTerm = AccessLevelFilterTerm,
+                RoleLevelFilterTerm = RoleLevelFilterTerm,
                 SortOrder = sortOrder
             });
 
@@ -95,8 +95,8 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             // Filter options
             var filters = new List<IFormFieldModel>
             {
-                new TextInputModel {Label = "Display Name", Id = "displayNameFilterTerm", Value = DisplayNameFilterTerm}
-                //TODO  TextInputModel {Label = "Address", Id = "addressFilterTerm", Value = addressFilterTerm}
+                new TextInputModel {Label = "Display Name", Id = "displayNameFilterTerm", Value = DisplayNameFilterTerm},
+                new TextInputModel {Label = "Role", Id = "roleLevelFilterTerm", Value = RoleLevelFilterTerm}
                 };
 
             var resetUrl = Url.Action("Index", "Users")!;
