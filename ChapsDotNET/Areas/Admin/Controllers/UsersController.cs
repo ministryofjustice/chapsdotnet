@@ -1,15 +1,26 @@
-﻿using ChapsDotNET.Business.Interfaces;
-using ChapsDotNET.Frontend.Components.Alert;
+﻿
+using ChapsDotNET.Business.Interfaces;
+using ChapsDotNET.Business.Models;
 using ChapsDotNET.Business.Models.Common;
 using ChapsDotNET.Common.Mappers;
+using ChapsDotNET.Frontend.Components.Alert;
+using ChapsDotNET.Frontend.Components.Breadcrumbs;
+using ChapsDotNET.Frontend.Components.Button;
+using ChapsDotNET.Frontend.Components.Checkbox;
+using ChapsDotNET.Frontend.Components.Heading;
+using ChapsDotNET.Frontend.Components.ListFilter;
+using ChapsDotNET.Frontend.Components.Table;
+using ChapsDotNET.Frontend.Components.TextInput;
 using ChapsDotNET.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace ChapsDotNET.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class UsersController : Controller
+    public class UsersController : IndexController<UserModel>
     {
         private readonly IUserComponent _userComponent;
         private readonly ITeamComponent _teamComponent;
@@ -23,31 +34,85 @@ namespace ChapsDotNET.Areas.Admin.Controllers
             _rolecomponent = rolecomponent;
         }
 
-        public async Task<IActionResult> Index(string sortOrder, string? page)
+        public async Task<IActionResult> Index(string DisplayNameFilterTerm, string RoleLevelFilterTerm, string activeFilter, string sortOrder, int page = 1)
         {
-            int pageSize = 25;
-            int currentPage = 1;
-            if (page != null) { _ = int.TryParse(page, out currentPage); }
-            var model = new UserAdminViewModel { SortOrder = sortOrder };
-            AlertModel? alert = null;
-            if (TempData["alertStatus"] != null && TempData["alertContent"] != null && TempData["alertSummary"] != null)
+            var resultsData = await _userComponent.GetUsersAsync(new UserRequestModel
             {
-               alert = new AlertModel { 
-                   Type = AlertModel.GetAlertTypeFromStatus(TempData["alertStatus"] as string),
-                   Content = TempData["alertContent"] as string, 
-                   Summary = TempData["alertSummary"] as string
-               };
-            }
-            var users = await _userComponent.GetUsersAsync(new UserRequestModel
-            {
-                PageNumber = currentPage,
-                PageSize = pageSize,
-                SortOrder = sortOrder,
+                PageNumber = page,
+                PageSize = 10,
+                ShowActiveAndInactive = activeFilter != null ? true : false,
+                DisplayNameFilterTerm = DisplayNameFilterTerm,
+                RoleLevelFilterTerm = RoleLevelFilterTerm,
+                SortOrder = sortOrder
             });
-            model.Users = users;
-            model.Alert = alert;
+
+            var results = resultsData.Results!;
+            var resultsCount = results.Count;
+
+            // Breadcrumbs
+            List<BreadcrumbModel> breadcrumbs = [
+                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})!},
+                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})!},
+            ];
+            var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
+
+            // Heading
+            var headingModel = new HeadingModel { Title = "Users", Button = new ButtonModel { Element = ButtonModel.ValidElementTypes.anchor, Type = ButtonModel.ValidButtonStyles.secondary, Label = "Add a new User", Url = Url.Action("Create", "Users") } };
+
+            // Table
+
+            //// Table Headers
+            List<HeaderCell> headers = [
+                new HeaderCell { Content = "User Login", Sort = GetSort(sortOrder, "UserLogin"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "UserLogin") }), Scope = RowScopes.col},
+                new HeaderCell { Content = "Display Name", Sort = GetSort(sortOrder, "Display_name"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Display_name") }), Scope = RowScopes.col},
+                new HeaderCell { Content = "Team", Sort = GetSort(sortOrder, "Team"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Team") }), Scope = RowScopes.col},
+                new HeaderCell { Content = "Role", Sort = GetSort(sortOrder, "Role"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Role") }), Scope = RowScopes.col},
+                new HeaderCell { Content = "Email", Sort = GetSort(sortOrder, "email"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "email") }), Scope = RowScopes.col},
+                new HeaderCell { Content = "Active",Sort = GetSort(sortOrder, "Last_Active"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(sortOrder, "Last_Active") }), Scope = RowScopes.col},
+            ];
+
+            //// Table body
+            var rows = new List<Row>();
+
+            foreach (var user in results!)
+            {
+                var row = new Row
+                {
+                    RowContent = [
+                        new BodyCell {Content = user.Name  != null ? user.Name : "Not set", Url = $"/Admin/Users/Edit/{user.UserId}"},
+                        new BodyCell {Content = user.DisplayName != null ? user.DisplayName : "Not set"},
+                        new BodyCell {Content = user.Team != null ? user.Team : "Not set"},
+                        new BodyCell {Content = user.Role != null ? user.Role : "Not set"},
+                        new BodyCell {Content = user.Email != null ? user.Email : "Not set" },
+                        new BodyCell {Content = user.LastActive != null ?  user.LastActive.Humanize() : "Never" }
+                    ]
+                };
+                rows.Add(row);
+            }
+
+            var tableModel = GetTable("Users", headers, rows, resultsData, resultsCount);
+
+            // Filter options
+            var filters = new List<IFormFieldModel>
+            {
+                new TextInputModel {Label = "Display Name", Id = "displayNameFilterTerm", Value = DisplayNameFilterTerm},
+                new TextInputModel {Label = "Role", Id = "roleLevelFilterTerm", Value = RoleLevelFilterTerm}
+                };
+
+            var resetUrl = Url.Action("Index", "Users")!;
+
+            // Pagination
+            var model = new IndexViewModel
+            {
+                Breadcrumbs = breadcrumbsModel,
+                Alert = GetAlerts(),
+                Heading = headingModel,
+                ListFilter = GetListFilter(resultsData, tableModel, filters, resetUrl)
+            };
+
             return View(model);
         }
+
 
         public async Task<IActionResult> Create()
         {
@@ -116,19 +181,19 @@ namespace ChapsDotNET.Areas.Admin.Controllers
                 ShowActiveAndInactive = true,
                 NoPaging = true
             });
-            AlertModel? alert = null;
-            if (TempData["alertStatus"] != null && TempData["alertContent"] != null && TempData["alertSummary"] != null)
-            {
-                alert = new AlertModel
-                {
-                    Type = AlertModel.GetAlertTypeFromStatus(TempData["alertStatus"] as string),
-                    Content = TempData["alertContent"] as string,
-                    Summary = TempData["alertSummary"] as string
-                };
-            }
+            //AlertModel? alert = null;
+            //if (TempData["alertStatus"] != null && TempData["alertContent"] != null && TempData["alertSummary"] != null)
+            //{
+            //    alert = new AlertModel
+            //    {
+            //        Type = AlertModel.GetAlertTypeFromStatus(TempData["alertStatus"] as string),
+            //        Content = TempData["alertContent"] as string,
+            //        Summary = TempData["alertSummary"] as string
+            //    };
+            //}
             model.TeamList = new SelectList(teams.Results, "TeamId", "Name");
             model.RoleList = new SelectList(roles.Results, "RoleStrength", "Detail");
-            model.Alert = alert;
+            model.Alert = null; // TODO Current alert code gives errors.
             return View(model);
         }
 
