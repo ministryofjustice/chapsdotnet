@@ -81,7 +81,6 @@
     <None Remove="ViewComponents\" />
     <None Remove="Areas\Admin\Data\**" />
     <None Remove="Areas\Admin\Models\**" />
-    <None Remove="Views\Home\**" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ChapsDotNET.Data\ChapsDotNET.Data.csproj">
@@ -120,6 +119,7 @@
     <Folder Include="ViewComponents\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Views\Index.cshtml" />
     <Content Remove="wwwroot\javascripts\" />
     <Content Remove="wwwroot\stylesheets\" />
     <Content Remove="wwwroot\images\" />
@@ -133,8 +133,6 @@
     <Content Remove="wwwroot\lib\flot\" />
     <Content Remove="Areas\Admin\Data\**" />
     <Content Remove="Areas\Admin\Models\**" />
-    <Content Remove="Views\Home\Index.cshtml" />
-    <Content Remove="Views\Home\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Models\MPsAdminViewModel.cs">
@@ -144,17 +142,16 @@
     </Compile>
     <Compile Remove="Areas\Admin\Data\**" />
     <Compile Remove="Areas\Admin\Models\**" />
-    <Compile Remove="Views\Home\**" />
-    <Compile Remove="Controllers\HomeController.cs" />
     <Compile Remove="Common\DynamicProxy.cs" />
     <Compile Remove="Common\FindContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Areas\Admin\Data\**" />
     <EmbeddedResource Remove="Areas\Admin\Models\**" />
-    <EmbeddedResource Remove="Views\Home\**" />
   </ItemGroup>
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+    <Content Update="Frontend\Components\Header\_Header.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
