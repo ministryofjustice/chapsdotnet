@@ -1,104 +1,14 @@
-﻿@model ChapsDotNET.Models.UserAdminViewModel
-
-@using ChapsDotNET.Common.Helpers
-@using ChapsDotNET.Frontend.Components.Alert
-@using ChapsDotNET.Frontend.Components.Breadcrumbs
-@using ChapsDotNET.Frontend.Components.Heading
-@using ChapsDotNET.Frontend.Components.Button
-@using ChapsDotNET.Frontend.Components.Table
+﻿@model IndexViewModel
 @using ChapsDotNET.Frontend.Components.Pagination
-@using Humanizer
-@using System.Net
-
-@functions {
-    string ToggleSortOrder(string currentSortOrder, string column)
-    {
-        if (currentSortOrder == column)
-        {
-            return column + "_desc";
-        }
-        return column;
-    }
-
-    SortOptions GetSort(string currentSortOrder, string column)
-    {
-        if (currentSortOrder == column)
-        {
-            return SortOptions.ascending;
-        }
-        else if (currentSortOrder == $"{column}_desc")
-        {
-            return SortOptions.descending;
-        }
-        return SortOptions.none;   
-    }
-}
 
 @{
-    // Initialise page data
-    ViewData["Title"] = "User administration";
-
-    // Results data
-    var results = Model.Users!.Results;
-    var resultsFrom = PaginationModel.GetResultsFrom(Model.Users!.CurrentPage, Model.Users.PageSize).ToString();
-    var resultsTo = PaginationModel.GetResultsTo(Model.Users!.CurrentPage, Model.Users.PageSize, results!.Count).ToString();
-    var resultsTotal = Model.Users.RowCount;
-    var currentPage = Model.Users.CurrentPage;
-    var pageSize = Model.Users.PageSize;
-    var pageCount = Model.Users.PageCount;
-
-    // Alert data
-    AlertModel? alertModel = Model.Alert;
-
-    // Breadcrumbs
-    List<BreadcrumbModel> breadcrumbs = [
-                new BreadcrumbModel { Label = "Home", Url = Url.Action("Index", "Home", new {area =""})!},
-                new BreadcrumbModel { Label = "Admin", Url = Url.Action("Index", "Admin", new {area =""})!},
-    ];
-    var breadcrumbsModel = new BreadcrumbsModel(breadcrumbs);
-
-    // Heading
-    var headingModel = new HeadingModel { Title = "Users", Button = new ButtonModel { Element = ButtonModel.ValidElementTypes.anchor, Type = ButtonModel.ValidButtonStyles.secondary, Label = "Create a new user", Url = Url.Action("Create", "Users", new { area = "Admin" }) } };
-
-    // Table
-    //// Table headers
-    List<HeaderCell> headers = [
-        new HeaderCell { Content = "User Login", Sort = GetSort(Model.SortOrder!, "UserLogin"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "UserLogin") }), Scope = RowScopes.col},
-        new HeaderCell { Content = "Display Name", Sort = GetSort(Model.SortOrder!, "Display_name"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Display_name") }), Scope = RowScopes.col},
-        new HeaderCell { Content = "Team", Sort = GetSort(Model.SortOrder!, "Team"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Team") }), Scope = RowScopes.col},
-        new HeaderCell { Content = "Access Level",Sort = GetSort(Model.SortOrder!, "Access_Level"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Access_Level") }), Scope = RowScopes.col},
-        new HeaderCell { Content = "Email",Sort = GetSort(Model.SortOrder!, "email"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "email") }), Scope = RowScopes.col},
-        new HeaderCell { Content = "Last Active",Sort = GetSort(Model.SortOrder!, "Last_Active"), Url = Url.Action("Index", new { sortOrder = ToggleSortOrder(Model.SortOrder!, "Last_Active") }), Scope = RowScopes.col}
-    ];
-
-    //// Table body
-    var rows = new List<Row>();
-
-    @foreach (var user in results!)
-    {
-        var row = new Row
-            {
-                RowContent = [
-                    new BodyCell {Content = user.Name!, Url = $"/Admin/Users/Edit/{@user.UserId}"},
-                    new BodyCell {Content = user.DisplayName!},
-                    new BodyCell {Content = user.Team != null ? user.Team : "Not set" },
-                    new BodyCell {Content = user.Role != null ? user.Role : "Not set"},
-                    new BodyCell {Content = user.Email != null ? user.Email : "Not set"},
-                    new BodyCell {Content = user.LastActive.Humanize()}]
-            };
-        rows.Add(row);
-    }
-    var tableModel = new TableModel { Caption = "All Users", HeaderData = headers, BodyData = rows, ResultsTotal = resultsTotal.ToString(), ResultsFrom = resultsFrom, ResultsTo = resultsTo };
-
-    // Pagination
-    var paginationModel = new PaginationModel { PageSize = pageSize, CurrentPage = currentPage, TotalCount = resultsTotal, PageCount = pageCount};
+    ViewData["Title"] = "Users administration";
 }
 
-<partial name="Breadcrumbs" model="breadcrumbsModel" />
-@if (alertModel != null)
+<partial name="Breadcrumbs" model="Model.Breadcrumbs" />
+@if (Model.Alert != null)
 {
-    <partial name="Alert" model="alertModel" />
+    <partial name="Alert" model="Model.Alert" />
 }
-<partial name="Heading"  model="headingModel"/>
-<partial name="Table" model="tableModel"/>
-<partial name="Pagination" model="paginationModel" />
+<partial name="Heading" model="Model.Heading" />
+<partial name="ListFilter" model="Model.ListFilter" />
