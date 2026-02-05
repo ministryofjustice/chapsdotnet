@@ -116,6 +116,8 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(options =>
     {
         options.ClientId = builder.Configuration["CLIENT_ID"];
+        options.ClientSecret = builder.Configuration["CLIENT_SECRET"];
+        options.ResponseType = "code";
         options.TenantId = builder.Configuration["TenantId"];
         options.Instance = builder.Configuration["Instance"]!;
         options.Domain = builder.Configuration["Domain"];
