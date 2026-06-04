@@ -38,7 +38,7 @@ namespace ChapsDotNET.Business.Middlewares
             }
 
             // Serve the maintenance page
-            _logger.LogInformation("Maintenance mode active - serving maintenance page for request to {Path}", context.Request.Path);
+            _logger.LogInformation("Maintenance mode active - serving maintenance page");
             
             context.Response.StatusCode = 503;
             context.Response.Headers["Retry-After"] = "3600"; // Suggest retry after 1 hour
