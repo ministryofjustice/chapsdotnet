@@ -163,6 +163,10 @@ builder.Services.AddAuthorizationBuilder().AddPolicy("HealthCheck", policy =>
 });
 
 var app = builder.Build();
+
+// Add maintenance mode middleware FIRST - before any other middleware
+app.UseMiddleware<MaintenanceModeMiddleware>();
+
 app.UseStaticFiles();
 app.UseWhen(
     context => !context.Request.Path.StartsWithSegments("/dotnet-health"),

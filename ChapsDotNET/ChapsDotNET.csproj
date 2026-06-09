@@ -157,4 +157,7 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\maintenance.html" />
+  </ItemGroup>
 </Project>
